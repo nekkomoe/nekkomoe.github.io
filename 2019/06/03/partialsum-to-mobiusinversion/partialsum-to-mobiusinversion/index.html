@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>从前缀和到莫比乌斯反演 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="# 基础知识  前缀和一维情况设有序列 ${a_n}$，定义其前缀和为序列 ${s_n}$，满足 $s_n&#x3D;\sum_{i&#x3D;1}^{n}a_i$ 前缀和的定义有一个好处，就是可以快速提取 $a$ 的区间和（前提是存在加法逆元），即 $\sum_{i&#x3D;l}^{r}a_i&#x3D;s_r-s_{l-1}$ 连续情况下为积分，此处为离散积分 二维情况给定 ${a_{n.m}}$，求 ${s_{n,m}}$，满">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从前缀和到莫比乌斯反演">
+<meta property="og:url" content="http://example.com/2019/06/03/partialsum-to-mobiusinversion/partialsum-to-mobiusinversion/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="# 基础知识  前缀和一维情况设有序列 ${a_n}$，定义其前缀和为序列 ${s_n}$，满足 $s_n&#x3D;\sum_{i&#x3D;1}^{n}a_i$ 前缀和的定义有一个好处，就是可以快速提取 $a$ 的区间和（前提是存在加法逆元），即 $\sum_{i&#x3D;l}^{r}a_i&#x3D;s_r-s_{l-1}$ 连续情况下为积分，此处为离散积分 二维情况给定 ${a_{n.m}}$，求 ${s_{n,m}}$，满">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-06-03T12:14:28.000Z">
+<meta property="article:modified_time" content="2019-07-22T12:11:33.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="莫比乌斯反演">
+<meta property="article:tag" content="前缀和与差分">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-partialsum-to-mobiusinversion/partialsum-to-mobiusinversion" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/06/03/partialsum-to-mobiusinversion/partialsum-to-mobiusinversion/" class="article-date">
+  <time class="dt-published" datetime="2019-06-03T12:14:28.000Z" itemprop="datePublished">2019-06-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      从前缀和到莫比乌斯反演
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28854949&height=66"></iframe>
+# 基础知识
+
+<h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><h3 id="一维情况"><a href="#一维情况" class="headerlink" title="一维情况"></a>一维情况</h3><p>设有序列 ${a_n}$，定义其前缀和为序列 ${s_n}$，满足 $s_n=\sum_{i=1}^{n}a_i$</p>
+<p>前缀和的定义有一个好处，就是可以快速提取 $a$ 的区间和（前提是存在加法逆元），即 $\sum_{i=l}^{r}a_i=s_r-s_{l-1}$</p>
+<p><del>连续情况下为积分，此处为离散积分</del></p>
+<h3 id="二维情况"><a href="#二维情况" class="headerlink" title="二维情况"></a>二维情况</h3><p>给定 ${a_{n.m}}$，求 ${s_{n,m}}$，满足 $s_{n,m}=\sum_{i \le n}\sum_{j \le m}a_{i,j}$</p>
+<p>考虑容斥，有 $s_{n,m}=s_{n-1,m}+s_{n,m-1}-s_{n-1,m-1}+a_{n,m}$</p>
+<p>还有另一种做法：先对第一维求前缀和 ${b_{n,m}}$，满足 $b_{n,m}=\sum_{i \le n}a_{i,m}$，然后对第二维在 ${b_{n,m}}$ 的基础上求前缀和，得到 ${s_{n,m}}$，即 $s_{n,m}=\sum_{j \le m}b_{n,j}$</p>
+<p>实际上是先求出了一堆列的前缀和，然后再对行求前缀和就得到了矩形的前缀和</p>
+<h3 id="高维情况"><a href="#高维情况" class="headerlink" title="高维情况"></a>高维情况</h3><p>给定 ${a_{x_1,x_2,\cdots,x_k}}$，求 ${s_{x_1,x_2,\cdots,x_k}}$，满足 $s_{x_1,x_2,\cdots,x_k}=\sum_{i_1 \le x_1}\sum_{i_2 \le x_2} \cdots \sum_{i_k \le x_k}a_{i_1,i_2,\cdots,i_k}$</p>
+<p>先考虑容斥，有：</p>
+<p>$$<br>s _ {x _ 1,x _ 2,\cdots,x _ k}=a _ {x _ 1,x _ 2,\cdots,x _ k}+\sum_{i _ 1=0}^{1}\sum_{i _ 2=0}^{1}\cdots \sum_{i _ k=0}^{1} \left[\sum  _ {j=1}^{k}i _ j &gt; 0 \right](-1)^{\left(1+\sum _ {j=1}^{k}i _ j\right)} s _ {x _ 1-i _ 1,x _ 2-i _ 2,\cdots,x _ k-i _ k}<br>$$</p>
+<p>对于另一种做法，就相当于对于每一维都依次求一遍前缀和，最后的到的结果是和容斥得到的结果相同的</p>
+<h2 id="差分"><a href="#差分" class="headerlink" title="差分"></a>差分</h2><h3 id="一维情况-1"><a href="#一维情况-1" class="headerlink" title="一维情况"></a>一维情况</h3><p>差分是前缀和的逆运算，即如果知道 ${s_n}$，现在要还原 ${a_n}$，则有 $a_n=s_{n}-s_{n-1}$</p>
+<p><del>连续情况下为微分，此处为离散微分</del></p>
+<h3 id="二维情况-1"><a href="#二维情况-1" class="headerlink" title="二维情况"></a>二维情况</h3><p>实际上把前缀和的式子中的 $a$ 挪到一旁就是差分的方式了，即：</p>
+<p>$$<br>\begin{aligned}<br>&amp;s_{n,m}=s_{n-1,m}+s_{n,m-1}-s_{n-1,m-1}+a_{n,m} \\<br>\Rightarrow &amp;a_{n,m}=s_{n,m}-s_{n-1,m}-s_{n,m-1}+s_{n-1,m-1}<br>\end{aligned}<br>$$</p>
+<p>另一种方法：先把仅有第一维的前缀和 ${b_{n,m}}$ 求出来，即 $b_{n,m}=s_{n,m}-s_{n,m-1}$</p>
+<p>然后 ${a_{n,m}}$ 就可以求了，即 $a_{n,m}=b_{n,m}-b_{n-1,m}$</p>
+<h3 id="高维情况-1"><a href="#高维情况-1" class="headerlink" title="高维情况"></a>高维情况</h3><p>容斥的做法就较为简单了</p>
+<p>$$<br>a_{x_1,x_2,\cdots,x_k}=\sum_{i_1=0}^{1}\sum_{i_2=0}^{1}\cdots \sum_{i_k=0}^{1} (-1)^{\left(\sum_{j=1}^{k}i_j\right)} s_{x_1-i_1,x_2-i_2,\cdots,x_k-i_k}<br>$$</p>
+<p>如果用另一种方法的话，实际上每一维都从大往小枚举后做差分即可</p>
+<h1 id="正整数与唯一分解定理"><a href="#正整数与唯一分解定理" class="headerlink" title="正整数与唯一分解定理"></a>正整数与唯一分解定理</h1><h2 id="正整数"><a href="#正整数" class="headerlink" title="正整数"></a>正整数</h2><p>非 $0$ 的自然数，也就是 $1,2,3,4,5,\cdots,\infty$ 这样的，记做 $\mathbb{N^{*}}$</p>
+<h2 id="唯一分解定理"><a href="#唯一分解定理" class="headerlink" title="唯一分解定理"></a>唯一分解定理</h2><p>设 $\mathbb{P}$ 为全体素数的集合，其中 $p_i$ 表示第 $i$ 个素数，比如说 $p_1=2,p_2=3,p_3=5$ 之类的</p>
+<p>对于任意一个正整数 $n$，存在唯一一种划分：</p>
+<p>$$<br>n=\prod_{i=1}^{\infty} p_i^{k_i}<br>$$</p>
+<h1 id="整除与狄利克雷卷积"><a href="#整除与狄利克雷卷积" class="headerlink" title="整除与狄利克雷卷积"></a>整除与狄利克雷卷积</h1><h2 id="整除"><a href="#整除" class="headerlink" title="整除"></a>整除</h2><p>在 $\mathbb{N^{*}}$ 上定义二元关系整除，用符号 $|$ 来表示，其定义为：</p>
+<p>$$<br>a|b \Leftrightarrow a,b \in \mathbb{N^{*}} \wedge \left( \exists k \in \mathbb{N^{*}}:ka=b \right)<br>$$</p>
+<h2 id="狄利克雷卷积"><a href="#狄利克雷卷积" class="headerlink" title="狄利克雷卷积"></a>狄利克雷卷积</h2><p>对于序列 ${a_n}$ 和序列 ${b_n}$，定义其狄利克雷卷积 ${c_n}$ 为：</p>
+<p>$$<br>c_n=\sum_{d|n}a_db_\frac{n}{d}<br>$$</p>
+<p>记做 $c=a \times b$</p>
+<h1 id="zeta-times-mu-delta"><a href="#zeta-times-mu-delta" class="headerlink" title="$\zeta \times \mu=\delta$"></a>$\zeta \times \mu=\delta$</h1><h2 id="g-f-times-zeta"><a href="#g-f-times-zeta" class="headerlink" title="$g=f \times \zeta$"></a>$g=f \times \zeta$</h2><p>定义 $\zeta(n)=1$，即：</p>
+<p>$$<br>g_n=\sum_{d|n}f_d<br>$$</p>
+<p>换句话说就是求了一个在整除意义下的前缀和</p>
+<p>考虑把它写的更好看一些，不妨把 $n$ 唯一分解定理展开，即：</p>
+<p>$$<br>n=\prod_{i=1}^{\infty} p_i^{k_i}<br>$$</p>
+<p>于是可以把 $n$ 看作高维度空间下的一个点，即 $(k_1,k_2,\cdots,k_{\infty})$</p>
+<p>设 $d|n$，且 $d=\prod_{i=1}^{\infty}p_i^{k’_i}$，则 $d$ 应当满足 $k’_i \le k_i$</p>
+<p>于是可以这么来做 $g=f \times \mu$，即（为了好看起见就加上了个 $k_\infty$，实际上不能这么写）：</p>
+<p>$$<br>g _ {(k _ 1,k _ 2,\cdots,k_{\infty})}=\sum_{k’ _ 1 \le k _ 1}\sum_{k_2’ \le k_2} \cdots \sum _ {k’ _ {\infty} \le k_{\infty}} \left[d=\prod _ {i=1}^{\infty}p_i^{k’_i}\right] f_d<br>$$</p>
+<p>于是就可以使用高维前缀和的做法来计算 $g$ 了</p>
+<h2 id="f-g-times-mu"><a href="#f-g-times-mu" class="headerlink" title="$f = g \times \mu$"></a>$f = g \times \mu$</h2><p>如果知道 $g$，现在要还原 $f$，实际上也不难操作</p>
+<p>一个比较简单的方法就是，从小到大枚举 $n$，由于 $g_n=\sum_{d|n}f_d$，所以 $f_n=g_n-\sum_{d|n \wedge d &lt; n}f_d$</p>
+<p>另一个比较巧妙的方法就是求出 $\zeta$ 的逆函数，定义它为 $\mu$</p>
+<p>考虑到高维差分的容斥做法：</p>
+<p>$$<br>a_{x_1,x_2,\cdots,x_k}=\sum_{i_1=0}^{1}\sum_{i_2=0}^{1}\cdots \sum_{i_k=0}^{1} (-1)^{\left(\sum_{j=1}^{k}i_j\right)} s_{x_1-i_1,x_2-i_2,\cdots,x_k-i_k}<br>$$</p>
+<p>那么 $\mu$ 就是 $(-1)^{\left(\sum_{j=1}^{k}i_j\right)}$</p>
+<p>设 $n=\prod_{i=1}^{\infty}p_i^{k_i}$，现在要求出 $\mu(n)$</p>
+<p>考虑到 $0 \le k_i \le 1$，因此 $n$ 应无大于 $1$ 的完全平方因子，且如果 $n$ 能写做 $k$ 个不同的素数的乘积的话，则 $\mu(n)=(-1)^{k}$</p>
+<h2 id="zeta-times-mu-delta-1"><a href="#zeta-times-mu-delta-1" class="headerlink" title="$\zeta \times \mu=\delta$"></a>$\zeta \times \mu=\delta$</h2><p>定义 $\delta(n)=[n=1]$，也就是单位函数，换而言之 $f \times \delta=f$</p>
+<p>考虑到 $\zeta$ 表示前缀和，$\mu$ 表示差分，那么 $f$ 依次作用上这两个函数，就相当于没有进行作用</p>
+<p>即 $f \times \zeta \times \mu=f \times (\zeta \times \mu)=f \times \delta=f$</p>
+<h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>一个有趣的题：<a target="_blank" rel="noopener" href="https://loj.ac/problem/6627">loj #6627. 等比数列三角形</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/06/03/partialsum-to-mobiusinversion/partialsum-to-mobiusinversion/" data-id="ckqmfus9h00438ufyhy1kbq4y" data-title="从前缀和到莫比乌斯反演" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" rel="tag">前缀和与差分</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/06/05/uoj-156/uoj-156/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          【清华集训2015】恐怖的奴隶主
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/06/eoj-840/eoj-840/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【eoj 840】反向出题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/2021/">2021</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/demo/">demo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/math/">math</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mess/">mess</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/solution/">solution</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E5%8C%96%E8%AF%BE/">文化课</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2021/" rel="tag">2021</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/51nod/" rel="tag">51nod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HEOI2019/" rel="tag">HEOI2019</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NOI2019/" rel="tag">NOI2019</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ODT/" rel="tag">ODT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ST%E8%A1%A8/" rel="tag">ST表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/atcoder/" rel="tag">atcoder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bzoj/" rel="tag">bzoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeforces/" rel="tag">codeforces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/demo/" rel="tag">demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dinic/" rel="tag">dinic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excrt/" rel="tag">excrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exgcd/" rel="tag">exgcd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ezoj/" rel="tag">ezoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fwt/" rel="tag">fwt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gcd/" rel="tag">gcd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/" rel="tag">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kdtree/" rel="tag">kdtree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kruskal%E9%87%8D%E6%9E%84%E6%A0%91/" rel="tag">kruskal重构树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/loj/" rel="tag">loj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/" rel="tag">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powerful-number/" rel="tag">powerful number</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prufer%E5%BA%8F%E5%88%97/" rel="tag">prufer序列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spoj/" rel="tag">spoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trie/" rel="tag">trie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%89%E5%85%83%E7%8E%AF/" rel="tag">三元环</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%89%E8%A7%92%E6%8D%A2%E5%85%83/" rel="tag">三角换元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" rel="tag">二进制分组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6%E7%AB%9E%E8%B5%9B/" rel="tag">信息学竞赛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%87%B8%E5%8C%85/" rel="tag">凸包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%87%BD%E6%95%B0/" rel="tag">函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%9D%97/" rel="tag">分块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" rel="tag">前缀和与差分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9/" rel="tag">单位根</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" rel="tag">单位根反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E6%BC%94/" rel="tag">反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">后缀自动机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E6%95%B0/" rel="tag">复数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E8%BE%B9%E5%BD%A2/" rel="tag">多边形</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" rel="tag">多项式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B9%98%E6%B3%95/" rel="tag">多项式乘法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A5%97%E8%B7%AF/" rel="tag">套路</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" rel="tag">定期重构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9A%E7%A7%AF%E5%88%86/" rel="tag">定积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" rel="tag">容斥原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E6%8B%8D/" rel="tag">对拍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E4%B9%89%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">广义后缀自动机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AA%E7%8E%AF%E7%9F%A9%E9%98%B5/" rel="tag">循环矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" rel="tag">微分方程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%BA%E5%AD%A6%E8%80%83/" rel="tag">微机学考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" rel="tag">微积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/" rel="tag">快速幂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%9F%E9%98%B5/" rel="tag">拟阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%88%97/" rel="tag">排列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/" rel="tag">整体二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%8C%96%E8%AF%BE/" rel="tag">文化课</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" rel="tag">斜率优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0/" rel="tag">斯特林数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%80%E5%B0%8F%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98/" rel="tag">最小乘积问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%9F%E6%9C%9B/" rel="tag">期望</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" rel="tag">杜教筛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" rel="tag">杜教筛习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%81%E9%99%90/" rel="tag">极限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A6%82%E7%8E%87/" rel="tag">概率</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1/" rel="tag">模</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E8%B5%9B/" rel="tag">模拟赛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" rel="tag">模拟退火</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B/" rel="tag">特征方程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" rel="tag">生成函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86/" rel="tag">矩阵树定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%AF%E5%88%86/" rel="tag">积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0/" rel="tag">积性函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" rel="tag">笛卡尔树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" rel="tag">类欧几里得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" rel="tag">线性变换</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%9F%A9%E9%98%B5%E9%80%92%E6%8E%A8%E4%B9%A0%E9%A2%98/" rel="tag">线性变换与矩阵递推习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E7%AD%9B/" rel="tag">线性筛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag">组合数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%A9%E6%94%BE/" rel="tag">缩放</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" rel="tag">网络流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%A4%E8%AE%BA/" rel="tag">群论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" rel="tag">莫比乌斯反演习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" rel="tag">计算几何</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E6%8E%A8/" rel="tag">递推</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5/" rel="tag">链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag">随机化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">非旋转平衡树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2021/" style="font-size: 10px;">2021</a> <a href="/tags/51nod/" style="font-size: 10px;">51nod</a> <a href="/tags/HEOI2019/" style="font-size: 10px;">HEOI2019</a> <a href="/tags/NOI2019/" style="font-size: 10px;">NOI2019</a> <a href="/tags/ODT/" style="font-size: 10px;">ODT</a> <a href="/tags/ST%E8%A1%A8/" style="font-size: 10px;">ST表</a> <a href="/tags/atcoder/" style="font-size: 10px;">atcoder</a> <a href="/tags/bzoj/" style="font-size: 15.83px;">bzoj</a> <a href="/tags/codeforces/" style="font-size: 10px;">codeforces</a> <a href="/tags/demo/" style="font-size: 11.67px;">demo</a> <a href="/tags/dinic/" style="font-size: 10px;">dinic</a> <a href="/tags/excrt/" style="font-size: 10px;">excrt</a> <a href="/tags/exgcd/" style="font-size: 10px;">exgcd</a> <a href="/tags/ezoj/" style="font-size: 10.83px;">ezoj</a> <a href="/tags/fwt/" style="font-size: 11.67px;">fwt</a> <a href="/tags/gcd/" style="font-size: 10px;">gcd</a> <a href="/tags/hdu/" style="font-size: 11.67px;">hdu</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/kdtree/" style="font-size: 10px;">kdtree</a> <a href="/tags/kruskal%E9%87%8D%E6%9E%84%E6%A0%91/" style="font-size: 10px;">kruskal重构树</a> <a href="/tags/loj/" style="font-size: 10.83px;">loj</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/noip/" style="font-size: 11.67px;">noip</a> <a href="/tags/powerful-number/" style="font-size: 10px;">powerful number</a> <a href="/tags/prufer%E5%BA%8F%E5%88%97/" style="font-size: 10px;">prufer序列</a> <a href="/tags/spoj/" style="font-size: 10px;">spoj</a> <a href="/tags/trie/" style="font-size: 10px;">trie</a> <a href="/tags/%E4%B8%89%E5%85%83%E7%8E%AF/" style="font-size: 10px;">三元环</a> <a href="/tags/%E4%B8%89%E8%A7%92%E6%8D%A2%E5%85%83/" style="font-size: 10px;">三角换元</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" style="font-size: 10px;">二进制分组</a> <a href="/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6%E7%AB%9E%E8%B5%9B/" style="font-size: 10px;">信息学竞赛</a> <a href="/tags/%E5%87%B8%E5%8C%85/" style="font-size: 10px;">凸包</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E5%9D%97/" style="font-size: 10px;">分块</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 10px;">前缀和</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" style="font-size: 10px;">前缀和与差分</a> <a href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9/" style="font-size: 11.67px;">单位根</a> <a href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" style="font-size: 10.83px;">单位根反演</a> <a href="/tags/%E5%8F%8D%E6%BC%94/" style="font-size: 10px;">反演</a> <a href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" style="font-size: 10px;">后缀自动机</a> <a href="/tags/%E5%A4%8D%E6%95%B0/" style="font-size: 10.83px;">复数</a> <a href="/tags/%E5%A4%9A%E8%BE%B9%E5%BD%A2/" style="font-size: 10px;">多边形</a> <a href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" style="font-size: 12.5px;">多项式</a> <a href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B9%98%E6%B3%95/" style="font-size: 10px;">多项式乘法</a> <a href="/tags/%E5%A5%97%E8%B7%AF/" style="font-size: 10px;">套路</a> <a href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" style="font-size: 10px;">定期重构</a> <a href="/tags/%E5%AE%9A%E7%A7%AF%E5%88%86/" style="font-size: 10px;">定积分</a> <a href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" style="font-size: 10.83px;">容斥原理</a> <a href="/tags/%E5%AF%B9%E6%8B%8D/" style="font-size: 10px;">对拍</a> <a href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" style="font-size: 12.5px;">平衡树</a> <a href="/tags/%E5%B9%BF%E4%B9%89%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" style="font-size: 10px;">广义后缀自动机</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 10px;">开发</a> <a href="/tags/%E5%BE%AA%E7%8E%AF%E7%9F%A9%E9%98%B5/" style="font-size: 10px;">循环矩阵</a> <a href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" style="font-size: 10px;">微分方程</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%AD%A6%E8%80%83/" style="font-size: 10px;">微机学考</a> <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 11.67px;">微积分</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/" style="font-size: 10px;">快速幂</a> <a href="/tags/%E6%8B%9F%E9%98%B5/" style="font-size: 10px;">拟阵</a> <a href="/tags/%E6%8E%92%E5%88%97/" style="font-size: 10px;">排列</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 20px;">数学</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 17.5px;">数论</a> <a href="/tags/%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/" style="font-size: 10px;">整体二分</a> <a href="/tags/%E6%96%87%E5%8C%96%E8%AF%BE/" style="font-size: 10px;">文化课</a> <a href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" style="font-size: 10px;">斜率优化</a> <a href="/tags/%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0/" style="font-size: 10.83px;">斯特林数</a> <a href="/tags/%E6%9C%80%E5%B0%8F%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98/" style="font-size: 10px;">最小乘积问题</a> <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="font-size: 10px;">期望</a> <a href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" style="font-size: 13.33px;">杜教筛</a> <a href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" style="font-size: 12.5px;">杜教筛习题</a> <a href="/tags/%E6%9E%81%E9%99%90/" style="font-size: 10px;">极限</a> <a href="/tags/%E6%A6%82%E7%8E%87/" style="font-size: 11.67px;">概率</a> <a href="/tags/%E6%A8%A1/" style="font-size: 10px;">模</a> <a href="/tags/%E6%A8%A1%E6%8B%9F%E8%B5%9B/" style="font-size: 10px;">模拟赛</a> <a href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" style="font-size: 10px;">模拟退火</a> <a href="/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10.83px;">游记</a> <a href="/tags/%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B/" style="font-size: 10px;">特征方程</a> <a href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" style="font-size: 10.83px;">生成函数</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 14.17px;">矩阵</a> <a href="/tags/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86/" style="font-size: 10px;">矩阵树定理</a> <a href="/tags/%E7%A7%AF%E5%88%86/" style="font-size: 10px;">积分</a> <a href="/tags/%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0/" style="font-size: 10px;">积性函数</a> <a href="/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" style="font-size: 10px;">笛卡尔树</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.17px;">算法</a> <a href="/tags/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="font-size: 10.83px;">类欧几里得</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" style="font-size: 14.17px;">线性变换</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%9F%A9%E9%98%B5%E9%80%92%E6%8E%A8%E4%B9%A0%E9%A2%98/" style="font-size: 13.33px;">线性变换与矩阵递推习题</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E7%AD%9B/" style="font-size: 10px;">线性筛</a> <a href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" style="font-size: 10.83px;">组合数学</a> <a href="/tags/%E7%BC%A9%E6%94%BE/" style="font-size: 10px;">缩放</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" style="font-size: 10px;">网络流</a> <a href="/tags/%E7%BE%A4%E8%AE%BA/" style="font-size: 10px;">群论</a> <a href="/tags/%E8%83%8C%E5%8C%85/" style="font-size: 10px;">背包</a> <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" style="font-size: 16.67px;">莫比乌斯反演</a> <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" style="font-size: 15px;">莫比乌斯反演习题</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" style="font-size: 10px;">计算几何</a> <a href="/tags/%E9%80%92%E6%8E%A8/" style="font-size: 14.17px;">递推</a> <a href="/tags/%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">链接</a> <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" style="font-size: 10px;">随机化</a> <a href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" style="font-size: 10px;">非旋转平衡树</a> <a href="/tags/%E9%A2%98%E8%A7%A3/" style="font-size: 18.33px;">题解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2000/09/">September 2000</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/24/hexo-fea-bg/">hexo:不是bug是feature</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/01/hello-2021/">2021</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/net-flow/net-flow/">网络流</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/zheng-ti-er-fen/zheng-ti-er-fen/">整体二分</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

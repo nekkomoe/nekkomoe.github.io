@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>杜教筛习题：hdu 5608 function | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="题目描述设数论函数$f$满足$n^2−3n+2&#x3D;\sum_{d \mid n}f(d) $ 求$\sum_{i&#x3D;1}^{n}f(i)$ 答案对$10^9+7$取模 题解回忆杜教筛的一个表达形式 $$f \times g&#x3D;h \Rightarrow g(1)F(n)&#x3D;H(n)-\sum_{d&#x3D;2}^{n}g(d)F(\lfloor \frac{n}{d} \rfloor)$$ 设$g(n)&#x3D;1,h(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="杜教筛习题：hdu 5608 function">
+<meta property="og:url" content="http://example.com/2018/06/19/du-sieves/problems/hdu-5608/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目描述设数论函数$f$满足$n^2−3n+2&#x3D;\sum_{d \mid n}f(d) $ 求$\sum_{i&#x3D;1}^{n}f(i)$ 答案对$10^9+7$取模 题解回忆杜教筛的一个表达形式 $$f \times g&#x3D;h \Rightarrow g(1)F(n)&#x3D;H(n)-\sum_{d&#x3D;2}^{n}g(d)F(\lfloor \frac{n}{d} \rfloor)$$ 设$g(n)&#x3D;1,h(">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-06-19T07:45:36.000Z">
+<meta property="article:modified_time" content="2018-09-09T14:52:52.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="杜教筛">
+<meta property="article:tag" content="莫比乌斯反演">
+<meta property="article:tag" content="数论">
+<meta property="article:tag" content="题解">
+<meta property="article:tag" content="杜教筛习题">
+<meta property="article:tag" content="hdu">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-du-sieves/problems/hdu-5608" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/19/du-sieves/problems/hdu-5608/" class="article-date">
+  <time class="dt-published" datetime="2018-06-19T07:45:36.000Z" itemprop="datePublished">2018-06-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/solution/">solution</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      杜教筛习题：hdu 5608 function
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>设数论函数$f$满足$n^2−3n+2=\sum_{d \mid n}f(d) $</p>
+<p>求$\sum_{i=1}^{n}f(i)$</p>
+<p>答案对$10^9+7$取模</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>回忆杜教筛的一个表达形式</p>
+<p>$$<br>f \times g=h \Rightarrow g(1)F(n)=H(n)-\sum_{d=2}^{n}g(d)F(\lfloor \frac{n}{d} \rfloor)<br>$$</p>
+<p>设$g(n)=1,h(n)=n^2-3n+2$，则有$f \times g = h$，即$f \times 1 = h$</p>
+<p>所以</p>
+<p>$$<br>\begin{align}<br>F(n)<br>&amp;=(\sum_{i=1}^{n}i^2-3i+2)-\sum_{d=2}^{n}F(\lfloor \frac{n}{d} \rfloor)\\<br>&amp;=\frac{n(n+1)(2n+1)}{6} - \frac{3n(1+n)}{2} + 2n - \sum_{d=2}^{n}F(\lfloor \frac{n}{d} \rfloor)<br>\end{align}<br>$$</p>
+<p>因为$f \times 1 = h$，所以$f$是积性函数，且$f=h \times \mu$，即$f(n)=\sum_{d \mid n}h(d)\mu(\frac{n}{d})$</p>
+<p>不妨对于每一个$\mu(i)$，枚举$j$，将$f(i \times j)$加上$\mu(i)h(j)$</p>
+<p>之后就是递归计算了</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG printf(<span class="meta-string">&quot;Passing [%s] in LINE %d\n&quot;</span>,__FUNCTION__,__LINE__)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; pii;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e6</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">ll ans, inv6, inv2, n;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> mu[N + <span class="number">10</span>], pri[N + <span class="number">10</span>], tot, S[N + <span class="number">10</span>], dn[N + <span class="number">10</span>], vis[N + <span class="number">10</span>], f[N + <span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">pw</span><span class="params">(ll a, ll b)</span> </span>&#123;</span><br><span class="line">    ll r = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>( ; b ; b &gt;&gt;= <span class="number">1</span>, a = a * a % mod) <span class="keyword">if</span>(b &amp; <span class="number">1</span>) r = r * a % mod;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">h</span><span class="params">(ll n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (n * n % mod - <span class="number">3</span> * n % mod + <span class="number">2</span>) % mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">H</span><span class="params">(ll n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (((</span><br><span class="line">        n * (n + <span class="number">1</span>) % mod * (<span class="number">2</span> * n + <span class="number">1</span>) % mod * inv6 % mod</span><br><span class="line">    ) - (</span><br><span class="line">        <span class="number">3</span> * n % mod * (<span class="number">1</span> + n) % mod * inv2 % mod</span><br><span class="line">    )) % mod + (</span><br><span class="line">        <span class="number">2</span> * n % mod</span><br><span class="line">    )) % mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">map&lt;ll, ll&gt; val;</span><br><span class="line"><span class="function">ll <span class="title">F</span><span class="params">(ll n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt;= N) <span class="keyword">return</span> f[n];</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(val.<span class="built_in">find</span>(n) != val.<span class="built_in">end</span>()) <span class="keyword">return</span> val[n];</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        ll res = <span class="built_in">H</span>(n);</span><br><span class="line">        <span class="keyword">for</span>(ll i = <span class="number">2</span>, j ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">            j = n / (n / i);</span><br><span class="line">            res = (res - <span class="built_in">F</span>(n / i) * (j - i + <span class="number">1</span>) % mod) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> val[n] = res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, (<span class="built_in">F</span>(n) % mod + mod) % mod);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    inv6 = <span class="built_in">pw</span>(<span class="number">6</span>, mod - <span class="number">2</span>), inv2 = <span class="built_in">pw</span>(<span class="number">2</span>, mod - <span class="number">2</span>);</span><br><span class="line">    mu[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> ; i &lt;= N ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!vis[i]) pri[++ tot] = i, mu[i] = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; i * pri[j] &lt;= N ; ++ j) &#123;</span><br><span class="line">            vis[i * pri[j]] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(i % pri[j] == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            mu[i * pri[j]] = -mu[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= N ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; i * j &lt;= N ; ++ j) &#123;</span><br><span class="line">            f[i * j] = ((ll) f[i * j] + mu[j] * <span class="built_in">h</span>(i) % mod) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        f[i] = ((ll) f[i - <span class="number">1</span>] + f[i]) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> T; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T); <span class="keyword">while</span>(T --) <span class="built_in">sol</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/06/19/du-sieves/problems/hdu-5608/" data-id="ckqmfusaf006s8ufy4kag09ls" data-title="杜教筛习题：hdu 5608 function" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hdu/" rel="tag">hdu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" rel="tag">杜教筛</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" rel="tag">杜教筛习题</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/19/du-sieves/problems/bzoj-3944/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          杜教筛习题：bzoj 3944 sum
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/19/du-sieves/problems/51nod-1220/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">杜教筛习题：51nod 1220 约数之和</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/2021/">2021</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/demo/">demo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/math/">math</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mess/">mess</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/solution/">solution</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E5%8C%96%E8%AF%BE/">文化课</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2021/" rel="tag">2021</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/51nod/" rel="tag">51nod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HEOI2019/" rel="tag">HEOI2019</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NOI2019/" rel="tag">NOI2019</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ODT/" rel="tag">ODT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ST%E8%A1%A8/" rel="tag">ST表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/atcoder/" rel="tag">atcoder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bzoj/" rel="tag">bzoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeforces/" rel="tag">codeforces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/demo/" rel="tag">demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dinic/" rel="tag">dinic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excrt/" rel="tag">excrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exgcd/" rel="tag">exgcd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ezoj/" rel="tag">ezoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fwt/" rel="tag">fwt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gcd/" rel="tag">gcd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/" rel="tag">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kdtree/" rel="tag">kdtree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kruskal%E9%87%8D%E6%9E%84%E6%A0%91/" rel="tag">kruskal重构树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/loj/" rel="tag">loj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/" rel="tag">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powerful-number/" rel="tag">powerful number</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prufer%E5%BA%8F%E5%88%97/" rel="tag">prufer序列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spoj/" rel="tag">spoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trie/" rel="tag">trie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%89%E5%85%83%E7%8E%AF/" rel="tag">三元环</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%89%E8%A7%92%E6%8D%A2%E5%85%83/" rel="tag">三角换元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" rel="tag">二进制分组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6%E7%AB%9E%E8%B5%9B/" rel="tag">信息学竞赛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%87%B8%E5%8C%85/" rel="tag">凸包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%87%BD%E6%95%B0/" rel="tag">函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%9D%97/" rel="tag">分块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" rel="tag">前缀和与差分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9/" rel="tag">单位根</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" rel="tag">单位根反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E6%BC%94/" rel="tag">反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">后缀自动机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E6%95%B0/" rel="tag">复数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E8%BE%B9%E5%BD%A2/" rel="tag">多边形</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" rel="tag">多项式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B9%98%E6%B3%95/" rel="tag">多项式乘法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A5%97%E8%B7%AF/" rel="tag">套路</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" rel="tag">定期重构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9A%E7%A7%AF%E5%88%86/" rel="tag">定积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" rel="tag">容斥原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E6%8B%8D/" rel="tag">对拍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E4%B9%89%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">广义后缀自动机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AA%E7%8E%AF%E7%9F%A9%E9%98%B5/" rel="tag">循环矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" rel="tag">微分方程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%BA%E5%AD%A6%E8%80%83/" rel="tag">微机学考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" rel="tag">微积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/" rel="tag">快速幂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%9F%E9%98%B5/" rel="tag">拟阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%88%97/" rel="tag">排列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/" rel="tag">整体二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%8C%96%E8%AF%BE/" rel="tag">文化课</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" rel="tag">斜率优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0/" rel="tag">斯特林数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%80%E5%B0%8F%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98/" rel="tag">最小乘积问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%9F%E6%9C%9B/" rel="tag">期望</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" rel="tag">杜教筛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" rel="tag">杜教筛习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%81%E9%99%90/" rel="tag">极限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A6%82%E7%8E%87/" rel="tag">概率</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1/" rel="tag">模</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E8%B5%9B/" rel="tag">模拟赛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" rel="tag">模拟退火</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B/" rel="tag">特征方程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" rel="tag">生成函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86/" rel="tag">矩阵树定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%AF%E5%88%86/" rel="tag">积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0/" rel="tag">积性函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" rel="tag">笛卡尔树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" rel="tag">类欧几里得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" rel="tag">线性变换</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%9F%A9%E9%98%B5%E9%80%92%E6%8E%A8%E4%B9%A0%E9%A2%98/" rel="tag">线性变换与矩阵递推习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E7%AD%9B/" rel="tag">线性筛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag">组合数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%A9%E6%94%BE/" rel="tag">缩放</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" rel="tag">网络流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%A4%E8%AE%BA/" rel="tag">群论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" rel="tag">莫比乌斯反演习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" rel="tag">计算几何</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E6%8E%A8/" rel="tag">递推</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5/" rel="tag">链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag">随机化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">非旋转平衡树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2021/" style="font-size: 10px;">2021</a> <a href="/tags/51nod/" style="font-size: 10px;">51nod</a> <a href="/tags/HEOI2019/" style="font-size: 10px;">HEOI2019</a> <a href="/tags/NOI2019/" style="font-size: 10px;">NOI2019</a> <a href="/tags/ODT/" style="font-size: 10px;">ODT</a> <a href="/tags/ST%E8%A1%A8/" style="font-size: 10px;">ST表</a> <a href="/tags/atcoder/" style="font-size: 10px;">atcoder</a> <a href="/tags/bzoj/" style="font-size: 15.83px;">bzoj</a> <a href="/tags/codeforces/" style="font-size: 10px;">codeforces</a> <a href="/tags/demo/" style="font-size: 11.67px;">demo</a> <a href="/tags/dinic/" style="font-size: 10px;">dinic</a> <a href="/tags/excrt/" style="font-size: 10px;">excrt</a> <a href="/tags/exgcd/" style="font-size: 10px;">exgcd</a> <a href="/tags/ezoj/" style="font-size: 10.83px;">ezoj</a> <a href="/tags/fwt/" style="font-size: 11.67px;">fwt</a> <a href="/tags/gcd/" style="font-size: 10px;">gcd</a> <a href="/tags/hdu/" style="font-size: 11.67px;">hdu</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/kdtree/" style="font-size: 10px;">kdtree</a> <a href="/tags/kruskal%E9%87%8D%E6%9E%84%E6%A0%91/" style="font-size: 10px;">kruskal重构树</a> <a href="/tags/loj/" style="font-size: 10.83px;">loj</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/noip/" style="font-size: 11.67px;">noip</a> <a href="/tags/powerful-number/" style="font-size: 10px;">powerful number</a> <a href="/tags/prufer%E5%BA%8F%E5%88%97/" style="font-size: 10px;">prufer序列</a> <a href="/tags/spoj/" style="font-size: 10px;">spoj</a> <a href="/tags/trie/" style="font-size: 10px;">trie</a> <a href="/tags/%E4%B8%89%E5%85%83%E7%8E%AF/" style="font-size: 10px;">三元环</a> <a href="/tags/%E4%B8%89%E8%A7%92%E6%8D%A2%E5%85%83/" style="font-size: 10px;">三角换元</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" style="font-size: 10px;">二进制分组</a> <a href="/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6%E7%AB%9E%E8%B5%9B/" style="font-size: 10px;">信息学竞赛</a> <a href="/tags/%E5%87%B8%E5%8C%85/" style="font-size: 10px;">凸包</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E5%9D%97/" style="font-size: 10px;">分块</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 10px;">前缀和</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" style="font-size: 10px;">前缀和与差分</a> <a href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9/" style="font-size: 11.67px;">单位根</a> <a href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" style="font-size: 10.83px;">单位根反演</a> <a href="/tags/%E5%8F%8D%E6%BC%94/" style="font-size: 10px;">反演</a> <a href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" style="font-size: 10px;">后缀自动机</a> <a href="/tags/%E5%A4%8D%E6%95%B0/" style="font-size: 10.83px;">复数</a> <a href="/tags/%E5%A4%9A%E8%BE%B9%E5%BD%A2/" style="font-size: 10px;">多边形</a> <a href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" style="font-size: 12.5px;">多项式</a> <a href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B9%98%E6%B3%95/" style="font-size: 10px;">多项式乘法</a> <a href="/tags/%E5%A5%97%E8%B7%AF/" style="font-size: 10px;">套路</a> <a href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" style="font-size: 10px;">定期重构</a> <a href="/tags/%E5%AE%9A%E7%A7%AF%E5%88%86/" style="font-size: 10px;">定积分</a> <a href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" style="font-size: 10.83px;">容斥原理</a> <a href="/tags/%E5%AF%B9%E6%8B%8D/" style="font-size: 10px;">对拍</a> <a href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" style="font-size: 12.5px;">平衡树</a> <a href="/tags/%E5%B9%BF%E4%B9%89%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" style="font-size: 10px;">广义后缀自动机</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 10px;">开发</a> <a href="/tags/%E5%BE%AA%E7%8E%AF%E7%9F%A9%E9%98%B5/" style="font-size: 10px;">循环矩阵</a> <a href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" style="font-size: 10px;">微分方程</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%AD%A6%E8%80%83/" style="font-size: 10px;">微机学考</a> <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 11.67px;">微积分</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/" style="font-size: 10px;">快速幂</a> <a href="/tags/%E6%8B%9F%E9%98%B5/" style="font-size: 10px;">拟阵</a> <a href="/tags/%E6%8E%92%E5%88%97/" style="font-size: 10px;">排列</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 20px;">数学</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 17.5px;">数论</a> <a href="/tags/%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/" style="font-size: 10px;">整体二分</a> <a href="/tags/%E6%96%87%E5%8C%96%E8%AF%BE/" style="font-size: 10px;">文化课</a> <a href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" style="font-size: 10px;">斜率优化</a> <a href="/tags/%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0/" style="font-size: 10.83px;">斯特林数</a> <a href="/tags/%E6%9C%80%E5%B0%8F%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98/" style="font-size: 10px;">最小乘积问题</a> <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="font-size: 10px;">期望</a> <a href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" style="font-size: 13.33px;">杜教筛</a> <a href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" style="font-size: 12.5px;">杜教筛习题</a> <a href="/tags/%E6%9E%81%E9%99%90/" style="font-size: 10px;">极限</a> <a href="/tags/%E6%A6%82%E7%8E%87/" style="font-size: 11.67px;">概率</a> <a href="/tags/%E6%A8%A1/" style="font-size: 10px;">模</a> <a href="/tags/%E6%A8%A1%E6%8B%9F%E8%B5%9B/" style="font-size: 10px;">模拟赛</a> <a href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" style="font-size: 10px;">模拟退火</a> <a href="/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10.83px;">游记</a> <a href="/tags/%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B/" style="font-size: 10px;">特征方程</a> <a href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" style="font-size: 10.83px;">生成函数</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 14.17px;">矩阵</a> <a href="/tags/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86/" style="font-size: 10px;">矩阵树定理</a> <a href="/tags/%E7%A7%AF%E5%88%86/" style="font-size: 10px;">积分</a> <a href="/tags/%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0/" style="font-size: 10px;">积性函数</a> <a href="/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" style="font-size: 10px;">笛卡尔树</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.17px;">算法</a> <a href="/tags/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="font-size: 10.83px;">类欧几里得</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" style="font-size: 14.17px;">线性变换</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%9F%A9%E9%98%B5%E9%80%92%E6%8E%A8%E4%B9%A0%E9%A2%98/" style="font-size: 13.33px;">线性变换与矩阵递推习题</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E7%AD%9B/" style="font-size: 10px;">线性筛</a> <a href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" style="font-size: 10.83px;">组合数学</a> <a href="/tags/%E7%BC%A9%E6%94%BE/" style="font-size: 10px;">缩放</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" style="font-size: 10px;">网络流</a> <a href="/tags/%E7%BE%A4%E8%AE%BA/" style="font-size: 10px;">群论</a> <a href="/tags/%E8%83%8C%E5%8C%85/" style="font-size: 10px;">背包</a> <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" style="font-size: 16.67px;">莫比乌斯反演</a> <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" style="font-size: 15px;">莫比乌斯反演习题</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" style="font-size: 10px;">计算几何</a> <a href="/tags/%E9%80%92%E6%8E%A8/" style="font-size: 14.17px;">递推</a> <a href="/tags/%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">链接</a> <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" style="font-size: 10px;">随机化</a> <a href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" style="font-size: 10px;">非旋转平衡树</a> <a href="/tags/%E9%A2%98%E8%A7%A3/" style="font-size: 18.33px;">题解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2000/09/">September 2000</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/24/hexo-fea-bg/">hexo:不是bug是feature</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/01/hello-2021/">2021</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/net-flow/net-flow/">网络流</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/zheng-ti-er-fen/zheng-ti-er-fen/">整体二分</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

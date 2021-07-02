@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-mob-inv/problems/bzoj-2154" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/11/mob-inv/problems/bzoj-2154/" class="article-date">
+  <time class="dt-published" datetime="2018-06-11T06:02:05.000Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/solution/">solution</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/11/mob-inv/problems/bzoj-2154/">莫比乌斯反演习题：bzoj 2154 Crash的数字表格</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定$n,m$，求$\sum_{i=1}^{n}\sum_{j=1}^{m}\text{lcm}(i,j)$</p>
+<p>$n,m \le 10^7$</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>$$<br>\begin{aligned}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}\text{lcm}(i,j)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\frac{ij}{(i,j)} \\<br>&amp;=\sum_{d=1}^{n}\frac{d^2}{d}\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{d} \rfloor}ij[(i,j)=1] \\<br>&amp;=\sum_{d=1}^{n}d\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{d} \rfloor}ij[(i,j)=1] \\<br>&amp;=\sum_{d=1}^{n}d\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{d} \rfloor}ij\sum_{d’ \mid (i,j)}\mu(d’) \\<br>&amp;=\sum_{d=1}^{n}d\sum_{d’=1}^{\lfloor \frac{n}{d} \rfloor}\mu(d’)\sum_{i=1 \wedge d’ \mid i}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1 \wedge d’ \mid j}^{\lfloor \frac{m}{d} \rfloor}ij \\<br>&amp;=\sum_{d=1}^{n}d\sum_{d’=1}^{\lfloor \frac{n}{d} \rfloor}\mu(d’)\sum_{i=1}^{\lfloor \frac{n}{dd’} \rfloor}id’\sum_{j=1}^{\lfloor \frac{m}{dd’} \rfloor}jd’ \\<br>&amp;=\sum_{d=1}^{n}d\sum_{d’=1}^{\lfloor \frac{n}{d} \rfloor}\mu(d’)(d’)^2 \frac{(1+\lfloor \frac{n}{dd’} \rfloor)\lfloor \frac{n}{dd’} \rfloor}{2} \frac{(1+\lfloor \frac{m}{dd’} \rfloor)\lfloor \frac{m}{dd’} \rfloor}{2} \\<br>&amp;=\sum_{T=1}^{n}\frac{(1+\lfloor \frac{n}{T} \rfloor)\lfloor \frac{n}{T} \rfloor}{2}\frac{(1+\lfloor \frac{m}{T} \rfloor)\lfloor \frac{m}{T} \rfloor}{2} \sum_{d \mid T}\frac{T}{d}\mu(d)d^2\\<br>&amp;=\sum_{T=1}^{n}\frac{(1+\lfloor \frac{n}{T} \rfloor)\lfloor \frac{n}{T} \rfloor}{2}\frac{(1+\lfloor \frac{m}{T} \rfloor)\lfloor \frac{m}{T} \rfloor}{2} T\sum_{d \mid T}\mu(d)d\\<br>&amp;=\sum_{T=1}^{n}\frac{(1+\lfloor \frac{n}{T} \rfloor)\lfloor \frac{n}{T} \rfloor}{2}\frac{(1+\lfloor \frac{m}{T} \rfloor)\lfloor \frac{m}{T} \rfloor}{2} Tf(T) \\<br>&amp;=\sum_{T=1}^{n}\frac{(1+\lfloor \frac{n}{T} \rfloor)\lfloor \frac{n}{T} \rfloor}{2}\frac{(1+\lfloor \frac{m}{T} \rfloor)\lfloor \frac{m}{T} \rfloor}{2} g(T) \\<br>\end{aligned}<br>$$</p>
+<p>之后考虑$g(T)=Tf(T)$怎么求，即求$f(T)=\sum_{d \mid T}\mu(d)d$</p>
+<p>考虑线性筛，假设当前枚举到了$i$，且枚举到了素数$p_j$</p>
+<p>若$i$是素数，则$f(i)=\sum_{d \mid i}\mu(i)i=\mu(1)1+\mu(i)i=1-i$</p>
+<p>若$p_j \mid i$，则$f(ip_j)=\sum_{d \mid ip_j}\mu(d)d=\sum_{d\text{中没有}p_j}\mu(d)d+\sum_{d\text{中有}p_J}\mu(d)d=f(i)$</p>
+<p>若$p_j\not  \mid  i$，则</p>
+<p>$$<br>\begin{align}<br>f(ip_j)<br>&amp;=\sum_{d \mid ip_j}\mu(d)d \\<br>&amp;=\sum_{d\text{中没有}p_j}\mu(d)d+\sum_{d\text{中有}p_J}\mu(d)d \\<br>&amp;=f(i)+\sum_{ap_j \mid ip_j}\mu(ap_j)ap_j \\<br>&amp;=(1-p_j)f(i)<br>\end{align}<br>$$</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e7</span> + <span class="number">10</span>, mod = <span class="number">20101009</span>;</span><br><span class="line"></span><br><span class="line">ll f[N], g[N];</span><br><span class="line"><span class="keyword">int</span> vis[N], p[N], tot, n, m;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m); <span class="keyword">if</span>(n &gt; m) <span class="built_in">swap</span>(n, m);</span><br><span class="line">    f[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> ; i &lt;= m ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!vis[i]) &#123;</span><br><span class="line">            p[++ tot] = i;</span><br><span class="line">            f[i] = (<span class="number">1</span> - i) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; (ll) i * p[j] &lt;= m ; ++ j) &#123;</span><br><span class="line">            vis[i * p[j]] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(i % p[j] == <span class="number">0</span>) &#123;</span><br><span class="line">                f[i * p[j]] = f[i];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                f[i * p[j]] = (<span class="number">1</span> - p[j]) * f[i] % mod;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= m ; ++ i) g[i] = (f[i] * i % mod + g[i - <span class="number">1</span>]) % mod;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, j ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">        j = <span class="built_in">min</span>(n / (n / i), m / (m / i));</span><br><span class="line">        ans += </span><br><span class="line">            (</span><br><span class="line">            ((ll) (<span class="number">1</span> + n / i) * (n / i) / <span class="number">2</span> % mod)</span><br><span class="line">          * ((ll) (<span class="number">1</span> + m / i) * (m / i) / <span class="number">2</span> % mod) % mod</span><br><span class="line">          * ((g[j] - g[i - <span class="number">1</span>]) % mod)</span><br><span class="line">          ) % mod;</span><br><span class="line">        ans %= mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, (ans % mod + mod) % mod);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/06/11/mob-inv/problems/bzoj-2154/" data-id="ckqmfusaq007l8ufy74kw26is" data-title="莫比乌斯反演习题：bzoj 2154 Crash的数字表格" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bzoj/" rel="tag">bzoj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" rel="tag">莫比乌斯反演习题</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-mob-inv/problems/bzoj-1257" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/11/mob-inv/problems/bzoj-1257/" class="article-date">
+  <time class="dt-published" datetime="2018-06-11T06:01:05.000Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/solution/">solution</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/11/mob-inv/problems/bzoj-1257/">莫比乌斯反演习题：bzoj 1257 [CQOI2007]余数之和</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给出正整数$n$和$k$，计算$f(n, k)=k \text{ mod } 1 + k \text{ mod } 2 + k \text{ mod } 3 + \cdots + k \text{ mod } n$的值</p>
+<p>其中$k \text{ mod } i$表示$k$除以$i$的余数</p>
+<p>$n,k \le 10^9$</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>$$<br>\begin{aligned}<br>f(n,k)<br>&amp;=\sum_{i=1}^{n}k \text{ mod }i \\<br>&amp;=\sum_{i=1}^{n}k - \lfloor \frac{k}{i} \rfloor i \\<br>&amp;=nk - \sum_{i=1}^{n} i \lfloor \frac{k}{i} \rfloor \\<br>\end{aligned}<br>$$</p>
+<p>显然$\lfloor \frac{k}{i} \rfloor$的取值只有$O(\sqrt k)$种，数论分块即可</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, k; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;k);</span><br><span class="line">    ll ans = (ll) n * k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, j ; i &lt;= n &amp;&amp; k / i != <span class="number">0</span> ; i = j + <span class="number">1</span>)</span><br><span class="line">        j = <span class="built_in">min</span>(n, k / (k / i)),</span><br><span class="line">        ans -= (ll) (i + j) * (j - i + <span class="number">1</span>) / <span class="number">2</span> * (k / i);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/06/11/mob-inv/problems/bzoj-1257/" data-id="ckqmfusaq007j8ufy81xt2aqh" data-title="莫比乌斯反演习题：bzoj 1257 [CQOI2007]余数之和" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bzoj/" rel="tag">bzoj</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" rel="tag">莫比乌斯反演习题</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-mob-inv/mob-inv" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/11/mob-inv/mob-inv/" class="article-date">
+  <time class="dt-published" datetime="2018-06-11T06:00:05.000Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/11/mob-inv/mob-inv/">莫比乌斯反演</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=869190&height=66"></iframe>
+
+<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><ul>
+<li>线性筛</li>
+<li>四则运算</li>
+<li>常见的积性函数</li>
+</ul>
+<h1 id="数论函数"><a href="#数论函数" class="headerlink" title="数论函数"></a>数论函数</h1><p>定义在正整数集上的实值或复值函数</p>
+<p>一般可视作定义域为正整数，值域为整数的函数</p>
+<h1 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h1><p>对于一个数论函数$f$，若当$(a,b)=1$时，$f(ab)=f(a)f(b)$，则称其为<strong>积性函数</strong></p>
+<h1 id="完全积性函数"><a href="#完全积性函数" class="headerlink" title="完全积性函数"></a>完全积性函数</h1><p>对于一个数论函数$f$，若$f(ab)=f(a)f(b)$，则称其为<strong>完全积性函数</strong></p>
+<h1 id="莫比乌斯函数"><a href="#莫比乌斯函数" class="headerlink" title="莫比乌斯函数"></a>莫比乌斯函数</h1><p>$$<br>\mu(n) =<br>\begin{cases}<br>1 \qquad &amp;n=1 \\<br>(-1)^k \qquad &amp;n=\Pi_{i=1}^{k} p_i \\<br>0 \qquad &amp;\text{otherwise}<br>\end{cases}<br>$$</p>
+<h2 id="线性筛莫比乌斯函数"><a href="#线性筛莫比乌斯函数" class="headerlink" title="线性筛莫比乌斯函数"></a>线性筛莫比乌斯函数</h2><p>假设当前枚举到了$i$和素数$p$</p>
+<ol>
+<li>若$i$是素数</li>
+</ol>
+<blockquote>
+<p>$\mu(i)=-1$</p>
+</blockquote>
+<ol start="2">
+<li>若$p \nmid  i$</li>
+</ol>
+<blockquote>
+<p>$\mu(i \times p)=\mu(i)\mu(p)=-\mu(i)$</p>
+</blockquote>
+<ol start="3">
+<li>若$p \mid i$</li>
+</ol>
+<blockquote>
+<p>$\mu(i \times p)=\mu(\frac{i}{p} \times p^2)=0$</p>
+</blockquote>
+<h1 id="狄利克雷卷积"><a href="#狄利克雷卷积" class="headerlink" title="狄利克雷卷积"></a>狄利克雷卷积</h1><p>定义数论函数$f$和$g$的狄利克雷卷积为<br>$$<br>h(n)=(f \times g)(n)=\sum_{d \mid n}f(d)g(\frac{n}{d})<br>$$</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h3><p>$(f \times g) \times h=f \times (g \times h)$</p>
+<h3 id="交换律"><a href="#交换律" class="headerlink" title="交换律"></a>交换律</h3><p>$f \times g=g \times f$</p>
+<h3 id="存在单位元"><a href="#存在单位元" class="headerlink" title="存在单位元"></a>存在单位元</h3><p>$f \times \epsilon = \epsilon \times f = f$</p>
+<h3 id="传递性"><a href="#传递性" class="headerlink" title="传递性"></a>传递性</h3><p>若$f,g$是积性函数，则$f \times g$也是积性函数</p>
+<p>若$g$和$f \times g$是积性函数，则$f$也是积性函数</p>
+<p>若$f \times \mu$是积性函数，则$f$是积性函数</p>
+<h3 id="混合积"><a href="#混合积" class="headerlink" title="混合积"></a>混合积</h3><p>若$g$是完全积性函数，且$h=f \times g$，则$f = h \times (\mu \cdot g)$</p>
+<p>即<br>$$<br>h(n)=\sum_{d \mid n}f(n)g(\frac{n}{d}) \Rightarrow f(n)=\sum_{d \mid n}h(n) \mu(\frac{n}{d})g(\frac{n}{d})<br>$$</p>
+<h2 id="常用变换"><a href="#常用变换" class="headerlink" title="常用变换"></a>常用变换</h2><p>$\mu \times 1 = \epsilon$</p>
+<p>$\phi \times 1 = id$</p>
+<p>$\mu \times id = \phi$</p>
+<p>$\sigma_0(ij)=\sum_{x \mid i}\sum_{y \mid j}\epsilon((x,y))$</p>
+<p>$\sigma_1(ij)=\sum_{x \mid i}\sum_{y \mid j}\frac{xj}{y}\epsilon((x,y))$</p>
+<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><ol>
+<li><p>$\mu \times 1 = \epsilon$</p>
+<p>证明略</p>
+</li>
+<li><p>$\phi \times 1 = id$</p>
+<p>$$<br>\begin{align}<br>\sum_{d \mid n}\phi(d)<br>&amp;=\sum_{d \mid n}\sum_{i=1}^{d}\epsilon((i,d)) \\<br>&amp;=\sum_{d \mid n}\sum_{i=1}^{d}\sum_{d’ \mid (i,d)}\mu(d’) \\<br>&amp;=\sum_{d \mid n}\sum_{d’=1 \wedge d’ \mid d}^{d} \mu(d’)\sum_{i=1 \wedge d’ \mid i}^{d}1 \\<br>&amp;=\sum_{d \mid n}\sum_{d’ \mid d} \mu(d’) \frac{d}{d’} \\<br>&amp;=\sum_{d \mid n}\sum_{d’ \mid d} \mu(\frac{d}{d’}) d’ \\<br>&amp;=\sum_{d’ \mid n}d’\sum_{d  \mid n \wedge d’ \mid d} \mu(\frac{d}{d’}) \\<br>&amp;=\sum_{d’ \mid n}d’\sum_{d \mid \frac{n}{d’}} \mu(d) \\<br>&amp;=\sum_{d’ \mid n}d’ \epsilon(\frac{n}{d’}) \\<br>&amp;=n<br>\end{align}<br>$$</p>
+</li>
+<li><p>$\mu \times id = \phi$</p>
+<p>$$<br>\begin{align}<br>\phi(n)<br>&amp;=\sum_{i=1}^{n} \epsilon((i,n)) \\<br>&amp;=\sum_{i=1}^{n}\sum_{d \mid (i,n)}\mu(d) \\<br>&amp;=\sum_{d=1 \wedge d \mid n}^{n}\mu(d)\sum_{i=1 \wedge d \mid i}^{n}1 \\<br>&amp;=\sum_{d \mid n}\mu(d)\frac{n}{d} \\<br>&amp;=(\mu \times id)(n)<br>\end{align}<br>$$</p>
+</li>
+<li><p>$\sigma_0(ij)=\sum_{x \mid i}\sum_{y \mid j}\epsilon((x,y))$</p>
+<p>证明略</p>
+</li>
+<li><p>$\sigma_1(ij)=\sum_{x \mid i}\sum_{y \mid j}\frac{xj}{y}\epsilon((x,y))$</p>
+</li>
+</ol>
+<p>  证明略</p>
+<h1 id="莫比乌斯反演"><a href="#莫比乌斯反演" class="headerlink" title="莫比乌斯反演"></a>莫比乌斯反演</h1><p>对于数论函数$f,g$，若有$f = g \times 1$，则有$g = f \times \mu$</p>
+<h2 id="证明-1"><a href="#证明-1" class="headerlink" title="证明"></a>证明</h2><p>$$<br>\begin{align}<br>f = g \times 1 \Rightarrow &amp;f \times \mu = g \times 1 \times \mu \\<br>\Rightarrow&amp; f \times \mu = g \times 1 \times \mu \\<br>\Rightarrow&amp; f \times \mu = g \times (1 \times \mu) \\<br>\Rightarrow&amp; f \times \mu = g \times \epsilon \\<br>\Rightarrow&amp; g = f \times \mu<br>\end{align}<br>$$</p>
+<h1 id="计算技巧，不仅仅是交换求和号"><a href="#计算技巧，不仅仅是交换求和号" class="headerlink" title="计算技巧，不仅仅是交换求和号"></a>计算技巧，不仅仅是交换求和号</h1><h2 id="贡献独立，各自算完后再合并"><a href="#贡献独立，各自算完后再合并" class="headerlink" title="贡献独立，各自算完后再合并"></a>贡献独立，各自算完后再合并</h2><p>$$<br>\sum_{i=1}^{n}\sum_{j=1}^{m}f(i)g(j)=(\sum_{i=1}^{n}f(i))(\sum_{j=1}^{m}g(j))<br>$$</p>
+<h2 id="正难则反，统计贡献"><a href="#正难则反，统计贡献" class="headerlink" title="正难则反，统计贡献"></a>正难则反，统计贡献</h2><p>$$<br>\begin{align}<br>\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid (i,j)}f(d)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid i \wedge d \mid j}f(d) \\<br>&amp;=\sum_{d=1}^{n}f(d)\sum_{i=1 \wedge d \mid i}^{n}\sum_{j=1 \wedge d \mid j}^{m}1 \\<br>&amp;=\sum_{d=1}^{n}f(d)(\sum_{i=1 \wedge d \mid i}^{n} 1 ) (\sum_{j=1 \wedge d \mid j}^{m}1) \\<br>&amp;=\sum_{d=1}^{n}f(d) \lfloor \frac{n}{d} \rfloor \lfloor \frac{m}{d} \rfloor<br>\end{align}<br>$$</p>
+<h2 id="变量替换，枚举乘积"><a href="#变量替换，枚举乘积" class="headerlink" title="变量替换，枚举乘积"></a>变量替换，枚举乘积</h2><p>$$<br>\begin{align}<br>\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k<br>&amp;=\sum_{d=1}^{\min(n,m)}d^k\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=d] \\<br>&amp;=\sum_{d=1}^{\min(n,m)}d^k \sum_{d’=1}^{\lfloor \frac{\min(n,m)}{d} \rfloor}\mu(d’)\lfloor \frac{n}{dd’} \rfloor \lfloor \frac{m}{dd’} \rfloor \\<br>&amp;=\sum_{T=1}^{\min(n,m)} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor  \sum_{d  \mid  T} d^k \mu(\frac{T}{d}) \\<br>&amp;=\sum_{T=1}^{\min(n,m)} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor f(T) \\<br>f(T) = \sum_{d  \mid  T} d^k \mu(\frac{T}{d})<br>\end{align}<br>$$</p>
+<h1 id="取整常识"><a href="#取整常识" class="headerlink" title="取整常识"></a>取整常识</h1><p>$\lfloor \frac{n}{x} \rfloor$的取值只有$\sqrt n$种</p>
+<p>$\left\lfloor \frac{\lfloor \frac{n}{a} \rfloor}{b} \right\rfloor=\lfloor \frac{n}{ab} \rfloor=\left\lfloor \frac{\lfloor \frac{n}{b} \rfloor}{a} \right\rfloor$</p>
+<p>$\left\lceil \frac{\lceil \frac{n}{a} \rceil}{b} \right\rceil=\lceil \frac{n}{ab} \rceil=\left\lceil \frac{\lceil \frac{n}{b} \rceil}{a} \right\rceil$</p>
+<h1 id="数论分块"><a href="#数论分块" class="headerlink" title="数论分块"></a>数论分块</h1><p>若要计算$f(n)=\sum_{i=1}^{n}i \lfloor \frac{n}{i} \rfloor$</p>
+<p>直接计算是$O(n)$的，但$\lfloor \frac{n}{i} \rfloor$的取值只有$\sqrt n$种，不妨将取值相同的同时处理</p>
+<p>即找一个最大的$j$，使得$\lfloor \frac{n}{i} \rfloor \le \lfloor \frac{n}{j} \rfloor$<br>$$<br>\begin{align}<br>\lfloor \frac{n}{i} \rfloor \le \lfloor \frac{n}{j} \rfloor \le \frac{n}{j}<br>\Rightarrow &amp;j \le \frac{n}{\lfloor \frac{n}{i} \rfloor} \\<br>\Rightarrow &amp;j \le \left\lfloor \frac{n}{\lfloor \frac{n}{i} \rfloor} \right\rfloor<br>\end{align}<br>$$</p>
+<p>一般的，对于计算$h(n)=\sum_{i=1}^{n}f(i)g(\lfloor \frac{n}{i} \rfloor)$，只需要可以快速计算$f$的前缀和即可用数论分块来快速计算</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">F</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, j = <span class="number">1</span> ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">        j = n / (n / i);</span><br><span class="line">        ans += (<span class="built_in">sumf</span>(j) - <span class="built_in">sumf</span>(i - <span class="number">1</span>)) * <span class="built_in">g</span>(n / i);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="做题技巧"><a href="#做题技巧" class="headerlink" title="做题技巧"></a>做题技巧</h1><p>先写暴力，再写正解</p>
+<p>如果做不到$O(\sqrt n)$，$O(n)$也可以（骗部分分）</p>
+<p>如果RE/TLE，多半是递归/循环挂了</p>
+<p>如果div 0，多半是数论分块挂了</p>
+<p>将暴力逐步修改为正解，寻找那个部分写挂了</p>
+<p>主要注意是不是哪里写了个假的</p>
+<p>小心爆long long</p>
+<h1 id="套路"><a href="#套路" class="headerlink" title="套路"></a>套路</h1><p>写出暴力计算的式子，然后用$\phi$或$\mu$等已知等价关系式进行替换</p>
+<p>交换求和号后计算</p>
+<p>有时候会遇到枚举三元环之类的奇奇怪怪的技巧</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="计算-sum-i-1-n-sum-j-1-m-i-j-k"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j-k" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=k]$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=k]$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=k]<br>&amp;=\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{k} \rfloor}[(i,j)=1] \\<br>&amp;=\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{k} \rfloor}\sum_{d \mid (i,j)}\mu(d) \\<br>&amp;=\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{k} \rfloor}\sum_{d \mid i \wedge d \mid j}\mu(d) \\<br>&amp;=\sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}\mu(d) \sum_{i=1 \wedge d \mid i}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1 \wedge d \mid j}^{\lfloor \frac{m}{k} \rfloor}1 \\<br>&amp;=\sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}\mu(d) \lfloor \frac{n}{kd} \rfloor \lfloor \frac{m}{kd} \rfloor \\<br>\end{align}<br>$$</p>
+<h2 id="计算-sum-i-1-n-sum-j-1-m-i-j"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid (i,j)}\phi(d) \\<br>&amp;=\sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}\phi(d) \lfloor \frac{n}{kd} \rfloor \lfloor \frac{m}{kd} \rfloor<br>\end{align}<br>$$</p>
+<h2 id="计算-sum-i-1-n-sum-j-1-m-i-j-k-1"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j-k-1" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k<br>&amp;=\sum_{d=1}^{n}d^k\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=d] \\<br>&amp;=\sum_{d=1}^{n}d^k \sum_{d’=1}^{\lfloor \frac{n}{d} \rfloor}\mu(d’)\lfloor \frac{n}{dd’} \rfloor \lfloor \frac{m}{dd’} \rfloor \\<br>&amp;=\sum_{T=1}^{n} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor  \sum_{d  \mid  T} d^k \mu(\frac{T}{d}) \\<br>&amp;=\sum_{T=1}^{n} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor f(T) \\<br>f(T) = \sum_{d  \mid  T} d^k \mu(\frac{T}{d})<br>\end{align}<br>$$</p>
+<h2 id="计算-sum-i-1-n-sum-j-1-m-sigma-0-ij"><a href="#计算-sum-i-1-n-sum-j-1-m-sigma-0-ij" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}\sigma_0(ij)$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}\sigma_0(ij)$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}\sigma_0(ij)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{a \mid i}\sum_{b \mid j}[(a,b)=1] \\<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=1] \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid (i,j)}\mu(d) \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid i \wedge d \mid j}\mu(d) \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;=\sum_{d=1}^{n}\mu(d) \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\lfloor \frac{n}{id} \rfloor \sum_{j=1}^{\lfloor \frac{m}{d} \rfloor}\lfloor \frac{m}{jd} \rfloor \\<br>&amp;=\sum_{d=1}^{n}\mu(d)f(\lfloor \frac{n}{d} \rfloor)f(\lfloor \frac{m}{d} \rfloor) \\<br>f(n)=\sum_{i=1}^{n}\lfloor \frac{n}{i} \rfloor<br>\end{align}<br>$$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/06/11/mob-inv/mob-inv/" data-id="ckqmfus9b003m8ufygi9x0u1s" data-title="莫比乌斯反演" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-trie/01trie" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/04/trie/01trie/" class="article-date">
+  <time class="dt-published" datetime="2018-06-03T23:12:34.000Z" itemprop="datePublished">2018-06-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/04/trie/01trie/">01trie</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>trie(retrieval)树，一种存储多个有序序列的树，在存储前缀相等次数多的数据时有很大的优势</p>
+<p>一般来说，trie树是用于字典树，但这篇文章不谈字典树，而谈一谈它的近亲——binary trie</p>
+<p>如果将固定字长的正整数的二进制看作一个01有序序列（从高位往低位存储，允许前导零填充满位数），那么就可以直接存储到trie树里了，而这种trie树称作binary trie</p>
+<p>这棵树有一个明显的特点，一个节点最多只有两个儿子，分别是0儿子和1儿子，因此空间复杂度可以近似的看成O(nBIT)</p>
+<p>用途？十分好写的“平衡树”</p>
+<p>（出门必备的骗分神器……几分钟种植一棵“平衡树”……）</p>
+<p>加引号是因为它本质是权值线段树，因为在trie树上的进入左右儿子的过程本质上是在权值线段树上往[l,mid]或者[mid+1,r]进行移动，因为01分类法使得它就是基于区间的二分</p>
+<p>至于操作，就类似于权值线段树上的操作了，看代码更加直观</p>
+<p>当然，简洁的代码背后是某些天坑</p>
+<p>1.空间消耗过大，如果有n个数字那么空间消耗为O(nw)</p>
+<p>2.插入浮点数？两种方法，第一种是离散化之后当成int来搞，不过一般题是不支持离线的样子，第二种是将浮点数看成高位和低位拼接起来的一个数串，不过空间复杂度需要再乘二</p>
+<p>3.插入负数？这样可以加上一个数使得所有数都大于等于零（输出的时候再减去就行）</p>
+<p>4.插入非数字？不过这样的话只能离线读进去后hash编码了，或者可以事先得知大小关系</p>
+<p>可持久化之后，就可以解决区间上的查询了，跟可持久化线段树差不多</p>
+<p>启发式合并也是很支持的</p>
+<p>1.对于每棵树维护一个保存着所有值的链表（vector或者list随意），合并的时候直接将较小的那棵树整体放入垃圾回收装置（这个就随意了，array、queue、list、vector都行），然后遍历链表并插入到较大的那棵树里，最后将小的那棵树的链表直接接到大的那棵树的链表的结尾（这是O(1)的，如果使用vector的话就是O(n)的，不过也没什么关系，但是不能用array，因为开不下数组啊（dynamic array另说））</p>
+<p>再分配新节点的时候，如果当前垃圾回收装置非空，那么就拿起末尾的那个节点，由于存储的时候没有删除它的子节点的那些信息，所以将它的左右节点再分别存入回收装置，然后对拿起的这个节点进行清理相关信息并当做新节点返回</p>
+<p>2.当然其实直接对较小的那棵树dfs一遍搞出所有的值就行了……插入后把较小的那棵树直接扔到垃圾回收装置里就行……</p>
+<p>3.貌似trie也可以跟线段树一样直接合并……但好像垃圾回收的时候比较惨（某一些可以回收，某一些不需要回收……）……</p>
+<p>GC是一个很神奇的东西，因为它只存删除的那棵树的树根，真正做到了O(1)删除一棵树，O(1)新建节点</p>
+<p>“HNOI2012永无乡”是个不错的例题</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p><a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/5901006">luogu P3369 普通平衡树</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/7115174">HNOI2012 永无乡</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/06/04/trie/01trie/" data-id="ckqmfusa1005h8ufy675l39ty" data-title="01trie" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trie/" rel="tag">trie</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-slope-opt/slope-opt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/07/slope-opt/slope-opt/" class="article-date">
+  <time class="dt-published" datetime="2018-05-07T04:45:12.000Z" itemprop="datePublished">2018-05-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/07/slope-opt/slope-opt/">斜率优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="何为斜率优化"><a href="#何为斜率优化" class="headerlink" title="何为斜率优化"></a>何为斜率优化</h1><p>对于一类动态规划问题，方程式诸如</p>
+<p>$$<br>f_i=\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
+<p>朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$</p>
+<h1 id="从改写方程开始"><a href="#从改写方程开始" class="headerlink" title="从改写方程开始"></a>从改写方程开始</h1><p>$$<br>f_i=\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
+<p>可以改写为</p>
+<p>$$<br>-k_i \cdot x_j + f_i - c_i = y_j<br>$$</p>
+<p>这个式子的意义是一条斜率为 $-k_i$ ，过点 $(x_j,y_j)$ ,截距为 $f_i-c_i$ 的直线</p>
+<p>此时目标是最大化 $f_i - c_i$ ，由于 $c_i$ 是定值，原目标等价于最大化 $f_i$</p>
+<h1 id="维护点集和获取最大值"><a href="#维护点集和获取最大值" class="headerlink" title="维护点集和获取最大值"></a>维护点集和获取最大值</h1><p>那么现在需要维护一个点集 $(x_j,y_j)$ ，每当处理完 $f_i$ 后就需要将 $(x_i,y_i)$ 加入点集</p>
+<p>显然使得$f_i$取得最大值的点是在点集的凸壳上，所以要维护一个凸壳</p>
+<p>查询使得$f_i$最大的点的时候，是用的一条斜率固定的直线去切这个凸壳，可以通过二分斜率或者凸壳上三分查询</p>
+<h1 id="常用的维护套路"><a href="#常用的维护套路" class="headerlink" title="常用的维护套路"></a>常用的维护套路</h1><h2 id="加入的点的-x-递增，查询的斜率递增"><a href="#加入的点的-x-递增，查询的斜率递增" class="headerlink" title="加入的点的$x$递增，查询的斜率递增"></a>加入的点的$x$递增，查询的斜率递增</h2><p>这是最普通的斜率优化的形式</p>
+<p>回忆静态凸壳的构造方法：按照$x$排序后依次添加并维护凸性</p>
+<p>那么由于点的$x$递增，用这种方法维护就行</p>
+<p>由于查询的斜率是递增的，那么相当于直线一直在某时针旋转，同时加入的点的$x$递增，显然决策递增，可以用单调队列维护</p>
+<h2 id="加入的点的-x-递增，查询的斜率不保证递增"><a href="#加入的点的-x-递增，查询的斜率不保证递增" class="headerlink" title="加入的点的$x$递增，查询的斜率不保证递增"></a>加入的点的$x$递增，查询的斜率不保证递增</h2><p>点还是原先的加入方法就行，但是斜率不一定递增了</p>
+<p>那么直接在凸壳上二分或三分就行了</p>
+<h2 id="加入的点的-x-不保证递增，查询的斜率递增"><a href="#加入的点的-x-不保证递增，查询的斜率递增" class="headerlink" title="加入的点的$x$不保证递增，查询的斜率递增"></a>加入的点的$x$不保证递增，查询的斜率递增</h2><p>点的加入需要用std::set等进行维护了，查询的话也需要二分或三分了</p>
+<h2 id="x-和斜率都不保证递增"><a href="#x-和斜率都不保证递增" class="headerlink" title="$x$和斜率都不保证递增"></a>$x$和斜率都不保证递增</h2><h3 id="二进制分组"><a href="#二进制分组" class="headerlink" title="二进制分组"></a>二进制分组</h3><p>维护log个凸壳，大小分别为$x,\frac{x}{2},\frac{x}{4},\cdots$（虽然这么表述有些不严谨，但是可以类似的意会一下），其中$x$表示最大的那个凸壳，这些用一个vector来存储，大小递减</p>
+<p>当添加一个新的点后，放到vector的尾部，并比较最后两个凸壳的大小是否相等，相等的话就暴力弹出这两个凸壳并将它们暴力合并，合并完后再放入vector尾部</p>
+<p>查询的话在每个凸壳上二分或三分即可</p>
+<p>可以证明时间复杂度是$O(n \text{log}^2 n)$</p>
+<h3 id="cdq分治"><a href="#cdq分治" class="headerlink" title="cdq分治"></a>cdq分治</h3><p>嘛，这个就说来话长了</p>
+<p>首先开一个结构体，记录一下$i,k_i$，分别表示计算第$i$个$f$（这里$i$表示$id$)，用到的斜率为$k_i$</p>
+<p>然后按照$k_i$将结构体排序</p>
+<p>定义cdq(l,r)表示计算所有$l \le i \le r$的$f_i$</p>
+<p>那么执行完$cdq(1,n)$之后就完成任务咯</p>
+<p>那么假设执行了cdq(l,r)，不妨先根据$mid=\lfloor \frac{l+r}{2} \rfloor$将下标为$[l,r]$的结构体分开计算</p>
+<p>先把所有$id \le mid$的分成一波，另外的分成一波，这个操作要在原序列上进行</p>
+<p>分割完之后，结构体的$[l,mid]$中的元素的$id$都是$\le mid$的，此时先递归一下cdq(l,mid)</p>
+<p>假设cdq(l,mid)递归完之后，这些元素所表示的点集都已经排好序了</p>
+<p>由于在最开始的时候已经按照$k_i$排序了，所以$[mid+1,r]$实际上斜率是递增的</p>
+<p>那么用$[l,mid]$的点构建凸包后，只需要用单调队列扫一遍更新就好咯？因为这里用的$[l,mid]$中的点去更新的$[mid+1,r]$</p>
+<p>更新完之后在调用一下cdq(mid+1,r)就完成任务咯？</p>
+<p>不不不，别忘了需要保证计算完cdq(l,r)之后，$[l,r]$的点集已经排好序了</p>
+<p>发现$[l,mid]$和$[mid+1,r]$分别都排好序了，那么归并排序一下就好咯？</p>
+<p>时间复杂度$O(n \log n)$</p>
+<p>也许看一下<a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/7036759">代码</a>比较好理解</p>
+<h3 id="平衡树-std-set"><a href="#平衡树-std-set" class="headerlink" title="平衡树/std::set"></a>平衡树/std::set</h3><p>二进制分组可以支持在线查询$f_i$，但是时间复杂度比较高</p>
+<p>cdq分治可以支持复杂度较小的查询$f_i$,但是需要离线</p>
+<p>如果强制在线的查询$f_i$呢？</p>
+<p>用平衡树来维护凸壳，并在上面二分！</p>
+<p>甚至你可以用<a target="_blank" rel="noopener" href="http://www.cnblogs.com/Cmd2001/p/8492492.html">std::set</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/07/slope-opt/slope-opt/" data-id="ckqmfus9w00548ufybpks6ms4" data-title="斜率优化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" rel="tag">斜率优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ranmz/ranmz" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/06/ranmz/ranmz/" class="article-date">
+  <time class="dt-published" datetime="2018-05-06T04:23:15.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/06/ranmz/ranmz/">随机化算法与模拟退火</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在OI中，某些题是要求找一种方案，最大化或最小化某个值，此时可以选择动态规划、网络流、数学公式、线性规划、剪枝搜索、数据结构维护、二分三分等等，但如果想不出正确的方法的话，可以尝试随机化乱搞来大致骗分</p>
+<h1 id="随机爬山"><a href="#随机爬山" class="headerlink" title="随机爬山"></a>随机爬山</h1><p>随机爬山是一种较为容易的随机化方法，流程十分简单</p>
+<ol>
+<li>随机一种初始状态</li>
+<li>计算当前解</li>
+<li>略微更改一下当前局面</li>
+<li>如果当前局面比修改之前的局面更优，则将当前局面更新为全局局面</li>
+<li>否则，忽略当前局面，回滚为之前局面</li>
+<li>回到第三步</li>
+</ol>
+<p>将这种操作多做几遍，将答案取最优值就好</p>
+<p>当然这种方法写起来还是比较麻烦，下面给出一种简化版的随机爬山（准确的说已经不是随机爬山了，不再有<strong>爬山</strong>这个操作）</p>
+<ol>
+<li>随机一种初始状态</li>
+<li>计算当前解</li>
+<li>回到第一步</li>
+</ol>
+<p>将这种操作多做几遍，将答案取最优值就好，当然这种方法得到的答案可能会很差，仅限于时间不够的情况下去实现</p>
+<h1 id="模拟退火"><a href="#模拟退火" class="headerlink" title="模拟退火"></a>模拟退火</h1><p>随机爬山算法有一个缺陷，就是有可能会陷入当前局部最优解而忽略掉了全局最优解，模拟退火算法是允许一定概率的保留当前的局部非最优解，而使得可以去向全局最优解逐渐靠近，随着<strong>温度</strong>的降低，这个概率越来越低，最终退化为爬山算法</p>
+<p>同随机爬山算法一样，模拟退火算法也需要多次执行取最优解，代码流程大致为</p>
+<ol>
+<li>初始化温度</li>
+<li>产生一个新状态，并计算解</li>
+<li>如果新状态比当且解更优，或者有一定概率的产生，将新状态作为当前状态</li>
+<li>降温</li>
+<li>回到第二步</li>
+</ol>
+<p>算法描述为（为了简单起见，一般不用物理学中的模拟退火公式实现）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">type <span class="title">hot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> T = <span class="number">100000</span>; <span class="comment">// 初始化温度</span></span><br><span class="line">    State nowState = <span class="built_in">initState</span>(); <span class="comment">// 初始化状态</span></span><br><span class="line">    type ret = <span class="built_in">getvalue</span>(nowState); <span class="comment">// 返回最优解</span></span><br><span class="line">    <span class="keyword">while</span>(T &gt; <span class="number">0.01</span>) &#123; <span class="comment">// 达到常温</span></span><br><span class="line">        State nextState = <span class="built_in">get</span>(nowState); <span class="comment">// 产生新状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">getvalue</span>(nextState) &gt; <span class="built_in">getvalue</span>(nowState) <span class="comment">// 如果解更有就保留</span></span><br><span class="line">           || <span class="built_in">rand</span>() % <span class="number">100000</span> &lt; T) &#123; <span class="comment">// 一定概率更新，但随着温度升高而概率减小</span></span><br><span class="line">            nowState = nextState; <span class="comment">// 更新状态</span></span><br><span class="line">            ret = <span class="built_in">max</span>(ret, <span class="built_in">getvalue</span>(nowState)); <span class="comment">// 更新返回值</span></span><br><span class="line">        &#125;</span><br><span class="line">        T *= <span class="number">0.85</span>; <span class="comment">// 降温（退火）</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">type <span class="title">sol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    type ret = <span class="built_in">initState</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= <span class="number">1000</span> ; ++ i) &#123;</span><br><span class="line">        ret = <span class="built_in">max</span>(ret, <span class="built_in">hot</span>()); <span class="comment">// 多次模拟退火，提高准确率</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="产生新状态"><a href="#产生新状态" class="headerlink" title="产生新状态"></a>产生新状态</h2><p>一般来说，产生新状态要求从原先的状态改变之后，修改的地方比较小，定义其为邻域</p>
+<p>比如说</p>
+<h3 id="图上选点集问题"><a href="#图上选点集问题" class="headerlink" title="图上选点集问题"></a>图上选点集问题</h3><p>邻域为某个点的选或不选</p>
+<h3 id="将某个序列重新排列后最优化某函数问题"><a href="#将某个序列重新排列后最优化某函数问题" class="headerlink" title="将某个序列重新排列后最优化某函数问题"></a>将某个序列重新排列后最优化某函数问题</h3><p>邻域为选择两个位置进行互换</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><h2 id="北邮2018-F火焰炼金术"><a href="#北邮2018-F火焰炼金术" class="headerlink" title="北邮2018:F火焰炼金术"></a>北邮2018:F火焰炼金术</h2><blockquote>
+<p>给你一张无向图，我们称一个火字，指的是对于$a,b,c,d$四个点，其中$a$与其它三个点相连的这样的四个点，两个火字不同当且仅当组成的部分有一个点不同、或者是中间那个点不同。要求你找一个点的子集，使得这些点组成的火字的个数除以该点集的大小最大</p>
+</blockquote>
+<p>直接模拟退火，邻域为改变某个点是否选入点集</p>
+<h2 id="续一秒"><a href="#续一秒" class="headerlink" title="续一秒"></a>续一秒</h2><blockquote>
+<p>给定数列$a_i$,将其重新排列之后最大化$ | | | a_1 - a_2 | -a_3 | \cdots -a_n | $</p>
+</blockquote>
+<p>模拟退火，邻域为交换某两个位置上的值</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/06/ranmz/ranmz/" data-id="ckqmfus9r004s8ufydu113rdr" data-title="随机化算法与模拟退火" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" rel="tag">模拟退火</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag">随机化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2-grop/2-grop" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/05/2-grop/2-grop/" class="article-date">
+  <time class="dt-published" datetime="2018-05-05T15:03:12.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/05/2-grop/2-grop/">二进制分组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="一个想法"><a href="#一个想法" class="headerlink" title="一个想法"></a>一个想法</h1><p>如果需要让你维护一个数据结构</p>
+<p>支持往里面添加一个数据，或者查询一个信息</p>
+<p>且强制在线，应该怎么做呢？</p>
+<p>如果支持快速插入和快速查询的话，直接做就好啦</p>
+<p>下面从一道经典题目来探讨</p>
+<h1 id="动态凸包"><a href="#动态凸包" class="headerlink" title="动态凸包"></a>动态凸包</h1><blockquote>
+<p>这里有若干次操作，诸如</p>
+<ol>
+<li>添加一个点</li>
+<li>给定$x,y$，从所有的点中找一个点$(a,b)$，使得$a \cdot x+b \cdot y$最大</li>
+</ol>
+<p>强制在线，且数据范围如下</p>
+<p>$1 \le a,b,x,y \le 10^9$<br>$1 \le n \le 50000$</p>
+</blockquote>
+<p>怎么做？</p>
+<p>设$z=ax+by$，现在要最大化$z$，整理一下式子：$-\frac{x}{y}a+\frac{z}{y}=b$</p>
+<p>可以发现这个式子的意义是</p>
+<p>经过点$(a,b)$，斜率为$-\frac{x}{y}$，截距为$\frac{z}{y}$的一条直线</p>
+<p>现在需要最大化$\frac{z}{y}$，即最大化截距</p>
+<p>斜率$-\frac{x}{y}&lt;0$，即从上往下第一个碰到凸包上的点就会使得$z$最大</p>
+<p>也就是要求维护动态凸包</p>
+<h2 id="平衡树"><a href="#平衡树" class="headerlink" title="平衡树"></a>平衡树</h2><p>由于只有加点，所以可以用平衡树维护凸包上的点</p>
+<p>插入时找到位置然后维护凸包</p>
+<p>代码量巨大，看起来不可写</p>
+<h2 id="定期重构"><a href="#定期重构" class="headerlink" title="定期重构"></a>定期重构</h2><p>有一个比较naive的方法</p>
+<p>即每操作$\sqrt n$次就把所有的东西全部拿出来预处理</p>
+<p>每次插入就新开一块单独处理</p>
+<p>实现的话可以用vector套vector来实现</p>
+<p>其中子vector维护的是凸包，父vector维护的是所有的凸包</p>
+<p>查询的话在每个凸包上查询就好</p>
+<p>时间复杂度$O(n \cdot (\sqrt n + \log n))=O(n \cdot \sqrt n)$</p>
+<h2 id="二进制分组"><a href="#二进制分组" class="headerlink" title="二进制分组"></a>二进制分组</h2><p>事实上定期重构的时间复杂度还是很差，这里有一个更加优秀的做法</p>
+<p>维护$\log n$个块，大小分别（大概是这样）为$2^{\log(n)},2^{\log (n)-1},…$</p>
+<p>这个用vector可以实现</p>
+<p>每次添加点直接push_back</p>
+<p>如果相邻两块的大小相同，那么将这两块合并掉，并弹掉最后一个块</p>
+<p>凸包合并的话，把所有的点都搞出来扫一遍就行（inplace_merge）</p>
+<p>时间复杂度$O(\sum\limits_{i=1}^{\log(n)}\frac{n}{2^i} \cdot 2^i \cdot T(2^i))=O(n \cdot \log(n) \cdot T(n))$</p>
+<p>其中$n \cdot T(n)$是处理大小为$n$的块的时间</p>
+<p>查询的话在这$\log(n)$个块上二分就行</p>
+<h1 id="那么问题来了……"><a href="#那么问题来了……" class="headerlink" title="那么问题来了……"></a>那么问题来了……</h1><p>如果有删除？</p>
+<p>在统计贡献和的时候可以通过新建一个有负贡献的vector实现删除</p>
+<p>但是若要求查询极值的话那就没救了</p>
+<p>既然是维护动态凸包</p>
+<p>也就是说斜率优化可以用这个代替cdq分治或平衡树</p>
+<p>虽然时间复杂度多一个log，但还算是较为优秀（好写）</p>
+<h1 id="尝试用二进制分组实现某些数据结构"><a href="#尝试用二进制分组实现某些数据结构" class="headerlink" title="尝试用二进制分组实现某些数据结构"></a>尝试用二进制分组实现某些数据结构</h1><h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><blockquote>
+<p>实现一种数据结构，支持三种操作</p>
+<ol>
+<li>将一个值插入到数据结构</li>
+<li>查询最小值</li>
+<li>将最小值删除（如果有多个，只删除一个）</li>
+</ol>
+</blockquote>
+<p>每个块可以用一个递减的vector来实现，这样合并只需要inplace_merge</p>
+<p>时间复杂度$O(n \cdot \log(n))$</p>
+<p>如果用双端队列来实现内层的vector，可以实现双端堆</p>
+<h2 id="平衡树-1"><a href="#平衡树-1" class="headerlink" title="平衡树"></a>平衡树</h2><blockquote>
+<p>实现一种数据结构，支持三种操作</p>
+<ol>
+<li>插入一个值</li>
+<li>删除一个值</li>
+<li>查询某个值的排名</li>
+<li>查询排名为$k$的值</li>
+<li>查询某个值的前驱</li>
+<li>查询某个值的后继</li>
+</ol>
+</blockquote>
+<p>由于操作比较多，在此分开讨论</p>
+<p>对于每一个子vector，依旧是维护有序的形式</p>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>直接扔进vector里，然后维护二进制分组的性质</p>
+<p>$$<br>O(\log(n))<br>$$</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>再开一个vector，表示删除的元素</p>
+<p>删除一个元素相当于在这个新开的vector中加入并维护二进制分组</p>
+<p>$$<br>O(\log(n))<br>$$</p>
+<h3 id="查询排名"><a href="#查询排名" class="headerlink" title="查询排名"></a>查询排名</h3><p>在所有表示插入的vector中二分排名，并减去表示删除的vector中的贡献</p>
+<p>$$<br>O(\log(n) \cdot \sum_{i=1}^{\log(n)}\log(2^i))<br>$$</p>
+<p>$$<br>= O(\log(n) \cdot \log(\Pi_{i=1}^{\log(n)}2^i))<br>$$</p>
+<p>$$<br>= O(\log(n) \cdot \log(2^{\sum_{i=1}^{\log(n)}i}))<br>$$</p>
+<p>$$<br>= O(\log(n) \cdot \frac{(1+\log(n)) \cdot \log(n)}{2})<br>$$</p>
+<p>$$<br>= O(\log^2(n))<br>$$</p>
+<h3 id="查询kth"><a href="#查询kth" class="headerlink" title="查询kth"></a>查询kth</h3><p>二分答案后查询排名</p>
+<p>$$<br>O(\log^3(n))<br>$$</p>
+<h3 id="前驱"><a href="#前驱" class="headerlink" title="前驱"></a>前驱</h3><p>结合查询排名和查询kth解决</p>
+<p>$$<br>O(\log^3(n))<br>$$</p>
+<h3 id="后继"><a href="#后继" class="headerlink" title="后继"></a>后继</h3><p>结合查询排名和查询kth解决</p>
+<p>$$<br>O(\log^3(n))<br>$$</p>
+<h1 id="一些练习题"><a href="#一些练习题" class="headerlink" title="一些练习题"></a>一些练习题</h1><ul>
+<li>bzoj 2989</li>
+<li>bzoj 4170</li>
+<li>bzoj 4140</li>
+<li>bzoj 1190</li>
+<li>bzoj 1492</li>
+<li>bzoj 3963</li>
+<li>codeforces 710 F</li>
+<li>luogu P3378</li>
+<li>luogu P3369</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/05/2-grop/2-grop/" data-id="ckqmfus7s00058ufyh2hz3rgw" data-title="二进制分组" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" rel="tag">二进制分组</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%87%B8%E5%8C%85/" rel="tag">凸包</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E5%9D%97/" rel="tag">分块</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" rel="tag">定期重构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ODT/ODT" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/05/ODT/ODT/" class="article-date">
+  <time class="dt-published" datetime="2018-05-05T07:16:20.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/05/ODT/ODT/">ODT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h1><p><a target="_blank" rel="noopener" href="http://codeforces.com/contest/896/problem/C">codeforces 896 C</a></p>
+<blockquote>
+<p>给定一个序列$a_i$，长度为$n(n \le 10^5)$<br>有$m(m \le 10^5)$次操作</p>
+<ul>
+<li><code>1 l r x</code> $\forall i \in [l,r],a_i \leftarrow a_i + x$</li>
+<li><code>2 l r x</code> $\forall i \in [l,r],a_i \leftarrow x$</li>
+<li><code>3 l r x</code> 输出$[l,r]$的第$k$小，保证$1 \le x \le r-l+1$</li>
+<li><code>4 l r x y</code> 输出$(\sum\limits_{i=l}^{r}a_i^x) \text{ mod } y$</li>
+</ul>
+<p><strong>保证数据随机</strong></p>
+</blockquote>
+<p>看起来不可做的样子<del>实际上真的不可做</del>，不过由于数据随机生成，那么会有一些神奇的性质</p>
+<p><del>看起来和 <strong>Segment tree Beats!</strong> 一样毒瘤</del></p>
+<h1 id="怎么做呢"><a href="#怎么做呢" class="headerlink" title="怎么做呢"></a>怎么做呢</h1><p><strong>ODT</strong>的核心思想是<strong>推平</strong>，即区间赋值<del>所以为什么不叫Bulldozer Tree呢</del></p>
+<p>以下翻译自<a target="_blank" rel="noopener" href="http://codeforces.com/blog/entry/56135">ODT的题解</a></p>
+<blockquote>
+<p>我们可以发现，有一个操作可以使得一段区间里所有数字都相同（即操作$2$）<br>我们可以用一棵平衡树（比如说std::set）来维护每一个数字都相同的区间<br>对于操作$2$，我们可以删掉平衡树上$[l,r]$中的所有的区间，并且添加一个新的区间$[l,r]$到平衡树上<br>比如说原先平衡树上有$[1,2],[3,3],[4,5]$，现在要删掉$[3,4]$，那么平衡树上的区间变成了$[1,2],[3,4],[5,5]$，当然要实现一个split操作，来诸如$[4,5]$这种区间<br>对于操作$1,3,4$，我们可以暴力的在树上提取出这些区间，然后在上面操作<br><strong>时间复杂度证明</strong></p>
+<blockquote>
+<p>我们假设现在随机的选取了一个区间$[l,r]$，之后我们随机的选择一个操作，假设当前平衡树上$[l,r]$中有$x$个区间<br>$\frac{1}{4}$的概率我们用$O(x)$的时间去删除$O(x)$个节点<br>$\frac{2}{4}$的概率我们用$O(x)$的时间苟着<br>$\frac{1}{4}$的概率我们用$O(x)$的时间苟着，并相平衡树添加两个新节点</p>
+</blockquote>
+<p>所以我们期望用$O(x)$的一件去删除$O(x)$个点<br>在用平衡树维护的同时，这道题的时间复杂度是$O(m \text{log} n)$<br>如果操作$3$和操作$4$变为输出$\sum\limits_{i=l}^{r}a_i$，那么时间复杂度看起来变为$O(m \text{log} \text{ log} n)$，但我不会证……</p>
+</blockquote>
+<p>然而为什么一定要用std::set实现，如果序列长度下降的很快的话，直接用数组就行了</p>
+<p><del>所以我选择用std::set实现</del></p>
+<p>胡乱看一看<strong>推平</strong>操作的推平区间长度的期望是多少，即从序列中随机取出一个子区间的长度的期望</p>
+<p>区间总个数为（即长度为$1$、长度为$2$等区间的个数和）</p>
+<p>$$<br>T=n+(n-1)+(n-2)+ \cdots + 1=\frac{n(1+n)}{2}<br>$$</p>
+<p>长度的期望为</p>
+<p>$$<br>E=\frac{n }{T} \times 1 + \frac{n-1}{T} \times 2 + \cdots + \frac{(n-(n-1))}{T} \times n<br>$$</p>
+<p>$$<br>ET=n \times 1 + (n-1) \times 2 + \cdots (n-(n-1)) \times n<br>$$</p>
+<p>$$<br>ET=n + 2n + 3n + \cdots + n \cdot n - (1 \times 2 + 2 \times 3 +  \cdots + (n-1)n)<br>$$</p>
+<p>$$<br>ET=\frac{n^2(1+n)}{2}-(1 \times (1 + 1) + 2 \times(2+1) + \cdots + (n-1) \times ((n-1) + 1))<br>$$</p>
+<p>$$<br>ET=\frac{n^2(1+n)}{2}-(1^2 + 2^2 + \cdots + (n-1)^2) - (1 + 2 + \cdots (n-1))<br>$$</p>
+<p>$$<br>ET=\frac{n^2(1+n)}{2}-\frac{(n-1)((n-1)+1)(2(n-1) + 1)}{6}-\frac{(1+(n-1))n}{2}<br>$$</p>
+<p>$$<br>ET=\frac{n^2(1+n)}{2}-\frac{n(n-1)(2n-1)}{6}-\frac{n^2}{2}<br>$$</p>
+<p>$$<br>E\frac{n(n+1)}{2}=\frac{n^3}{2}-\frac{n(n-1)(2n-1)}{6}<br>$$</p>
+<p>$$<br>E=\frac{3n^3-n(n-1)(2n-1)}{3n(n+1)}=\frac{3n^3-n(n-1)(2n-1)}{3n(n+1)}<br>$$</p>
+<p>$$<br>E=\frac{n(n^2+3n-1)}{3n(n+1)}=\frac{(n+1)(n+2)-3}{3(n+1)}=\frac{n}{3}+(\frac{2}{3}-\frac{3}{n+1})<br>$$</p>
+<p>$$<br>E \approx \frac{n}{3}<br>$$</p>
+<p>也就是说推一次就合并了$\frac{1}{3}$左右的区间咯？看起来的确是log级别的<del>大概</del></p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p><a target="_blank" rel="noopener" href="http://codeforces.com/contest/896/submission/37654105">代码</a></p>
+<p>本身就是直接暴力$\cdots$</p>
+<h1 id="两道例题"><a href="#两道例题" class="headerlink" title="两道例题"></a>两道例题</h1><ul>
+<li>codeforces 896 C</li>
+<li>codeforces 915 E</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/05/ODT/ODT/" data-id="ckqmfus83000l8ufygvu13i14" data-title="ODT" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ODT/" rel="tag">ODT</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-treap/treap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/05/treap/treap/" class="article-date">
+  <time class="dt-published" datetime="2018-05-05T05:14:20.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/05/treap/treap/">非旋转平衡树</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="所以这是啥……"><a href="#所以这是啥……" class="headerlink" title="所以这是啥……"></a>所以这是啥……</h1><p>在维护各种数据的时候，常用的方法是平衡树套上一堆东西</p>
+<p>普通的平衡树主要面临几个问题</p>
+<ol>
+<li>代码超长不易调试</li>
+<li>不可持久化</li>
+<li>维护序列和维护集合的写法千差万别</li>
+</ol>
+<p><del>当然splay还是很有用的，LCT全靠它</del></p>
+<p>非旋转treap是一个很有实用性的平衡树，核心操作只有split和merge</p>
+<p>如果是维护的数集的话，可能还需要一个ls操作来查询小于等于某个数的个数</p>
+<h1 id="split-x-k"><a href="#split-x-k" class="headerlink" title="split(x,k)"></a>split(x,k)</h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>将子树x的前k个节点和后n-k个节点分成两个子树，保证分成后的子树的先序遍历依然满足原序列的先后顺序</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; <span class="title">split</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x);</span><br><span class="line">    pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(k &lt;= sz[ch[x][<span class="number">0</span>]]) &#123;</span><br><span class="line">        res = <span class="built_in">split</span>(ch[x][<span class="number">0</span>], k);</span><br><span class="line">        ch[x][<span class="number">0</span>] = res.second;</span><br><span class="line">        res.second = x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res = <span class="built_in">split</span>(ch[x][<span class="number">1</span>], k - sz[ch[x][<span class="number">0</span>]] - <span class="number">1</span>);</span><br><span class="line">        ch[x][<span class="number">1</span>] = res.first;</span><br><span class="line">        res.first = x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">update</span>(x);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是不是很简单</p>
+<h1 id="merge-x-y"><a href="#merge-x-y" class="headerlink" title="merge(x,y)"></a>merge(x,y)</h1><h2 id="用途-1"><a href="#用途-1" class="headerlink" title="用途"></a>用途</h2><p>将子树x和子树y合并，返回合并后的新树</p>
+<h2 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x), <span class="built_in">push</span>(y);</span><br><span class="line">    <span class="keyword">if</span>(!x || !y) <span class="keyword">return</span> x | y;</span><br><span class="line">    <span class="keyword">if</span>(fix[x] &lt; fix[y]) &#123;</span><br><span class="line">        ch[x][<span class="number">1</span>] = <span class="built_in">merge</span>(ch[x][<span class="number">1</span>], y);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">update</span>(x), x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ch[y][<span class="number">0</span>] = <span class="built_in">merge</span>(x, ch[y][<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">udpate</span>(y), y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>似乎比split操作还简单</p>
+<h1 id="ls-x-val"><a href="#ls-x-val" class="headerlink" title="ls(x,val)"></a>ls(x,val)</h1><h2 id="用途-2"><a href="#用途-2" class="headerlink" title="用途"></a>用途</h2><p>查询小于等于val的数的个数</p>
+<h2 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ls</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x);</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(val &gt;= :: val[x]) &#123;</span><br><span class="line">        <span class="keyword">return</span> sz[ch[x][<span class="number">0</span>]] + <span class="number">1</span> + <span class="built_in">ls</span>(ch[x][<span class="number">1</span>], val);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">ls</span>(ch[x][<span class="number">0</span>], val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用二叉树的性质计算</p>
+<h1 id="所以到底能干啥……"><a href="#所以到底能干啥……" class="headerlink" title="所以到底能干啥……"></a>所以到底能干啥……</h1><h2 id="维护序列"><a href="#维护序列" class="headerlink" title="维护序列"></a>维护序列</h2><p>通过split操作，可以提取区间，并打标号实现各种区间操作</p>
+<h2 id="维护数集"><a href="#维护数集" class="headerlink" title="维护数集"></a>维护数集</h2><p>如果将数字的大小关系当作顺序的话，这也是一个维护序列的操作了，通过split和ls可以精准定位，之后该干啥干啥</p>
+<h1 id="可持久化平衡树"><a href="#可持久化平衡树" class="headerlink" title="可持久化平衡树"></a>可持久化平衡树</h1><p>可以发现，如果将merge和split中的修改ch[x]改为新建节点并复制ch[x][0]和ch[x][1]，之后返回新建节点的话，就实现了可持久化平衡树</p>
+<h1 id="关于fix的小技巧"><a href="#关于fix的小技巧" class="headerlink" title="关于fix的小技巧"></a>关于fix的小技巧</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">srand</span>((<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>) <span class="keyword">new</span> <span class="keyword">char</span>); <span class="comment">// cstdlib</span></span><br><span class="line"><span class="built_in">iota</span>(fix, fix + N, <span class="number">0</span>); <span class="comment">// numeric</span></span><br><span class="line"><span class="built_in">random_shuffle</span>(fix, fix + N); <span class="comment">// algorithm</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/05/treap/treap/" data-id="ckqmfusa0005d8ufy11poa8m4" data-title="非旋转平衡树" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">非旋转平衡树</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-checker/checker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/05/checker/checker/" class="article-date">
+  <time class="dt-published" datetime="2018-05-05T00:23:53.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/develop/">develop</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/05/checker/checker/">对拍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>在OI中，对拍是不可缺少的一部分 <del>没有对拍的比赛不是完整的比赛</del></p>
+<p>由于不能保证自己写的一定是对的，所以需要对拍来检验正确性</p>
+<p>具体做法就是将自己写的认为是正解的程序，和自己写的暴力程序，通过随机生成数据并判断输出来检验正确性</p>
+<p>在noip系列比赛中需要使用windows环境，对应的是windows的对拍程序</p>
+<p>在noi系列比赛中使用的是noi linux环境，对应的是linux/unix的对拍程序</p>
+<h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><p>需要准备的文件</p>
+<ol>
+<li><code>std.exe</code> 要对拍的程序</li>
+<li><code>force.exe</code> 检验<code>std.exe</code>是否输出正确的结果</li>
+<li><code>maker.exe</code> 生成数据</li>
+<li><code>check.bat</code> 对拍脚本</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">:loop</span><br><span class="line">maker.exe &gt; data.in</span><br><span class="line">std.exe &lt; data.in &gt; std.out</span><br><span class="line">force.exe &lt; data.in &gt; force.out</span><br><span class="line">fc std.out force.out</span><br><span class="line">if not errorlevel 1 goto loop</span><br><span class="line">pause</span><br><span class="line">goto loop</span><br></pre></td></tr></table></figure>
+
+<h1 id="nix"><a href="#nix" class="headerlink" title="*nix"></a>*nix</h1><p>需要准备的文件</p>
+<ol>
+<li><code>std</code> 要对拍的程序</li>
+<li><code>force</code> 检验<code>std.exe</code>是否输出正确的结果</li>
+<li><code>maker</code> 生成数据</li>
+<li><code>check.sh</code> 对拍脚本</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> :</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    ./maker &gt; data.in</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;force time:&quot;</span></span><br><span class="line">    time ./force &lt; data.in &gt; force.out</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;std time:&quot;</span></span><br><span class="line">    time ./std &lt; data.in &gt; std.out</span><br><span class="line">    <span class="keyword">if</span> [[ `diff force.out std.out` != <span class="string">&quot;&quot;</span> ]];</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;gg&quot;</span></span><br><span class="line">        <span class="built_in">exit</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/05/checker/checker/" data-id="ckqmfus8a00128ufy5but2owh" data-title="对拍" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%B9%E6%8B%8D/" rel="tag">对拍</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/2021/">2021</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/demo/">demo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/math/">math</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mess/">mess</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/solution/">solution</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/travel/">travel</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E5%8C%96%E8%AF%BE/">文化课</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2021/" rel="tag">2021</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/51nod/" rel="tag">51nod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HEOI2019/" rel="tag">HEOI2019</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NOI2019/" rel="tag">NOI2019</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ODT/" rel="tag">ODT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ST%E8%A1%A8/" rel="tag">ST表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/atcoder/" rel="tag">atcoder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bzoj/" rel="tag">bzoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeforces/" rel="tag">codeforces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/demo/" rel="tag">demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dinic/" rel="tag">dinic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excrt/" rel="tag">excrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exgcd/" rel="tag">exgcd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ezoj/" rel="tag">ezoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fwt/" rel="tag">fwt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gcd/" rel="tag">gcd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hdu/" rel="tag">hdu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kdtree/" rel="tag">kdtree</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kruskal%E9%87%8D%E6%9E%84%E6%A0%91/" rel="tag">kruskal重构树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/loj/" rel="tag">loj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/" rel="tag">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powerful-number/" rel="tag">powerful number</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prufer%E5%BA%8F%E5%88%97/" rel="tag">prufer序列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spoj/" rel="tag">spoj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trie/" rel="tag">trie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%89%E5%85%83%E7%8E%AF/" rel="tag">三元环</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%89%E8%A7%92%E6%8D%A2%E5%85%83/" rel="tag">三角换元</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" rel="tag">二进制分组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6%E7%AB%9E%E8%B5%9B/" rel="tag">信息学竞赛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%87%B8%E5%8C%85/" rel="tag">凸包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%87%BD%E6%95%B0/" rel="tag">函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%9D%97/" rel="tag">分块</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag">前缀和</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" rel="tag">前缀和与差分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9/" rel="tag">单位根</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" rel="tag">单位根反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E6%BC%94/" rel="tag">反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">后缀自动机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E6%95%B0/" rel="tag">复数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E8%BE%B9%E5%BD%A2/" rel="tag">多边形</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" rel="tag">多项式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B9%98%E6%B3%95/" rel="tag">多项式乘法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A5%97%E8%B7%AF/" rel="tag">套路</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" rel="tag">定期重构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9A%E7%A7%AF%E5%88%86/" rel="tag">定积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" rel="tag">容斥原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E6%8B%8D/" rel="tag">对拍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">平衡树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E4%B9%89%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">广义后缀自动机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AA%E7%8E%AF%E7%9F%A9%E9%98%B5/" rel="tag">循环矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" rel="tag">微分方程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%BA%E5%AD%A6%E8%80%83/" rel="tag">微机学考</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" rel="tag">微积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/" rel="tag">快速幂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8B%9F%E9%98%B5/" rel="tag">拟阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%88%97/" rel="tag">排列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/" rel="tag">整体二分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%8C%96%E8%AF%BE/" rel="tag">文化课</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" rel="tag">斜率优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0/" rel="tag">斯特林数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%80%E5%B0%8F%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98/" rel="tag">最小乘积问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%9F%E6%9C%9B/" rel="tag">期望</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" rel="tag">杜教筛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" rel="tag">杜教筛习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%81%E9%99%90/" rel="tag">极限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A6%82%E7%8E%87/" rel="tag">概率</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1/" rel="tag">模</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E8%B5%9B/" rel="tag">模拟赛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" rel="tag">模拟退火</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag">游记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B/" rel="tag">特征方程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" rel="tag">生成函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86/" rel="tag">矩阵树定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%AF%E5%88%86/" rel="tag">积分</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0/" rel="tag">积性函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" rel="tag">笛卡尔树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" rel="tag">类欧几里得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" rel="tag">线性变换</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%9F%A9%E9%98%B5%E9%80%92%E6%8E%A8%E4%B9%A0%E9%A2%98/" rel="tag">线性变换与矩阵递推习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E7%AD%9B/" rel="tag">线性筛</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag">组合数学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%A9%E6%94%BE/" rel="tag">缩放</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" rel="tag">网络流</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%A4%E8%AE%BA/" rel="tag">群论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%83%8C%E5%8C%85/" rel="tag">背包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag">莫比乌斯反演</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" rel="tag">莫比乌斯反演习题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" rel="tag">计算几何</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%92%E6%8E%A8/" rel="tag">递推</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%93%BE%E6%8E%A5/" rel="tag">链接</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag">随机化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" rel="tag">非旋转平衡树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2021/" style="font-size: 10px;">2021</a> <a href="/tags/51nod/" style="font-size: 10px;">51nod</a> <a href="/tags/HEOI2019/" style="font-size: 10px;">HEOI2019</a> <a href="/tags/NOI2019/" style="font-size: 10px;">NOI2019</a> <a href="/tags/ODT/" style="font-size: 10px;">ODT</a> <a href="/tags/ST%E8%A1%A8/" style="font-size: 10px;">ST表</a> <a href="/tags/atcoder/" style="font-size: 10px;">atcoder</a> <a href="/tags/bzoj/" style="font-size: 15.83px;">bzoj</a> <a href="/tags/codeforces/" style="font-size: 10px;">codeforces</a> <a href="/tags/demo/" style="font-size: 11.67px;">demo</a> <a href="/tags/dinic/" style="font-size: 10px;">dinic</a> <a href="/tags/excrt/" style="font-size: 10px;">excrt</a> <a href="/tags/exgcd/" style="font-size: 10px;">exgcd</a> <a href="/tags/ezoj/" style="font-size: 10.83px;">ezoj</a> <a href="/tags/fwt/" style="font-size: 11.67px;">fwt</a> <a href="/tags/gcd/" style="font-size: 10px;">gcd</a> <a href="/tags/hdu/" style="font-size: 11.67px;">hdu</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/kdtree/" style="font-size: 10px;">kdtree</a> <a href="/tags/kruskal%E9%87%8D%E6%9E%84%E6%A0%91/" style="font-size: 10px;">kruskal重构树</a> <a href="/tags/loj/" style="font-size: 10.83px;">loj</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/noip/" style="font-size: 11.67px;">noip</a> <a href="/tags/powerful-number/" style="font-size: 10px;">powerful number</a> <a href="/tags/prufer%E5%BA%8F%E5%88%97/" style="font-size: 10px;">prufer序列</a> <a href="/tags/spoj/" style="font-size: 10px;">spoj</a> <a href="/tags/trie/" style="font-size: 10px;">trie</a> <a href="/tags/%E4%B8%89%E5%85%83%E7%8E%AF/" style="font-size: 10px;">三元环</a> <a href="/tags/%E4%B8%89%E8%A7%92%E6%8D%A2%E5%85%83/" style="font-size: 10px;">三角换元</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84/" style="font-size: 10px;">二进制分组</a> <a href="/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6%E7%AB%9E%E8%B5%9B/" style="font-size: 10px;">信息学竞赛</a> <a href="/tags/%E5%87%B8%E5%8C%85/" style="font-size: 10px;">凸包</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 10px;">函数</a> <a href="/tags/%E5%88%86%E5%9D%97/" style="font-size: 10px;">分块</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 10px;">前缀和</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/" style="font-size: 10px;">前缀和与差分</a> <a href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9/" style="font-size: 11.67px;">单位根</a> <a href="/tags/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" style="font-size: 10.83px;">单位根反演</a> <a href="/tags/%E5%8F%8D%E6%BC%94/" style="font-size: 10px;">反演</a> <a href="/tags/%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" style="font-size: 10px;">后缀自动机</a> <a href="/tags/%E5%A4%8D%E6%95%B0/" style="font-size: 10.83px;">复数</a> <a href="/tags/%E5%A4%9A%E8%BE%B9%E5%BD%A2/" style="font-size: 10px;">多边形</a> <a href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" style="font-size: 12.5px;">多项式</a> <a href="/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B9%98%E6%B3%95/" style="font-size: 10px;">多项式乘法</a> <a href="/tags/%E5%A5%97%E8%B7%AF/" style="font-size: 10px;">套路</a> <a href="/tags/%E5%AE%9A%E6%9C%9F%E9%87%8D%E6%9E%84/" style="font-size: 10px;">定期重构</a> <a href="/tags/%E5%AE%9A%E7%A7%AF%E5%88%86/" style="font-size: 10px;">定积分</a> <a href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" style="font-size: 10.83px;">容斥原理</a> <a href="/tags/%E5%AF%B9%E6%8B%8D/" style="font-size: 10px;">对拍</a> <a href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/" style="font-size: 12.5px;">平衡树</a> <a href="/tags/%E5%B9%BF%E4%B9%89%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" style="font-size: 10px;">广义后缀自动机</a> <a href="/tags/%E5%BC%80%E5%8F%91/" style="font-size: 10px;">开发</a> <a href="/tags/%E5%BE%AA%E7%8E%AF%E7%9F%A9%E9%98%B5/" style="font-size: 10px;">循环矩阵</a> <a href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" style="font-size: 10px;">微分方程</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%AD%A6%E8%80%83/" style="font-size: 10px;">微机学考</a> <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" style="font-size: 11.67px;">微积分</a> <a href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/" style="font-size: 10px;">快速幂</a> <a href="/tags/%E6%8B%9F%E9%98%B5/" style="font-size: 10px;">拟阵</a> <a href="/tags/%E6%8E%92%E5%88%97/" style="font-size: 10px;">排列</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 20px;">数学</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 17.5px;">数论</a> <a href="/tags/%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/" style="font-size: 10px;">整体二分</a> <a href="/tags/%E6%96%87%E5%8C%96%E8%AF%BE/" style="font-size: 10px;">文化课</a> <a href="/tags/%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96/" style="font-size: 10px;">斜率优化</a> <a href="/tags/%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0/" style="font-size: 10.83px;">斯特林数</a> <a href="/tags/%E6%9C%80%E5%B0%8F%E4%B9%98%E7%A7%AF%E9%97%AE%E9%A2%98/" style="font-size: 10px;">最小乘积问题</a> <a href="/tags/%E6%9C%9F%E6%9C%9B/" style="font-size: 10px;">期望</a> <a href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/" style="font-size: 13.33px;">杜教筛</a> <a href="/tags/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%B9%A0%E9%A2%98/" style="font-size: 12.5px;">杜教筛习题</a> <a href="/tags/%E6%9E%81%E9%99%90/" style="font-size: 10px;">极限</a> <a href="/tags/%E6%A6%82%E7%8E%87/" style="font-size: 11.67px;">概率</a> <a href="/tags/%E6%A8%A1/" style="font-size: 10px;">模</a> <a href="/tags/%E6%A8%A1%E6%8B%9F%E8%B5%9B/" style="font-size: 10px;">模拟赛</a> <a href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" style="font-size: 10px;">模拟退火</a> <a href="/tags/%E6%B8%B8%E8%AE%B0/" style="font-size: 10.83px;">游记</a> <a href="/tags/%E7%89%B9%E5%BE%81%E6%96%B9%E7%A8%8B/" style="font-size: 10px;">特征方程</a> <a href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" style="font-size: 10.83px;">生成函数</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 14.17px;">矩阵</a> <a href="/tags/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86/" style="font-size: 10px;">矩阵树定理</a> <a href="/tags/%E7%A7%AF%E5%88%86/" style="font-size: 10px;">积分</a> <a href="/tags/%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0/" style="font-size: 10px;">积性函数</a> <a href="/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" style="font-size: 10px;">笛卡尔树</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 19.17px;">算法</a> <a href="/tags/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" style="font-size: 10.83px;">类欧几里得</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/" style="font-size: 14.17px;">线性变换</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%9F%A9%E9%98%B5%E9%80%92%E6%8E%A8%E4%B9%A0%E9%A2%98/" style="font-size: 13.33px;">线性变换与矩阵递推习题</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E7%AD%9B/" style="font-size: 10px;">线性筛</a> <a href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" style="font-size: 10.83px;">组合数学</a> <a href="/tags/%E7%BC%A9%E6%94%BE/" style="font-size: 10px;">缩放</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" style="font-size: 10px;">网络流</a> <a href="/tags/%E7%BE%A4%E8%AE%BA/" style="font-size: 10px;">群论</a> <a href="/tags/%E8%83%8C%E5%8C%85/" style="font-size: 10px;">背包</a> <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" style="font-size: 16.67px;">莫比乌斯反演</a> <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94%E4%B9%A0%E9%A2%98/" style="font-size: 15px;">莫比乌斯反演习题</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" style="font-size: 10px;">计算几何</a> <a href="/tags/%E9%80%92%E6%8E%A8/" style="font-size: 14.17px;">递推</a> <a href="/tags/%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">链接</a> <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" style="font-size: 10px;">随机化</a> <a href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%AC%E5%B9%B3%E8%A1%A1%E6%A0%91/" style="font-size: 10px;">非旋转平衡树</a> <a href="/tags/%E9%A2%98%E8%A7%A3/" style="font-size: 18.33px;">题解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2000/09/">September 2000</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/24/hexo-fea-bg/">hexo:不是bug是feature</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/01/hello-2021/">2021</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/net-flow/net-flow/">网络流</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/06/zheng-ti-er-fen/zheng-ti-er-fen/">整体二分</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
