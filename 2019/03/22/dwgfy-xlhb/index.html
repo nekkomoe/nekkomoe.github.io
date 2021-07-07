@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>单位根反演与序列合并 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数学,单位根," />
+  
+
+  <meta name="description" content="单位根定义 $\mathbb{C}$ 上 $x^n&#x3D;1$ 的 $n$ 个解为 $\omega _ {n}^{0} \sim \omega _ {n}^{n-1}$，其中 $\omega _ {n}^{1}&#x3D;e^{\frac{2 \pi i}{n}}$ 在模 $P$ 意义下，设 $g$ 为 $P$ 的原根，则 $\omega _ {n}^{1}&#x3D;g^{\frac{P-1}{n}}$ 单位根反演对于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单位根反演与序列合并">
+<meta property="og:url" content="https://kignsann.github.io/2019/03/22/dwgfy-xlhb/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="单位根定义 $\mathbb{C}$ 上 $x^n&#x3D;1$ 的 $n$ 个解为 $\omega _ {n}^{0} \sim \omega _ {n}^{n-1}$，其中 $\omega _ {n}^{1}&#x3D;e^{\frac{2 \pi i}{n}}$ 在模 $P$ 意义下，设 $g$ 为 $P$ 的原根，则 $\omega _ {n}^{1}&#x3D;g^{\frac{P-1}{n}}$ 单位根反演对于">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-22T03:48:23.000Z">
+<meta property="article:modified_time" content="2019-04-22T01:39:22.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="单位根">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E4%BD%8D%E6%A0%B9"><span class="toc-text">单位根</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94"><span class="toc-text">单位根反演</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%81%E6%98%8E"><span class="toc-text">证明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-text">应用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E5%88%97%E5%90%88%E5%B9%B6"><span class="toc-text">数列合并</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B-1"><span class="toc-text">例 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B-2"><span class="toc-text">例 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B-3"><span class="toc-text">例 3</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-dwgfy-xlhb" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">单位根反演与序列合并</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/math/">math</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="单位根"><a href="#单位根" class="headerlink" title="单位根"></a>单位根</h1><p>定义 $\mathbb{C}$ 上 $x^n=1$ 的 $n$ 个解为 $\omega _ {n}^{0} \sim \omega _ {n}^{n-1}$，其中 $\omega _ {n}^{1}=e^{\frac{2 \pi i}{n}}$</p>
+<p>在模 $P$ 意义下，设 $g$ 为 $P$ 的原根，则 $\omega _ {n}^{1}=g^{\frac{P-1}{n}}$</p>
+<h1 id="单位根反演"><a href="#单位根反演" class="headerlink" title="单位根反演"></a>单位根反演</h1><p>对于 $[n | k]$，有：</p>
+<p>$$<br>[n|k]=\frac{1}{n}\sum _ {p=0}^{n-1}\omega _ {n}^{pk}<br>$$</p>
+<h2 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h2><p>若 $k=nt$，则：</p>
+<p>$$<br>\frac{1}{n}\sum _ {p=0}^{n-1}\omega _ {n}^{pk}=\frac{1}{n}\sum _ {p=0}^{n-1}\omega _ {n}^{(pnt) \bmod n}=\frac{1}{n}\sum _ {p=0}^{n-1}\omega _ {n}^{0}=1<br>$$</p>
+<p>若 $n \not| k$，则：</p>
+<p>$$<br>\frac{1}{n}\sum _ {p=0}^{n-1}\omega _ {n}^{pk}=\omega _ {n}^{0}\frac{1-\omega _ {n}^{kn}}{n(1-\omega _ {n}^{k})}=\omega _ {n}^{0}\frac{1-\omega _ {n}^{0}}{n(1-\omega _ {n}^{k})}=0<br>$$</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>对于多项式 $f(x)=\sum _ {p=0}^{N-1}a _ px^p$，若要求 $g(n)=\sum _ {p=0}^{N-1}a _ p[n|p]$，则有：</p>
+<p>$$<br>\begin{aligned}<br>\frac{\sum _ {p=0}^{n-1}f(\omega _ {n}^{p})}{n}<br>=&amp; \frac{\sum _ {p=0}^{n-1}\sum _ {q=0}^{N-1}a _ q\omega _ {n}^{pq}}{n} \\<br>=&amp; \sum _ {q=0}^{N-1}a _ q\frac{\left(\sum _ {p=0}^{n-1}\omega _ {n}^{pq}\right)}{n} \\<br>=&amp; \sum _ {q=0}^{N-1}a _ q [n|q] \\<br>\end{aligned}<br>$$</p>
+<h1 id="数列合并"><a href="#数列合并" class="headerlink" title="数列合并"></a>数列合并</h1><h2 id="例-1"><a href="#例-1" class="headerlink" title="例 1"></a>例 1</h2><p>若有序列 ${a _ n},{b _ n}$，构造序列 ${p _ n}$ 满足：</p>
+<p>$$<br>p _ {n}=\begin{cases}{a _ {n}} &amp; {\mathrm{n \equiv 1 \pmod {2}}} \\ {b _ {n}} &amp; {\mathrm{n \equiv 0 \pmod{2}}}\end{cases}<br>$$</p>
+<p>通过单位根的性质，也可以写作：</p>
+<p>$$<br>p _ {n}=\frac{1}{2}\left(\cos(\pi n)\left(b _ {n}-a _ {n}\right)+a _ {n}+b _ {n}\right)<br>$$</p>
+<h2 id="例-2"><a href="#例-2" class="headerlink" title="例 2"></a>例 2</h2><p>若有函数 $f(n)$ 满足：</p>
+<p>$$<br>f(n)=\begin{cases}{\frac{n}{2}} &amp; {n \equiv 0 \pmod{2}} \\ {3 n+1} &amp; {n \equiv 1 \pmod{2}}\end{cases}<br>$$</p>
+<p>则也可以写为：</p>
+<p>$$<br>f(n)=\frac{1}{4}(2+7 n-\cos (\pi n)(2+5 n))<br>$$</p>
+<h2 id="例-3"><a href="#例-3" class="headerlink" title="例 3"></a>例 3</h2><p>若有序列 ${p _ n}$ 满足：</p>
+<p>$$<br>p _ {n}=\begin{cases}{a _ {n}} &amp; {\mathrm{n \equiv 0 \pmod{3}}} \\ {b _ {n}} &amp; {\mathrm{n \equiv 1 \pmod{3}}} \\ {c _ {n}} &amp; {\mathrm{n \equiv 2 \pmod{3}}}\end{cases}<br>$$</p>
+<p>则也可以写为：<br>$$<br>p _ {n}=\frac{1}{3}\left(\cos \left(\frac{2 \pi n}{3}\right)\left(2 a _ {n}-b _ {n}-c _ {n}\right)+a _ {n}+\sqrt{3} \sin \left(\frac{2 \pi n}{3}\right)\left(b _ {n}-c _ {n}\right)+b _ {n}+c _ {n}\right)<br>$$</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><p><a target="_blank" rel="noopener" href="https://czyhe.me/blog/algorithm/unit-root-inv/unit-root-inv/">《单位根反演》czy</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/50051570/answer/245315013">《奇偶合并公式》匿名用户</a></p>
+</li>
+</ul>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/03/22/wjf-jx/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/03/22/func-max/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

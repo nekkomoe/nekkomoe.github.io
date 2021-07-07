@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>概率生成函数 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,数学,多项式,概率," />
+  
+
+  <meta name="description" content="定义定义概率生成函数为： $$P(x)&#x3D;\sum_{i&#x3D;0}^{\infty}p_ix^i$$ 其中 $p_i$ 表示某一离散随机变量取值为 $i$ 的概率 性质首先概率之和应该为 $1$，即： $$P(1)&#x3D;1$$ 根据期望的定义 $E(x)&#x3D;\sum_{t}P(t)t$，于是有： $$E(x)&#x3D;P’(1)$$ 因为求导的时候会出现 $p_i \times i​$ 项 由于 $E \left(x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率生成函数">
+<meta property="og:url" content="https://kignsann.github.io/2019/03/22/probability-generating-function/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="定义定义概率生成函数为： $$P(x)&#x3D;\sum_{i&#x3D;0}^{\infty}p_ix^i$$ 其中 $p_i$ 表示某一离散随机变量取值为 $i$ 的概率 性质首先概率之和应该为 $1$，即： $$P(1)&#x3D;1$$ 根据期望的定义 $E(x)&#x3D;\sum_{t}P(t)t$，于是有： $$E(x)&#x3D;P’(1)$$ 因为求导的时候会出现 $p_i \times i​$ 项 由于 $E \left(x">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-22T03:24:52.000Z">
+<meta property="article:modified_time" content="2019-03-22T03:27:16.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="多项式">
+<meta property="article:tag" content="概率">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%B4%A8"><span class="toc-text">性质</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-text">例题</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-probability-generating-function" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">概率生成函数</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>定义概率生成函数为：</p>
+<p>$$<br>P(x)=\sum_{i=0}^{\infty}p_ix^i<br>$$</p>
+<p>其中 $p_i$ 表示某一离散随机变量取值为 $i$ 的概率</p>
+<h1 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h1><p>首先概率之和应该为 $1$，即：</p>
+<p>$$<br>P(1)=1<br>$$</p>
+<p>根据期望的定义 $E(x)=\sum_{t}P(t)t$，于是有：</p>
+<p>$$<br>E(x)=P’(1)<br>$$</p>
+<p>因为求导的时候会出现 $p_i \times i​$ 项</p>
+<p>由于 $E \left(x ^ { \underline { k } } \right) = P ^ { ( k ) } ( 1 ) , k \neq 0$，于是 $x$ 的方差为：</p>
+<p>$$<br>\operatorname { Var } ( x ) = P ^ { \prime \prime } ( 1 ) + P ^ { \prime } ( 1 ) - \left( P ^ { \prime } ( 1 ) \right) ^ { 2 }<br>$$</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><p><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P4548">【CTSC2006】歌唱王国</a></p>
+<blockquote>
+<p>设字符集大小为 $\Sigma$，给定一长度为 $n$ 的模板串 $T$，且 $T$ 的字符集亦为 $\Sigma$</p>
+<p>现有一初始为空的串 $S$，每次在 $S$ 的末尾随机添加 $\Sigma$ 中的一个字符，直到 $S$ 中出现 $T$ 为止</p>
+<p>求 $S$ 的长度的期望，答案模  $10000$</p>
+</blockquote>
+<p>设 $f_i$ 表示长度为 $i$ 时停止的概率，其生成函数为 $F(x)$，同时答案就是 $F’(1)$</p>
+<p>设 $g_i$ 表示长度为 $i$ 时还没停止的概率，其生成函数为 $G(x)$</p>
+<p>那么有：</p>
+<p>$$<br>f_i+g_i=g_{i-1}<br>$$</p>
+<p>因为从长度为 $i-1$ 且还未停止到长度为 $i$，要么仍未停止，要么就停止了</p>
+<p>用生成函数表示为：</p>
+<p>$$<br>F(x)+G(x)=xG(x)+1<br>$$</p>
+<p>对于字符串 $T$，设一数组 $A$，其中 $A_i=[T_{1,i}=T_{|T|-i+1,|T|}]$</p>
+<p>设 $|T|=L$，字符集大小为 $\Sigma$，则有：</p>
+<p>$$<br>G(x) \times \left(\frac{1}{\Sigma}x\right)^L=\sum_{i=1}^{L}A_i \times F(x) \times \left(\frac{1}{\Sigma}x\right)^{L-i}<br>$$</p>
+<p>左式的意思是，对于某仍为结束的字符串，往后添加模板串的所有字符后一定会结束</p>
+<p>右式的意思是，可能在添加的过程中已经提前结束了，此时的情况就是存在一个 $\text{border}$</p>
+<p>对于第一个式子，有：</p>
+<p>$$<br>F’(x)+G’(x)=G(x)+xG’(x) \Rightarrow F’(1)=G(1)<br>$$</p>
+<p>对于第二个式子，有：</p>
+<p>$$<br>\begin{aligned}<br>G(1) \left(\frac{1}{\Sigma}\right)^L=\sum_{i=1}^{L}A_iF(1) \left(\frac{1}{\Sigma}\right)^{L-i}<br>\end{aligned}<br>$$</p>
+<p>由于 $F(1)=1$，于是有：</p>
+<p>$$<br>\begin{aligned}<br>G(1)<br>=&amp; \sum_{i=1}^{L}A_i\left(\frac{1}{\Sigma}\right)^{L-i}\left(\frac{1}{\Sigma}\right)^{-L} \<br>=&amp; \sum_{i=1}^{L}A_i \Sigma^L<br>\end{aligned}<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/03/22/point-in-poly/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/03/22/fmt/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

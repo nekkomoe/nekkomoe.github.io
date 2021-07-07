@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>杜教筛习题：hdu 5608 function | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数学,杜教筛,莫比乌斯反演,数论,题解,杜教筛习题,hdu," />
+  
+
+  <meta name="description" content="题目描述设数论函数$f$满足$n^2−3n+2&#x3D;\sum_{d \mid n}f(d) $ 求$\sum_{i&#x3D;1}^{n}f(i)$ 答案对$10^9+7$取模 题解回忆杜教筛的一个表达形式 $$f \times g&#x3D;h \Rightarrow g(1)F(n)&#x3D;H(n)-\sum_{d&#x3D;2}^{n}g(d)F(\lfloor \frac{n}{d} \rfloor)$$ 设$g(n)&#x3D;1,h(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="杜教筛习题：hdu 5608 function">
+<meta property="og:url" content="https://kignsann.github.io/2018/06/19/du-sieves/problems/hdu-5608/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="题目描述设数论函数$f$满足$n^2−3n+2&#x3D;\sum_{d \mid n}f(d) $ 求$\sum_{i&#x3D;1}^{n}f(i)$ 答案对$10^9+7$取模 题解回忆杜教筛的一个表达形式 $$f \times g&#x3D;h \Rightarrow g(1)F(n)&#x3D;H(n)-\sum_{d&#x3D;2}^{n}g(d)F(\lfloor \frac{n}{d} \rfloor)$$ 设$g(n)&#x3D;1,h(">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-06-19T07:45:36.000Z">
+<meta property="article:modified_time" content="2018-09-09T14:52:52.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="杜教筛">
+<meta property="article:tag" content="莫比乌斯反演">
+<meta property="article:tag" content="数论">
+<meta property="article:tag" content="题解">
+<meta property="article:tag" content="杜教筛习题">
+<meta property="article:tag" content="hdu">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-text">题解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-du-sieves/problems/hdu-5608" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">杜教筛习题：hdu 5608 function</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.06.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/solution/">solution</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>设数论函数$f$满足$n^2−3n+2=\sum_{d \mid n}f(d) $</p>
+<p>求$\sum_{i=1}^{n}f(i)$</p>
+<p>答案对$10^9+7$取模</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>回忆杜教筛的一个表达形式</p>
+<p>$$<br>f \times g=h \Rightarrow g(1)F(n)=H(n)-\sum_{d=2}^{n}g(d)F(\lfloor \frac{n}{d} \rfloor)<br>$$</p>
+<p>设$g(n)=1,h(n)=n^2-3n+2$，则有$f \times g = h$，即$f \times 1 = h$</p>
+<p>所以</p>
+<p>$$<br>\begin{align}<br>F(n)<br>&amp;=(\sum_{i=1}^{n}i^2-3i+2)-\sum_{d=2}^{n}F(\lfloor \frac{n}{d} \rfloor)\\<br>&amp;=\frac{n(n+1)(2n+1)}{6} - \frac{3n(1+n)}{2} + 2n - \sum_{d=2}^{n}F(\lfloor \frac{n}{d} \rfloor)<br>\end{align}<br>$$</p>
+<p>因为$f \times 1 = h$，所以$f$是积性函数，且$f=h \times \mu$，即$f(n)=\sum_{d \mid n}h(d)\mu(\frac{n}{d})$</p>
+<p>不妨对于每一个$\mu(i)$，枚举$j$，将$f(i \times j)$加上$\mu(i)h(j)$</p>
+<p>之后就是递归计算了</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG printf(<span class="meta-string">&quot;Passing [%s] in LINE %d\n&quot;</span>,__FUNCTION__,__LINE__)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; pii;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e6</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">ll ans, inv6, inv2, n;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> mu[N + <span class="number">10</span>], pri[N + <span class="number">10</span>], tot, S[N + <span class="number">10</span>], dn[N + <span class="number">10</span>], vis[N + <span class="number">10</span>], f[N + <span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">pw</span><span class="params">(ll a, ll b)</span> </span>&#123;</span><br><span class="line">    ll r = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>( ; b ; b &gt;&gt;= <span class="number">1</span>, a = a * a % mod) <span class="keyword">if</span>(b &amp; <span class="number">1</span>) r = r * a % mod;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">h</span><span class="params">(ll n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (n * n % mod - <span class="number">3</span> * n % mod + <span class="number">2</span>) % mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">H</span><span class="params">(ll n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (((</span><br><span class="line">        n * (n + <span class="number">1</span>) % mod * (<span class="number">2</span> * n + <span class="number">1</span>) % mod * inv6 % mod</span><br><span class="line">    ) - (</span><br><span class="line">        <span class="number">3</span> * n % mod * (<span class="number">1</span> + n) % mod * inv2 % mod</span><br><span class="line">    )) % mod + (</span><br><span class="line">        <span class="number">2</span> * n % mod</span><br><span class="line">    )) % mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">map&lt;ll, ll&gt; val;</span><br><span class="line"><span class="function">ll <span class="title">F</span><span class="params">(ll n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt;= N) <span class="keyword">return</span> f[n];</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(val.<span class="built_in">find</span>(n) != val.<span class="built_in">end</span>()) <span class="keyword">return</span> val[n];</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        ll res = <span class="built_in">H</span>(n);</span><br><span class="line">        <span class="keyword">for</span>(ll i = <span class="number">2</span>, j ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">            j = n / (n / i);</span><br><span class="line">            res = (res - <span class="built_in">F</span>(n / i) * (j - i + <span class="number">1</span>) % mod) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> val[n] = res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, (<span class="built_in">F</span>(n) % mod + mod) % mod);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    inv6 = <span class="built_in">pw</span>(<span class="number">6</span>, mod - <span class="number">2</span>), inv2 = <span class="built_in">pw</span>(<span class="number">2</span>, mod - <span class="number">2</span>);</span><br><span class="line">    mu[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> ; i &lt;= N ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!vis[i]) pri[++ tot] = i, mu[i] = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; i * pri[j] &lt;= N ; ++ j) &#123;</span><br><span class="line">            vis[i * pri[j]] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(i % pri[j] == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            mu[i * pri[j]] = -mu[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= N ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; i * j &lt;= N ; ++ j) &#123;</span><br><span class="line">            f[i * j] = ((ll) f[i * j] + mu[j] * <span class="built_in">h</span>(i) % mod) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">        f[i] = ((ll) f[i - <span class="number">1</span>] + f[i]) % mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> T; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T); <span class="keyword">while</span>(T --) <span class="built_in">sol</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/06/19/du-sieves/problems/51nod-1220/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/06/19/du-sieves/problems/bzoj-3944/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

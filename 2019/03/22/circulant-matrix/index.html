@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>循环矩阵及其乘法 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数学,循环矩阵,多项式乘法," />
+  
+
+  <meta name="description" content="定义定义循环矩阵为： $$\begin{pmatrix} a _ {0} &amp; a _ {1} &amp; a _ {2} &amp; \cdots &amp; a _ {n-1} \\ a _ {n-1} &amp; a _ {0} &amp; a _ {1} &amp; \cdots &amp; a _ {n-2} \\ a _ {n-2} &amp; a _ {n-1} &amp; a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="循环矩阵及其乘法">
+<meta property="og:url" content="https://kignsann.github.io/2019/03/22/circulant-matrix/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="定义定义循环矩阵为： $$\begin{pmatrix} a _ {0} &amp; a _ {1} &amp; a _ {2} &amp; \cdots &amp; a _ {n-1} \\ a _ {n-1} &amp; a _ {0} &amp; a _ {1} &amp; \cdots &amp; a _ {n-2} \\ a _ {n-2} &amp; a _ {n-1} &amp; a">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-22T03:59:59.000Z">
+<meta property="article:modified_time" content="2019-04-25T02:51:57.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="循环矩阵">
+<meta property="article:tag" content="多项式乘法">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95-O-k-3"><span class="toc-text">矩阵乘法 $O(k^3)$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95-O-k-2"><span class="toc-text">矩阵乘法 $O(k^2)$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95-O-k-log-k"><span class="toc-text">矩阵乘法 $O(k \log k)$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-text">应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1-2-%E6%84%8F%E4%B9%89%E4%B8%8B%E7%9A%84%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%9A%84%E5%B9%B3%E6%96%B9"><span class="toc-text">模 $2$ 意义下的多项式的平方</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-circulant-matrix" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">循环矩阵及其乘法</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/math/">math</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>定义循环矩阵为：</p>
+<p>$$<br>\begin{pmatrix} a _ {0} &amp; a _ {1} &amp; a _ {2} &amp; \cdots &amp; a _ {n-1} \\ a _ {n-1} &amp; a _ {0} &amp; a _ {1} &amp; \cdots &amp; a _ {n-2} \\ a _ {n-2} &amp; a _ {n-1} &amp; a _ {0} &amp; \cdots &amp; a _ {n-3} \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a _ {1} &amp; a _ {2} &amp; a _ {3}&amp; \cdots &amp; a _ {0} \end{pmatrix}<br>$$</p>
+<p>换而言之，$A _ {i,j}=A _ {0,(j-i) \bmod n}$，也就是说可以用循环矩阵的第一行来表示整个矩阵</p>
+<h1 id="矩阵乘法-O-k-3"><a href="#矩阵乘法-O-k-3" class="headerlink" title="矩阵乘法 $O(k^3)$"></a>矩阵乘法 $O(k^3)$</h1><p>根据矩阵乘法的定义，假设有 $A,B$ 两个 $n$ 阶矩阵，则 $C = A \times B$ 为：</p>
+<p>$$<br>c _ {i,j}=\sum _ {k=0}^{n-1}a _ {i,k}b _ {k,j}<br>$$</p>
+<h1 id="矩阵乘法-O-k-2"><a href="#矩阵乘法-O-k-2" class="headerlink" title="矩阵乘法 $O(k^2)$"></a>矩阵乘法 $O(k^2)$</h1><p>考虑循环矩阵的特殊性，即可以用第一行来表示整个矩阵，也就是说这个矩阵的所有信息只存在于第一行中</p>
+<p>那么考虑 $n$ 阶矩阵 $C=A \times B$：</p>
+<p>$$<br>\begin{aligned}<br>c _ {i,j}<br>&amp;=\sum _ {k=0}^{n-1}a _ {i,k}b _ {k,j} \\<br>&amp;=\sum _ {k=0}^{n-1}a _ {0,(k-i) \bmod n}b _ {0,(j-k) \bmod n} \\<br>&amp;=c _ {0,(j-i) \bmod n} \\<br>\end{aligned}<br>$$</p>
+<p>也就是说，循环矩阵的乘积依旧是循环矩阵</p>
+<p>所以可以得知，循环矩阵的乘法实际上只有第一行参与了运算，那么就可以直接用 $a _ 0,b _ 0,c _ 0$ 代替掉 $A,B,C$ 了</p>
+<p>于是可以得到：</p>
+<p>$$<br>c _ {k}=\sum _ {i+j \equiv k \pmod {n}}a _ {i}b _ {j}<br>$$</p>
+<h1 id="矩阵乘法-O-k-log-k"><a href="#矩阵乘法-O-k-log-k" class="headerlink" title="矩阵乘法 $O(k \log k)$"></a>矩阵乘法 $O(k \log k)$</h1><p>实际上 $C=A \times B$ 是一个循环卷积运算，直接求出 $c’=a \times b$，然后可以得到：</p>
+<p>$$<br>c _ i=c’ _ i+c’ _ {i+n}<br>$$</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>给定一个序列 $p _ 0 \sim p _ {n-1}$，以及一个系数系列 $t _ 0 \sim t _ {n-1}$，一共进行 $T$ 次变换，每一次会把 $p$ 变化为 $p’$，其中 ：</p>
+<p>$$<br>p _ i’=\sum _ {j=0}^{n-1}t _ {(j-i) \bmod n}p _ j<br>$$</p>
+<blockquote>
+<p>是不是感觉有点眼熟？我们来看一下常系数齐次线性递推的一般形式：<br>$$<br>p _ i=\sum _ {j=1}^{k}t _ jp _ {i-j}<br>$$</p>
+<p>没错，本质上是模意义下的常系数齐次线性递推！</p>
+</blockquote>
+<p>构造矩阵 $A$：</p>
+<p>$$<br>A=<br>\begin{pmatrix}<br>p _ 0 &amp; p _ 1 &amp; \cdots &amp; p _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
+<p>构造矩阵 $B$：</p>
+<p>$$<br>B=<br>\begin{pmatrix}<br>t _ {0} &amp; t _ {n-1} &amp; \cdots &amp; t _ {1} \\<br>t _ {1} &amp; t _ {0} &amp; \cdots &amp; t _ {2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>t _ {n-1} &amp; t _ {n-2} &amp; \cdots &amp; t _ {0} \\<br>\end{pmatrix}<br>$$</p>
+<p>那么矩阵 $B$ 依然是一个循环矩阵，但是需要把 $t _ 1 \sim t _ {n-1}$ 翻转一下</p>
+<p>之后可以得到矩阵 $C=A \times B$：</p>
+<p>$$<br>C=<br>\begin{pmatrix}<br>p’ _ 0 &amp; p’ _ 1 &amp; \cdots &amp; p’ _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
+<p>然而行矩阵乘以循环矩阵还需要再进行讨论，不妨直接把 $A$ 扩充为循环矩阵，最后第一行的结果依旧是期望的结果：</p>
+<p>$$<br>A=<br>\begin{pmatrix}<br>p _ 0 &amp; p _ 1 &amp; \cdots &amp; p _ {n-1} \\<br>p _ {n-1} &amp; p _ 0 &amp; \cdots &amp; p _ {n-2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>p _ {1} &amp; p _ {2} &amp; \cdots &amp; p _ {0} \\<br>\end{pmatrix}<br>$$</p>
+<p>即 $C=A \times B$ 就是：</p>
+<p>$$<br>C=<br>\begin{pmatrix}<br>p’  _  0 &amp; p’  _  1 &amp; \cdots &amp; p’  _  {n-1} \\<br>p’ _  {n-1} &amp; p’  _  0 &amp; \cdots &amp; p’  _  {n-2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>p’  _  {1} &amp; p’  _  {2} &amp; \cdots &amp; p’  _  {0} \\<br>\end{pmatrix}<br>$$</p>
+<h1 id="模-2-意义下的多项式的平方"><a href="#模-2-意义下的多项式的平方" class="headerlink" title="模 $2$ 意义下的多项式的平方"></a>模 $2$ 意义下的多项式的平方</h1><p>$$<br>\begin{aligned}<br> &amp; (a _ 1+a _ 2+\cdots+a _ n)^2 \\<br>=&amp; a _ 1^2+a _ 2^2+\cdots+a _ n^2+2\left(\sum _ {i=1}^{n}a _ i\sum _ {j=i+1}^{n}a _ j\right)<br>\end{aligned}<br>$$</p>
+<p>那么在模 $2$ 意义下，就是：</p>
+<p>$$<br>\left(\sum _ {i=0}^{n}a _ ix^i\right)^2 \equiv \sum _ {i=0}^{n}a _ i^2x^{2i} \pmod {2}<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/03/22/stirling/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/03/22/minimum-product-problem/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

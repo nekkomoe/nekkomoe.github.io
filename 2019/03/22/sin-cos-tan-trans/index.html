@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>三角换元 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数学,三角换元," />
+  
+
+  <meta name="description" content="基本公式$$1&#x3D;\sin^2 \theta+\cos^2 \theta$$ 和角公式$$\sin(\alpha \pm \beta)&#x3D;\sin \alpha\cos \beta \pm \cos \alpha \sin \beta$$ $$\cos(\alpha \pm \beta)&#x3D;\cos \alpha \cos \beta \mp \sin \alpha \sin \beta$$ 降幂公式$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三角换元">
+<meta property="og:url" content="https://kignsann.github.io/2019/03/22/sin-cos-tan-trans/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="基本公式$$1&#x3D;\sin^2 \theta+\cos^2 \theta$$ 和角公式$$\sin(\alpha \pm \beta)&#x3D;\sin \alpha\cos \beta \pm \cos \alpha \sin \beta$$ $$\cos(\alpha \pm \beta)&#x3D;\cos \alpha \cos \beta \mp \sin \alpha \sin \beta$$ 降幂公式$">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-22T03:43:07.000Z">
+<meta property="article:modified_time" content="2019-03-22T03:46:06.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="三角换元">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%85%AC%E5%BC%8F"><span class="toc-text">基本公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%92%8C%E8%A7%92%E5%85%AC%E5%BC%8F"><span class="toc-text">和角公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%8D%E5%B9%82%E5%85%AC%E5%BC%8F"><span class="toc-text">降幂公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#n-%E5%80%8D%E8%A7%92%E5%85%AC%E5%BC%8F"><span class="toc-text">$n$ 倍角公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%AE%E5%88%86%E5%85%AC%E5%BC%8F"><span class="toc-text">微分公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A7%AF%E5%88%86%E5%85%AC%E5%BC%8F"><span class="toc-text">积分公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%92%8C%E5%B7%AE%E5%8C%96%E7%A7%AF"><span class="toc-text">和差化积</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-sin-cos-tan-trans" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">三角换元</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/math/">math</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="基本公式"><a href="#基本公式" class="headerlink" title="基本公式"></a>基本公式</h1><p>$$<br>1=\sin^2 \theta+\cos^2 \theta<br>$$</p>
+<h1 id="和角公式"><a href="#和角公式" class="headerlink" title="和角公式"></a>和角公式</h1><p>$$<br>\sin(\alpha \pm \beta)=\sin \alpha\cos \beta \pm \cos \alpha \sin \beta<br>$$</p>
+<p>$$<br>\cos(\alpha \pm \beta)=\cos \alpha \cos \beta \mp \sin \alpha \sin \beta<br>$$</p>
+<h1 id="降幂公式"><a href="#降幂公式" class="headerlink" title="降幂公式"></a>降幂公式</h1><p>$$<br>\sin^2 \theta=\frac{1-\cos 2\theta}{2}<br>$$</p>
+<p>$$<br>\cos^2 \theta=\frac{1+\cos2 \theta}{2}<br>$$</p>
+<h1 id="n-倍角公式"><a href="#n-倍角公式" class="headerlink" title="$n$ 倍角公式"></a>$n$ 倍角公式</h1><p>$$<br>\left(e^{i \theta}\right)^n=e^{i(n\theta)} \Rightarrow (\cos \theta + i \sin \theta)^n=\cos n\theta+i\sin n\theta<br>$$</p>
+<p>#（$n$ 倍角公式应用）半倍角公式：</p>
+<p>$$<br>\begin{aligned}<br>&amp; (\cos \theta + i \sin \theta)^n=\cos n\theta+i\sin n\theta \\<br>\Rightarrow &amp; (\cos a+i\cos a)^{\frac{1}{2}}=\cos \frac{a}{2}+i\sin\frac{a}{2} \\<br>\Rightarrow &amp; \cos a+i \cos a=\cos^2\frac{a}{2}-\sin^2\frac{a}{2}+2i\cos \frac{a}{2}\sin \frac{a}{2} \\<br>\Rightarrow &amp; \cos a=\cos^2\frac{a}{2}-\sin^2 \frac{a}{2} = 1-2 \sin^2\frac{a}{2}=2\cos^2\frac{a}{2}-1 \\<br>\Rightarrow &amp;<br>\begin{cases}<br>\sin\frac{a}{2}=\pm \sqrt{1-\frac{\cos a}{2}} \\<br>\cos\frac{a}{2}=\pm \sqrt{\frac{1+\cos a}{2}} \\<br>\end{cases}<br>\end{aligned}<br>$$</p>
+<h1 id="微分公式"><a href="#微分公式" class="headerlink" title="微分公式"></a>微分公式</h1><p>$$<br>d \sin \theta=\cos \theta<br>$$</p>
+<p>$$<br>d \cos \theta=-\sin \theta<br>$$</p>
+<h1 id="积分公式"><a href="#积分公式" class="headerlink" title="积分公式"></a>积分公式</h1><p>$$<br>\int \sin x dx=-\cos x + C<br>$$</p>
+<p>$$<br>\int \cos xdx=\sin x+C<br>$$</p>
+<h1 id="和差化积"><a href="#和差化积" class="headerlink" title="和差化积"></a>和差化积</h1><p>$$<br>\sin \alpha \pm \sin \beta=2\sin \frac{\alpha \pm \beta}{2} \cos \frac{\alpha \mp \beta}{2}<br>$$</p>
+<p>$$<br>\cos \alpha + \cos \beta=2 \cos \frac{\alpha + \beta}{2}\cos \frac{\alpha - \beta}{2}<br>$$</p>
+<p>$$<br>\cos \alpha - \cos \beta=-2 \sin \frac{\alpha + \beta}{2}\sin \frac{\alpha - \beta}{2}<br>$$</p>
+<p>$$<br>\tan \alpha \pm \tan \beta=\frac{\sin(\alpha \pm \beta)}{\cos \alpha\cos \beta}<br>$$</p>
+<p>$$<br>\cot \alpha \pm \cot \beta=\pm \frac{\sin(\alpha \pm \beta)}{\sin \alpha\sin \beta}<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/03/22/qxc-xztxbmj-xztxtj/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/03/22/wjf-jx/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

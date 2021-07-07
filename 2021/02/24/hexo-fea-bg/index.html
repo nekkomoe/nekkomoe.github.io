@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>hexo:不是bug是feature | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="hexo," />
+  
+
+  <meta name="description" content="在目前版本(笔者所用的),可能会出现切页按钮变成了 class&#x3D;&quot;icon-angle-right&quot;&gt;&lt;&#x2F;i&gt; 的样子 来翻翻文档:  paginator 插入分页链接&lt;%- paginator(options) %&gt;    参数 描述 默认值    base 基础网址 &#x2F;   format 网址格式 page&#x2F;%d&#x2F;   total 分页总数 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo:不是bug是feature">
+<meta property="og:url" content="https://kignsann.github.io/2021/02/24/hexo-fea-bg/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="在目前版本(笔者所用的),可能会出现切页按钮变成了 class&#x3D;&quot;icon-angle-right&quot;&gt;&lt;&#x2F;i&gt; 的样子 来翻翻文档:  paginator 插入分页链接&lt;%- paginator(options) %&gt;    参数 描述 默认值    base 基础网址 &#x2F;   format 网址格式 page&#x2F;%d&#x2F;   total 分页总数 1">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-02-24T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-24T04:22:48.973Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-hexo-fea-bg" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">hexo:不是bug是feature</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.02.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/hexo/">hexo</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>在目前版本(笔者所用的),可能会出现切页按钮变成了 <a target="_blank" rel="noopener" href="https://github.com/forsigner/fexo/issues/167"><code>class=&quot;icon-angle-right&quot;&gt;&lt;/i&gt;</code></a> 的样子</p>
+<p>来翻翻<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/helpers.html#paginator">文档</a>:</p>
+<blockquote>
+<p>paginator 插入分页链接<br>&lt;%- paginator(options) %&gt;</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>base</td>
+<td>基础网址</td>
+<td>/</td>
+</tr>
+<tr>
+<td>format</td>
+<td>网址格式</td>
+<td>page/%d/</td>
+</tr>
+<tr>
+<td>total</td>
+<td>分页总数</td>
+<td>1</td>
+</tr>
+<tr>
+<td>current</td>
+<td>目前页数</td>
+<td>0</td>
+</tr>
+<tr>
+<td>prev_text</td>
+<td>上一页链接的文字。仅在 prev_next 设定开启时才有用。</td>
+<td>Prev</td>
+</tr>
+<tr>
+<td>next_text</td>
+<td>下一页链接的文字。仅在 prev_next 设定开启时才有用。</td>
+<td>Next</td>
+</tr>
+<tr>
+<td>space</td>
+<td>空白文字</td>
+<td>…</td>
+</tr>
+<tr>
+<td>prev_next</td>
+<td>显示上一页和下一页的链接</td>
+<td>true</td>
+</tr>
+<tr>
+<td>end_size</td>
+<td>显示于两侧的页数</td>
+<td>1</td>
+</tr>
+<tr>
+<td>mid_size</td>
+<td>显示于中间的页数</td>
+<td>2</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>显示所有页数。如果开启此参数的话，end_size 和 mid_size 就没用了。</td>
+<td>false</td>
+</tr>
+<tr>
+<td><strong>escape</strong></td>
+<td><strong>Escape HTML tags</strong></td>
+<td><strong>true</strong></td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>容易发现，目前版本的hexo加入了escape选项(默认情况下会把html tag忽略掉，导致切页按钮出现点偏差)</p>
+<p>在theme文件夹下搜一下类似于如下的代码段落:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- paginator(&#123;</span><br><span class="line">   prev_text: prev_text,</span><br><span class="line">   next_text: next_text</span><br><span class="line"> &#125;) %&gt;</span><br></pre></td></tr></table></figure>
+
+<p>改为:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- paginator(&#123;</span><br><span class="line">   <span class="attr">prev_text</span>: prev_text,</span><br><span class="line">   <span class="attr">next_text</span>: next_text,</span><br><span class="line">   <span class="attr">escape</span>: <span class="literal">false</span></span><br><span class="line"> &#125;) %&gt;</span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2020/08/06/net-flow/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
