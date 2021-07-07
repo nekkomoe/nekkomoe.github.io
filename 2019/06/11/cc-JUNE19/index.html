@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Codechef JUNE Challenge 2019 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法," />
+  
+
+  <meta name="description" content="比赛链接 Chef and Proxy - PROXYC题目描述给定一个由字符 $A,P$ 构成序列 $S$ 你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：  $3 \le i \le n-2$ $S_i&#x3D;A$ $([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor [S_{i+2}&#x3D;P])$  你的目标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codechef JUNE Challenge 2019">
+<meta property="og:url" content="https://kignsann.github.io/2019/06/11/cc-JUNE19/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="比赛链接 Chef and Proxy - PROXYC题目描述给定一个由字符 $A,P$ 构成序列 $S$ 你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：  $3 \le i \le n-2$ $S_i&#x3D;A$ $([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor [S_{i+2}&#x3D;P])$  你的目标">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-06-11T01:59:10.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:47.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Chef-and-Proxy-PROXYC"><span class="toc-text">Chef and Proxy - PROXYC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Guddu-on-a-Date-KS2"><span class="toc-text">Guddu on a Date - KS2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-1"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Road-Signs-RSIGNS"><span class="toc-text">Road Signs - RSIGNS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-2"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chef-and-Ingredients-CHFING"><span class="toc-text">Chef and Ingredients - CHFING</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-3"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sum-and-GCD-SUMAGCD"><span class="toc-text">Sum and GCD - SUMAGCD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-3"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-4"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lent-Money-LENTMO"><span class="toc-text">Lent Money - LENTMO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-4"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-5"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Intersecting-Paths-INTRPATH"><span class="toc-text">Intersecting Paths - INTRPATH</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-5"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-6"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chef-and-His-Dish-COOLCHEF"><span class="toc-text">Chef and His Dish - COOLCHEF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-6"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-7"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Count-Arrays-COUNTIT"><span class="toc-text">Count Arrays - COUNTIT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-7"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-8"><span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Forgotten-Tree-9-FGTREE"><span class="toc-text">Forgotten Tree 9 - FGTREE</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SnackDown-99-SNCK99"><span class="toc-text">SnackDown 99 - SNCK99</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-cc-JUNE19" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Codechef JUNE Challenge 2019</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.06.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=41632439&height=66"></iframe>
+
+<p><a target="_blank" rel="noopener" href="https://www.codechef.com/JUNE19B">比赛链接</a></p>
+<h1 id="Chef-and-Proxy-PROXYC"><a href="#Chef-and-Proxy-PROXYC" class="headerlink" title="Chef and Proxy - PROXYC"></a>Chef and Proxy - PROXYC</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个由字符 $A,P$ 构成序列 $S$</p>
+<p>你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：</p>
+<ul>
+<li>$3 \le i \le n-2$</li>
+<li>$S_i=A$</li>
+<li>$([S_{i-1}=P] \lor [S_{i-2}=P]) \land ([S_{i+1}=P] \lor [S_{i+2}=P])$</li>
+</ul>
+<p>你的目标是把尽可能少的 $A$ 变成 $B$，之后需要满足 $ \frac{\sum_{x \in S}[x \ne A]}{|S|} \ge \frac{3}{4}$</p>
+<p>数据范围：$1 \le |S| \le 1000$</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>设有 $x$ 个位置可以变成 $B$，有 $y$ 个位置是 $P$，至少需要 $z$ 个非 $A$ 的位置</p>
+<p>如果 $y \ge z$，那么就直接可行了，否则需要 $z-y$ 个位置放 $B$，判断一下即可</p>
+<h1 id="Guddu-on-a-Date-KS2"><a href="#Guddu-on-a-Date-KS2" class="headerlink" title="Guddu on a Date - KS2"></a>Guddu on a Date - KS2</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>定义圆数为十进制下个位数字之和为 $10$ 的倍数的正整数，求第 $n$ 个圆数</p>
+<p>数据范围：$1 \le n \le 10^{18}$</p>
+<h2 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h2><p>首先圆数的位数不会小于 $2$，而且个位是由个位前的数位之和唯一确定的</p>
+<p>也就是所有圆数去掉个位后互不相同，且构成正整数集</p>
+<p>也就是只需要输出 $n \cdot 10+((10-m \bmod 10) \bmod 10)$ 即可，其中 $m$ 为 $\left\lfloor \frac{n}{10} \right\rfloor$ 的各个数位之和</p>
+<h1 id="Road-Signs-RSIGNS"><a href="#Road-Signs-RSIGNS" class="headerlink" title="Road Signs - RSIGNS"></a>Road Signs - RSIGNS</h1><h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h2><p>$Marichka$ 在去大厨国的途中看到了 $10^K$ 个路牌（编号为 $0 \sim 10^K-1$）</p>
+<p>编号为 $i$ 的路牌一面写了数字 $i$，另一面写了数字 $10^K − i − 1$</p>
+<p>$Marichka$ 想知道，有多少块路牌正反两面的数字中，一共只有两种不同的数位？</p>
+<p>由于答案可能很大，请求出其对 $10^9 + 7$ 取模的结果</p>
+<p>数据范围：$1 \le K \le 10^9$</p>
+<h2 id="题解-2"><a href="#题解-2" class="headerlink" title="题解"></a>题解</h2><p>显然答案就是 $10 \times 2^{K-1}$</p>
+<h1 id="Chef-and-Ingredients-CHFING"><a href="#Chef-and-Ingredients-CHFING" class="headerlink" title="Chef and Ingredients - CHFING"></a>Chef and Ingredients - CHFING</h1><p>大厨想要做一顿满汉全席，为此，他需要各种各样的食材</p>
+<p>每种食材都有自己的美味程度，可以是任意正整数</p>
+<p>初始时，对于 $[K, K + N − 1]$ 内的每种美味程度，大厨都有无限量的食材</p>
+<p>食材有个独特的性质：任意两种食材经过混合，都可以得到一种新食材</p>
+<p>设原本两食材的美味程度分别为 $x$ 和 $y$，那么新食材的美味程度就是 $x + y$</p>
+<p>混合得到的新食材也可以再次被混合，大厨可以以任意方式混合任意多次</p>
+<p>如果无论如何都无法得到美味程度为 $v$ 的食材，那么我们称美味程度 $v (v &gt; 0)$ 是不可达成的</p>
+<p>否则，就是可达成的</p>
+<p>大厨要做出每种可达成的美味程度的食材，因此他想知道有多少种不可达成的美味程度</p>
+<p>由于种数可能很多，请你求出其对 $10^9 + 7$ 取模的结果</p>
+<p>注：可达成美味程度有无穷多种，但可以证明对于 $N \ge 2$，不可达成的美味程度一定只有有<br>限种</p>
+<p>数据范围：$2 \le N \le 10^{18},1 \le K \le 10^{18}$</p>
+<h2 id="题解-3"><a href="#题解-3" class="headerlink" title="题解"></a>题解</h2><p>设你能使用的数字为 $a,a+1,a+2,\cdots,b$，那么 $1 \sim a-1$ 一定无法达成</p>
+<p>如果 $b \ge 2a$，则所有数字都可以构成</p>
+<p>否则 $b+1 \sim 2a$ 是无法构成的，把 $[a,2a]$ 当作一块，所有块的 $b+1 \sim 2a$ 部分都无法构成</p>
+<p>于是答案就是：<br>$$<br>\sum_{i=0}^{K+N-3}\left\lfloor \frac{i}{N-1} \right\rfloor<br>$$</p>
+<h1 id="Sum-and-GCD-SUMAGCD"><a href="#Sum-and-GCD-SUMAGCD" class="headerlink" title="Sum and GCD - SUMAGCD"></a>Sum and GCD - SUMAGCD</h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h2><p>大厨有一个正整数序列 $A_1, A_2, \cdots , A_N$</p>
+<p>他想要将这个序列分成两个非空的（未必连续的）子序列 $B$ 和 $C$，使得 $\gcd(B) + \gcd(C)$ 尽可能大</p>
+<p>请你求出这一最大值</p>
+<p>数据范围：$2 \le N \le 10^5, 1 \le A_i \le 10^9$</p>
+<h2 id="题解-4"><a href="#题解-4" class="headerlink" title="题解"></a>题解</h2><p>首先重复的数字是没用的，先去重一下</p>
+<p>猜想最优解一定是某个数单独作为一个集合，剩下的数字另作一个集合</p>
+<p>然后写一下，发现它过了</p>
+<h1 id="Lent-Money-LENTMO"><a href="#Lent-Money-LENTMO" class="headerlink" title="Lent Money - LENTMO"></a>Lent Money - LENTMO</h1><h2 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h2><p>大厨借了些钱给 $Chefexim$</p>
+<p>大厨讨债讨了好一阵子了，但 $Chefexim$ 总是能找到一些理由拖着</p>
+<p>这次，大厨真的生气了，他自己想做点印度点心都没钱买食材了</p>
+<p>看到大厨这么生气，$Chefexim$ 终于决定还钱了</p>
+<p>他知道大厨喜欢做题，因此还钱的同时还送了大厨一道题，让他消消气</p>
+<p>$Chefexim$ 把借来的钱分装进了 $N$ 个袋子（编号为 $1 \sim N$），第 $i$ 个袋子里有 $A_i$ 块钱</p>
+<p>他把所有 $N$ 个袋子都给了大厨，然后告诉了他两个整数 $K$ 和 $X$</p>
+<p>大厨可以任意次（包括零次）进行下面的操作：</p>
+<ul>
+<li>选择 $K$ 个不同的袋子，编号分别为 $i_1, i_2, \cdots , i_K (1 \le i_j \le N)$</li>
+<li>改变选择的袋子里装的金额，对于 $1 \le j \le K$，编号为 $i_j$ 的袋子里的钱从 $A_{i_j}$ 变为 $A_{i_j} \text{ xor } X$</li>
+</ul>
+<p>每个袋子可以在任意多次操作中被选择</p>
+<p>假设大厨按照最优策略操作，最后所有袋子里的金额之和最大可以是多少？</p>
+<p>数据范围：$1 \le N \le 10^4, 1 \le K \le N, 0 \le A_i \le 10^9, 0 \le X \le 10^9$</p>
+<h2 id="题解-5"><a href="#题解-5" class="headerlink" title="题解"></a>题解</h2><p>首先题意可以转化为，给定 $n$ 张牌，每张牌正面是 $0$，反面是 $b_i$</p>
+<p>每次你可以选择 $k$ 张牌并把它们翻面，最大化最终所有牌朝上面的数字之和</p>
+<p>首先如果 $k=n$ 可以特判掉</p>
+<p>否则，如果 $k$ 是奇数，则可以把任意多张牌都翻面</p>
+<p>如果 $k$ 是偶数，则只能把任意偶数张牌翻面</p>
+<p>那么从大到小排序后贪心即可</p>
+<h1 id="Intersecting-Paths-INTRPATH"><a href="#Intersecting-Paths-INTRPATH" class="headerlink" title="Intersecting Paths - INTRPATH"></a>Intersecting Paths - INTRPATH</h1><h2 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一棵 $N$ 个节点的树（无向无环连通图），节点编号为 $1 \sim N$</p>
+<p>对于每对节点 $u$ 和 $v$，记它们之间的简单路径为 $(u, v)$</p>
+<p>这些路径都是没有方向的，因此 $(u, v)$ 与 $(v, u)$ 等价</p>
+<p>你需要回答 $Q$ 个询问，每个询问给定两个节点 $u$ 和 $v$</p>
+<p>对于树中每一条简单路径 $(a, b)$，我们定义完美相交如下：</p>
+<ul>
+<li>记路径 $(u, v)$ 和 $(a, b)$ 途经的节点（包括端点）集合分别为 $S_1$ 和 $S_2$</li>
+<li>如果 $|S_1 \cap S_2|=1$（即两条路径只有一个公共节点），那么 $(a, b)$ 与 $(u, v)$ 完美相交</li>
+</ul>
+<p>询问的回答即与 $(u, v)$ 完美相交的简单路径条数</p>
+<p>数据范围：$1 \le Q \le 3 \cdot 10^5,1 \le u,v \le N \le 250000$</p>
+<h2 id="题解-6"><a href="#题解-6" class="headerlink" title="题解"></a>题解</h2><p>只需要对于每个链上的点考虑一下经过它的路径条数即可</p>
+<p>设 $s_u$ 表示 $u$ 的子树大小，$f_u$ 表示 $u$ 的子树中经过 $u$ 的路径条数，考虑链上的边 $u \to v$，那么交点为 $u$ 的路径条数为 $f_u-s_v(s_u-s_v)$，预处理后前缀和即可解决</p>
+<p>之后特殊考虑一下 $\text{lca}$ 处的答案即可</p>
+<h1 id="Chef-and-His-Dish-COOLCHEF"><a href="#Chef-and-His-Dish-COOLCHEF" class="headerlink" title="Chef and His Dish - COOLCHEF"></a>Chef and His Dish - COOLCHEF</h1><h2 id="题目描述-6"><a href="#题目描述-6" class="headerlink" title="题目描述"></a>题目描述</h2><p>大厨在厨房里做实验</p>
+<p>他有 $N$ 种香料（编号为 $0 \sim N − 1$），类型分别为 $S_0, S_1 , \cdots, S_{N−1}$</p>
+<p>你需要回答 $Q$ 个询问，每个询问给定两个整数 $L$ 和 $R$</p>
+<p>大厨想使用编号在 $[L, R]$ 中的所有香料来做一道菜</p>
+<p>不过，大厨不知道应该以什么顺序放这些香料</p>
+<p>因此，他想知道一共有多少种不同的可能</p>
+<p>即，序列 $S_L, S_{L+1}, \cdots , S_R$ 共有多少本质不同的排列方案</p>
+<p>由于答案可能很大，请输出答案对 $10^9 + 7$ 取模的结果</p>
+<p>我们认为两种排列本质不同，当且仅当存在下标 $i$，且两个排列的第 $i$ 位不同</p>
+<p>你需要在线回答所有询问，输入已经过加密</p>
+<p>数据范围：$1 \le N,Q \le 3 \cdot 10^5, 1 \le S_i \le 10^9, 0 \le L, R &lt; n$</p>
+<h2 id="题解-7"><a href="#题解-7" class="headerlink" title="题解"></a>题解</h2><p>分块模板题，卡卡常就过了</p>
+<h1 id="Count-Arrays-COUNTIT"><a href="#Count-Arrays-COUNTIT" class="headerlink" title="Count Arrays - COUNTIT"></a>Count Arrays - COUNTIT</h1><h2 id="题目描述-7"><a href="#题目描述-7" class="headerlink" title="题目描述"></a>题目描述</h2><p>考虑所有仅包含 $[1, K]$ 中的整数的 $N$ 行 $M$ 列矩阵（行列均从 $1$ 开始编号）</p>
+<p>对于每个这样的矩阵 $A$，按下述规则构造序列 $L_1, L_2, \cdots , L_{N+M}$：</p>
+<ul>
+<li>对于 $1 \le  i \le N$，$L_i$ 为 $A$ 第 $i$ 行中元素的最大值</li>
+<li>对于 $1 \le i \le M$，$L_{i+N}$ 为 $A$ 第 $i$ 列中元素的最大值</li>
+</ul>
+<p>请求出有多少种不同的序列，由于答案可能很大，请输出其对 $10^9 + 7$ 取模的结果</p>
+<p>数据范围：$1 \le K\ le 10^9, 1 \le N,M \le 10^5$</p>
+<h2 id="题解-8"><a href="#题解-8" class="headerlink" title="题解"></a>题解</h2><p>猜想这个序列只需要满足前 $n$ 个位置和后 $m$ 个位置的最大值相同即可</p>
+<p>不难得到答案为：</p>
+<p>$$<br>\begin{aligned}<br>\sum_{x=1}^{k} \left(x^n-(x-1)^n\right) \left( x^m-(x-1)^m \right)<br>\end{aligned}<br>$$</p>
+<p>至多是个 $n+m+10$ 次多项式，暴力插值即可</p>
+<p>另一个没法做的想法：</p>
+<p>定义 $0^0=1$，答案为：</p>
+<p>$$<br>\begin{aligned}<br> &amp;\sum_{x=1}^{k} \sum_{i=1}^{n} {n \choose i} (x-1)^{n-i} \sum_{j=1}^{m} {m \choose i} (x-1)^{m-j} \\<br>=&amp;\sum_{x=1}^{k} \sum_{i=0}^{n-1} {n \choose n-i} (x-1)^{i} \sum_{j=0}^{m-1} {m \choose m-i} (x-1)^{j} \\<br>=&amp;\sum_{x=1}^{k} \sum_{i=0}^{n-1} {n \choose i} (x-1)^{i} \sum_{j=0}^{m-1} {m \choose i} (x-1)^{j} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} {n \choose i} {m \choose j} \sum_{x=1}^{k} (x-1)^{i+j} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} {n \choose i} {m \choose j} \sum_{x=0}^{k-1} x^{i+j} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} {n \choose i} {m \choose j} f_{i+j}(k) \\<br>=&amp;\sum_{T=0}^{n+m-2}f_T(k) \sum_{i=0}^{T} {n \choose i} {m \choose T-i}[i&lt;n][T-i&lt;m] \\<br>=&amp;\sum_{T=0}^{n+m-2}f_T(k) \left({n+m \choose T}-{m \choose T-n}-{n \choose T-m} \right)<br>\end{aligned}<br>$$</p>
+<p>其中 $f_T(k)=\sum_{i=0}^{k-1}i^T$</p>
+<p>然而这个玩意不太能做，还是算了</p>
+<h1 id="Forgotten-Tree-9-FGTREE"><a href="#Forgotten-Tree-9-FGTREE" class="headerlink" title="Forgotten Tree 9 - FGTREE"></a>Forgotten Tree 9 - FGTREE</h1><h1 id="SnackDown-99-SNCK99"><a href="#SnackDown-99-SNCK99" class="headerlink" title="SnackDown 99 - SNCK99"></a>SnackDown 99 - SNCK99</h1>
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/06/09/abc-solutions/abc129/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/06/26/powerful-number/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

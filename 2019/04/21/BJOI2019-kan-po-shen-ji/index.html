@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>【BJOI2019】勘破神机 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,数学,特征方程,快速幂,斯特林数," />
+  
+
+  <meta name="description" content="题目链接 题目描述给定 $l,r,k$，其中 $1 \le k \le 501, 1 \le l \le r \le 10^{18}$ 令 $f_n$ 为用 $1 \times 2$ 的骨牌拼 $2 \times n$ 方格的方案数，$g_n$ 为用 $1 \times 2$ 的骨牌拼 $3 \times n$ 方格的方案数 求 $\sum_{i&#x3D;l}^{r}{f_i \choose k}$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【BJOI2019】勘破神机">
+<meta property="og:url" content="https://kignsann.github.io/2019/04/21/BJOI2019-kan-po-shen-ji/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="题目链接 题目描述给定 $l,r,k$，其中 $1 \le k \le 501, 1 \le l \le r \le 10^{18}$ 令 $f_n$ 为用 $1 \times 2$ 的骨牌拼 $2 \times n$ 方格的方案数，$g_n$ 为用 $1 \times 2$ 的骨牌拼 $3 \times n$ 方格的方案数 求 $\sum_{i&#x3D;l}^{r}{f_i \choose k}$">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-04-21T04:28:12.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:48.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="特征方程">
+<meta property="article:tag" content="快速幂">
+<meta property="article:tag" content="斯特林数">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-text">题解</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-BJOI2019-kan-po-shen-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">【BJOI2019】勘破神机</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.04.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=509106775&height=66"></iframe>
+
+<p><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P5320">题目链接</a></p>
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>给定 $l,r,k$，其中 $1 \le k \le 501, 1 \le l \le r \le 10^{18}$</p>
+<p>令 $f_n$ 为用 $1 \times 2$ 的骨牌拼 $2 \times n$ 方格的方案数，$g_n$ 为用 $1 \times 2$ 的骨牌拼 $3 \times n$ 方格的方案数</p>
+<p>求 $\sum_{i=l}^{r}{f_i \choose k}$ 和 $\sum_{i=l}^{r}{g_i \choose k}$，输出模 $998244353$</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>首先有：</p>
+<p>$$<br>{f_n \choose k}=\frac{f_n^{\underline k}}{k!}<br>$$</p>
+<p>由于：</p>
+<p>$$<br>x^{\underline{n}}= \sum_{i=0}^{n} \begin{bmatrix} n \\ i \end{bmatrix}(-1)^{n-i} x^i<br>$$</p>
+<p>可以得出：</p>
+<p>$$<br>f_{n}^{\underline k}=\sum_{i=0}^{k} \begin{bmatrix}k\\i \end{bmatrix} (-1)^{k-i} f_n^i<br>$$</p>
+<p>则：</p>
+<p>$$<br>\begin{aligned}<br> &amp;\sum_{i=l}^{r} {f_i \choose k} \\<br>=&amp;\frac{1}{k!} \sum_{i=l}^{r} f_i^{\underline k} \\<br>=&amp;\frac{1}{k!}\sum_{i=l}^{r} \sum_{j=0}^{k} \begin{bmatrix}k\\j \end{bmatrix} (-1)^{k-j} f_{i}^j \\<br>=&amp;\frac{1}{k!}\sum_{j=0}^{k} \begin{bmatrix}k\\j \end{bmatrix} (-1)^{k-j} \sum_{i=l}^{r} f_i^j<br>\end{aligned}<br>$$</p>
+<hr>
+<p>强行二合一，那么先解决前半部分</p>
+<p>显然有：</p>
+<p>$$<br>\begin{cases}<br>f_0=1 \\<br>f_1=1 \\<br>f_{n}=f_{n-1}+f_{n-2}<br>\end{cases}<br>$$</p>
+<p>对于方程 $x^2=x+1$，有根 $x=\frac{1 \pm \sqrt{5}}{2}$</p>
+<p>即：</p>
+<p>$$<br>f_n=a\left( \frac{1 + \sqrt{5}}{2} \right)^n+b\left( \frac{1-\sqrt{5}}{2} \right)^n<br>$$</p>
+<p>由 $f_0=f_1=1$，解得：</p>
+<p>$$<br>\begin{cases}<br>a=\frac{1+\frac{1}{\sqrt{5}}}{2} \\<br>b=\frac{1-\frac{1}{\sqrt{5}}}{2}<br>\end{cases}<br>$$</p>
+<p>即：</p>
+<p>$$<br>f_n=\frac{1+\frac{1}{\sqrt{5}}}{2} \left( \frac{1+\sqrt{5}}{2} \right)^n + \frac{1-\frac{1}{\sqrt{5}}}{2} \left( \frac{1-\sqrt{5}}{2} \right)^n<br>$$</p>
+<p>也就是：</p>
+<p>$$<br>f_n=\frac{5+\sqrt{5}}{10} \left(\frac{1+\sqrt{5}}{2}\right)^n + \frac{5-\sqrt{5}}{10} \left(\frac{1-\sqrt{5}}{2}\right)^n<br>$$</p>
+<p>考虑在 $\mathbb{Z}[\sqrt{5}]$ 上定义 $(a,b)$，相当于映射到 $\mathbb{R}$ 上的 $a\sqrt{5}+b$，定义其上的运算如下：</p>
+<p>对于二元运算 $+$，有：</p>
+<p>$$<br>(a,b)+(c,d)=(a+c,b+d)<br>$$</p>
+<p>对于二元运算 $-$，有：</p>
+<p>$$<br>(a,b)-(c,d)=(a-c,b-d)<br>$$</p>
+<p>对于二元运算 $\times$，有：</p>
+<p>$$<br>(a,b) \times (c,d) = (ad+bc,5ac+bd)<br>$$</p>
+<p>对于一元运算 $(a,b)^{-1}$，有：</p>
+<p>$$<br>(a,b)^{-1}=(\frac{a}{5a^2-b^2}, -\frac{b}{5a^2-b^2})<br>$$</p>
+<p>即：</p>
+<p>$$<br>f_n=(\frac{1}{10}, \frac{1}{2}) \times (\frac{1}{2},\frac{1}{2})^n+(-\frac{1}{10}, \frac{1}{2}) \times (-\frac{1}{2},\frac{1}{2})^n<br>$$</p>
+<p>为了简便起见，记 $f_n=ax_0^n+bx_1^n$</p>
+<p>那么现在只需要求：</p>
+<p>$$<br>\sum_{i=1}^{n} f_i^k<br>$$</p>
+<p>也就是：</p>
+<p>$$<br>\begin{aligned}<br> &amp;\sum_{i=1}^{n} \sum_{j=0}^{k} {k \choose j} (ax_0^i)^j (bx_1^i)^{k-j} \\<br>=&amp;\sum_{j=0}^{k} {k \choose j} \sum_{i=1}^{n} a^j(x_0^j)^i b^{k-j}(x_1^{k-j})^i \\<br>=&amp;\sum_{j=0}^{k} {k \choose j} a^jb^{k-j}\sum_{i=1}^{n} (x_0^jx_1^{k-j})^i \\<br>\end{aligned}<br>$$</p>
+<p>通过等比数列求和，有：</p>
+<p>$$<br>\sum_{i=1}^{n} (a,b)^i=\frac{(a,b)^{n+1}-(a,b)}{(a,b)-(0,1)}<br>$$</p>
+<p>前半部分结束了</p>
+<hr>
+<p>对于后半部分，显然有：</p>
+<p>$$<br>\begin{cases}<br>f_{2n}= f_{2n-2} + 2 \sum_i f_{2n-2i} \\<br>f_{2n+1}=0<br>\end{cases}<br>$$</p>
+<p>设 $h_n=f_{2n}$，则：</p>
+<p>$$<br>\begin{aligned}<br>&amp; \begin{cases}<br>h_n=h_{n-1}+2\sum_{i}h_{n-i} \\<br>h_{n+1}=h_{n}+2\sum_{i}h_{n+1-i}=h_{n}+2h_{n}+2\sum_{i}h_{n-i} \\<br>\end{cases} \\<br>\Rightarrow &amp; h_{n}-h_{n+1}=h_{n-1}-3h_{n} \\<br>\Rightarrow &amp; h_{n+1}=4h_{n}-h_{n-1} \\<br>\Rightarrow &amp; h_{n}=4h_{n-1}-h_{n-2}<br>\end{aligned}<br>$$</p>
+<p>即：</p>
+<p>$$<br>\begin{cases}<br>h_0=1 \\<br>h_1=3 \\<br>h_n=4h_{n-1}-h_{n-2}<br>\end{cases}<br>$$</p>
+<p>对于方程 $x^2=4x-1$，有根 $x=2 \pm \sqrt{3}$</p>
+<p>即：</p>
+<p>$$<br>h_n=ax_0^n+bx_1^n<br>$$</p>
+<p>解得：</p>
+<p>$$<br>\begin{cases}<br>a=\frac{3+\sqrt{3}}{6} \\<br>b=\frac{3-\sqrt{3}}{6}<br>\end{cases}<br>$$</p>
+<p>即：</p>
+<p>$$<br>h_n=\frac{3+\sqrt{3}}{6} (2+\sqrt{3})^n+\frac{3-\sqrt{3}}{6}(2-\sqrt{3})^n<br>$$</p>
+<p>不妨设 $h_n=ax_0^n+bx_1^n$</p>
+<p>即：</p>
+<p>$$<br>f_n=[2|n] \left( ax_0^{\frac{n}{2}} + bx_1^{\frac{n}{2}} \right)<br>$$</p>
+<p>目标是要求：</p>
+<p>$$<br>\frac{1}{k!}\sum_{j=0}^{k} \begin{bmatrix}k\\j \end{bmatrix} (-1)^{k-j} \sum_{i=l}^{r} f_i^j<br>$$</p>
+<p>也就是求：</p>
+<p>$$<br>\sum_{i=1}^{n} f_{i}^{j}=\sum_{i=1}^{n}[2|n]f_i^j=\sum_{i=1}^{\lfloor \frac{n}{2} \rfloor} h_i^j<br>$$</p>
+<p>和第一问的做法一样</p>
+<hr>
+<p>希望以后不会遇到这种强行多合一的出题人……</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/04/18/hiho-solutions/hiho-1920/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/04/22/codeforces-102114G/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
