@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>高考数学的一些解法 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数学,函数,导数," />
+  
+
+  <meta name="description" content="0x00 已知函数 $m(x)&#x3D;x(1-\ln x)$ 设 $a,b$ 为两个不相等的正数, 且 $b\ln a-a \ln b&#x3D;a-b$, 证明 $2 &lt; \frac{1}{a}+\frac{1}{b} &lt; e$  $b \ln a-a \ln b&#x3D;a-b \Rightarrow \frac{1+\ln b}{b}&#x3D;\frac{1+\ln a}{a}$ 不妨设 $0&lt;a&lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高考数学的一些解法">
+<meta property="og:url" content="https://kignsann.github.io/2021/07/08/gk-math/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="0x00 已知函数 $m(x)&#x3D;x(1-\ln x)$ 设 $a,b$ 为两个不相等的正数, 且 $b\ln a-a \ln b&#x3D;a-b$, 证明 $2 &lt; \frac{1}{a}+\frac{1}{b} &lt; e$  $b \ln a-a \ln b&#x3D;a-b \Rightarrow \frac{1+\ln b}{b}&#x3D;\frac{1+\ln a}{a}$ 不妨设 $0&lt;a&lt;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-07-08T13:40:38.000Z">
+<meta property="article:modified_time" content="2021-07-08T15:33:47.479Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="函数">
+<meta property="article:tag" content="导数">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00"><span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01"><span class="toc-text">0x01</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-gk-math" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">高考数学的一些解法</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.07.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/math/">math</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h1><blockquote>
+<p>已知函数 $m(x)=x(1-\ln x)$</p>
+<p>设 $a,b$ 为两个不相等的正数, 且 $b\ln a-a \ln b=a-b$, 证明 $2 &lt; \frac{1}{a}+\frac{1}{b} &lt; e$</p>
+</blockquote>
+<p>$b \ln a-a \ln b=a-b \Rightarrow \frac{1+\ln b}{b}=\frac{1+\ln a}{a}$</p>
+<p>不妨设 $0&lt;a&lt;b,t=\frac{a}{b} \in (0,1)$, 则有 $a=bt,\frac{1+\ln b}{b}=\frac{1+\ln (bt)}{bt}$</p>
+<p>故 $t(1+\ln b)=1+\ln b + \ln t \Rightarrow \ln b=\frac{1+\ln t-t}{t-1} \Rightarrow b=e^{\frac{\ln t}{t-1}-1} \Rightarrow a=bt=te^{\frac{\ln t}{t-1}-1}$</p>
+<p>所以 $\frac{1}{a}+\frac{1}{b}=\frac{1}{b}(\frac{1}{t}+1)=e^{1-\frac{\ln t}{t-1}}\frac{t+1}{t}$</p>
+<p>不妨设 $f(t)=\frac{t+1}{t}e^{1-\frac{\ln t}{t-1}}$, 考虑到 $\lim_{t \to 1}f(t)=2,\lim_{t \to 0}f(t)=e$, 下证 $f(t)$ 在 $(0,1)$ 单调递减</p>
+<p>$$<br>\begin{align}<br>f’(t)<br>&amp;=(-\frac{1}{t^2})e^{1-\frac{\ln t}{t-1}}+\frac{t+1}{t}(-\frac{\frac{t-1}{t}-\ln t}{(t-1)^2})e^{1-\frac{\ln t}{t-1}} \<br>&amp;=e^{1-\frac{\ln t}{t-1}}\left( -\frac{1}{t^2}-\frac{(t+1)(\frac{t-1}{t}-\ln t)}{t(t-1)^2} \right) \<br>&amp;=-e^{1-\frac{\ln t}{t-1}}\left( \frac{\frac{(t-1)^2}{t}+(t+1)(\frac{t-1}{t}-\ln t)}{t(t-1)^2} \right) \<br>&amp;=-e^{1-\frac{\ln t}{t-1}}\left( \frac{\frac{t^2+1-2t}{t}+\frac{t^2-1}{t}-(t+1)\ln t}{t(t-1)^2} \right) \<br>&amp;=-e^{1-\frac{\ln t}{t-1}}\left( \frac{2t-2-(t+1)\ln t}{t(t-1)^2} \right) \<br>\end{align}<br>$$</p>
+<p>由对数均值不等式得 $\frac{t-1}{\ln t} \le \frac{t+1}{2}$, 故 $(t+1)\ln t \le 2(t-1)$, 故 $2t-2-(t+1)\ln t \ge 0$</p>
+<p>所以 $f’(t) \le 0$, 即 $f(t)$ 在 $(0,1)$ 单调递减</p>
+<p>故 $2=f(0) &lt; f(t) &lt; f(1)=e(0&lt;t&lt;1)$, 得证</p>
+<h1 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h1><blockquote>
+<p>已知函数 $f(x)=e^x+ax^2-x$</p>
+<p>当 $x \ge 0$ 时, $f(x) \ge \frac{1}{2}x^3+1$, 求 $a$ 的取值范围</p>
+</blockquote>
+<p>当 $x=0$ 时, $a \in \mathbb{R}$</p>
+<p>考虑分离参变量, 即 $a \ge \frac{\frac{x^3}{2}+x+1-e^x}{x^2}(x&gt;0)$</p>
+<p>设 $h(x)=\frac{\frac{x^3}{2}+x+1-e^x}{x^2}(x&gt;0)$</p>
+<p>$$<br>\begin{align}<br>h’(x)<br>&amp;= \frac{(\frac{3x^2}{2}+1-e^x)x-x^3-2x-2+2e^x}{x^3} \<br>&amp;= \frac{e^x(2-x)+\frac{x^3}{2}-x-2}{x^3} \<br>&amp;= \frac{(2-x)(e^x-\frac{x^2}{2}-x-1)}{x^3} \<br>\end{align}<br>$$</p>
+<p>而 $e^x \ge 1+x+\frac{x^2}{2}$, 故 $h’(x)$ 在 $(0,2)$ 单调增, 在 $(2,\infty)$ 单调递减</p>
+<p>所以 $h(x) \le h(2)=\frac{7-e^2}{4},a \ge h(x) \Rightarrow a \ge \frac{7-e^2}{4}$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/02/24/hexo-fea-bg/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
