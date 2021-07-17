@@ -7,26 +7,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C++11里面的匿名函数 | nekko</title>
+  <title>C++17里面的匿名函数 | nekko</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="C++11,C++," />
+    <meta name="keywords" content="C++,C++17," />
   
 
   <meta name="description" content="自身调用可以这么写： 1234function&lt;int(int x)&gt; dfs &#x3D; [&amp;](int x) &amp;#123;    if(!x) return 0;    return dfs(x - 1);&amp;#125;;  这么写是不行的，（可能）因为 auto 无法和 dfs(x - 1) 匹配 12345auto dfs &#x3D; [&amp;](int x) &amp;#123;    i">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++11里面的匿名函数">
+<meta property="og:title" content="C++17里面的匿名函数">
 <meta property="og:url" content="https://kignsann.github.io/2021/07/17/cpp11-lam/index.html">
 <meta property="og:site_name" content="nekko">
 <meta property="og:description" content="自身调用可以这么写： 1234function&lt;int(int x)&gt; dfs &#x3D; [&amp;](int x) &amp;#123;    if(!x) return 0;    return dfs(x - 1);&amp;#125;;  这么写是不行的，（可能）因为 auto 无法和 dfs(x - 1) 匹配 12345auto dfs &#x3D; [&amp;](int x) &amp;#123;    i">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-07-17T11:12:53.000Z">
-<meta property="article:modified_time" content="2021-07-17T14:12:20.689Z">
+<meta property="article:modified_time" content="2021-07-17T14:48:29.007Z">
 <meta property="article:author" content="nekko">
-<meta property="article:tag" content="C++11">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="C++17">
 <meta name="twitter:card" content="summary">
 
   
@@ -142,7 +142,7 @@
 <div class="content content-post CENTER">
    <article id="post-cpp11-lam" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">C++11里面的匿名函数</h1>
+    <h1 class="post-title">C++17里面的匿名函数</h1>
 
     <div class="article-meta">
       <span>
