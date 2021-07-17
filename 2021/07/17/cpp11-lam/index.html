@@ -15,15 +15,15 @@
     <meta name="keywords" content="C++11,C++," />
   
 
-  <meta name="description" content="自身调用可以这么写： 1234function&lt;int(int x)&gt; dfs &#x3D; [&amp;](int x) &amp;#123;    if(!x) return 0;    return dfs(x - 1);	&amp;#125;;  这么写是不行的，（可能）因为 auto 无法和 dfs(x - 1) 匹配 12345auto dfs &#x3D; [&amp;](int x) &amp;#123;">
+  <meta name="description" content="自身调用可以这么写： 1234function&lt;int(int x)&gt; dfs &#x3D; [&amp;](int x) &amp;#123;    if(!x) return 0;    return dfs(x - 1);&amp;#125;;  这么写是不行的，（可能）因为 auto 无法和 dfs(x - 1) 匹配 12345auto dfs &#x3D; [&amp;](int x) &amp;#123;    i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++11里面的匿名函数">
 <meta property="og:url" content="https://kignsann.github.io/2021/07/17/cpp11-lam/index.html">
 <meta property="og:site_name" content="nekko">
-<meta property="og:description" content="自身调用可以这么写： 1234function&lt;int(int x)&gt; dfs &#x3D; [&amp;](int x) &amp;#123;    if(!x) return 0;    return dfs(x - 1);	&amp;#125;;  这么写是不行的，（可能）因为 auto 无法和 dfs(x - 1) 匹配 12345auto dfs &#x3D; [&amp;](int x) &amp;#123;">
+<meta property="og:description" content="自身调用可以这么写： 1234function&lt;int(int x)&gt; dfs &#x3D; [&amp;](int x) &amp;#123;    if(!x) return 0;    return dfs(x - 1);&amp;#125;;  这么写是不行的，（可能）因为 auto 无法和 dfs(x - 1) 匹配 12345auto dfs &#x3D; [&amp;](int x) &amp;#123;    i">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-07-17T11:12:53.000Z">
-<meta property="article:modified_time" content="2021-07-17T14:10:26.241Z">
+<meta property="article:modified_time" content="2021-07-17T14:12:20.689Z">
 <meta property="article:author" content="nekko">
 <meta property="article:tag" content="C++11">
 <meta property="article:tag" content="C++">
@@ -181,7 +181,7 @@
   <div class="article-content">
     
       <p>自身调用可以这么写：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function&lt;<span class="built_in"><span class="keyword">int</span></span>(<span class="keyword">int</span> x)&gt; dfs = [&amp;](<span class="keyword">int</span> x) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dfs</span>(x - <span class="number">1</span>);</span><br><span class="line">	&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function&lt;<span class="built_in"><span class="keyword">int</span></span>(<span class="keyword">int</span> x)&gt; dfs = [&amp;](<span class="keyword">int</span> x) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dfs</span>(x - <span class="number">1</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>这么写是不行的，（可能）因为 <code>auto</code> 无法和 <code>dfs(x - 1)</code> 匹配</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> dfs = [&amp;](<span class="keyword">int</span> x) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dfs</span>(x - <span class="number">1</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// error: use of &#x27;dfs&#x27; before deduction of &#x27;auto&#x27;</span></span><br></pre></td></tr></table></figure>
