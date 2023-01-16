@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>从前缀和到莫比乌斯反演 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,数学,莫比乌斯反演,前缀和与差分," />
+  
+
+  <meta name="description" content="# 基础知识  前缀和一维情况设有序列 ${a_n}$，定义其前缀和为序列 ${s_n}$，满足 $s_n&#x3D;\sum_{i&#x3D;1}^{n}a_i$ 前缀和的定义有一个好处，就是可以快速提取 $a$ 的区间和（前提是存在加法逆元），即 $\sum_{i&#x3D;l}^{r}a_i&#x3D;s_r-s_{l-1}$ 连续情况下为积分，此处为离散积分 二维情况给定 ${a_{n.m}}$，求 ${s_{n,m}}$，满">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从前缀和到莫比乌斯反演">
+<meta property="og:url" content="https://nekko.moe/partialsum-to-mobiusinversion/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="# 基础知识  前缀和一维情况设有序列 ${a_n}$，定义其前缀和为序列 ${s_n}$，满足 $s_n&#x3D;\sum_{i&#x3D;1}^{n}a_i$ 前缀和的定义有一个好处，就是可以快速提取 $a$ 的区间和（前提是存在加法逆元），即 $\sum_{i&#x3D;l}^{r}a_i&#x3D;s_r-s_{l-1}$ 连续情况下为积分，此处为离散积分 二维情况给定 ${a_{n.m}}$，求 ${s_{n,m}}$，满">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-03T12:14:28.000Z">
+<meta property="article:modified_time" content="2019-07-22T12:11:33.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="莫比乌斯反演">
+<meta property="article:tag" content="前缀和与差分">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E5%92%8C"><span class="toc-text">前缀和</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E6%83%85%E5%86%B5"><span class="toc-text">一维情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%83%85%E5%86%B5"><span class="toc-text">二维情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E7%BB%B4%E6%83%85%E5%86%B5"><span class="toc-text">高维情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%AE%E5%88%86"><span class="toc-text">差分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E6%83%85%E5%86%B5-1"><span class="toc-text">一维情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%83%85%E5%86%B5-1"><span class="toc-text">二维情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E7%BB%B4%E6%83%85%E5%86%B5-1"><span class="toc-text">高维情况</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%A3%E6%95%B4%E6%95%B0%E4%B8%8E%E5%94%AF%E4%B8%80%E5%88%86%E8%A7%A3%E5%AE%9A%E7%90%86"><span class="toc-text">正整数与唯一分解定理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E6%95%B4%E6%95%B0"><span class="toc-text">正整数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%94%AF%E4%B8%80%E5%88%86%E8%A7%A3%E5%AE%9A%E7%90%86"><span class="toc-text">唯一分解定理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B4%E9%99%A4%E4%B8%8E%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%8D%B7%E7%A7%AF"><span class="toc-text">整除与狄利克雷卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E9%99%A4"><span class="toc-text">整除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%8D%B7%E7%A7%AF"><span class="toc-text">狄利克雷卷积</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zeta-times-mu-delta"><span class="toc-text">$\zeta \times \mu&#x3D;\delta$</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#g-f-times-zeta"><span class="toc-text">$g&#x3D;f \times \zeta$</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#f-g-times-mu"><span class="toc-text">$f &#x3D; g \times \mu$</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zeta-times-mu-delta-1"><span class="toc-text">$\zeta \times \mu&#x3D;\delta$</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E8%AF%9D"><span class="toc-text">后话</span></a>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-partialsum-to-mobiusinversion" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">从前缀和到莫比乌斯反演</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.06.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28854949&height=66"></iframe>
+# 基础知识
+
+<h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><h3 id="一维情况"><a href="#一维情况" class="headerlink" title="一维情况"></a>一维情况</h3><p>设有序列 ${a_n}$，定义其前缀和为序列 ${s_n}$，满足 $s_n=\sum_{i=1}^{n}a_i$</p>
+<p>前缀和的定义有一个好处，就是可以快速提取 $a$ 的区间和（前提是存在加法逆元），即 $\sum_{i=l}^{r}a_i=s_r-s_{l-1}$</p>
+<p><del>连续情况下为积分，此处为离散积分</del></p>
+<h3 id="二维情况"><a href="#二维情况" class="headerlink" title="二维情况"></a>二维情况</h3><p>给定 ${a_{n.m}}$，求 ${s_{n,m}}$，满足 $s_{n,m}=\sum_{i \le n}\sum_{j \le m}a_{i,j}$</p>
+<p>考虑容斥，有 $s_{n,m}=s_{n-1,m}+s_{n,m-1}-s_{n-1,m-1}+a_{n,m}$</p>
+<p>还有另一种做法：先对第一维求前缀和 ${b_{n,m}}$，满足 $b_{n,m}=\sum_{i \le n}a_{i,m}$，然后对第二维在 ${b_{n,m}}$ 的基础上求前缀和，得到 ${s_{n,m}}$，即 $s_{n,m}=\sum_{j \le m}b_{n,j}$</p>
+<p>实际上是先求出了一堆列的前缀和，然后再对行求前缀和就得到了矩形的前缀和</p>
+<h3 id="高维情况"><a href="#高维情况" class="headerlink" title="高维情况"></a>高维情况</h3><p>给定 ${a_{x_1,x_2,\cdots,x_k}}$，求 ${s_{x_1,x_2,\cdots,x_k}}$，满足 $s_{x_1,x_2,\cdots,x_k}=\sum_{i_1 \le x_1}\sum_{i_2 \le x_2} \cdots \sum_{i_k \le x_k}a_{i_1,i_2,\cdots,i_k}$</p>
+<p>先考虑容斥，有：</p>
+<p>$$<br>s _ {x _ 1,x _ 2,\cdots,x _ k}=a _ {x _ 1,x _ 2,\cdots,x _ k}+\sum_{i _ 1=0}^{1}\sum_{i _ 2=0}^{1}\cdots \sum_{i _ k=0}^{1} \left[\sum  _ {j=1}^{k}i _ j &gt; 0 \right](-1)^{\left(1+\sum _ {j=1}^{k}i _ j\right)} s _ {x _ 1-i _ 1,x _ 2-i _ 2,\cdots,x _ k-i _ k}<br>$$</p>
+<p>对于另一种做法，就相当于对于每一维都依次求一遍前缀和，最后的到的结果是和容斥得到的结果相同的</p>
+<h2 id="差分"><a href="#差分" class="headerlink" title="差分"></a>差分</h2><h3 id="一维情况-1"><a href="#一维情况-1" class="headerlink" title="一维情况"></a>一维情况</h3><p>差分是前缀和的逆运算，即如果知道 ${s_n}$，现在要还原 ${a_n}$，则有 $a_n=s_{n}-s_{n-1}$</p>
+<p><del>连续情况下为微分，此处为离散微分</del></p>
+<h3 id="二维情况-1"><a href="#二维情况-1" class="headerlink" title="二维情况"></a>二维情况</h3><p>实际上把前缀和的式子中的 $a$ 挪到一旁就是差分的方式了，即：</p>
+<p>$$<br>\begin{aligned}<br>&amp;s_{n,m}=s_{n-1,m}+s_{n,m-1}-s_{n-1,m-1}+a_{n,m} \\<br>\Rightarrow &amp;a_{n,m}=s_{n,m}-s_{n-1,m}-s_{n,m-1}+s_{n-1,m-1}<br>\end{aligned}<br>$$</p>
+<p>另一种方法：先把仅有第一维的前缀和 ${b_{n,m}}$ 求出来，即 $b_{n,m}=s_{n,m}-s_{n,m-1}$</p>
+<p>然后 ${a_{n,m}}$ 就可以求了，即 $a_{n,m}=b_{n,m}-b_{n-1,m}$</p>
+<h3 id="高维情况-1"><a href="#高维情况-1" class="headerlink" title="高维情况"></a>高维情况</h3><p>容斥的做法就较为简单了</p>
+<p>$$<br>a_{x_1,x_2,\cdots,x_k}=\sum_{i_1=0}^{1}\sum_{i_2=0}^{1}\cdots \sum_{i_k=0}^{1} (-1)^{\left(\sum_{j=1}^{k}i_j\right)} s_{x_1-i_1,x_2-i_2,\cdots,x_k-i_k}<br>$$</p>
+<p>如果用另一种方法的话，实际上每一维都从大往小枚举后做差分即可</p>
+<h1 id="正整数与唯一分解定理"><a href="#正整数与唯一分解定理" class="headerlink" title="正整数与唯一分解定理"></a>正整数与唯一分解定理</h1><h2 id="正整数"><a href="#正整数" class="headerlink" title="正整数"></a>正整数</h2><p>非 $0$ 的自然数，也就是 $1,2,3,4,5,\cdots,\infty$ 这样的，记做 $\mathbb{N^{*}}$</p>
+<h2 id="唯一分解定理"><a href="#唯一分解定理" class="headerlink" title="唯一分解定理"></a>唯一分解定理</h2><p>设 $\mathbb{P}$ 为全体素数的集合，其中 $p_i$ 表示第 $i$ 个素数，比如说 $p_1=2,p_2=3,p_3=5$ 之类的</p>
+<p>对于任意一个正整数 $n$，存在唯一一种划分：</p>
+<p>$$<br>n=\prod_{i=1}^{\infty} p_i^{k_i}<br>$$</p>
+<h1 id="整除与狄利克雷卷积"><a href="#整除与狄利克雷卷积" class="headerlink" title="整除与狄利克雷卷积"></a>整除与狄利克雷卷积</h1><h2 id="整除"><a href="#整除" class="headerlink" title="整除"></a>整除</h2><p>在 $\mathbb{N^{*}}$ 上定义二元关系整除，用符号 $|$ 来表示，其定义为：</p>
+<p>$$<br>a|b \Leftrightarrow a,b \in \mathbb{N^{*}} \wedge \left( \exists k \in \mathbb{N^{*}}:ka=b \right)<br>$$</p>
+<h2 id="狄利克雷卷积"><a href="#狄利克雷卷积" class="headerlink" title="狄利克雷卷积"></a>狄利克雷卷积</h2><p>对于序列 ${a_n}$ 和序列 ${b_n}$，定义其狄利克雷卷积 ${c_n}$ 为：</p>
+<p>$$<br>c_n=\sum_{d|n}a_db_\frac{n}{d}<br>$$</p>
+<p>记做 $c=a \times b$</p>
+<h1 id="zeta-times-mu-delta"><a href="#zeta-times-mu-delta" class="headerlink" title="$\zeta \times \mu=\delta$"></a>$\zeta \times \mu=\delta$</h1><h2 id="g-f-times-zeta"><a href="#g-f-times-zeta" class="headerlink" title="$g=f \times \zeta$"></a>$g=f \times \zeta$</h2><p>定义 $\zeta(n)=1$，即：</p>
+<p>$$<br>g_n=\sum_{d|n}f_d<br>$$</p>
+<p>换句话说就是求了一个在整除意义下的前缀和</p>
+<p>考虑把它写的更好看一些，不妨把 $n$ 唯一分解定理展开，即：</p>
+<p>$$<br>n=\prod_{i=1}^{\infty} p_i^{k_i}<br>$$</p>
+<p>于是可以把 $n$ 看作高维度空间下的一个点，即 $(k_1,k_2,\cdots,k_{\infty})$</p>
+<p>设 $d|n$，且 $d=\prod_{i=1}^{\infty}p_i^{k’_i}$，则 $d$ 应当满足 $k’_i \le k_i$</p>
+<p>于是可以这么来做 $g=f \times \mu$，即（为了好看起见就加上了个 $k_\infty$，实际上不能这么写）：</p>
+<p>$$<br>g _ {(k _ 1,k _ 2,\cdots,k_{\infty})}=\sum_{k’ _ 1 \le k _ 1}\sum_{k_2’ \le k_2} \cdots \sum _ {k’ _ {\infty} \le k_{\infty}} \left[d=\prod _ {i=1}^{\infty}p_i^{k’_i}\right] f_d<br>$$</p>
+<p>于是就可以使用高维前缀和的做法来计算 $g$ 了</p>
+<h2 id="f-g-times-mu"><a href="#f-g-times-mu" class="headerlink" title="$f = g \times \mu$"></a>$f = g \times \mu$</h2><p>如果知道 $g$，现在要还原 $f$，实际上也不难操作</p>
+<p>一个比较简单的方法就是，从小到大枚举 $n$，由于 $g_n=\sum_{d|n}f_d$，所以 $f_n=g_n-\sum_{d|n \wedge d &lt; n}f_d$</p>
+<p>另一个比较巧妙的方法就是求出 $\zeta$ 的逆函数，定义它为 $\mu$</p>
+<p>考虑到高维差分的容斥做法：</p>
+<p>$$<br>a_{x_1,x_2,\cdots,x_k}=\sum_{i_1=0}^{1}\sum_{i_2=0}^{1}\cdots \sum_{i_k=0}^{1} (-1)^{\left(\sum_{j=1}^{k}i_j\right)} s_{x_1-i_1,x_2-i_2,\cdots,x_k-i_k}<br>$$</p>
+<p>那么 $\mu$ 就是 $(-1)^{\left(\sum_{j=1}^{k}i_j\right)}$</p>
+<p>设 $n=\prod_{i=1}^{\infty}p_i^{k_i}$，现在要求出 $\mu(n)$</p>
+<p>考虑到 $0 \le k_i \le 1$，因此 $n$ 应无大于 $1$ 的完全平方因子，且如果 $n$ 能写做 $k$ 个不同的素数的乘积的话，则 $\mu(n)=(-1)^{k}$</p>
+<h2 id="zeta-times-mu-delta-1"><a href="#zeta-times-mu-delta-1" class="headerlink" title="$\zeta \times \mu=\delta$"></a>$\zeta \times \mu=\delta$</h2><p>定义 $\delta(n)=[n=1]$，也就是单位函数，换而言之 $f \times \delta=f$</p>
+<p>考虑到 $\zeta$ 表示前缀和，$\mu$ 表示差分，那么 $f$ 依次作用上这两个函数，就相当于没有进行作用</p>
+<p>即 $f \times \zeta \times \mu=f \times (\zeta \times \mu)=f \times \delta=f$</p>
+<h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>一个有趣的题：<a target="_blank" rel="noopener" href="https://loj.ac/problem/6627">loj #6627. 等比数列三角形</a></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/eoj-solutions/eoj-840/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/uoj-solutions/uoj-156/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

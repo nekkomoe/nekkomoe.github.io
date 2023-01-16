@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>NOI2019 AFO | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="游记,NOI2019," />
+  
+
+  <meta name="description" content="Day -???省选后开始大力学习各种知识点，同时写了写雅礼集训的题，然后就是考试改题啥的了 Day -1由于车票买的早了一天，于是就提前一天到了，学了一波 pollard-rho 后就睡觉了（不理解） Day 0报到日，由于太鸽了，所以是最后一个报道的 发书包好评，以及这两件衣服看起来是能长久穿的 竟然用的是饭票，看来没饭卡当纪念品了…… 牛排猪排鸡排都真好吃 Day 1开幕式，灯光师可能没">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NOI2019 AFO">
+<meta property="og:url" content="https://nekko.moe/NOI2019/NOI2019/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="Day -???省选后开始大力学习各种知识点，同时写了写雅礼集训的题，然后就是考试改题啥的了 Day -1由于车票买的早了一天，于是就提前一天到了，学了一波 pollard-rho 后就睡觉了（不理解） Day 0报到日，由于太鸽了，所以是最后一个报道的 发书包好评，以及这两件衣服看起来是能长久穿的 竟然用的是饭票，看来没饭卡当纪念品了…… 牛排猪排鸡排都真好吃 Day 1开幕式，灯光师可能没">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/21/ep9toR.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/21/ep9JeJ.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/21/ep91QU.png">
+<meta property="article:published_time" content="2019-07-21T03:26:13.000Z">
+<meta property="article:modified_time" content="2021-07-09T16:06:01.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="游记">
+<meta property="article:tag" content="NOI2019">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/21/ep9toR.jpg">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Day"><span class="toc-text">Day -???</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-1"><span class="toc-text">Day -1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-0"><span class="toc-text">Day 0</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-1-1"><span class="toc-text">Day 1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-2"><span class="toc-text">Day 2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-3"><span class="toc-text">Day 3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-4"><span class="toc-text">Day 4</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-5"><span class="toc-text">Day 5</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-6"><span class="toc-text">Day 6</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Day-7"><span class="toc-text">Day 7</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%82%E8%B0%88"><span class="toc-text">杂谈</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E4%B8%AD%E8%BD%A6%E9%98%9F%EF%BC%88%E6%B2%A1%E9%B8%BD%E7%9A%84%EF%BC%89"><span class="toc-text">二中车队（没鸽的）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-NOI2019/NOI2019" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">NOI2019 AFO</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.07.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/travel/">travel</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=462686464&height=66"></iframe>
+
+<h1 id="Day"><a href="#Day" class="headerlink" title="Day -???"></a>Day -???</h1><p>省选后开始大力学习各种知识点，同时写了写雅礼集训的题，然后就是考试改题啥的了</p>
+<h1 id="Day-1"><a href="#Day-1" class="headerlink" title="Day -1"></a>Day -1</h1><p>由于车票买的早了一天，于是就提前一天到了，学了一波 <code>pollard-rho</code> 后就睡觉了（<del>不理解</del>）</p>
+<h1 id="Day-0"><a href="#Day-0" class="headerlink" title="Day 0"></a>Day 0</h1><p>报到日，由于太鸽了，所以是最后一个报道的</p>
+<p>发书包好评，以及这两件衣服看起来是能长久穿的</p>
+<p>竟然用的是饭票，看来没饭卡当纪念品了……</p>
+<p><del>牛排猪排鸡排都真好吃</del></p>
+<h1 id="Day-1-1"><a href="#Day-1-1" class="headerlink" title="Day 1"></a>Day 1</h1><p>开幕式，灯光师可能没有注意到观众的感受</p>
+<p>不过大部分时间在背笔试……</p>
+<p>河北的口号：<code>京畿福地 燕赵儿女 信竟赛场 所向披靡</code></p>
+<p><del>最后也没喊</del></p>
+<p>笔试：最后一个多选题感觉最后一个选项没见过，不过既然是多选题那很大概率它不可能只会选一个……</p>
+<p>虽然知道看板子可能没啥用，但还是看了看</p>
+<h1 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h1><p>比赛日，早上起来看了看板子，学习了一波圆方树，但感觉并不考</p>
+<p>打开题，第一感觉就是：最短路、计数、乱搞</p>
+<p>然而第一眼并没有看出来是个斜率优化，于是最短路大力构图了大半天自闭了……</p>
+<p>不过看样子大样例只需要把 $O(m^2)$ 的建图改成就连前 $10$ 个点和后 $10$ 个点似乎就能过了，假装它是正确的 $O(10m)$ 建图</p>
+<p>第二题感觉就是个笛卡尔树的数树……然而并不会，写了个 $O(n^2 B)$ 就跑路了（将题的时候才发现状态是 $O(n \log n)$ 的，也就是写记忆化的分更多……）</p>
+<p>第三题写了个 $O(n^5)$ 的就自闭了，当时不知道为啥我认为 $O(n^4)$ 的是错的……</p>
+<p>看成绩后，第一题果不其然的挂了 $5$ 分，其它题也就那样……</p>
+<h1 id="Day-3"><a href="#Day-3" class="headerlink" title="Day 3"></a>Day 3</h1><p>社会活动，去博物馆了</p>
+<p><del>博物馆好无聊啊，为啥不去科技馆呢</del></p>
+<h1 id="Day-4"><a href="#Day-4" class="headerlink" title="Day 4"></a>Day 4</h1><p>我就知道 $NOI$ 不可能会考需要板子的题</p>
+<p>标题：弹跳、斗主地、I君的探险</p>
+<p><del>完了估计少了两个题</del></p>
+<p>第一题一看题面怎么还在迫害 $vfk$ 啊，不过似乎很水啊，模拟赛考过这玩意……</p>
+<p>虽然说 $kd-tree$ 隐式建图就好了，但当时我并没想到卡常这件事……</p>
+<p>第二题还好不是真的斗地主，不过看起来没思路啊，除了那个 $O(n^4+mn^3)$ 的玩意就不会了啊</p>
+<p>写了后发现还有一个矩乘的部分分，写了就跑了</p>
+<p>第三题看着就不可做，先写了个 $O(n^2)$ 的暴力</p>
+<p>然后看看这个一堆配对的部分分，看起来直接 $modify$ 一下前若干个，然后图就分成三部分就好了啊</p>
+<p>写了写就过随机数据了，然后就去弄链的部分分，无果告终……</p>
+<p>看成绩后，第三题怎么挂了 $4$ 分……然后一看，循环应该除 $2$……</p>
+<p><del>去找大学了看看有没有要我的了</del></p>
+<p>$THU$ 似乎很豪气啊，把前 $100$ 的都要走了……</p>
+<p>$PKU$ 似乎很抠门啊，只收高一……</p>
+<p>然后重新写了一遍 $kd-tree$，发现 $loj$ 过不去啊，卡了两个小时才过……</p>
+<h1 id="Day-5"><a href="#Day-5" class="headerlink" title="Day 5"></a>Day 5</h1><p>闭幕式，灯光师仍然不考虑观众感受</p>
+<p>感觉这牌就都是一个模子里刷了不同的漆啊……</p>
+<p><img src="https://s2.ax1x.com/2019/07/21/ep9toR.jpg"></p>
+<p><del>由于灯光原因，假装多了几个金牌</del></p>
+<h1 id="Day-6"><a href="#Day-6" class="headerlink" title="Day 6"></a>Day 6</h1><p>归程，早起去坐大巴去火车站</p>
+<p>把鸽了一周多的题 <a target="_blank" rel="noopener" href="https://loj.ac/problem/6683">必须旗帜鲜明地反对毒瘤</a> 的标程给写了</p>
+<p><del>明明是个大水题怎么鸽到了现在啊</del></p>
+<h1 id="Day-7"><a href="#Day-7" class="headerlink" title="Day 7"></a>Day 7</h1><p>群里看到机房的上古玩偶比较惨，如下：</p>
+<p><img src="https://s2.ax1x.com/2019/07/21/ep9JeJ.jpg"></p>
+<p>在洛谷签了个到：</p>
+<p><img src="https://s2.ax1x.com/2019/07/21/ep91QU.png"></p>
+<p><del>并不需要刷题和模拟赛</del></p>
+<h1 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h1><p><del>由于早饭没喝粥，所以不知道发生了啥</del></p>
+<blockquote>
+<p>最后说个有意思的事情：早餐的粥的盛饭方式</p>
+<p>第一天：把勺靠在锅里自己盛。有选手把勺沉入了锅中…</p>
+<p>第二天：在旁边放了一个盆用来放勺。很多人盛饭撒了，而且粥非常烫。</p>
+<p>第三天：预先把粥盛到碗里23333333333</p>
+</blockquote>
+<p>第二次机试前一天：</p>
+<blockquote>
+<p>“你看序列交互出过，树交互出过，是不是该出图交互了。”——i207m</p>
+</blockquote>
+<p>笔试里没有任何关于大事件发生的时间的题……</p>
+<p>放送事故：</p>
+<blockquote>
+<p>镇江，填江</p>
+<p>余姚，余桃</p>
+<p><del>镇海，填海</del></p>
+<p><del>学军，学车</del></p>
+</blockquote>
+<h1 id="二中车队（没鸽的）"><a href="#二中车队（没鸽的）" class="headerlink" title="二中车队（没鸽的）"></a>二中车队（没鸽的）</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.org/blog/i207M/noi2019-ji-you-ji">i207M</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.org/blog/ywycasm/afo-noi2019-tui-yi-ji">ywy_c_asm</a></li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>论练好手速的重要性，以及练好不写挂的重要性</p>
+<p>考场不降智就没事了，但每个题都不降智是很困难的……</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/star-star-problem/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/good-links/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

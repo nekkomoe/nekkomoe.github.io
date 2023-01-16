@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>01trie | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,trie,平衡树," />
+  
+
+  <meta name="description" content="简介trie(retrieval)树，一种存储多个有序序列的树，在存储前缀相等次数多的数据时有很大的优势 一般来说，trie树是用于字典树，但这篇文章不谈字典树，而谈一谈它的近亲——binary trie 如果将固定字长的正整数的二进制看作一个01有序序列（从高位往低位存储，允许前导零填充满位数），那么就可以直接存储到trie树里了，而这种trie树称作binary trie 这棵树有一个明显的特">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01trie">
+<meta property="og:url" content="https://nekko.moe/01trie/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="简介trie(retrieval)树，一种存储多个有序序列的树，在存储前缀相等次数多的数据时有很大的优势 一般来说，trie树是用于字典树，但这篇文章不谈字典树，而谈一谈它的近亲——binary trie 如果将固定字长的正整数的二进制看作一个01有序序列（从高位往低位存储，允许前导零填充满位数），那么就可以直接存储到trie树里了，而这种trie树称作binary trie 这棵树有一个明显的特">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-06-03T23:12:34.000Z">
+<meta property="article:modified_time" content="2018-09-09T15:20:24.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="trie">
+<meta property="article:tag" content="平衡树">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-01trie" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">01trie</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.06.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>trie(retrieval)树，一种存储多个有序序列的树，在存储前缀相等次数多的数据时有很大的优势</p>
+<p>一般来说，trie树是用于字典树，但这篇文章不谈字典树，而谈一谈它的近亲——binary trie</p>
+<p>如果将固定字长的正整数的二进制看作一个01有序序列（从高位往低位存储，允许前导零填充满位数），那么就可以直接存储到trie树里了，而这种trie树称作binary trie</p>
+<p>这棵树有一个明显的特点，一个节点最多只有两个儿子，分别是0儿子和1儿子，因此空间复杂度可以近似的看成O(nBIT)</p>
+<p>用途？十分好写的“平衡树”</p>
+<p>（出门必备的骗分神器……几分钟种植一棵“平衡树”……）</p>
+<p>加引号是因为它本质是权值线段树，因为在trie树上的进入左右儿子的过程本质上是在权值线段树上往[l,mid]或者[mid+1,r]进行移动，因为01分类法使得它就是基于区间的二分</p>
+<p>至于操作，就类似于权值线段树上的操作了，看代码更加直观</p>
+<p>当然，简洁的代码背后是某些天坑</p>
+<p>1.空间消耗过大，如果有n个数字那么空间消耗为O(nw)</p>
+<p>2.插入浮点数？两种方法，第一种是离散化之后当成int来搞，不过一般题是不支持离线的样子，第二种是将浮点数看成高位和低位拼接起来的一个数串，不过空间复杂度需要再乘二</p>
+<p>3.插入负数？这样可以加上一个数使得所有数都大于等于零（输出的时候再减去就行）</p>
+<p>4.插入非数字？不过这样的话只能离线读进去后hash编码了，或者可以事先得知大小关系</p>
+<p>可持久化之后，就可以解决区间上的查询了，跟可持久化线段树差不多</p>
+<p>启发式合并也是很支持的</p>
+<p>1.对于每棵树维护一个保存着所有值的链表（vector或者list随意），合并的时候直接将较小的那棵树整体放入垃圾回收装置（这个就随意了，array、queue、list、vector都行），然后遍历链表并插入到较大的那棵树里，最后将小的那棵树的链表直接接到大的那棵树的链表的结尾（这是O(1)的，如果使用vector的话就是O(n)的，不过也没什么关系，但是不能用array，因为开不下数组啊（dynamic array另说））</p>
+<p>再分配新节点的时候，如果当前垃圾回收装置非空，那么就拿起末尾的那个节点，由于存储的时候没有删除它的子节点的那些信息，所以将它的左右节点再分别存入回收装置，然后对拿起的这个节点进行清理相关信息并当做新节点返回</p>
+<p>2.当然其实直接对较小的那棵树dfs一遍搞出所有的值就行了……插入后把较小的那棵树直接扔到垃圾回收装置里就行……</p>
+<p>3.貌似trie也可以跟线段树一样直接合并……但好像垃圾回收的时候比较惨（某一些可以回收，某一些不需要回收……）……</p>
+<p>GC是一个很神奇的东西，因为它只存删除的那棵树的树根，真正做到了O(1)删除一棵树，O(1)新建节点</p>
+<p>“HNOI2012永无乡”是个不错的例题</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p><a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/5901006">luogu P3369 普通平衡树</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/7115174">HNOI2012 永无乡</a></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/slope-opt/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/mob-inv/mob-inv/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

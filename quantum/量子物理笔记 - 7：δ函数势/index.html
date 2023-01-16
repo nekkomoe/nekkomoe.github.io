@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>量子物理笔记 - 7：δ 函数势 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="量子力学,原子物理,线性代数," />
+  
+
+  <meta name="description" content="δ 函数狄拉克 $\delta$ 函数：$$\begin{aligned}&amp; \delta(x)&#x3D;\begin{cases}0, \quad &amp; x \ne 0 \\\infty, \quad &amp; x&#x3D;0\end{cases} \\&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1\end{aligned}$$$\delta$ 函数势为：$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="量子物理笔记 - 7：δ 函数势">
+<meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%207%EF%BC%9A%CE%B4%E5%87%BD%E6%95%B0%E5%8A%BF/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="δ 函数狄拉克 $\delta$ 函数：$$\begin{aligned}&amp; \delta(x)&#x3D;\begin{cases}0, \quad &amp; x \ne 0 \\\infty, \quad &amp; x&#x3D;0\end{cases} \\&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1\end{aligned}$$$\delta$ 函数势为：$">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-16T00:00:07.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:37:28.524Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="量子力学">
+<meta property="article:tag" content="原子物理">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%CE%B4-%E5%87%BD%E6%95%B0"><span class="toc-text">δ 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%9F%E7%BC%9A%E6%80%81"><span class="toc-text">束缚态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%A3%E5%B0%84%E6%80%81"><span class="toc-text">散射态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%CE%B4-%E5%87%BD%E6%95%B0%E5%8A%BF%E5%9E%92"><span class="toc-text">δ 函数势垒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-text">例题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-27"><span class="toc-text">2.27</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quantum/量子物理笔记 - 7：δ函数势" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">量子物理笔记 - 7：δ 函数势</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.01.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Quantum/">Quantum</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="δ-函数"><a href="#δ-函数" class="headerlink" title="δ 函数"></a>δ 函数</h2><p>狄拉克 $\delta$ 函数：<br>$$<br>\begin{aligned}<br>&amp; \delta(x)=<br>\begin{cases}<br>0, \quad &amp; x \ne 0 \\<br>\infty, \quad &amp; x=0<br>\end{cases} \\<br>&amp;\int_{-\infty}^{\infty}\delta(x) dx=1<br>\end{aligned}<br>$$<br>$\delta$ 函数势为：<br>$$<br>V(x)=-\alpha\delta(x), \quad \alpha&gt;0<br>$$<br>$\delta$ 函数势阱的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2 \psi-\alpha\delta(x)\psi=E\psi<br>$$</p>
+<h2 id="束缚态"><a href="#束缚态" class="headerlink" title="束缚态"></a>束缚态</h2><p>当 $E&lt;0$ 时，粒子处于束缚态，即：<br>$$<br>\nabla^2\psi=\kappa^2\psi, \quad x\ne 0,\kappa=\frac{\sqrt{-2m E}}{\hbar}<br>$$<br>通解为：<br>$$<br>\psi(x)=<br>\begin{cases}<br>Ae^{-\kappa x}+Be^{\kappa x}, \quad &amp;x&lt;0 \\<br>Ce^{-\kappa x}+De^{\kappa x}, \quad &amp;x&gt;0<br>\end{cases}<br>$$<br>由 $\psi$ 的连续性以及收敛条件，得：<br>$$<br>\psi(x)=<br>\begin{cases}<br>Be^{\kappa x}, \quad &amp;x\le 0 \\<br>Be^{-\kappa x}, \quad &amp;x\ge 0<br>\end{cases}<br>$$<br>对定态薛定谔方程在区间 $[-\varepsilon,\varepsilon]$ 上求积分：<br>$$<br>-\frac{\hbar ^2}{2m}\int_{-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int_{-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>=E\int_{-\varepsilon}^{\varepsilon}\psi dx<br>$$<br>对于前半部分，有：<br>$$<br>-\frac{\hbar ^2}{2m}\int _ {-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int _ {-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>=-\frac{\hbar^2}{2m}\nabla \psi| _ {-\varepsilon}^{\varepsilon}-\alpha\psi(0)<br>$$<br>取极限 $\varepsilon \to 0^+$，得：<br>$$<br>\begin{aligned}<br>&amp; \nabla \psi(\varepsilon)-\nabla\psi(-\varepsilon)=-\frac{2m\alpha}{\hbar^2}\psi(0) \\<br>\Rightarrow<br>&amp; -2B\kappa=-\frac{2m\alpha}{\hbar^2}\psi(0)=-\frac{2m\alpha}{\hbar^2}B \\<br>\Rightarrow<br>&amp; \kappa=\frac{m\alpha}{\hbar^2}=\frac{\sqrt{-2mE}}{\hbar} \\<br>\Rightarrow<br>&amp; E=-\frac{m\alpha^2}{2\hbar^2}<br>\end{aligned}<br>$$<br>对 $\psi$ 归一化得：<br>$$<br>\begin{aligned}<br>1<br>&amp;=\int _ {-\infty}^{0}\psi^* \psi dx+\int _ {0}^{\infty}\psi^* \psi dx \\<br>&amp;=\int _ {-\infty}^{0}|B|^2e^{2\kappa x}dx+\int _ {0}^{\infty}|B|^2e^{-2\kappa x}dx \\<br>&amp;=2|B|^2\int _ {0}^{\infty}e^{-2\kappa x}dx \\<br>&amp;=2|B|^2 \frac{1}{-2\kappa}e^{-2\kappa x}| _ {0}^{\infty} \\<br>&amp;=-\frac{|B|^2}{\kappa}(0-1) \\<br>&amp;=\frac{|B|^2}{\kappa}<br>\end{aligned}<br>$$<br>即：<br>$$<br>B=\sqrt{\kappa}=\frac{\sqrt{m\alpha}}{\hbar}<br>$$<br>即强度为 $\alpha$ 的 $\delta$ 函数势阱，其束缚态为：<br>$$<br>\begin{aligned}<br>&amp; \psi(x)=\frac{\sqrt{m\alpha}}{\hbar}e^{-m\alpha|x|/\hbar^2} \\<br>&amp; E=-\frac{m\alpha^2}{2\hbar^2}<br>\end{aligned}<br>$$</p>
+<h2 id="散射态"><a href="#散射态" class="headerlink" title="散射态"></a>散射态</h2><p>当 $E&gt;0$ 时，粒子处于束缚态，即：<br>$$<br>\nabla^2\psi=-k^2\psi, \quad x\ne 0,k=\frac{\sqrt{2m E}}{\hbar}<br>$$<br>通解为：<br>$$<br>\psi(x)=<br>\begin{cases}<br>Ae^{ikx}+Be^{-ikx}, \quad &amp;x&lt;0 \\<br>Ce^{ikx}+De^{-ikx}, \quad &amp;x&gt;0<br>\end{cases}<br>$$<br>由 $\psi$ 在 $x=0$ 处连续，得：<br>$$<br>A+B=C+D<br>$$<br>对定态薛定谔方程在区间 $[-\varepsilon,\varepsilon]$ 上求积分：<br>$$<br>-\frac{\hbar ^2}{2m}\int _ {-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int _ {-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>=E\int_{-\varepsilon}^{\varepsilon}\psi dx<br>$$<br>即：<br>$$<br>\begin{aligned}<br>&amp; -\frac{ik\hbar^2}{2m}\left((C-D)-(A-B) \right)=\alpha\psi(0)=\alpha(A+B) \\<br>\Rightarrow<br>&amp; ik(C-D-A+B)=-\frac{2m\alpha}{\hbar^2}(A+B) \\<br>\Rightarrow<br>&amp; C-D=A(1+2i\beta)-B(1-2i\beta), \quad \beta=\frac{m\alpha}{\hbar^2k}<br>\end{aligned}<br>$$<br>其中 $A,C$ 代表右行波的振幅，$B,D$ 代表左行波的振幅，即：</p>
+<ol>
+<li>$A$ 代表粒子从左侧入射；</li>
+<li>$B$ 代表粒子从左侧离开；</li>
+<li>$C$ 代表粒子从右侧离开；</li>
+<li>$D$ 代表粒子从右侧入射。</li>
+</ol>
+<p>对于一维问题，可以指定粒子的入射方向（如从左侧入射），则：</p>
+<ol>
+<li>$A$ 表示入射波振幅；</li>
+<li>$B$ 表示反射波振幅；</li>
+<li>$C$ 表示折射波振幅；</li>
+<li>$D=0$ 表示右侧无粒子入射。</li>
+</ol>
+<p>于是有：<br>$$<br>\begin{aligned}<br>&amp; B=\frac{i\beta}{1-i\beta}A \\<br>&amp; C=\frac{1}{1-i\beta}A<br>\end{aligned}<br>$$<br>反射系数（反射回去的粒子占比）为：<br>$$<br>R=\frac{|B|^2}{|A|^2}=\frac{\beta^2}{1+\beta^2}=\frac{1}{1+\frac{2\hbar^2E}{m\alpha^2}}<br>$$<br>透射系数为：<br>$$<br>T=\frac{|C|^2}{|A|^2}=\frac{1}{1+\beta^2}=\frac{1}{1+\frac{m\alpha^2}{2\hbar^2E}}<br>$$<br>可以看到：<br>$$<br>R+T=1<br>$$<br>同时可以发现：</p>
+<ol>
+<li>能量越低，粒子被反射回去的概率越高；</li>
+<li>能量越高，粒子透射过去的概率越高。</li>
+</ol>
+<h2 id="δ-函数势垒"><a href="#δ-函数势垒" class="headerlink" title="δ 函数势垒"></a>δ 函数势垒</h2><p>$\delta$ 函数势垒的势为：<br>$$<br>V(x)=\alpha\delta(x), \quad \alpha&gt;0<br>$$<br>$\delta$ 函数势阱的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2 \psi+\alpha\delta(x)\psi=E\psi<br>$$<br>此时粒子不存在束缚态，只存在散射态。</p>
+<p>由于透射系数：<br>$$<br>T=\frac{1}{1+\frac{m\alpha^2}{2\hbar^2 E}} &gt; 0<br>$$<br>因此粒子有可能会穿越无限高的势垒，即发生量子隧穿效应；同样的，即使 $E&gt;V_{\max}$，粒子也有概率会被反射回去。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="2-27"><a href="#2-27" class="headerlink" title="2.27"></a>2.27</h3><p>考虑双 $\delta$ 函数势：<br>$$<br>V(x)=-\alpha(\delta(x+a)+\delta(x-a)), \quad a,\alpha&gt;0<br>$$</p>
+<ol>
+<li>求存在多少束缚态；</li>
+<li>当 $\alpha=\hbar^2/(ma)$ 和 $\alpha=\hbar^2/(4ma)$ 时，求出允许的能级；</li>
+<li>求出透射系数。</li>
+</ol>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%206%EF%BC%9A%E8%87%AA%E7%94%B1%E7%B2%92%E5%AD%90/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%208%EF%BC%9A%E6%9C%89%E9%99%90%E6%B7%B1%E6%96%B9%E5%8A%BF%E9%98%B1/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

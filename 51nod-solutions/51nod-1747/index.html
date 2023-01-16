@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>【51nod 1747】近似多项式 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,数学,多项式,积分," />
+  
+
+  <meta name="description" content="题目链接 题目大意求一个 $n$ 次多项式 $f(x)&#x3D;\sum_{i&#x3D;0}^{n}a_ix^i$，最小化： $$\int_{0}^{1}(f(x)-e^x))^2 \mathrm{d} x$$ 其中 $f(x)$ 应可以写为： $$f(x)&#x3D;\sum_{i&#x3D;0}^{n}a_ix^i&#x3D;\sum_{i&#x3D;0}^{n}(\sum_{j&#x3D;0}^{\infty}p_{i,j}e^j)x^i$$ 其中 $p_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【51nod 1747】近似多项式">
+<meta property="og:url" content="https://nekko.moe/51nod-solutions/51nod-1747/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="题目链接 题目大意求一个 $n$ 次多项式 $f(x)&#x3D;\sum_{i&#x3D;0}^{n}a_ix^i$，最小化： $$\int_{0}^{1}(f(x)-e^x))^2 \mathrm{d} x$$ 其中 $f(x)$ 应可以写为： $$f(x)&#x3D;\sum_{i&#x3D;0}^{n}a_ix^i&#x3D;\sum_{i&#x3D;0}^{n}(\sum_{j&#x3D;0}^{\infty}p_{i,j}e^j)x^i$$ 其中 $p_">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-11T11:26:30.000Z">
+<meta property="article:modified_time" content="2019-04-11T11:29:51.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="多项式">
+<meta property="article:tag" content="积分">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%A4%A7%E6%84%8F"><span class="toc-text">题目大意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E8%AE%A8%E8%AE%BA"><span class="toc-text">算法讨论</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">空间复杂度</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-51nod-solutions/51nod-1747" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">【51nod 1747】近似多项式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.04.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><a target="_blank" rel="noopener" href="http://www.51nod.com/Challenge/Problem.html?problemId=1747">题目链接</a></p>
+<h1 id="题目大意"><a href="#题目大意" class="headerlink" title="题目大意"></a>题目大意</h1><p>求一个 $n$ 次多项式 $f(x)=\sum_{i=0}^{n}a_ix^i$，最小化：</p>
+<p>$$<br>\int_{0}^{1}(f(x)-e^x))^2 \mathrm{d} x<br>$$</p>
+<p>其中 $f(x)$ 应可以写为：</p>
+<p>$$<br>f(x)=\sum_{i=0}^{n}a_ix^i=\sum_{i=0}^{n}(\sum_{j=0}^{\infty}p_{i,j}e^j)x^i<br>$$</p>
+<p>其中 $p_{i,j}$ 是有理数，只需要输出 $p_{i,1},p_{i,0}$ 对 $998244353$ 取模的值即可</p>
+<p>其中 $1 \le n \le 200$</p>
+<h1 id="算法讨论"><a href="#算法讨论" class="headerlink" title="算法讨论"></a>算法讨论</h1><p>首先化简：</p>
+<p>$$<br>\begin{aligned}<br>&amp;\int_{0}^{1}(f(x)-e^x)^2 \mathrm{d} x \\<br>=&amp;\int_{0}^{1}f^2(x)-2f(x)e^x)+e^{2x}) \mathrm{d} x \\<br>=&amp;\left(\sum_{i=0}^{n}\sum_{j=0}^{n}a_ia_j \int_{0}^{1}x^{i+j} \mathrm{d} x\right)<br>-\left( \sum_{i=0}^{n}2a_i\int_{0}^{1}x^ie^x \mathrm{d} x \right)<br>+\left( \int_{0}^{1}e^{2x} \mathrm{d} x \right) \\<br>=&amp;\left(\sum_{i=0}^{n}\sum_{j=0}^{n}\frac{a_ia_j}{i+j+1}\right)<br>-\left( \sum_{i=0}^{n}2a_i\int_{0}^{1}x^ie^x \mathrm{d} x \right)<br>+\left( \frac{e^2-1}{2} \right) \\<br>\end{aligned}<br>$$</p>
+<p>对于 $\int x^ne^x \mathrm{d} x$，可以发现它是这个东西：</p>
+<p>$$<br>\int x^ne^x \mathrm{d} x=C+e^x\sum_{i=0}^{n} (-1)^{n-i} \frac{n!}{i!}x^i<br>$$</p>
+<p>设 $\int x^{n}e^{x} \mathrm{d} x = C+e^{x}A(x)$</p>
+<p>于是任意一组解，相当于构造多项式 $A(x)$，满足 $A(x)+A’(x)=x^n$</p>
+<p>也就是说：</p>
+<p>$$<br>\begin{aligned}<br>&amp; \left(\sum_{i=0}^{n}a_ix^i\right) + \left(\sum_{i=0}^{n-1}(i+1)a_{i+1}x^i\right)=x^n \\<br>=&amp; a_nx^n + \sum_{i=0}^{n-1}\left(a_i+(i+1)a_{i+1}\right)x^i=x^n \\<br>\end{aligned}<br>$$</p>
+<p>也就是说：</p>
+<p>$$<br>\begin{cases}<br>a_n=1 \\<br>a_{i}+(i+1)a_{i+1}=0 \\<br>\end{cases}<br>$$</p>
+<p>也就是说：</p>
+<p>$$<br>a_i=(-1)^{n-i} n^{\underline {n-i}}<br>$$</p>
+<p>实际上就是：</p>
+<p>$$<br>\int A(x)e^x \mathrm{d}x=C+e^{x}B(x)<br>$$</p>
+<p>只需要构造 $B(x)+B’(x)=A(x)$</p>
+<p>也就是说：</p>
+<p>$$<br>\int_{0}^{1} x^ne^x \mathrm{d} x=\left(e\sum_{i=0}^{n} (-1)^{n-i} \frac{n!}{i!}\right)+(-1)^{n+1}n!=b_ne+c_n<br>$$</p>
+<p>其中：</p>
+<p>$$<br>\begin{cases}<br>b_n=1-nb_{n-1} \\<br>c_n=-nc_{n-1}<br>\end{cases}<br>$$</p>
+<p>显然 $b_n,c_n$ 都是整数</p>
+<p>于是原式化简为：</p>
+<p>$$<br>\begin{aligned}<br>&amp;\left(\sum_{i=0}^{n}\sum_{j=0}^{n}\frac{a_ia_j}{i+j+1}\right)<br>-\left( \sum_{i=0}^{n}2a_i\int_{0}^{1}x^ie^x \mathrm{d} x \right)<br>+\left( \frac{e^2-1}{2} \right) \\<br>=&amp;\left(\sum_{i=0}^{n}\sum_{j=0}^{n}\frac{a_ia_j}{i+j+1}\right)<br>-\left( \sum_{i=0}^{n}2a_i (b_ie+c_i)\right)<br>+\left( \frac{e^2-1}{2} \right) \\<br>\end{aligned}<br>$$</p>
+<p>那么不妨多元函数求极值一下，可以得到：</p>
+<p>$$<br>\begin{aligned}<br>\sum_{j=0}^{n}\frac{a_j}{i+j+1}=2(b_ie+c_i)<br>\end{aligned}<br>$$</p>
+<p>于是 $a_j$ 可以写成 $k_je+r_j$ 的形式，不妨设 $\frac{a_j}{2}=p_{i,1}e+p_{i,0}$，那么有：</p>
+<p>$$<br>\begin{aligned}<br>\sum_{j=0}^{n}\frac{p_{j,1}e+p_{j,0}}{i+j+1}=b_ie+c_i<br>\end{aligned}<br>$$</p>
+<p>那么把 $xe+y$ 看成一个二元组 $(x,y)$，然后这个二元组是可以当作一个数字来处理的，于是就可以直接高斯消元了</p>
+<h1 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h1><p>$$<br>O(n^3)<br>$$</p>
+<h1 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h1><p>$$<br>O(n^3)<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/shan-dong-ji-xun-ti/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/loj-solutions/loj-2541/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

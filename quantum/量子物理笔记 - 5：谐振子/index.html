@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>量子物理笔记 - 5：谐振子 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="量子力学,原子物理,线性代数," />
+  
+
+  <meta name="description" content="考虑势 $V$ 为：$$V(x)&#x3D;\frac{1}{2}\omega^2x^2$$对应的定态薛定谔方程为：$$-\frac{\hbar^2}{2m}\nabla^2\psi+\frac{1}{2}\omega^2x^2\psi&#x3D;E\psi$$其算符形式为：$$\hat{H} \psi&#x3D;E\psi$$化简算符 $\hat{H}$ 得： $$\begin{aligned}\hat{H}&amp;&#x3D;-\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="量子物理笔记 - 5：谐振子">
+<meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%205%EF%BC%9A%E8%B0%90%E6%8C%AF%E5%AD%90/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="考虑势 $V$ 为：$$V(x)&#x3D;\frac{1}{2}\omega^2x^2$$对应的定态薛定谔方程为：$$-\frac{\hbar^2}{2m}\nabla^2\psi+\frac{1}{2}\omega^2x^2\psi&#x3D;E\psi$$其算符形式为：$$\hat{H} \psi&#x3D;E\psi$$化简算符 $\hat{H}$ 得： $$\begin{aligned}\hat{H}&amp;&#x3D;-\">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-16T00:00:05.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:36:16.861Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="量子力学">
+<meta property="article:tag" content="原子物理">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quantum/量子物理笔记 - 5：谐振子" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">量子物理笔记 - 5：谐振子</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.01.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Quantum/">Quantum</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>考虑势 $V$ 为：<br>$$<br>V(x)=\frac{1}{2}\omega^2x^2<br>$$<br>对应的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2\psi+\frac{1}{2}\omega^2x^2\psi=E\psi<br>$$<br>其算符形式为：<br>$$<br>\hat{H} \psi=E\psi<br>$$<br>化简算符 $\hat{H}$ 得：</p>
+<p>$$<br>\begin{aligned}<br>\hat{H}<br>&amp;=-\frac{\hbar^2}{2m}\nabla^2+\frac{1}{2}\omega^2x^2, \quad \hat{p}=-i\hbar\nabla \\<br>&amp;=\frac{1}{2m}\left(\hat{p}^2+(m\omega x)^2\right) \\<br>&amp;=\frac{1}{2m}((\underbrace{i\hat{p}+m\omega x} _ {\sqrt{2\hbar m\omega}a_{-}})(\underbrace{-i\hat{p}+m\omega x} _ {\sqrt{2\hbar m\omega}a_+})+im\omega [x,\hat{p}]) \\<br>&amp;=\frac{1}{2m}(2\hbar m\omega a_{-}a_{+}-\hbar m\omega) \\<br>&amp;=\hbar \omega a_{-}a_{+}-\frac{1}{2}\hbar\omega<br>\end{aligned}<br>$$</p>
+<p>即：<br>$$<br>\begin{aligned}<br>&amp; a_{-}a_{+}=\frac{\hat{H}}{\hbar \omega}+\frac{1}{2} \\<br>&amp; a_{+}a_{-}=\frac{\hat{H}}{\hbar \omega}-\frac{1}{2}<br>\end{aligned}<br>$$<br>其中 $x,\hat{p}$ 的对易子为：<br>$$<br>\begin{aligned}<br>\left[x,\hat{p}\right] f(x)<br>&amp;=x\hat{p}f-\hat{p}(xf) \\<br>&amp;=-i\hbar x\nabla f+i\hbar\nabla(xf) \\<br>&amp;=i\hbar(-x\nabla f+ f+x\nabla f) \\<br>&amp;=i\hbar f(x)<br>\end{aligned}<br>$$<br>即：<br>$$<br>[x,\hat{p}]=i\hbar<br>$$<br>考虑 $a_{-},a_{+}$ 的对易子：<br>$$<br>\begin{aligned}<br>\left[a_{-},a_{+}\right]f(x)<br>&amp;=\frac{1}{2\hbar m \omega}<br>\left((\hbar \nabla+m\omega x)(-\hbar \nabla+m\omega x) f-(-\hbar \nabla+m\omega x)(\hbar \nabla+m\omega x) f\right) \\<br>&amp;=\frac{1}{2\hbar m \omega}<br>\left((\hbar \nabla+m\omega x)(-\hbar \nabla f+m\omega xf)-(-\hbar \nabla+m\omega x)(\hbar \nabla f+m\omega xf)\right) \\<br>&amp;=\frac{1}{2\hbar m \omega}<br>\left( -\hbar^2\nabla^2f-\hbar m\omega x\nabla f+\hbar m\omega \nabla(xf)+(m \omega x)^2f<br>+\hbar^2\nabla^2f-\hbar m \omega x\nabla f+\hbar m\omega \nabla(xf)-(m\omega x)^2f \right) \\<br>&amp;=\frac{1}{2\hbar m \omega}(-2\hbar m\omega x\nabla f+2\hbar m\omega \nabla(xf)) \\<br>&amp;=\frac{1}{2\hbar m \omega}(-2\hbar m\omega x\nabla f+2\hbar m\omega \nabla f+2\hbar m\omega f) \\<br>&amp;=1 \cdot f(x)<br>\end{aligned}<br>$$<br>即：<br>$$<br>[a_{-},a_{+}]=1<br>$$<br>将算符 $\hat{H}$ 代回定态薛定谔方程，得：<br>$$<br>\hbar\omega\left(a_{\mp}a_{\pm}\mp\frac{1}{2}\right)\psi=E\psi<br>$$<br>假设 $\psi$ 是能量 $E$ 的定态薛定谔方程的解，对于 $a_{+}\psi$，有：<br>$$<br>\begin{aligned}<br>\hat{H}(a_{+}\psi)<br>&amp;=\hbar \omega \left(a_{-}a_{+}-\frac{1}{2}\right)a_{+}\psi \\<br>&amp;=\hbar \omega \left(a_{-}a_{+}^2-\frac{1}{2}a_{+}\right)\psi, \quad [a_{-},a_{+}]=1=a_{-}a_{+}-a_{+}a_{-} \\<br>&amp;=\hbar \omega\left( (1+a_{+}a_{-})a_{+}-\frac{1}{2}a_{+} \right)\psi \\<br>&amp;=\hbar \omega\left( a_{+}a_{-}a_{+}+\frac{1}{2}a_{+} \right)\psi \\<br>&amp;=\hbar\omega a_{+}\left(a_{-}a_{+}+\frac{1}{2}\right)\psi \\<br>&amp;=a_{+}\hbar \omega \left(a_{+}a_{-}+\frac{1}{2}+1\right) \psi \\<br>&amp;=a_{+}(\hat{H}+\hbar \omega)\psi \\<br>&amp;=a_{+}(E+\hbar \omega)\psi \\<br>&amp;=(E+\hbar \omega)(a_{+}\psi)<br>\end{aligned}<br>$$<br>即 $a_{+}\psi$ 的能量为 $E+\hbar \omega$，同理：<br>$$<br>\hat{H}(a_{\pm}\psi)=(E\pm \hbar \omega)(a_{\pm}\psi)<br>$$<br>通过阶梯算符 $a_{\pm}$ 可以实现态能量的升降，但是能量有最小值，其对应的态 $\psi$ 满足：<br>$$<br>a_{-}\psi_0=0<br>$$<br>即：<br>$$<br>\begin{aligned}<br>0<br>&amp;=a_{-}\psi_0 \\<br>&amp;=\frac{1}{\sqrt{2\hbar m \omega}}(\hbar \nabla +m\omega x)\psi_0 \\<br>&amp;=\frac{1}{\sqrt{2\hbar m \omega}}(\hbar \nabla \psi_0+m\omega x\psi_0)<br>\end{aligned}<br>$$<br>即：<br>$$<br>\nabla \psi_0=-\frac{m\omega}{\hbar}x\psi_0<br>$$<br>在一维情况下，有：<br>$$<br>\begin{aligned}<br>&amp; \frac{d \psi_0}{\psi_0}=-\frac{m\omega}{\hbar}xdx \\<br>\Rightarrow<br>&amp; \psi_0(x)=\psi_0(0)e^{-\frac{m\omega}{2\hbar}x^2}<br>\end{aligned}<br>$$<br>归一化得：<br>$$<br>\begin{aligned}<br>\frac{1}{|\psi_0(0)|^2}<br>&amp;=\int_{-\infty}^{\infty} e^{-\frac{m\omega}{\hbar}x^2}dx \\<br>&amp;=2\int_{0}^{\infty} e^{-\frac{m\omega}{\hbar}x^2}dx, \quad t=\frac{m\omega}{\hbar}x^2 \\<br>&amp;=2\int_{0}^{\infty}e^{-t}\frac{\hbar}{2m\omega}\sqrt{\frac{m\omega}{\hbar t}}dt \\<br>&amp;=\sqrt{\frac{\hbar}{m\omega}} \Gamma(1/2) \\<br>&amp;=\sqrt{\frac{\pi \hbar}{m\omega}}<br>\end{aligned}<br>$$<br>即：<br>$$<br>\psi_0(x)=\left(\frac{m\omega}{\pi \hbar}\right)^{1/4}e^{-\frac{m\omega}{2\hbar}x^2}<br>$$<br>代入谐振子的定态薛定谔方程，得：<br>$$<br>\begin{aligned}<br>&amp; \hbar \omega \left(a_{+}a_{-}+\frac{1}{2}\right)\psi_0=E_0\psi_0, \quad a_{-}\psi_0=0 \\<br>\Rightarrow<br>&amp;\frac{1}{2}\hbar \omega\psi_0=E_0\psi_0 \\<br>\Rightarrow<br>&amp;E_0=\frac{1}{2}\hbar \omega<br>\end{aligned}<br>$$<br>从谐振子的基态开始，通过升阶算符 $a_{+}$ 可得：<br>$$<br>\begin{aligned}<br>&amp; \psi_n=A_n(a_+)^n\psi_0 \\<br>&amp; E_n=\left(n+\frac{1}{2}\right)\hbar \omega<br>\end{aligned}<br>$$<br>更一般的，有：<br>$$<br>\begin{aligned}<br>\psi_n=\frac{1}{\sqrt{n!}}(a_+)^n\psi_0<br>\end{aligned}<br>$$<br>进一步的，有：<br>$$<br>\begin{aligned}<br>&amp; a_{+}\psi_n=\sqrt{n+1}\psi_{n+1} \\<br>&amp; a_{-}\psi_n=\sqrt{n}\psi_{n-1}<br>\end{aligned}<br>$$<br>谐振子的定态是正交归一的，即：<br>$$<br>\int_{-\infty}^{\infty}\psi_m^ * \psi_ndx=\delta_{mn}<br>$$<br>阶梯算符 $a_{+},a_{-}$ 是 Hermite 共轭的，即：<br>$$<br>\int_{-\infty}^{\infty} f^*(a_{\pm}g)dx=\int_{-\infty}^{\infty}(a_{\mp}f)^*gdx<br>$$<br>接下来我们考虑用阶梯算符 $a_{\pm}$ 来表示 $x,\hat{p}$，由定义：<br>$$<br>\begin{aligned}<br>&amp; a_{-}=\frac{i\hat{p}+m\omega x}{\sqrt{2\hbar m \omega}} \\<br>&amp; a_{+}=\frac{-i\hat{p}+m\omega x}{\sqrt{2\hbar m \omega}}<br>\end{aligned}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>&amp; x=\sqrt{\frac{\hbar}{2m \omega}}(a_{+}+a_{-}) \\<br>&amp; \hat{p}=i\sqrt{\frac{\hbar m \omega}{2}}(a_{+}-a_{-})<br>\end{aligned}<br>$$</p>
+<p>谐振子第 $n$ 态势能的期望为：</p>
+<p>$$<br>\begin{aligned}<br>\langle V \rangle<br>&amp;=\frac{m\omega^2}{2}\langle x^2 \rangle \\<br>&amp;=\frac{m\omega^2}{2}\frac{\hbar}{2m\omega} \langle (a _ {+}+a _ {-})^2 \rangle \\<br>&amp;=\frac{\hbar \omega}{4}\int _ {-\infty}^{\infty}\psi _ n^ * (a _ {+}^2+a _ {-}^2+a _ {+}a _ {-}+a _ {-}a _ {+})\psi _ ndx, \quad [ a _ {-},a _ {+} ]=1\\<br>&amp;=\frac{\hbar \omega}{4}\int _ {-\infty}^{\infty}\psi _ n^ * (c _ {+}\psi _ {n+2}+c _ {-}\psi _ {n-2}+2a _ {-}a _ {+}\psi _ n-\psi _ n)dx \\<br>&amp;=\frac{\hbar \omega}{4}\int _ {-\infty}^{\infty}(2\psi _ n^ * a _ -a _ +\psi _ n-|\psi _ n|^2)dx, \quad a _ {-}a _ {+}=\frac{\hat{H}}{\hbar \omega}+\frac{1}{2} \\<br>&amp;=\frac{\hbar \omega}{4}\int _ {-\infty}^{\infty}\left( 2\psi _ n^* \frac{\hat{H}}{\hbar \omega}\psi _ n+\psi _ n^* \psi _ n-\psi _ n^* \psi _ n \right)dx \\<br>&amp;=\frac{1}{2}\int _ {-\infty}^{\infty}\psi _ n^* \hat{H}\psi _ n dx \\<br>&amp;=\frac{1}{2}\langle \hat{H} \rangle \\<br>&amp;=\frac{1}{2}E _ n \\<br>&amp;=\frac{1}{2}\hbar \omega\left(n+\frac{1}{2}\right)<br>\end{aligned}<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%204%EF%BC%9A%E4%B8%80%E7%BB%B4%E6%97%A0%E9%99%90%E6%B7%B1%E6%96%B9%E5%8A%BF%E9%98%B1/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%206%EF%BC%9A%E8%87%AA%E7%94%B1%E7%B2%92%E5%AD%90/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

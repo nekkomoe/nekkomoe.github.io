@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>量子物理笔记 - 10：Hilbert 空间 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="量子力学,原子物理,线性代数," />
+  
+
+  <meta name="description" content="Hilbert 空间在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：$$|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}a_ 1 \\a_ 2 \\\vdots \\a_ n\end{bmatrix}, \quad a_ k \in \mathbb{C}$$同理，共轭向量与内积定义为：$$\begin{aligned}&amp; \langl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="量子物理笔记 - 10：Hilbert 空间">
+<meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%2010%EF%BC%9AHilbert%20%E7%A9%BA%E9%97%B4/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="Hilbert 空间在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：$$|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}a_ 1 \\a_ 2 \\\vdots \\a_ n\end{bmatrix}, \quad a_ k \in \mathbb{C}$$同理，共轭向量与内积定义为：$$\begin{aligned}&amp; \langl">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-16T00:00:10.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:40:23.370Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="量子力学">
+<meta property="article:tag" content="原子物理">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hilbert-%E7%A9%BA%E9%97%B4"><span class="toc-text">Hilbert 空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dirac-%E7%AC%A6%E5%8F%B7"><span class="toc-text">Dirac 符号</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quantum/量子物理笔记 - 10：Hilbert 空间" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">量子物理笔记 - 10：Hilbert 空间</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.01.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Quantum/">Quantum</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="Hilbert-空间"><a href="#Hilbert-空间" class="headerlink" title="Hilbert 空间"></a>Hilbert 空间</h2><p>在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：<br>$$<br>|\alpha\rangle \to \textbf{a}=\begin{bmatrix}<br>a_ 1 \\<br>a_ 2 \\<br>\vdots \\<br>a_ n<br>\end{bmatrix}, \quad a_ k \in \mathbb{C}<br>$$<br>同理，共轭向量与内积定义为：<br>$$<br>\begin{aligned}<br>&amp; \langle \beta |=(|\beta \rangle )^*  \\<br>&amp; \langle \beta | \alpha \rangle=\sum_ {k=1}^{n}\beta_ k^* \alpha_ k<br>\end{aligned}<br>$$<br>考虑定义在 $[a,b]$ 上满足平方可积的函数族 $L^2[a,b]$，即：<br>$$<br>L^2[a,b]=\left\{f \bigg|\int_ a^b |f(x)|^2 dx=C \in \mathbb{R}\right\}<br>$$<br>定义 $f,g \in L^2[a,b]$ 的内积为：<br>$$<br>\langle f|g\rangle=\int_ a^b f^* (x)g(x)dx<br>$$<br>由 Schwarz 不等式可知：<br>$$<br>\left| \int_ {a}^b f^* (x)g(x)dx \right| \le \sqrt{\int_ a^b|f(x)|^2dx\int_ a^b|g(x)|^2dx}<br>$$<br>即内积 $\langle f|g\rangle$ 存在，或者等价的来说：<br>$$<br>|\langle f|g \rangle|^2 \le\langle f | f \rangle \langle g|g\rangle<br>$$<br>若 ${f_ n}$ 是正交归一向量组，则：<br>$$<br>\langle f_ n|f_ m\rangle=\delta_ {nm}<br>$$<br>于是对于完备的向量组，有：<br>$$<br>\begin{aligned}<br>&amp; f(x)=\sum_ {n=1}^{\infty}c_ nf_ n(x), \quad c_ n=\langle f_ n|f \rangle  \\<br>&amp; |f\rangle=\sum_ {n=1}^{\infty}|f_ n\rangle \langle f_ n|f\rangle<br>\end{aligned}<br>$$</p>
+<h2 id="Dirac-符号"><a href="#Dirac-符号" class="headerlink" title="Dirac 符号"></a>Dirac 符号</h2><p>波函数 $\Psi(x,t)$ 是 Hilbert 空间上的 $|\Im(t) \rangle$ 向量用坐标表示的本征函数的展开系数，即：<br>$$<br>\Psi(x,t)=\langle g_ y|\Im(t) \rangle<br>$$<br>在动量空间中的表述是：<br>$$<br>\Phi(p,t)=\langle f_ p| \Im(t) \rangle<br>$$<br>用能量本征函数展开为：<br>$$<br>c_ n(t)=\langle \psi_ n|\Im(t) \rangle<br>$$<br>为了简便起见，分别记作：<br>$$<br>\begin{aligned}<br>&amp; \Psi(x,t)=\langle x|\Im(t) \rangle \\<br>&amp; \Phi(p,t)=\langle p|\Im(t) \rangle \\<br>&amp; c_ n(t)=\langle n | \Im(t) \rangle<br>\end{aligned}<br>$$<br>可观测量的算符是线性变换，即：<br>$$<br>|\beta\rangle=\hat{Q}|\alpha\rangle<br>$$<br>于是有：<br>$$<br>\newcommand\bra[1]{\langle #1 |}<br>\newcommand\ket[1]{| #1 \rangle}<br>\bra{e_ m}\hat{Q}\ket{e_ n}=Q_ {mn}<br>$$<br>向量可以由一组完备的基底表示，即：<br>$$<br>\ket{\alpha}=\sum_ {n} \ket{e_ n} \bra{e_ n}\ket{\alpha}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>&amp; |\beta\rangle=\hat{Q}|\alpha\rangle \\<br>\Rightarrow<br>&amp; \sum_ {n} \ket{e_ n} \bra{e_ n}\ket{\beta}=\sum_ {n}\hat{Q} \ket{e_ n} \bra{e_ n}\ket{\alpha} \\<br>\Rightarrow<br>&amp; \sum_ {n} \bra{e_ m}\ket{e_ n} \bra{e_ n}\ket{\beta}=\sum_ {n}\bra{e_ m}\hat{Q}\ket{e_ n}\bra{e_ n}\ket{\alpha} \\<br>\Rightarrow<br>&amp; \sum_ {n} \bra{e_ m}\ket{e_ n} \bra{e_ n}\ket{\beta}=\sum_ {n}Q_ {mn}\bra{e_ n}\ket{\alpha}<br>\end{aligned}<br>$$<br>若 ${e_ n}$ 是正交的，则：<br>$$<br>\bra{e_ m}\ket{\beta}=\sum_ {n}Q_ {mn} \bra{e_ n}\ket{\alpha}<br>$$<br>薛定谔方程可以表示为：<br>$$<br>i\hbar \frac{d}{dt}\ket{\Im(t)}=H\ket{\Im(t)}<br>$$<br>定态薛定谔方程为：<br>$$<br>H\ket{\Im}=E\ket{\Im}<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%208%EF%BC%9A%E6%9C%89%E9%99%90%E6%B7%B1%E6%96%B9%E5%8A%BF%E9%98%B1/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%2011%EF%BC%9A%E5%8F%AF%E8%A7%82%E6%B5%8B%E9%87%8F%E4%B8%8E%E7%AE%97%E7%AC%A6/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

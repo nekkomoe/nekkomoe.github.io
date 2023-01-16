@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>斜率优化 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,斜率优化," />
+  
+
+  <meta name="description" content="何为斜率优化对于一类动态规划问题，方程式诸如 $$f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}$$ 朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$ 从改写方程开始$$f_i&#x3D;\max\{c_i + k_i \cdot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="斜率优化">
+<meta property="og:url" content="https://nekko.moe/slope-opt/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="何为斜率优化对于一类动态规划问题，方程式诸如 $$f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}$$ 朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$ 从改写方程开始$$f_i&#x3D;\max\{c_i + k_i \cdot">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-07T04:45:12.000Z">
+<meta property="article:modified_time" content="2018-09-09T15:21:34.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="斜率优化">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%95%E4%B8%BA%E6%96%9C%E7%8E%87%E4%BC%98%E5%8C%96"><span class="toc-text">何为斜率优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8E%E6%94%B9%E5%86%99%E6%96%B9%E7%A8%8B%E5%BC%80%E5%A7%8B"><span class="toc-text">从改写方程开始</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E7%82%B9%E9%9B%86%E5%92%8C%E8%8E%B7%E5%8F%96%E6%9C%80%E5%A4%A7%E5%80%BC"><span class="toc-text">维护点集和获取最大值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%B4%E6%8A%A4%E5%A5%97%E8%B7%AF"><span class="toc-text">常用的维护套路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E7%9A%84%E7%82%B9%E7%9A%84-x-%E9%80%92%E5%A2%9E%EF%BC%8C%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%9C%E7%8E%87%E9%80%92%E5%A2%9E"><span class="toc-text">加入的点的$x$递增，查询的斜率递增</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E7%9A%84%E7%82%B9%E7%9A%84-x-%E9%80%92%E5%A2%9E%EF%BC%8C%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%9C%E7%8E%87%E4%B8%8D%E4%BF%9D%E8%AF%81%E9%80%92%E5%A2%9E"><span class="toc-text">加入的点的$x$递增，查询的斜率不保证递增</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E7%9A%84%E7%82%B9%E7%9A%84-x-%E4%B8%8D%E4%BF%9D%E8%AF%81%E9%80%92%E5%A2%9E%EF%BC%8C%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%9C%E7%8E%87%E9%80%92%E5%A2%9E"><span class="toc-text">加入的点的$x$不保证递增，查询的斜率递增</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x-%E5%92%8C%E6%96%9C%E7%8E%87%E9%83%BD%E4%B8%8D%E4%BF%9D%E8%AF%81%E9%80%92%E5%A2%9E"><span class="toc-text">$x$和斜率都不保证递增</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E7%BB%84"><span class="toc-text">二进制分组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cdq%E5%88%86%E6%B2%BB"><span class="toc-text">cdq分治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E6%A0%91-std-set"><span class="toc-text">平衡树&#x2F;std::set</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-slope-opt" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">斜率优化</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.05.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="何为斜率优化"><a href="#何为斜率优化" class="headerlink" title="何为斜率优化"></a>何为斜率优化</h1><p>对于一类动态规划问题，方程式诸如</p>
+<p>$$<br>f_i=\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
+<p>朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$</p>
+<h1 id="从改写方程开始"><a href="#从改写方程开始" class="headerlink" title="从改写方程开始"></a>从改写方程开始</h1><p>$$<br>f_i=\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
+<p>可以改写为</p>
+<p>$$<br>-k_i \cdot x_j + f_i - c_i = y_j<br>$$</p>
+<p>这个式子的意义是一条斜率为 $-k_i$ ，过点 $(x_j,y_j)$ ,截距为 $f_i-c_i$ 的直线</p>
+<p>此时目标是最大化 $f_i - c_i$ ，由于 $c_i$ 是定值，原目标等价于最大化 $f_i$</p>
+<h1 id="维护点集和获取最大值"><a href="#维护点集和获取最大值" class="headerlink" title="维护点集和获取最大值"></a>维护点集和获取最大值</h1><p>那么现在需要维护一个点集 $(x_j,y_j)$ ，每当处理完 $f_i$ 后就需要将 $(x_i,y_i)$ 加入点集</p>
+<p>显然使得$f_i$取得最大值的点是在点集的凸壳上，所以要维护一个凸壳</p>
+<p>查询使得$f_i$最大的点的时候，是用的一条斜率固定的直线去切这个凸壳，可以通过二分斜率或者凸壳上三分查询</p>
+<h1 id="常用的维护套路"><a href="#常用的维护套路" class="headerlink" title="常用的维护套路"></a>常用的维护套路</h1><h2 id="加入的点的-x-递增，查询的斜率递增"><a href="#加入的点的-x-递增，查询的斜率递增" class="headerlink" title="加入的点的$x$递增，查询的斜率递增"></a>加入的点的$x$递增，查询的斜率递增</h2><p>这是最普通的斜率优化的形式</p>
+<p>回忆静态凸壳的构造方法：按照$x$排序后依次添加并维护凸性</p>
+<p>那么由于点的$x$递增，用这种方法维护就行</p>
+<p>由于查询的斜率是递增的，那么相当于直线一直在某时针旋转，同时加入的点的$x$递增，显然决策递增，可以用单调队列维护</p>
+<h2 id="加入的点的-x-递增，查询的斜率不保证递增"><a href="#加入的点的-x-递增，查询的斜率不保证递增" class="headerlink" title="加入的点的$x$递增，查询的斜率不保证递增"></a>加入的点的$x$递增，查询的斜率不保证递增</h2><p>点还是原先的加入方法就行，但是斜率不一定递增了</p>
+<p>那么直接在凸壳上二分或三分就行了</p>
+<h2 id="加入的点的-x-不保证递增，查询的斜率递增"><a href="#加入的点的-x-不保证递增，查询的斜率递增" class="headerlink" title="加入的点的$x$不保证递增，查询的斜率递增"></a>加入的点的$x$不保证递增，查询的斜率递增</h2><p>点的加入需要用std::set等进行维护了，查询的话也需要二分或三分了</p>
+<h2 id="x-和斜率都不保证递增"><a href="#x-和斜率都不保证递增" class="headerlink" title="$x$和斜率都不保证递增"></a>$x$和斜率都不保证递增</h2><h3 id="二进制分组"><a href="#二进制分组" class="headerlink" title="二进制分组"></a>二进制分组</h3><p>维护log个凸壳，大小分别为$x,\frac{x}{2},\frac{x}{4},\cdots$（虽然这么表述有些不严谨，但是可以类似的意会一下），其中$x$表示最大的那个凸壳，这些用一个vector来存储，大小递减</p>
+<p>当添加一个新的点后，放到vector的尾部，并比较最后两个凸壳的大小是否相等，相等的话就暴力弹出这两个凸壳并将它们暴力合并，合并完后再放入vector尾部</p>
+<p>查询的话在每个凸壳上二分或三分即可</p>
+<p>可以证明时间复杂度是$O(n \text{log}^2 n)$</p>
+<h3 id="cdq分治"><a href="#cdq分治" class="headerlink" title="cdq分治"></a>cdq分治</h3><p>嘛，这个就说来话长了</p>
+<p>首先开一个结构体，记录一下$i,k_i$，分别表示计算第$i$个$f$（这里$i$表示$id$)，用到的斜率为$k_i$</p>
+<p>然后按照$k_i$将结构体排序</p>
+<p>定义cdq(l,r)表示计算所有$l \le i \le r$的$f_i$</p>
+<p>那么执行完$cdq(1,n)$之后就完成任务咯</p>
+<p>那么假设执行了cdq(l,r)，不妨先根据$mid=\lfloor \frac{l+r}{2} \rfloor$将下标为$[l,r]$的结构体分开计算</p>
+<p>先把所有$id \le mid$的分成一波，另外的分成一波，这个操作要在原序列上进行</p>
+<p>分割完之后，结构体的$[l,mid]$中的元素的$id$都是$\le mid$的，此时先递归一下cdq(l,mid)</p>
+<p>假设cdq(l,mid)递归完之后，这些元素所表示的点集都已经排好序了</p>
+<p>由于在最开始的时候已经按照$k_i$排序了，所以$[mid+1,r]$实际上斜率是递增的</p>
+<p>那么用$[l,mid]$的点构建凸包后，只需要用单调队列扫一遍更新就好咯？因为这里用的$[l,mid]$中的点去更新的$[mid+1,r]$</p>
+<p>更新完之后在调用一下cdq(mid+1,r)就完成任务咯？</p>
+<p>不不不，别忘了需要保证计算完cdq(l,r)之后，$[l,r]$的点集已经排好序了</p>
+<p>发现$[l,mid]$和$[mid+1,r]$分别都排好序了，那么归并排序一下就好咯？</p>
+<p>时间复杂度$O(n \log n)$</p>
+<p>也许看一下<a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/7036759">代码</a>比较好理解</p>
+<h3 id="平衡树-std-set"><a href="#平衡树-std-set" class="headerlink" title="平衡树/std::set"></a>平衡树/std::set</h3><p>二进制分组可以支持在线查询$f_i$，但是时间复杂度比较高</p>
+<p>cdq分治可以支持复杂度较小的查询$f_i$,但是需要离线</p>
+<p>如果强制在线的查询$f_i$呢？</p>
+<p>用平衡树来维护凸壳，并在上面二分！</p>
+<p>甚至你可以用<a target="_blank" rel="noopener" href="http://www.cnblogs.com/Cmd2001/p/8492492.html">std::set</a></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/ranmz/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/01trie/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>量子物理笔记 - 4：一维无限深方势阱 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="量子力学,原子物理,线性代数," />
+  
+
+  <meta name="description" content="在区间 $[0,a]$ 的自由粒子的势函数为：$$V(x)&#x3D;\begin{cases}0, \quad &amp; 0 \le x \le a \\\infty, \quad &amp; \text{otherwise}\end{cases}$$当 $x \in [0,a]$ 时，有 $V&#x3D;0$，定态薛定谔方程为：$$-\frac{\hbar^2}{2m}\nabla^2\psi&#x3D;E\psi$$即">
+<meta property="og:type" content="article">
+<meta property="og:title" content="量子物理笔记 - 4：一维无限深方势阱">
+<meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%204%EF%BC%9A%E4%B8%80%E7%BB%B4%E6%97%A0%E9%99%90%E6%B7%B1%E6%96%B9%E5%8A%BF%E9%98%B1/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="在区间 $[0,a]$ 的自由粒子的势函数为：$$V(x)&#x3D;\begin{cases}0, \quad &amp; 0 \le x \le a \\\infty, \quad &amp; \text{otherwise}\end{cases}$$当 $x \in [0,a]$ 时，有 $V&#x3D;0$，定态薛定谔方程为：$$-\frac{\hbar^2}{2m}\nabla^2\psi&#x3D;E\psi$$即">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-16T00:00:04.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:42:44.524Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="量子力学">
+<meta property="article:tag" content="原子物理">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quantum/量子物理笔记 - 4：一维无限深方势阱" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">量子物理笔记 - 4：一维无限深方势阱</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.01.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Quantum/">Quantum</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>在区间 $[0,a]$ 的自由粒子的势函数为：<br>$$<br>V(x)=<br>\begin{cases}<br>0, \quad &amp; 0 \le x \le a \\<br>\infty, \quad &amp; \text{otherwise}<br>\end{cases}<br>$$<br>当 $x \in [0,a]$ 时，有 $V=0$，定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2\psi=E\psi<br>$$<br>即：<br>$$<br>\nabla^2\psi=-k^2\psi, \quad k=\frac{\sqrt{2mE}}{\hbar}<br>$$<br>其解为：<br>$$<br>\psi(x)=A\sin kx+B\cos kx<br>$$<br>由 $\psi(0)=\psi(a)=0$，得：<br>$$<br>\begin{aligned}<br>&amp; \psi(0)=B=0 \\<br>&amp; \psi(a)=A\sin ka+B\cos ka=0<br>\end{aligned}<br>$$<br>即：<br>$$<br>ka=n\pi, \quad n\in\mathbb{Z}<br>$$<br>有意义且可区分的解为：<br>$$<br>k_ n=\frac{n\pi}{a}, \quad n \in \mathbb{N}^*<br>$$<br>能量 $E$ 的取值为：<br>$$<br>E_ n=\frac{k_ n^2\hbar^2}{2m}=\frac{n^2\pi^2\hbar^2}{2ma^2}, \quad n \in \mathbb{N}^*<br>$$<br>将 $\psi$ 归一化得：<br>$$<br>\begin{aligned}<br>\frac{1}{|A|^2}<br>&amp;=\int_ {0}^{a}\sin^2 \frac{n\pi x}{a} dx\\<br>&amp;=\frac{1}{2}\int_ {0}^{a}\left(1-\cos \frac{2n\pi x}{a}\right) dx, \quad t=\frac{2n \pi x}{a} \\<br>&amp;=\frac{a}{2}-\frac{a}{4n\pi}\underbrace{\int_ {0}^{2n\pi}\cos t dt}_ {0} \\<br>&amp;=\frac{a}{2}<br>\end{aligned}<br>$$<br>所以：<br>$$<br>A=\sqrt{\frac{2}{a}}<br>$$<br>得到阱内的解：<br>$$<br>\psi_ n(x)=\sqrt{\frac{2}{a}}\sin \frac{n\pi x}{a}<br>$$<br>可以看到 ${\psi_ n}$ 是归一正交的，即：<br>$$<br>\int_ {0}^{a}\psi_ m^* \psi_ ndx=\delta_ {mn}<br>$$<br>对于任意实函数 $f(x)$，其在 $[0,a]$ 上的展开为：<br>$$<br>\begin{aligned}<br>&amp; f(x)=\sqrt{\frac{2}{a}}\sum_ {n=1}^{\infty}c_ n\sin \frac{n\pi x}{a} \\<br>&amp; c_ n=\int_ {0}^{a}\psi_ n^* fdx<br>\end{aligned}<br>$$<br>实际上就是：<br>$$<br>|f\rangle=\sum_ {n=1}^{\infty}|\psi_ n\rangle\langle\psi_ n|f\rangle<br>$$<br>一维无限深方势阱的定态为：<br>$$<br>\Psi_ n(x,t)=\sqrt{\frac{2}{a}}\sin \frac{n\pi x}{a}e^{-in^2\pi^2 \hbar t/(2ma^2)}<br>$$<br>总能量的期望为：<br>$$<br>\langle H \rangle=\sum_ {n=1}^{\infty} |c_ n|^2E_ n<br>$$</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%203%EF%BC%9A%E6%B3%A2%E5%8A%A8%E5%AD%A6/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%205%EF%BC%9A%E8%B0%90%E6%8C%AF%E5%AD%90/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

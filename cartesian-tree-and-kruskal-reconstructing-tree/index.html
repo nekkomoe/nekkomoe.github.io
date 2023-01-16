@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>笛卡尔树和kruskal重构树 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法,笛卡尔树,kruskal重构树," />
+  
+
+  <meta name="description" content="树有 $n$ 个点和 $n-1$ 条边的无向连通图 笛卡尔树考虑树 $T$ 的每个点 $u$ 有权 $a_u$，现在要对任意两点 $u,v$，求它们在树上的最短路上（显然路径唯一）的最小点权 一个不怎么优美的做法就是倍增维护，或者树链剖分，然而这样都不太好 考虑一种分治的思想：每次把点权最小的那个点拿出来，然后把它在树上的邻边都断开，然后依次对剩下的所有连通块执行这个操作，最后按照拿出来的点的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笛卡尔树和kruskal重构树">
+<meta property="og:url" content="https://nekko.moe/cartesian-tree-and-kruskal-reconstructing-tree/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="树有 $n$ 个点和 $n-1$ 条边的无向连通图 笛卡尔树考虑树 $T$ 的每个点 $u$ 有权 $a_u$，现在要对任意两点 $u,v$，求它们在树上的最短路上（显然路径唯一）的最小点权 一个不怎么优美的做法就是倍增维护，或者树链剖分，然而这样都不太好 考虑一种分治的思想：每次把点权最小的那个点拿出来，然后把它在树上的邻边都断开，然后依次对剩下的所有连通块执行这个操作，最后按照拿出来的点的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-21T12:56:01.000Z">
+<meta property="article:modified_time" content="2019-07-21T13:10:35.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="笛卡尔树">
+<meta property="article:tag" content="kruskal重构树">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%91"><span class="toc-text">树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91"><span class="toc-text">笛卡尔树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kruskal-%E9%87%8D%E6%9E%84%E6%A0%91"><span class="toc-text">$kruskal$ 重构树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-cartesian-tree-and-kruskal-reconstructing-tree" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">笛卡尔树和kruskal重构树</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.07.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=27583305&height=66"></iframe>
+
+<h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><p>有 $n$ 个点和 $n-1$ 条边的无向连通图</p>
+<h1 id="笛卡尔树"><a href="#笛卡尔树" class="headerlink" title="笛卡尔树"></a>笛卡尔树</h1><p>考虑树 $T$ 的每个点 $u$ 有权 $a_u$，现在要对任意两点 $u,v$，求它们在树上的最短路上（显然路径唯一）的最小点权</p>
+<p>一个不怎么优美的做法就是倍增维护，或者树链剖分，然而这样都不太好</p>
+<p>考虑一种分治的思想：每次把点权最小的那个点拿出来，然后把它在树上的邻边都断开，然后依次对剩下的所有连通块执行这个操作，最后按照拿出来的点的先后顺序重构出一棵树，这样任意两个点在原树上的最短路上的最小点权的那个点，一定是在新树上这两个点的 $lca$</p>
+<p>至于如何建出这棵树，那么就先按照点权从大到小考虑，这样每个点 $u$ 的重构树上的儿子就是目前为止，它所有出边的连通块的最小点权，并查集维护一下即可</p>
+<p>代码的话大概长这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> root = <span class="number">0</span>;</span><br><span class="line">vector&lt;<span class="keyword">int</span>&gt; ids, <span class="built_in">acc</span>(n + <span class="number">5</span>), <span class="built_in">vis</span>(n + <span class="number">5</span>);</span><br><span class="line">g = vector&lt;vector&lt;<span class="keyword">int</span>&gt; &gt; (n + <span class="number">5</span>, vector&lt;<span class="keyword">int</span>&gt; ());</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">    ids.<span class="built_in">emplace_back</span>(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(ids.<span class="built_in">begin</span>(), ids.<span class="built_in">end</span>(), [&amp;] (<span class="keyword">int</span> i, <span class="keyword">int</span> j) &#123;</span><br><span class="line">    <span class="keyword">return</span> w[i] &gt; w[j];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">    acc[i] = i;</span><br><span class="line">&#125;</span><br><span class="line">function&lt;<span class="built_in"><span class="keyword">int</span></span>(<span class="keyword">int</span>)&gt; get = [&amp;] (<span class="keyword">int</span> x) &#123;</span><br><span class="line">    <span class="keyword">return</span> x == acc[x] ? x : acc[x] = <span class="built_in">get</span>(acc[x]);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span> &amp;u: ids) &#123;</span><br><span class="line">    vis[u] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = head[u] ; i ; i = rest[i]) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = to[i];</span><br><span class="line">        <span class="keyword">if</span>(vis[v]) &#123;</span><br><span class="line">            g[u].<span class="built_in">emplace_back</span>(<span class="built_in">get</span>(v));</span><br><span class="line">            acc[<span class="built_in">get</span>(v)] = u;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    root = u;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="kruskal-重构树"><a href="#kruskal-重构树" class="headerlink" title="$kruskal$ 重构树"></a>$kruskal$ 重构树</h1><p>当然点权可以转化为边权，也就是对于边 $e=(u,v)$，可以对其赋权 $a_e=\min(a_u,a_v)$，这样链上点权最小值就成了链上边权最小值</p>
+<p>这样的话每次选取边权最小的边，然后把它断开，之后递归处理多出来的两个连通块，最后重构出棵树就好了</p>
+<p>这里需要注意每条边实际上把它也当成了一个点来考虑了</p>
+<p>当然边权依然可以转化为点权，只需要新建点 $w$，然后连边 $(u,w),(w,v)$，之后令 $a_u=a_v=\infty$，以及 $a_w=a_e$ 即可</p>
+<p>如果用边权转化为点权的话，不难发现 $kruskal$ 重构树删去叶子后就是笛卡尔树了</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>笛卡尔树实际上是每次取最小值的点分树，而 $kruskal$ 重构树则是每次取最小值的边分树</p>
+<p><del>如果遇见了某种重构树后对其进行边分树的题的话，前者需要三度化，后者并不需要</del></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/good-links/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/fix-mac/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>

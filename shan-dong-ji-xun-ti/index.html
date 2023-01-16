@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>山东集训题 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="算法," />
+  
+
+  <meta name="description" content="「2017 山东一轮集训 Day1 &#x2F; SDWC2018 Day1」Set线性基贪心 「2017 山东一轮集训 Day7」逆序对考虑从小到大插入 $1 \sim n$，显然对于数字 $i$，会贡献 $0 \sim i-1$ 个逆序对 也就是说求： $$[x^k] \prod_{i&#x3D;1}^{n} (1 + x+ x^2 + \cdots + x^{i-1})&#x3D;[x^k]\frac{\prod_{i&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="山东集训题">
+<meta property="og:url" content="https://nekko.moe/shan-dong-ji-xun-ti/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="「2017 山东一轮集训 Day1 &#x2F; SDWC2018 Day1」Set线性基贪心 「2017 山东一轮集训 Day7」逆序对考虑从小到大插入 $1 \sim n$，显然对于数字 $i$，会贡献 $0 \sim i-1$ 个逆序对 也就是说求： $$[x^k] \prod_{i&#x3D;1}^{n} (1 + x+ x^2 + \cdots + x^{i-1})&#x3D;[x^k]\frac{\prod_{i&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-11T10:40:42.000Z">
+<meta property="article:modified_time" content="2019-04-11T10:43:20.000Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%B8%80%E8%BD%AE%E9%9B%86%E8%AE%AD-Day1-SDWC2018-Day1%E3%80%8DSet"><span class="toc-text">「2017 山东一轮集训 Day1 &#x2F; SDWC2018 Day1」Set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%B8%80%E8%BD%AE%E9%9B%86%E8%AE%AD-Day7%E3%80%8D%E9%80%86%E5%BA%8F%E5%AF%B9"><span class="toc-text">「2017 山东一轮集训 Day7」逆序对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%BA%8C%E8%BD%AE%E9%9B%86%E8%AE%AD-Day1%E3%80%8D%E7%AC%AC%E4%BA%8C%E9%A2%98"><span class="toc-text">「2017 山东二轮集训 Day1」第二题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%BA%8C%E8%BD%AE%E9%9B%86%E8%AE%AD-Day1%E3%80%8D%E7%AC%AC%E4%B8%89%E9%A2%98"><span class="toc-text">「2017 山东二轮集训 Day1」第三题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%B8%89%E8%BD%AE%E9%9B%86%E8%AE%AD-Day5%E3%80%8DDark"><span class="toc-text">「2017 山东三轮集训 Day5」Dark</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%B8%89%E8%BD%AE%E9%9B%86%E8%AE%AD-Day6%E3%80%8DA"><span class="toc-text">「2017 山东三轮集训 Day6」A</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%B8%89%E8%BD%AE%E9%9B%86%E8%AE%AD-Day7%E3%80%8DEasy"><span class="toc-text">「2017 山东三轮集训 Day7」Easy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%8C2017-%E5%B1%B1%E4%B8%9C%E4%B8%89%E8%BD%AE%E9%9B%86%E8%AE%AD-Day7%E3%80%8DNormal"><span class="toc-text">「2017 山东三轮集训 Day7」Normal</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-shan-dong-ji-xun-ti" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">山东集训题</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.04.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h3 id="「2017-山东一轮集训-Day1-SDWC2018-Day1」Set"><a href="#「2017-山东一轮集训-Day1-SDWC2018-Day1」Set" class="headerlink" title="「2017 山东一轮集训 Day1 / SDWC2018 Day1」Set"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6060">「2017 山东一轮集训 Day1 / SDWC2018 Day1」Set</a></h3><p>线性基贪心</p>
+<h3 id="「2017-山东一轮集训-Day7」逆序对"><a href="#「2017-山东一轮集训-Day7」逆序对" class="headerlink" title="「2017 山东一轮集训 Day7」逆序对"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6077">「2017 山东一轮集训 Day7」逆序对</a></h3><p>考虑从小到大插入 $1 \sim n$，显然对于数字 $i$，会贡献 $0 \sim i-1$ 个逆序对</p>
+<p>也就是说求：</p>
+<p>$$<br>[x^k] \prod_{i=1}^{n} (1 + x+ x^2 + \cdots + x^{i-1})=[x^k]\frac{\prod_{i=1}^{n}(1-x^i)}{(1-x)^n}<br>$$</p>
+<p>有：</p>
+<p>$$<br>\frac{1}{(1-x)^n}=\sum_{i=0}^{\infty} {n-1+i \choose n-1} x^i<br>$$</p>
+<p>考虑分子，相当于求从 $i$ 个数中挑出若干个，使得和为 $j$ 的方案数，如果选了 $k$ 个，则系数为 $(-1)^k$</p>
+<p>也就是只需要处理出，从 $i$ 个数中选出 $j$ 个数的方案数即可</p>
+<p>实际上是给定 $n$ 个数字 $1,2,3, \cdots, n$，求从中选出 $j$ 个互不相同的数字的方案数，满足它们的和为 $k$</p>
+<p>设 $f_{i,j}$ 表示选了 $i$ 个数，和为 $j$ 的方案数，那么考虑是否有 $1$，可以得到：</p>
+<p>$$<br>f_{i,j}=f_{i-j,j}+f_{i-j,j-1}-f_{i-(n+1),j-1}<br>$$</p>
+<h3 id="「2017-山东二轮集训-Day1」第二题"><a href="#「2017-山东二轮集训-Day1」第二题" class="headerlink" title="「2017 山东二轮集训 Day1」第二题"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6101">「2017 山东二轮集训 Day1」第二题</a></h3><p>实际上就是 <a target="_blank" rel="noopener" href="https://vjudge.net/problem/Kattis-scaffolding">这个题</a> <del>搬 题 赚 大 钱</del></p>
+<p>考虑操作翻转过来，变为每次拆一些竹子，先把笛卡尔树搞出来</p>
+<p>设 $f_u$ 表示拆完以 $u$ 为根的子树的最少次数，$g_u$ 表示在最少次数的前提下，还能顺便拆多少</p>
+<p>转移就直接贪心的能拿就拿即可</p>
+<h3 id="「2017-山东二轮集训-Day1」第三题"><a href="#「2017-山东二轮集训-Day1」第三题" class="headerlink" title="「2017 山东二轮集训 Day1」第三题"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6102">「2017 山东二轮集训 Day1」第三题</a></h3><p>不妨手玩一下关于 $\text{lcm}$ 的性质……</p>
+<p>$$<br>\text{lcm}(a,b)=\frac{ab}{\gcd(a,b)}<br>$$</p>
+<p>$$<br>\text{lcm}(a,b,c)=\frac{abc\gcd(a,b,c)}{\gcd(a,b)\gcd(b,c)\gcd(a,c)}<br>$$</p>
+<p>推广到更一般的情况，即一个集合 $S$ 的 $\text{lcm}$：</p>
+<p>$$<br>\text{lcm}(S)=\prod_{\emptyset \ne T \subseteq S} \gcd(T)^{\left( (-1)^{\mid T \mid + 1} \right)}<br>$$</p>
+<p>之后就要去看一下斐波那契数列的性质咯</p>
+<p>通过 <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P1306">这道题</a> 可以学习到一个关于斐波那契数列的很重要的性质：</p>
+<p>$$<br>\gcd(f_i,f_j)=f_{\gcd(i,j)}<br>$$</p>
+<p>于是就可以化简一下式子咯：</p>
+<p>$$<br>\begin{aligned} &amp;\text{lcm}(f_{a_1},f_{a_2},f_{a_3},f_{a_4},\cdots,f_{a_n}) \\ =&amp;\prod_{\emptyset \ne T \subseteq S} \gcd({f_{T}})^{\left( (-1)^{\mid T \mid + 1} \right)} \\ =&amp;\prod_{\emptyset \ne T \subseteq S} f_{\gcd(T)}^{\left( (-1)^{\mid T \mid + 1} \right)} \\ \end{aligned}<br>$$</p>
+<p>然而这个还是不太好做……因为有一个 $[\gcd(S)=d]$ 的限制……</p>
+<p>然而这个可以想到莫比乌斯反演那一套理论</p>
+<p>$$<br>f=g \times 1 \Leftrightarrow g=f \times \mu<br>$$</p>
+<p>考虑在 $\prod$ 意义下的莫比乌斯反演……</p>
+<p>$$<br>f_n=\prod_{d \mid n} g_d \Leftrightarrow g_n=\prod_{d \mid n}f_d^{\mu(\frac{n}{d})}<br>$$</p>
+<p>当然如果只是要计算 $g$的话，有：</p>
+<p>$$<br>f_n=\prod_{d \mid n} g_d \Rightarrow g_n=\frac{f_n}{\prod_{d \mid n \wedge d \ne n}g_d}<br>$$</p>
+<p>然后就可以通过枚举倍数来计算出 $g$ 了</p>
+<p>于是现在式子就相当于这个了：</p>
+<p>$$<br>\begin{aligned} &amp;\prod_{\emptyset \ne T \subseteq S} f_{\gcd(T)}^{\left( (-1)^{\mid T \mid + 1} \right)} \\ =&amp;\prod_{\emptyset \ne T \subseteq S} \left(\prod_{d \mid \gcd(T)}g_d\right)^{\left( (-1)^{\mid T \mid + 1} \right)} \\ =&amp;\prod_{d} g_d^{\sum_{\emptyset \ne T \subseteq S \wedge d \mid \gcd(T)}(-1)^{\mid T \mid + 1}} \end{aligned}<br>$$</p>
+<p>考虑一个 $g_d$ 对答案的贡献，也就是指数上那个玩意，即：</p>
+<p>$$<br>\sum_{\emptyset \ne T \subseteq S \wedge d \mid \gcd(T)} (-1)^{\mid T \mid +1}<br>$$</p>
+<p>显然是实际有用的 $T$ 的并集是 $S’={x \mid \forall x \in S \wedge d \mid x}$</p>
+<p>假设 $\mid S’ \mid = n$，则有：</p>
+<p>$$<br>\begin{aligned} &amp;\sum_{\emptyset \ne T \subseteq S \wedge d \mid \gcd(T)} (-1)^{\mid T \mid +1} \\ =&amp;\sum_{i=1}^{n} {n \choose i} (-1)^{i+1} \\ =&amp;(-1) \left(\sum_{i=1}^{n}{n \choose i}(-1)^{i}\right) \\ =&amp;(-1) \left((1-1)^n-{n \choose 0} (-1)^{0}\right) \\ =&amp;[n \ne 0] \end{aligned}<br>$$</p>
+<p>也就是说，对于一个 $g_d$，只要 $\exists x \mid a_i$，那么 $g_d$ 就会对答案产生 $1$ 的贡献（注意最多产生一次）</p>
+<h3 id="「2017-山东三轮集训-Day5」Dark"><a href="#「2017-山东三轮集训-Day5」Dark" class="headerlink" title="「2017 山东三轮集训 Day5」Dark"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6140">「2017 山东三轮集训 Day5」Dark</a></h3><p>显然答案是：</p>
+<p>$$<br>m^{\sum_{d|n}\left(\frac{n!}{(d!)^{\frac{n}{d}}\left(\frac{n}{d}\right)!}\right)\bmod {(p-1)}} \bmod {p}<br>$$</p>
+<p>可以发现，$p-1=2 \times 13 \times 5281 \times 7283$，对于每一个质数都跑一遍上式即可</p>
+<h3 id="「2017-山东三轮集训-Day6」A"><a href="#「2017-山东三轮集训-Day6」A" class="headerlink" title="「2017 山东三轮集训 Day6」A"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6142">「2017 山东三轮集训 Day6」A</a></h3><p>显然答案就是：</p>
+<p>$$<br>\sum_{i=0}^{n}[2|i] {n \choose i} {n \choose n-i}=\sum_{i=0}^{n}[2|i] {n \choose i}^2<br>$$</p>
+<p>考虑卢卡斯定理，则：</p>
+<p>$$<br>\sum_{2|i} {n \choose i}^2 \equiv \sum_{2|i} \left( \sum_{j} {d_j \choose i} \right)^2 \pmod {1000003}<br>$$</p>
+<h3 id="「2017-山东三轮集训-Day7」Easy"><a href="#「2017-山东三轮集训-Day7」Easy" class="headerlink" title="「2017 山东三轮集训 Day7」Easy"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6145">「2017 山东三轮集训 Day7」Easy</a></h3><p>考虑把所有的查询都离线下来，都扔到线段树上，然后跑一下虚树就行了</p>
+<h3 id="「2017-山东三轮集训-Day7」Normal"><a href="#「2017-山东三轮集训-Day7」Normal" class="headerlink" title="「2017 山东三轮集训 Day7」Normal"></a><a target="_blank" rel="noopener" href="https://loj.ac/problem/6146">「2017 山东三轮集训 Day7」Normal</a></h3><p>设 $A(x)$ 是走的步数的生成函数，则答案的生成函数 $F(x)$ 为：</p>
+<p>$$<br>F(x)=\sum_{i}[X|i]{T \choose i}A(x)^i<br>$$</p>
+<p>考虑单位根反演，只需要把 $\omega_X^{0 \sim X-1}$ 都代入，答案就是：</p>
+<p>$$<br>F(x)=\frac{1}{X}\sum_{i=0}^{X-1}(1+\omega_{X}^{i}A(x))^T<br>$$</p>
+<p>由于 $T=2^{k}$，所以直接快速幂即可</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/er-xiang-shi-fan-yan/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/51nod-solutions/51nod-1747/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</body>
+</html>
