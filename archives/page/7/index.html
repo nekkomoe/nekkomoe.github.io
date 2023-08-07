@@ -167,6 +167,38 @@
   <span class="post-date">03-22</span>
 
   
+  <a class="post-title" href="/ex-euler/">扩展欧拉定理</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">03-22</span>
+
+  
+  <a class="post-title" href="/func-max/">函数极值</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">03-22</span>
+
+  
+  <a class="post-title" href="/dwgfy-xlhb/">单位根反演与序列合并</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">03-22</span>
+
+  
+  <a class="post-title" href="/wjf-jx/">微积分与极限</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">03-22</span>
+
+  
   <a class="post-title" href="/sin-cos-tan-trans/">三角换元</a>
 
 
@@ -211,45 +243,6 @@
 
 
 </li>
-<li class="item-post item">
-  <span class="post-date">03-22</span>
-
-  
-  <a class="post-title" href="/point-in-poly/">点在多边形内</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">03-22</span>
-
-  
-  <a class="post-title" href="/poly-differential-equation/">关于一类多项式意义下的微分方程求解</a>
-
-
-</li>
-  <li class="item-year item item-title item-title-3">
-    <a href="/archives/2018" class="text-year">
-      2018
-      <i class="icon-gou"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">12-27</span>
-
-  
-  <a class="post-title" href="/min-max-in-ex/">min-max 容斥</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">11-30</span>
-
-  
-  <a class="post-title" href="/ezoj-solutions/sxmn-6/">省选模拟赛第六轮</a>
-
-
-</li>
 </ul>
   </div>
 
@@ -257,7 +250,7 @@
     
   <div class="pagination">
     <nav class="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/8/"><i class="icon-angle-right"></i></a>
+      <a class="extend prev" rel="prev" href="/archives/page/6/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/12/">12</a><a class="extend next" rel="next" href="/archives/page/8/"><i class="icon-angle-right"></i></a>
     </nav>
   </div>
 
@@ -399,30 +392,45 @@
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
 </script>
 <!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
+<script>
     MathJax.Hub.Queue(function() {
         var all = MathJax.Hub.getAllJax(), i;
         for(i=0; i < all.length; i += 1) {
@@ -430,10 +438,7 @@
         }
     });
 </script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>FD-稳定性 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="FDM,stability," />
+  
+
+  <meta name="description" content="概述庞加莱不等式$$\begin{cases}\norm{u-u  _  {\Omega}}  _  {L^p(\Omega)} \le C\norm{\grad{u}}  _  {L^p(\Omega)} \\u _ {\Omega}&#x3D;\frac{1}{\abs{\Omega}}\int  _  {\Omega}u(y)\dd{y} \\d&#x3D;d(\Omega) \\\begin{cases}C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FD-稳定性">
+<meta property="og:url" content="https://nekko.moe/FDM/FDstab/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="概述庞加莱不等式$$\begin{cases}\norm{u-u  _  {\Omega}}  _  {L^p(\Omega)} \le C\norm{\grad{u}}  _  {L^p(\Omega)} \\u _ {\Omega}&#x3D;\frac{1}{\abs{\Omega}}\int  _  {\Omega}u(y)\dd{y} \\d&#x3D;d(\Omega) \\\begin{cases}C">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-07T06:50:47.000Z">
+<meta property="article:modified_time" content="2023-08-07T08:22:21.747Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="FDM">
+<meta property="article:tag" content="stability">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%9E%E5%8A%A0%E8%8E%B1%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="toc-text">庞加莱不等式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%95%E8%90%A8%E7%93%A6%E5%B0%94%E7%AD%89%E5%BC%8F"><span class="toc-text">帕萨瓦尔等式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%9E%E5%8A%A0%E8%8E%B1%E4%B8%8D%E7%AD%89%E5%BC%8F-1"><span class="toc-text">庞加莱不等式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fourier-%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-text">Fourier 稳定性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E6%B5%81%E6%96%B9%E7%A8%8B"><span class="toc-text">对流方程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Energy-%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-text">Energy 稳定性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fourier%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">Fourier稳定性分析的局限性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E7%95%8C%E9%BD%90%E6%AC%A1%E6%89%A9%E6%95%A3%E6%96%B9%E7%A8%8B"><span class="toc-text">有界齐次扩散方程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E7%95%8C%E6%9C%89%E6%BA%90%E9%BD%90%E6%AC%A1%E6%89%A9%E6%95%A3%E6%96%B9%E7%A8%8B"><span class="toc-text">有界有源齐次扩散方程</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-FDM/FDstab" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">FD-稳定性</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.08.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/FDM/">FDM</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="庞加莱不等式"><a href="#庞加莱不等式" class="headerlink" title="庞加莱不等式"></a>庞加莱不等式</h3><p>$$<br>\begin{cases}<br>\norm{u-u  _  {\Omega}}  _  {L^p(\Omega)} \le C\norm{\grad{u}}  _  {L^p(\Omega)} \\<br>u _ {\Omega}=\frac{1}{\abs{\Omega}}\int  _  {\Omega}u(y)\dd{y} \\<br>d=d(\Omega) \\<br>\begin{cases}<br>C \le \frac{d}{2}, \quad &amp; (p=1) \\<br>C = \frac{1}{\pi} \le \frac{d}{\pi}, \quad &amp;(p=2)<br>\end{cases}<br>\end{cases}<br>$$</p>
+<h3 id="帕萨瓦尔等式"><a href="#帕萨瓦尔等式" class="headerlink" title="帕萨瓦尔等式"></a>帕萨瓦尔等式</h3><p>$$<br>\norm{f}=\norm{F}<br>$$<br>证明：<br>$$<br>\begin{aligned}<br>\int _ {-\infty}^{\infty}f^2(x)\dd{x}<br>=&amp;\int _ {-\infty}^{\infty}f(x)\dd{x}\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty}F(k)e^{ikx}\dd{k} \\<br>=&amp;\int _ {-\infty}^{\infty}F(k)\dd{k} \frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty}f(x)e^{ikx}\dd{x} \\<br>=&amp;\int _ {-\infty}^{\infty}F(k)\dd{k} \qty(\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty}f(x)e^{-ikx}\dd{x})^* \\<br>=&amp;\int _ {-\infty}^{\infty}F(k)\dd{k} F(k) \\<br>=&amp;\int _ {-\infty}^{\infty}F^2(k)\dd{k}<br>\end{aligned}<br>$$</p>
+<h3 id="庞加莱不等式-1"><a href="#庞加莱不等式-1" class="headerlink" title="庞加莱不等式"></a>庞加莱不等式</h3><p>设泛函极值 $R _ E$ 为：<br>$$<br>\frac{1}{R _ E}=\max _ {u \in \mathcal{H}}<br>\frac{\norm{u}^2}{\norm{u _ x}^2}<br>$$<br>设：<br>$$<br>\begin{cases}<br>    I _ 1(u)=\norm{u}^2 \\<br>    I _ 2(u _ x) = \norm{u _ x}^2<br>\end{cases}<br>$$<br>变分问题为：<br>$$<br>\frac{1}{R _ E}<br>=\max _ {u \in \mathcal{H}}<br>\underbrace{\frac{I _ 1(u)}{I _ 2(u _ x)}} _ {I(x,u,u _ x}<br>$$<br>这是欧拉-拉格朗日方程的极值问题，得到极值的条件为：<br>$$<br>\begin{aligned}<br>    &amp; \dv{x}\dv{I}{u _ x}-\dv{I}{u}=0 \\<br>    \Rightarrow<br>    &amp; \dv{x}\qty(-\frac{I _ 1I _ 2’}{I _ 2^2})-\frac{I _ 1’}{I _ 2}=0 \\<br>    \Rightarrow<br>    &amp; -R _ E\dv{x}\frac{I _ 2’}{I _ 2}-\frac{I _ 1’}{I _ 2}=0 \\<br>    \Rightarrow<br>    &amp; -R _ E \frac{I _ 2’}{I _ 2^2}-\frac{I _ 1’}{I _ 2}=0 \\<br>\end{aligned}<br>$$<br>（这里还没算出来，先咕咕咕着）<br>考虑直接变分：<br>$$<br>\begin{aligned}<br>    \eval{\dv{\varepsilon} I(x,u+\varepsilon \eta, u _ x+\varepsilon u _ x)} _ {\varepsilon=0}<br>    &amp;=\delta\qty(\frac{I _ 1}{I _ 2}) \\<br>    &amp;=\frac{\delta I _ 1 I _ 2-I-1\delta I _ 2}{I _ 2^2} \\<br>    &amp;=\frac{1}{I _ 2}\qty(\delta I _ 1-\frac{1}{R _ E}\delta I _ 2)<br>\end{aligned}<br>$$<br>其中 $\delta=\dv{\varepsilon}$，所以：<br>$$<br>\begin{aligned}<br>    0=&amp; \delta I _ 1-\frac{1}{R _ E}\delta I _ 2 \\<br>    =&amp;\int _ {0}^{1}\qty(<br>        (u+\varepsilon \eta)^2-\frac{1}{R _ E}(u _ x+\varepsilon \eta _ x)^2<br>    ) \dd{x} \\<br>    =&amp;2\int _ {0}^{1}\qty(<br>        u\eta-\frac{1}{R _ E}u _ x\eta _ x<br>    ) \dd{x}<br>    =2\int _ {0}^{1}\qty(<br>        \qty(u+\frac{1}{R _ E}u _ {xx})\eta _ x<br>    ) \dd{x}<br>\end{aligned}<br>$$<br>所以 $R _ E$ 应满足如下方程：<br>$$<br>\begin{aligned}<br>    &amp; \begin{cases}<br>        \dv[2]{u}{x}+R _ E u=0 \\<br>        u(0)=u(1)=0<br>    \end{cases} \\<br>    \Rightarrow<br>    &amp; R _ E=(n\pi)^2, n=\mathbb{N}^* \\<br>    \Rightarrow<br>    &amp; R _ E = \pi^2, 4\pi^2, 9\pi^2,\cdots<br>\end{aligned}<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>&amp; \frac{\norm{u}}{\norm{u _ x}} \le \frac{1}{\pi} \\<br>\Rightarrow<br>&amp; \norm{u} \le \frac{1}{\pi}\norm{u _ x}<br>\end{aligned}<br>$$</p>
+<h2 id="Fourier-稳定性"><a href="#Fourier-稳定性" class="headerlink" title="Fourier 稳定性"></a>Fourier 稳定性</h2><p>考虑傅里叶变换：<br>$$<br>\begin{aligned}<br>&amp;F(k)=\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty} f(x) e^{-ikx}dx \\<br>&amp;f(x)=\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty} F(k)e^{ikx}dk<br>\end{aligned}<br>$$<br>考虑位移算子：<br>$$<br>T^ju _ {i}^{(n)}=u _ {i+j}^{(n)}<br>$$<br>对于连续函数 $U(x)$，则：<br>$$<br>T^jU(x)=U(x+jh)<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>\mathcal{F}{T^jU(x)}(k)<br>&amp;=\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty} U(x+jh)e^{-ik(x+jh)}dx \\<br>&amp;=\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty} U(x)e^{-ikx}dx \\<br>&amp;=\mathcal{F}{U(x)}(k)<br>\end{aligned}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>T^jU(x)<br>&amp;=U(x+jh) \\<br>&amp;=\frac{1}{\sqrt{2\pi}} \int _ {-\infty}^{\infty} \mathcal{F}{T^jU(x)}(k)e^{ik(x+jh)}dk \\<br>&amp;=\frac{1}{\sqrt{2\pi}} \int _ {-\infty}^{\infty} \mathcal{F}{U(x)}(k)e^{ikjh}e^{ikx}dk<br>\end{aligned}<br>$$<br>不妨设迭代方程：<br>$$<br>U(x,t _ {n+1})=\mathcal{L}{U(x,t _ n)}<br>$$<br>其中：<br>$$<br>\mathcal{L}<br>=\sum _ {j=-l}^{l} a _ j T^j<br>$$<br>于是有：<br>$$<br>\sum _ {j=-l}^{l}a _ jT^jU(x,t _ {n})<br>=\frac{1}{\sqrt{2\pi}}\int _ {-\infty}^{\infty}\hat{U}(k,t _ n)\sum _ {j=-l}^{l}a _ {j}e^{ikjh}e^{ikx}dk<br>$$<br>于是有：<br>$$<br>\hat{U}(k,t _ {n+1})=\sum _ {j=-l}^{l}a _ je^{ikjh}\hat{U}(k,t _ n)<br>$$<br>即：<br>$$<br>G(\tau,k)=\sum _ {j=-l}^{l}a _ je^{ikjh}<br>$$<br>其中 $G(\tau,k)$ 为增长因子，并且：<br>$$<br>\hat{U}(k,t _ n)=(G(\tau,k))^n\hat{U}(k,t _ 0)<br>$$</p>
+<p>实际上，只要作代入即可：<br>$$<br>u _ j^{(n)}=v^{(n)}e^{ikjh}<br>$$</p>
+<blockquote>
+<p><strong>von Neumann 条件</strong><br>差分格式稳定的必要条件是，当 $\tau \le \tau _ 0,n\tau \le T$ 时，对于所有的 $k\in\mathbb{R}$，有：<br>$$<br>\rho(G(\tau,k)) \le 1+M\tau<br>$$</p>
+</blockquote>
+<p>对于对称矩阵 $A$，有：<br>$$<br>\Vert A \Vert _ 2=\sqrt{\rho(A^TA)}=\sqrt{\rho(A^2)}=\sqrt{\rho(A)^2}=\rho(A)<br>$$<br>更一般的，只要 $A$ 是正规的，则：<br>$$<br>\Vert A \Vert _ 2=\rho(A)<br>$$</p>
+<h2 id="对流方程"><a href="#对流方程" class="headerlink" title="对流方程"></a>对流方程</h2><p>考虑对流方程的处初值问题：<br>$$<br>\frac{\partial u}{\partial t}+a\frac{\partial u}{\partial x}=0<br>$$<br>其解可以写成：<br>$$<br>u(x,t)=g(\xi)=g(x-at)<br>$$<br>若采用差分格式：<br>$$<br>\frac{u^{(n+1)} _ {i}-u^{(n)} _ {i}}{\tau}+a\frac{u^{(n)} _ {i+1}-u^{(n)} _ {i}}{h}=0<br>$$<br>化简成迭代方程：<br>$$<br>u^{(n+1)} _ i<br>=u^{(n)} _ i-\frac{a\tau}{h}(u^{(n)} _ {i+1}-u^{(n)} _ {i})<br>=(1-\frac{a\tau}{h}+\frac{a\tau}{h}T)u^{(n)} _ i<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>u^{(n)} _ i<br>=&amp;(1-\frac{a\tau}{h}+\frac{a\tau}{h}T)^n u^{(0)} _ {i} \\<br>=&amp;\sum _ {k=0}^{n}(1-\frac{a\tau}{h})^{n-k}(\frac{a\tau}{h})^kT^k u _ i^{(0)} \\<br>=&amp;\sum _ {k=0}^{n}(1-\frac{a\tau}{h})^{n-k}(\frac{a\tau}{h})^k u _ {i+k}^{(0)}<br>\end{aligned}<br>$$<br>也就是说 $u _ i^{(n)}$ 只跟 $g _ {i},g _ {i+1},\cdots,g _ {i+n}$ 有关，这与解的要求：<br>$$<br>u(x,t)=g(x-at)<br>$$<br>在 $a&gt;0$ 时，有初值不变，因此是不稳定的。</p>
+<p>若采用差分格式：<br>$$<br>\frac{u^{(n+1)} _ {i}-u^{(n)} _ {i}}{\tau}+a\frac{u^{(n)} _ {i}-u^{(n)} _ {i-1}}{h}=0<br>$$<br>化简成迭代方程：<br>$$<br>u^{(n+1)} _ i=u^{(n)} _ i-\frac{a\tau}{h}(u^{(n)} _ i-u^{(n)} _ {i-1})=(1-\frac{a\tau}{h}+\frac{a\tau}{h}T^{-1})u^{(n)} _ i<br>$$<br>代换得：<br>$$<br>\begin{aligned}<br>&amp; v^{(n+1)}e^{ikjh}=((1-\frac{a\tau}{h})e^{ikjh}+\frac{a\tau}{h}e^{ik(j-1)h})v^{(n)} \\<br>\Rightarrow<br>&amp; v^{(n+1)}=((1-\frac{a\tau}{h})+\frac{a\tau}{h}e^{-ikh})v^{(n)} \\<br>\Rightarrow<br>&amp; G(\tau,h)=1-\frac{a\tau}{h}+\frac{a\tau}{h}e^{-ikh} \\<br>\Rightarrow<br>&amp; |G| \le |1-a\lambda|+|a\lambda| \le 1, a\lambda \le 1<br>\end{aligned}<br>$$</p>
+<h2 id="Energy-稳定性"><a href="#Energy-稳定性" class="headerlink" title="Energy 稳定性"></a>Energy 稳定性</h2><h3 id="Fourier稳定性分析的局限性"><a href="#Fourier稳定性分析的局限性" class="headerlink" title="Fourier稳定性分析的局限性"></a>Fourier稳定性分析的局限性</h3><p>傅立叶稳定性分析要求PDE定义在无界区域（或者可延拓的半无界区域），这种条件实际上是苛刻的，一些在有解区域所展现出来的性质（如驻波）在无界区域往往难以展现。<br>另一方面，傅立叶稳定性分析中，我们主要关心的是 $L^2$ 模稳定性，即我们期待于寻找一个Hilbert空间下的范数：<br>$$<br>\norm{u}^{2}=\int _ {\Omega} u^2(x) \dd{x}<br>$$<br>需要注意的是，能量稳定性分析是基于能量泛函的，它反映出PDE在解析形式上存在的不稳定的潜在可能，这与差分格式可能不具有相关性。<br>换言之，能量稳定性分析会给出具有边界限制的PDE的初值稳定性关系——无论采用何样的差分格式，必定会引发对应的数值耗散问题。</p>
+<h3 id="有界齐次扩散方程"><a href="#有界齐次扩散方程" class="headerlink" title="有界齐次扩散方程"></a>有界齐次扩散方程</h3><p>考虑下面PDE方程的定解问题：<br>$$<br>\begin{cases}<br>    u _ {t}=u _ {xx}, x\in(0,1),t&gt;0 \\<br>    \eval{u} _ {x=0}=\eval{u} _ {x=1}=0 \\<br>    \eval{u} _ {t=0}=u _ 0(x)<br>\end{cases}<br>$$<br>考虑到方程左侧为 $\pdv{u}{t}$，为了凑出能量泛函 $\norm{u}^{2}$ 的形式（也就是寻找 $u^2$），我们选择在方程左右两侧同时乘以 $u$，并在域 $\Omega$ 上积分，并使用分布积分的技巧进行化简：<br>$$<br>\begin{aligned}<br>    &amp;\int _ {0}^{1}u _ {t}u\dd{x}<br>    =\int _ {0}^{1} u _ {xx}u\dd{x} \\<br>    \Rightarrow<br>    &amp; \int _ {0}^{1}\frac{1}{2}\pdv{u^2}{t}\dd{x}<br>    =\qty(<br>        \eval{\qty(uu _ {x})} _ {0}^{1}<br>        -\int _ {0}^{1}u _ {x}^2\dd{x}<br>    ) \\<br>    \Rightarrow<br>    &amp; \dv{E}{t}+\norm{u _ {x}}^2=0<br>\end{aligned}<br>$$<br>其中系统的能量为：<br>$$<br>E=\frac{1}{2}\norm{u}^2=\frac{1}{2}\int _ {\Omega}u^2(x)\dd{x}<br>$$<br>所以：<br>$$<br>\dv{E}{t}+\norm{u _ x}^2=0<br>$$<br>由庞加莱不等式：<br>$$<br>\norm{u}^2 \le C\norm{\grad{u}}^2<br>$$<br>可得：<br>$$<br>\norm{u _ x}^2 \ge \pi^2\norm{u}^2<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>    &amp; 0=\dv{E}{t}+\norm{u _ x}^2<br>\ge \dv{E}{t}+\pi^2\norm{u}^2<br>=2\dv{t}\qty(e^{2\pi^2 t}\norm{u}^2) \\<br>\Rightarrow<br>    &amp; \norm{u(t)}^2 \le e^{-2\pi^2}\norm{u _ 0}^2<br>\end{aligned}<br>$$<br>可以看到 $\norm{u(t)} \to 0$，因此该PDE是 $L^2$ 模稳定的。</p>
+<h3 id="有界有源齐次扩散方程"><a href="#有界有源齐次扩散方程" class="headerlink" title="有界有源齐次扩散方程"></a>有界有源齐次扩散方程</h3><p>考虑将有界齐次扩散方程添加一个线性源项：<br>$$<br>\begin{cases}<br>    u _ t=u _ {xx}+au, x\in (0,1),t&gt;0 \\<br>    \eval{u} _ {x=0}=\eval{u} _ {x=1}=0 \\<br>    \eval{u} _ {t=0}=u _ 0(x)<br>\end{cases}<br>$$<br>类似的，可以定义系统能量 $E$ 为：<br>$$<br>E(t)=\frac{1}{2}\norm{u(t)}^2=\frac{1}{2}\int _ {\Omega}u^2(x,t)\dd{x}<br>$$<br>并且：<br>$$<br>\begin{aligned}<br>    \dv{E}{t}<br>    &amp;=-\norm{u _ x}^2+a\norm{u}^2 \\<br>    &amp;=-a\norm{u _ x}^2\qty(\frac{1}{a}-\frac{\norm{u}^2}{\norm{u _ x}^2}) \\<br>    &amp;\le -a\norm{u _ x}^2\qty(\frac{1}{a}-\max _ {u \in \mathcal{H}}\frac{\norm{u}^2}{\norm{u _ x}^2})<br>\end{aligned}<br>$$<br>其中 $\mathcal{H}$ 是如下函数空间：<br>$$<br>\mathcal{H}=\qty{u \in C^2(0,1) | \eval{u} _ {x=0}=\eval{u} _ {x=1}=0}<br>$$</p>
+<p>设泛函极值 $R _ E$ 为：<br>$$<br>\frac{1}{R _ E}=\max _ {u \in \mathcal{H}}<br>\frac{\norm{u}^2}{\norm{u _ x}^2}<br>$$<br>则：<br>$$<br>\dv{E}{t} \le -a\norm{u _ x}^2\qty(\frac{1}{a}-\frac{1}{R _ E})<br>$$<br>由庞加莱不等式 $\norm{u _ x}^2 \ge \pi^2\norm{u}^2$ 可知，$E(t) \to 0$ 的充分条件为：<br>$$<br>\frac{1}{a}-\frac{1}{R _ E} \triangleq c &gt; 0<br>$$<br>并且：<br>$$<br>E(t) \le e^{-2\pi^2 act} E(0)<br>$$<br>所以PDE方程的初值稳定性问题为：<br>$$<br>a &lt; R _ E \Rightarrow a &lt; \qty(R _ E) _ {\min}=\pi^2<br>$$</p>
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/FDM/FDop/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/FDM/FDdis/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+</body>
+</html>

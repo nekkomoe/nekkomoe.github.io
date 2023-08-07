@@ -164,6 +164,38 @@
     </a>
   </li>
 <li class="item-post item">
+  <span class="post-date">07-08</span>
+
+  
+  <a class="post-title" href="/star-star-problem/">OI中的**题</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">07-07</span>
+
+  
+  <a class="post-title" href="/rand-R-per/">随机、实数、排列</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">06-26</span>
+
+  
+  <a class="post-title" href="/powerful-number/">幂数（powerful number）</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">06-11</span>
+
+  
+  <a class="post-title" href="/cc-JUNE19/">Codechef JUNE Challenge 2019</a>
+
+
+</li>
+<li class="item-post item">
   <span class="post-date">06-09</span>
 
   
@@ -211,38 +243,6 @@
 
 
 </li>
-<li class="item-post item">
-  <span class="post-date">04-28</span>
-
-  
-  <a class="post-title" href="/uoj-solutions/uoj-272/">【清华集训2016】石家庄的工人阶级队伍比较坚强</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">04-28</span>
-
-  
-  <a class="post-title" href="/uoj-solutions/uoj-310/">【UNR 2】黎明前的巧克力</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">04-25</span>
-
-  
-  <a class="post-title" href="/a-mod-b-le-c/">一个模意义下的不等式</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">04-22</span>
-
-  
-  <a class="post-title" href="/codeforces-102114G/">【2018 Chinese Multi-University Training, BeihangU Contest】G. Glad You Came</a>
-
-
-</li>
 </ul>
   </div>
 
@@ -250,7 +250,7 @@
     
   <div class="pagination">
     <nav class="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/5/"><i class="icon-angle-right"></i></a>
+      <a class="extend prev" rel="prev" href="/archives/page/3/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/12/">12</a><a class="extend next" rel="next" href="/archives/page/5/"><i class="icon-angle-right"></i></a>
     </nav>
   </div>
 
@@ -392,30 +392,45 @@
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
 </script>
 <!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
+<script>
     MathJax.Hub.Queue(function() {
         var all = MathJax.Hub.getAllJax(), i;
         for(i=0; i < all.length; i += 1) {
@@ -423,10 +438,7 @@
         }
     });
 </script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
 
 </body>
 </html>

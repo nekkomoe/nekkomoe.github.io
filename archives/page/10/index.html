@@ -164,6 +164,38 @@
     </a>
   </li>
 <li class="item-post item">
+  <span class="post-date">06-25</span>
+
+  
+  <a class="post-title" href="/lmmr/problems/hdu-5068/">线性变换与矩阵递推习题：hdu 5068 Harry And Math Teacher</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">06-25</span>
+
+  
+  <a class="post-title" href="/lmmr/lmmr/">线性变换与矩阵递推</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">06-19</span>
+
+  
+  <a class="post-title" href="/du-sieves/problems/bzoj-3944/">杜教筛习题：bzoj 3944 sum</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">06-19</span>
+
+  
+  <a class="post-title" href="/du-sieves/problems/hdu-5608/">杜教筛习题：hdu 5608 function</a>
+
+
+</li>
+<li class="item-post item">
   <span class="post-date">06-19</span>
 
   
@@ -211,38 +243,6 @@
 
 
 </li>
-<li class="item-post item">
-  <span class="post-date">06-11</span>
-
-  
-  <a class="post-title" href="/mob-inv/problems/bzoj-2301/">莫比乌斯反演习题：bzoj 2301 [HAOI2011]Problem b</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">06-11</span>
-
-  
-  <a class="post-title" href="/mob-inv/problems/bzoj-2154/">莫比乌斯反演习题：bzoj 2154 Crash的数字表格</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">06-11</span>
-
-  
-  <a class="post-title" href="/mob-inv/problems/bzoj-1257/">莫比乌斯反演习题：bzoj 1257 [CQOI2007]余数之和</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">06-11</span>
-
-  
-  <a class="post-title" href="/mob-inv/mob-inv/">莫比乌斯反演</a>
-
-
-</li>
 </ul>
   </div>
 
@@ -250,7 +250,7 @@
     
   <div class="pagination">
     <nav class="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/9/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/11/"><i class="icon-angle-right"></i></a>
+      <a class="extend prev" rel="prev" href="/archives/page/9/"><i class="icon-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/archives/page/11/">11</a><a class="page-number" href="/archives/page/12/">12</a><a class="extend next" rel="next" href="/archives/page/11/"><i class="icon-angle-right"></i></a>
     </nav>
   </div>
 
@@ -392,30 +392,45 @@
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
 </script>
 <!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
+<script>
     MathJax.Hub.Queue(function() {
         var all = MathJax.Hub.getAllJax(), i;
         for(i=0; i < all.length; i += 1) {
@@ -423,10 +438,7 @@
         }
     });
 </script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>FD-符号分解 | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="FDM,FD-operators," />
+  
+
+  <meta name="description" content="算符设给定位移 $h$，定义位移算子 $E$：$$E^sp(x)&#x3D;p(x+hs)$$ 可以用位移算子定义差分算子：  一阶向前差分算子：$\Delta_+&#x3D;\Delta&#x3D;E-I$ 一阶向后差分算子：$\Delta_-&#x3D;I-E^{-1}$ 一步中心差分算子：$\Delta_0&#x3D;E-E^{-1}$ 半步中心差分算子：$\delta&#x3D;E^{1&#x2F;2}-E^{-1&#x2F;2}$ 二阶中心差分算子：$\delta^">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FD-符号分解">
+<meta property="og:url" content="https://nekko.moe/FDM/FDop/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="算符设给定位移 $h$，定义位移算子 $E$：$$E^sp(x)&#x3D;p(x+hs)$$ 可以用位移算子定义差分算子：  一阶向前差分算子：$\Delta_+&#x3D;\Delta&#x3D;E-I$ 一阶向后差分算子：$\Delta_-&#x3D;I-E^{-1}$ 一步中心差分算子：$\Delta_0&#x3D;E-E^{-1}$ 半步中心差分算子：$\delta&#x3D;E^{1&#x2F;2}-E^{-1&#x2F;2}$ 二阶中心差分算子：$\delta^">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-07T06:50:36.000Z">
+<meta property="article:modified_time" content="2023-08-07T08:18:18.459Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="FDM">
+<meta property="article:tag" content="FD-operators">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E7%AC%A6"><span class="toc-text">算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E7%AC%A6%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-text">算符的性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%AF%E7%89%B9%E6%9E%97%E6%95%B0"><span class="toc-text">斯特林数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ln-1-x-m"><span class="toc-text">$(\ln(1+x))^m$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#e-x-1-m"><span class="toc-text">$(e^x-1)^m$</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%AF%E5%88%86%E7%AE%97%E7%AC%A6"><span class="toc-text">积分算符</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-FDM/FDop" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">FD-符号分解</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.08.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/FDM/">FDM</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="算符"><a href="#算符" class="headerlink" title="算符"></a>算符</h2><p>设给定位移 $h$，定义位移算子 $E$：<br>$$<br>E^sp(x)=p(x+hs)<br>$$</p>
+<p>可以用位移算子定义差分算子：</p>
+<ul>
+<li>一阶向前差分算子：$\Delta_+=\Delta=E-I$</li>
+<li>一阶向后差分算子：$\Delta_-=I-E^{-1}$</li>
+<li>一步中心差分算子：$\Delta_0=E-E^{-1}$</li>
+<li>半步中心差分算子：$\delta=E^{1/2}-E^{-1/2}$</li>
+<li>二阶中心差分算子：$\delta^2=E-2I+E^{-1}$</li>
+<li>平均算子：$\mu=\frac{1}{2}\qty(E^{1/2}+E^{-1/2})$</li>
+<li>微分算符：$\mathop{D}=\dv{x}$</li>
+<li>积分算符：$\int_{x}^{x+h} \qty(\cdot)(t)\dd{t}$</li>
+</ul>
+<p>如果间隔 $h$ 需要被指明，会使用下标的形式进行表达，即 $E_h,E_\tau$</p>
+<p>实际上，算符 $\Delta,\nabla, \delta, \mu, E, D, J$ 满足交换律、分配律、结合律。特殊的，有如下关系成立：<br>$$<br>DJ=JD=\Delta<br>$$<br>对于算子的可逆性，有以下结论：</p>
+<ul>
+<li><p>$E$ aninhilated nothing;</p>
+</li>
+<li><p>$\Delta,\nabla,\delta$ annihilate any function of period $h$;</p>
+</li>
+<li><p>$\delta$ annihilate function of period h;</p>
+</li>
+<li><p>$J$ annihilates any function(with constant C);</p>
+</li>
+<li><p>$D$ annihilates any constant;</p>
+</li>
+<li><p>$\mu$ annihilates odd-harmonic function $f(x)$ for which $f(x+h)=-f(x)$.</p>
+</li>
+</ul>
+<h2 id="算符的性质"><a href="#算符的性质" class="headerlink" title="算符的性质"></a>算符的性质</h2><p>我们可以使用算符 $E$ 来统一表示以上算符：<br>$$<br>\begin{aligned}<br>    &amp; \Delta =E-I \\<br>    &amp; \nabla =I-E^{-1} \\<br>    &amp; \delta=E^{1/2}-E^{-1/2} \\<br>    &amp;\mu=\frac{1}{2}\qty(E^{1/2}+E^{-1/2}) \\<br>    &amp; DJ=JD=\Delta=E-I<br>\end{aligned}<br>$$</p>
+<p>若 $s$ 为非负整数，则：<br>$$<br>\begin{aligned}<br>    \Delta^s<br>    =&amp;E^s\nabla^s \\<br>    =&amp;E^{s/2}\delta^{s} \\<br>    =&amp;(E-I)^{s} \\<br>     =&amp;\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k}<br> \end{aligned}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>     &amp;\Delta^s=\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k} \\<br>     &amp;\nabla^s=\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k-s} \\<br>     &amp;\delta^s=\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k-s/2}<br>\end{aligned}<br>$$<br>进一步的，可以得到：<br>$$<br>\begin{aligned}<br>     &amp; E=I+\Delta \\<br>     &amp; E(1-\nabla)=I \\<br>     &amp; \qty(E^{1/2}-\frac{1}{2}\delta)^2-\frac{1}{4}\delta^2=I  \\<br>     &amp; E^{1/2}-\frac{1}{2}\delta-\mu=0<br> \end{aligned}<br>$$<br> 可以反解出：<br>$$<br>\begin{aligned}<br>     &amp; E=I+\Delta \\<br>     &amp; E=\frac{1}{1-\nabla} \\<br>     &amp; E^{1/2}=\qty(1+\frac{1}{4}\delta^2)^{1/2}+\frac{1}{2}\delta \\<br>     &amp; \mu=\qty(1+\frac{1}{4}\delta^2)^{1/2}<br> \end{aligned}<br>$$<br>其中，蕴含着互逆关系：$(I+\Delta)(I-\nabla)=I$。<br>$$<br>\begin{aligned}<br>    &amp;\Delta^s=(E-I)^{s} \\<br>    =&amp;E^s\nabla^s=E^{s/2}\delta^{s} \\<br>    =&amp;\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k}<br>\end{aligned}<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>    &amp;\Delta^s=\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k} \\<br>    &amp;\nabla^s=\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k-s} \\<br>    &amp;\delta^s=\sum_{k=0}^{s}\binom{s}{k}(-1)^{s-k}E^{k-s/2}<br>\end{aligned}<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>    &amp; E=I+\Delta \\<br>    &amp; E(1-\nabla)=I \\<br>    &amp; \qty(E^{1/2}-\frac{1}{2}\delta)^2-\frac{1}{4}\delta^2=I  \\<br>    &amp; E^{1/2}-\frac{1}{2}\delta-\mu=0<br>\end{aligned}<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>    &amp; E=I+\Delta \\<br>    &amp; E=\frac{1}{1-\nabla} \\<br>    &amp; E^{1/2}=\qty(1+\frac{1}{4}\delta^2)^{1/2}+\frac{1}{2}\delta \\<br>    &amp; \mu=\qty(1+\frac{1}{4}\delta^2)^{1/2}<br>\end{aligned}<br>$$<br>所以：<br>$$<br>(I+\delta)(I-\nabla)=I<br>$$</p>
+<p>考虑一个 $n$ 阶多项式 $p_n(x)$，其差分 $n+1$ 次的结果为 $0$，即：<br>$$<br>\nabla^{n+1}p_n(x)\equiv 0<br>$$<br>所以在宗量为 $n$ 阶多项式意义下，有：<br>$$<br>\begin{aligned}<br> &amp;(I-\nabla)\sum_{k=0}^{n}\nabla^k=I-\nabla^{n+1}\triangleq I \\<br> \Rightarrow<br> &amp; (I-\nabla)^{-1}=\sum_{k=0}^{n}\nabla^{k}<br>\end{aligned}<br>$$<br>上式成立时，要求多项式阶数不超过 $n$。<br>若 $n \to \infty$，则可以得到更一般的情况：<br>$$<br> E=(I-\nabla)^{-1}=\sum_{k=0}^{\infty} \nabla^{k}<br>$$<br>对于一般的光滑函数 $f(x)$，由牛顿插值可以得到 $f(x)$ 在 $x=x_0$ 处的展开：<br>$$<br> \begin{aligned}<br> f(x_0+sh)<br> =&amp;\sum_{k=0}^{\infty}\binom{s}{k}\Delta^{k}f(x_0), &amp; \qqtext{forward} \\<br> =&amp;\sum_{k=0}^{\infty}(-1)^{k}{-s \choose k}\nabla^{k}f(x_0), &amp; \qqtext{backward}<br> \end{aligned}<br>$$</p>
+<p>对于微分算符，容易发现：<br>$$<br>\begin{aligned}<br>&amp;Ep(x)=p(x+h)=\sum_{k = 0}^{\infty} \frac{h^k}{k!}D^kp(x)=e^{hD}p(x) \\<br>\Rightarrow &amp;\boxed{E=e^{hD}} \\<br>\Rightarrow &amp;<br>hD=\ln E<br>=\ln(I+\Delta)<br>=-\ln(I-\nabla) \\<br>&amp; \quad<br>=2\ln(\qty(1+\frac{1}{4}\delta^2)^{1/2}+\frac{1}{2}\delta) \\<br>&amp; \quad<br>=2\sinh^{-1}\qty(\frac{\delta}{2})<br>\\<br>&amp; \qty(\text{note:}\sinh^{-1}(x)=\ln(x+\sqrt{x^2+1}))<br>\end{aligned}<br>$$<br>也可以用 $hD$ 来表示 $\delta,\mu$：<br>$$<br>\begin{aligned}<br>    &amp; \delta=2\sinh \frac{hD}{2} \quad<br>    &amp; \mu=\cosh \frac{hD}{2} \quad<br>    &amp; \mu\delta=\sinh hD<br>\end{aligned}<br>$$</p>
+<p>如果采用 $\ln(1+z)$ 的有理逼近技术 $\frac{P_m(x)}{Q_n(x)}$，可得：<br>$$<br>D=\frac{1}{h}\frac{\Delta}{1+\frac{1}{2}\Delta}+O(h^2)<br>$$</p>
+<h2 id="斯特林数"><a href="#斯特林数" class="headerlink" title="斯特林数"></a>斯特林数</h2><p>对于一阶导数的生成函数形式，有：<br>$$<br>D=\frac{\ln(I+\Delta)}{h}<br>$$<br>对于 $n$ 阶导数的生成函数形式，有：<br>$$<br>D^{n}=\frac{\qty(\ln(I+\Delta))^n}{h^n}<br>$$<br>对于 $n$ 阶后向差分的生成函数形式（注意到 $I+\Delta=E=e^{hD}$），有：$I+\Delta=E=e^{hD}$，即:<br>$$<br>\Delta^{n}=\qty(e^{hD}-I)^{n}<br>$$<br>对于第一类斯特林数，有：<br>$$<br>\frac{\qty(\ln(1+x))^{n}}{n!}<br>=\sum_{k=n}^{\infty}\frac{1}{k!}\begin{bmatrix}k \\ n\end{bmatrix} x^k<br>$$<br>对于第二类斯特林数，有：<br>$$<br>\frac{\qty(e^{x}-1)^{n}}{n!}<br>=\sum_{k=n}^{\infty}\frac{1}{k!}\begin{Bmatrix}k \\ n\end{Bmatrix} x^k<br>$$</p>
+<h3 id="ln-1-x-m"><a href="#ln-1-x-m" class="headerlink" title="$(\ln(1+x))^m$"></a>$(\ln(1+x))^m$</h3><p>考虑到：<br>$$<br>\begin{aligned}<br>&amp;\qty(\ln(1+x))^m=\qty(\sum_{n=1}^{\infty}\frac{(-1)^{n-1}}{n}x^n)^m \\<br>=&amp;\sum_{n=m}^{\infty} \qty(<br>\sum_{\sum_{p=1}^{m}n_p=n}\prod_{p=1}^{m} \frac{(-1)^{n_p-1}}{n_p}<br>) x^n \\<br>=&amp;\sum_{n=m}^{\infty} \qty(<br>\sum_{\sum_{p=1}^{m}n_p=n}\prod_{p=1}^{m} \frac{1}{n_p}<br>) (-1)^{n-m}x^n<br>\end{aligned}<br>$$<br>将 $n$ 个不同小球排列成 $m$ 个圆排列，其方案数为：<br>$$<br>\begin{bmatrix}n \\ m\end{bmatrix}<br>=\sum_{\sum_{p=1}^{m}n_p=n}\frac{1}{m!}\qty(n!\prod_{p=1}^{m}\frac{1}{n_p})<br>$$<br>定义有符号斯特林数：<br>$$<br>\begin{bmatrix}n \\ m\end{bmatrix}<em>{s}<br>= (-1)^{n+m}\begin{bmatrix}n \\ m\end{bmatrix}<br>$$<br>则系数展开问题的解为：<br>$$<br>\frac{\qty(\ln(1+x))^m}{m!}=\sum</em>{n=m}^{\infty}\frac{1}{n!}\begin{bmatrix}n \\ m\end{bmatrix}_{s}x^{n}<br>$$</p>
+<h3 id="e-x-1-m"><a href="#e-x-1-m" class="headerlink" title="$(e^x-1)^m$"></a>$(e^x-1)^m$</h3><p>考虑到：<br>$$<br>(e^{x}-1)^m<br>=\qty(\sum_{n=1}^{\infty} \frac{x^n}{n!})^m<br>=\sum_{n=m}^{\infty}\qty(\sum_{\sum_{p=1}^{m}n_p=n}\prod_{p=1}^{m}\frac{1}{n_p!})x^{n}<br>$$<br>观察 $x^{n}$ 的系数的意义，相当于从 $m$ 种无限多物品中，每种物品至少选取 $1$ 个，选取 $n_p$ 个物品对贡献系数 $\frac{1}{n_p!}$，这个系数意味着每个种类的物品本质相同。<br>如果把每一种物品看作盒子，物品总个数 $n=\sum n_p$ 看作小球，那么将 $n$ 个不同的小球装进 $m$ 个相同的盒子（盒子不为空）里的方案数为：<br>$$<br>\begin{Bmatrix}n \\ m\end{Bmatrix}<br>=\sum_{\sum_{p=1}^{m}n_p=n}\frac{1}{m!}\qty(n! \prod_{p=1}^{m}\frac{1}{n_p!})<br>$$<br>这个方案数成为第二类斯特林数，所以系数展开问题的解为：<br>$$<br>\begin{aligned}<br>&amp;\qty(e^{x}-1)^{m}=\sum_{n=m}^{\infty}\frac{m!}{n!}\begin{Bmatrix}n \\ m\end{Bmatrix} x^{n} \\<br>\Rightarrow<br>&amp;\frac{\qty(e^{x}-1)^{m}}{m!}=\sum_{n=m}^{\infty}\frac{1}{n!}\begin{Bmatrix}n \\ m\end{Bmatrix} x^{n}<br>\end{aligned}<br>$$</p>
+<h2 id="积分算符"><a href="#积分算符" class="headerlink" title="积分算符"></a>积分算符</h2><p>考虑积分形式：<br>$$<br>J=\Delta D^{-1}<br>$$<br>则有如下分段积分：<br>$$<br>\int_{x_0}^{x_0+sh}f(x)\dd{x}=\qty(\sum_{k=0}^{s-1}E^{k})Jf(x)<br>=\frac{E^{s}-I}{E-I}Jf(x)<br>$$<br>考虑到 $E=I+\Delta, hD=\ln E,J=\Delta D^{-1}$，于是有：<br>$$<br>\begin{aligned}<br>\frac{E^{s}-I}{E-I}J<br>=&amp;h\frac{(I+\Delta)^{s}-I}{\Delta}\frac{\Delta}{\ln(I+\Delta)} \\<br>=&amp;h\qty(\sum_{i=0}^{\infty}{r \choose i+1}\Delta^i)<br>\sum_{j=0}^{\infty} c_j\Delta^{j} \\<br>=&amp;h\sum_{i=0}^{\infty}\sum_{j=0}^{\infty}hc_j{r\choose i+1}\Delta^{i+j} \\<br>=&amp;\sum_{k=0}^{\infty}h<br>\underbrace{\sum_{i=0}^{k}c_{k-i}{s \choose i+1}}_{\alpha _ {k}^{(r)}}<br>\Delta^{k}<br>\end{aligned}<br>$$</p>
+<p>可以得到积分的差分形式：<br>$$<br>\int_{x_0}^{x_0+sh}f(x)\dd{x}=h\qty(\sum_{k=0}^{\infty}\alpha_{k}^{(s)}\Delta^{k})f(x)<br>$$<br>对于中心差分格式，类似的，有：<br>$$<br>\begin{aligned}<br>    \int_{x_0-sh}^{x_0+sh}f(x)\dd{x}<br>    =&amp;\sum_{k=-m}^{m-1}E^{k}Jf(x) \\<br>    =&amp;\frac{E^{s}-E^{-s}}{E-I}Jf(x) \\<br>    =&amp;\frac{e^{shD}-e^{-shD}}{\Delta}\Delta D^{-1}f(x) \\<br>    =&amp;\frac{2\sinh(mhD)}{D}f(x)<br>\end{aligned}<br>$$</p>
+<p>可以用波矢为 $k$ 的行波 $e^{ikx}$ 检验差分的相容阶。<br>$$<br>\begin{aligned}<br>&amp;\Delta e^{ikx} \\<br>=&amp;e^{ik(x+h)}-e^{ikx} \\<br>=&amp;e^{ikx}\qty(e^{ikh}-1) \\<br>=&amp;e^{ikx}\qty(ikh+O(k^2h^2)) \\<br>&amp;=hDe^{ikx}+O(h^2) \\<br>&amp;\delta^2 e^{ikx} \\<br>=&amp;e^{ikx}\qty(e^{ikh}-1+e^{-ikh}-1) \\<br>=&amp;e^{ikx}\qty(ikh-k^2h^2/2-ikh-k^2h^2/2+O(k^4h^4)) \\<br>=&amp;e^{ikx}\qty(-(kh)^2+O((kh)^4)) \\<br>=&amp;h^2D^2e^{ikx}+O(h^4)<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>&amp; J(\cdot)=\int_{x_0}^{x_0+h}(\cdot)\dd{x} \\<br>\Rightarrow<br>&amp; JD=DJ=\Delta \\<br>\Rightarrow<br>&amp; J=\Delta D^{-1} \\<br>\Rightarrow<br>&amp; \int_{x_0}^{x_0+rh}(\cdot)\dd{x}<br>=\sum_{s=0}^{r-1}E^{s}J<br>=\frac{E^{r}-1}{E-1}J<br>=h\frac{(1+\Delta)^r-1}{\Delta}\frac{\Delta}{\ln(1+\Delta)}<br>\end{aligned}<br>$$<br>第一项，有：<br>$$<br>\frac{(1+\Delta)^r-1}{\Delta}<br>=\sum_{k=1}^{\infty}{r \choose k}\Delta^{k-1}<br>=\sum_{k=0}^{\infty}{r \choose k+1}\Delta^{k}<br>$$<br>第二项，有：<br>$$<br>\begin{aligned}<br>\frac{\Delta}{\ln(1+\Delta)}<br>&amp;=\frac{\Delta}{\sum_{n=1}^{\infty}\frac{(-1)^{n-1}\Delta^{n}}{n}} \\<br>&amp;=\frac{1}{1-<br>\underbrace{\sum_{n=1}^{\infty}\frac{(-1)^{n+1}\Delta^{n}}{n+1}} _ {p(\Delta)}} \\<br>&amp;=1+\sum_{k=1}^{\infty}p^k(\Delta)<br>\end{aligned}<br>$$<br>其中，$p(\Delta)$ 为：<br>$$<br>p(\Delta)=\frac{\Delta}{2}-\frac{\Delta^2}{3}+\frac{\Delta^3}{4}+\cdots<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>\int_{x_0}^{x_0+rh}(\cdot)\dd{x}<br>=&amp;\sum_{s=0}^{r-1}E^{s}J \\<br>=&amp;\frac{E^{r}-1}{E-1}J \\<br>=&amp;h\frac{(1+\Delta)^r-1}{\Delta}\frac{\Delta}{\ln(1+\Delta)} \\<br>=&amp;h\sum_{i=0}^{\infty}{r \choose i+1}\Delta^{i}<br>\sum_{j=0}^{\infty}<br>\qty(\sum_{k=0}^{\infty}\frac{(-1)^{k}\Delta^k}{k+1})^j<br>\end{aligned}<br>$$<br>另一方面：<br>$$<br>\begin{aligned}<br>    J&amp;=\frac{\Delta}{D}=\frac{e^{hD}-1}{D} \\<br>    &amp;=\sum_{n=1}^{\infty}\frac{h^n}{n!}D^{n-1} \\<br>    &amp;=\sum_{n=1}^{\infty}\frac{h}{n!}(\ln(1+\Delta))^{n-1}<br>\end{aligned}<br>$$<br>伯努利数的生成函数形式为：<br>$$<br>\frac{z}{e^{z}-1}=\sum_{n=0}^{\infty}\frac{B_n}{n!}z^n<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>&amp; DJ\Delta^{-1}=1 \\<br>\Rightarrow<br>&amp; \frac{DJ}{E-1}=1 \\<br>\Rightarrow<br>&amp; \frac{hD}{e^{hD}-1}J=h \\<br>\Rightarrow<br>&amp; h=\sum_{n=0}^{\infty}\frac{B_n}{n!}h^n D^nJ \\<br>\Rightarrow<br>&amp; h=J+\sum_{n=1}^{\infty}\frac{B_nh^n}{n!}D^{n-1}\Delta \\<br>\Rightarrow<br>&amp; J=h-\sum_{n=1}^{\infty} \frac{B_nh}{n!}(\ln(1+\Delta))^{n-1}\Delta<br>\end{aligned}<br>$$</p>
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/mermaid/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/FDM/FDstab/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+</body>
+</html>
