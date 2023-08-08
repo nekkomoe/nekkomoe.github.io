@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>四边形不等式优化dp | nekko</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="algorithm,quadrilateral inequality," />
+  
+
+  <meta name="description" content="四边形不等式石子合并！ $f[i,j]&#x3D;\max _ {i \le k &lt; j} { f[i,k]+f[k+1,j]+w[i,j] }$ 最优决策点？每一行单调并且每一列单调！ $p[i,j-1] \le p[i,j] \le p[i+1,j]$ 四边形不等式： $w[a,c]+w[b,d] \le w[a,d]+w[b,c] (a \le b \le c \le d)$ 实际上是： $w[">
+<meta property="og:type" content="article">
+<meta property="og:title" content="四边形不等式优化dp">
+<meta property="og:url" content="https://nekko.moe/quad-ineq/index.html">
+<meta property="og:site_name" content="nekko">
+<meta property="og:description" content="四边形不等式石子合并！ $f[i,j]&#x3D;\max _ {i \le k &lt; j} { f[i,k]+f[k+1,j]+w[i,j] }$ 最优决策点？每一行单调并且每一列单调！ $p[i,j-1] \le p[i,j] \le p[i+1,j]$ 四边形不等式： $w[a,c]+w[b,d] \le w[a,d]+w[b,c] (a \le b \le c \le d)$ 实际上是： $w[">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-08T03:45:14.000Z">
+<meta property="article:modified_time" content="2023-08-08T03:49:51.915Z">
+<meta property="article:author" content="nekko">
+<meta property="article:tag" content="algorithm">
+<meta property="article:tag" content="quadrilateral inequality">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E8%BE%B9%E5%BD%A2%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="toc-text">四边形不等式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Part-I"><span class="toc-text">Part I</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Part-II"><span class="toc-text">Part II</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%92%E7%BA%B3-Formal-Verification"><span class="toc-text">归纳(Formal Verification)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Part-III"><span class="toc-text">Part III</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A6%E4%BE%A7"><span class="toc-text">左侧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%B3%E4%BE%A7"><span class="toc-text">右侧</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Part-IV"><span class="toc-text">Part IV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Part-V"><span class="toc-text">Part V</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%B3%E5%AD%90%E5%90%88%E5%B9%B6"><span class="toc-text">石子合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOI2000-%E9%82%AE%E5%B1%80"><span class="toc-text">[IOI2000]邮局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-Ciel-and-Gondolas"><span class="toc-text">E. Ciel and Gondolas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Division"><span class="toc-text">Division</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chef-and-Bitwise-OR-Operation"><span class="toc-text">Chef and Bitwise OR Operation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E5%8D%95"><span class="toc-text">题单</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quad-ineq" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">四边形不等式优化dp</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2023.08.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>nekko</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="四边形不等式"><a href="#四边形不等式" class="headerlink" title="四边形不等式"></a>四边形不等式</h2><p>石子合并！</p>
+<p>$f[i,j]=\max _ {i \le k &lt; j} { f[i,k]+f[k+1,j]+w[i,j] }$</p>
+<p>最优决策点？每一行单调并且每一列单调！</p>
+<p>$p[i,j-1] \le p[i,j] \le p[i+1,j]$</p>
+<p>四边形不等式：</p>
+<p>$w[a,c]+w[b,d] \le w[a,d]+w[b,c] (a \le b \le c \le d)$</p>
+<p>实际上是：</p>
+<p>$w[b,d]-w[b,c] \le w[a,d]-w[a,c]$</p>
+<p>区间包含关系单调？</p>
+<p>$w[a,d] \ge w[b,c] (a \le b \le c \le d)$</p>
+<hr>
+<p>有以下结论：</p>
+<ul>
+<li>若 $w$ 满足四边形不等式，且区间包含关系单调，则 $f$ 也满足四边形不等式</li>
+<li>若 $f$ 满足四边形不等式，则 $p[i,j-1] \le p[i][j] \le p[i+1][j]$<ul>
+<li>$p$ 的每一行单调增且每一列单调增</li>
+<li>由于填充满 $p$ 只需要 $O(n^2)$ 的时间，所以计算 $f$ 过程中的枚举总时间复杂度是 $O(n^2)$</li>
+</ul>
+</li>
+<li>若 $w$ 满足四边形不等式，当且仅当 $w[i,j] + w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$</li>
+</ul>
+<hr>
+<h3 id="Part-I"><a href="#Part-I" class="headerlink" title="Part I"></a>Part I</h3><p>当 $w[i,j]+w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$ 时，</p>
+<p>即 $w[i,j]-w[i+1,j] \le w[i,j+1]-w[i+1,j+1]$</p>
+<p>即 $(w_i-w_{i+1})(j) \le (w_i-w_{i+1})(j+1)$</p>
+<p>所以 $w$ 相邻行差分后是单调的</p>
+<p>所以 $\forall c \le d$，有 $(w_{i}-w_{i+1})(c) \le (w_{i}-w_{i+1})(d)$</p>
+<p>同理，$\forall a \le b$，从 $(w_{a}-w_{a+1})$ 开始不断累加，得到 $(w_a-w_{b})$</p>
+<p>于是有 $(w_{a}-w_{b})(c) \le (w_a-w_{b})(d)$</p>
+<p>即 $w[a,c]+w[b,d] \le w[b,c]+w[a,d]$</p>
+<hr>
+<h3 id="Part-II"><a href="#Part-II" class="headerlink" title="Part II"></a>Part II</h3><p>之后证明 $f[i,j]+f[i+1,j+1] \le f[i,j+1]+f[i+1,j]$</p>
+<p>按照区间长度进行归纳</p>
+<h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>$$<br>\begin{aligned}<br>f[i,i]+f[i+1,i+1]<br>=&amp;0 \\<br>\le &amp; f[i,i+1] \\<br>\le &amp; f[i,i+1]+f[i+1,i]<br>\end{aligned}<br>$$</p>
+<hr>
+<h4 id="归纳-Formal-Verification"><a href="#归纳-Formal-Verification" class="headerlink" title="归纳(Formal Verification)"></a>归纳(Formal Verification)</h4><p>一方面：</p>
+<p>$$<br>\begin{aligned}<br>&amp;f[i,j]=f[i,x]+f[x+1,j]+w[i,j] \\<br>&amp;f[i+1,j+1]=f[i+1,y]+f[y+1,j+1]+w[i+1,j+1] \\<br>&amp;f[i,j]+f[i+1,j+1] \le<br>f[i,x]+f[x+1,j]  \\<br>&amp;\quad +f[i+1,y]+f[y+1,j+1]<br>+w[i,j+1]+w[i+1,j]<br>\end{aligned}<br>$$</p>
+<p>另一方面：</p>
+<p>$$<br>\begin{aligned}<br>&amp;f[i,j+1] \ge f[i,x]+f[x+1,j+1]+w[i,j+1] \\<br>&amp;f[i+1,j] \ge f[i+1,y]+f[y+1,j]+w[i+1,j] \\<br>&amp;f[i,j+1]+f[i+1,j] \ge f[i,x]+f[x+1,j+1]+ \\<br>&amp;\quad w[i,j+1]+f[i+1,y]+f[y+1,j]+w[i+1,j]<br>\end{aligned}<br>$$</p>
+<p>只需要证明（由归纳证明得证）：</p>
+<p>$$<br>f[x+1,j+1]+f[y+1,j] \ge f[x+1,j]+f[y+1,j+1]<br>$$</p>
+<hr>
+<h3 id="Part-III"><a href="#Part-III" class="headerlink" title="Part III"></a>Part III</h3><p>之后证明：$p[i,j-1] \le p[i,j] \le p[i+1,j]$</p>
+<p>记 $L=p[i,j-1],M=p[i,j],R=p[i+1,j]$</p>
+<p>考虑反证法，只需要分别证明 $p[i,j] &lt; p[i,j-1],p[i+1,j] &lt; p[i,j]$ 都不成立即可</p>
+<h4 id="左侧"><a href="#左侧" class="headerlink" title="左侧"></a>左侧</h4><p>假设 $p[i,j] &lt; p[i,j-1]$，即 $M &lt; L$</p>
+<p>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>f[M+1,j-1]+f[L+1,j] \le f[M+1,j]+f[L+1,j-1] \\<br>f[i,M]+f[M+1,j] \le f[i,L]+f[L+1,j]<br>\end{cases} \\<br>&amp;\Rightarrow f[i,M]+f[M+1,j-1] \le f[i,L]+f[L+1,j-1]<br>\end{aligned}<br>$$</p>
+<p>这与 $L=p[i,j-1]$ 矛盾（即 $f[i,L]+f[L+1,j-1] \le f[i,M]+f[M+1,j-1]$）</p>
+<hr>
+<h4 id="右侧"><a href="#右侧" class="headerlink" title="右侧"></a>右侧</h4><p>假设 $p[i,j]&gt;p[i+1,j]$，即 $M&gt;R$</p>
+<p>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>f[i,R]+f[i+1,M] \le f[i,M]+f[M+1,j] \\<br>f[i,M]+f[M+1,j] \le f[i,R]+f[R+1,j]<br>\end{cases} \\<br>&amp; \Rightarrow f[i+1,M]+f[M+1,j] \le f[i+1,R]+f[M+1,j]<br>\end{aligned}<br>$$</p>
+<p>这与 $R=p[i+1,j]$ 矛盾（即 $f[i+1,R]+f[R+1,j] \le f[i+1,M]+f[M+1,j]$）</p>
+<hr>
+<h3 id="Part-IV"><a href="#Part-IV" class="headerlink" title="Part IV"></a>Part IV</h3><p>前面已经证完了可行决策区间，下面证明总枚举次数是 $O(n^2)$ 的</p>
+<p>首先 $p[i,i]=i$，于是有（每行每列单调增）：</p>
+<p>$$<br>\sum_{i &lt; j} p[i+1,j]-p[i,j-1] \le \sum_{i=1}^{n} n=n^2<br>$$</p>
+<p>于是枚举次数是 $O(n^2)$ 的</p>
+<hr>
+<h3 id="Part-V"><a href="#Part-V" class="headerlink" title="Part V"></a>Part V</h3><p>若 $w$ 满足四边形不等式，那么哪些 $f$ 也会满足四边形不等式呐？</p>
+<ul>
+<li>$f[i,j]=\min_{i \le k &lt; j} { f[i,k]+f[k+1,j]+w[i,j] }$</li>
+<li>$f[i,j]=\min_{k &lt; j}{ f[i-1,k]+w[k+1,j] }$<ul>
+<li>实际上此时dp是凸的，可以wqs二分</li>
+</ul>
+</li>
+<li>$f[i]=\min_{j &lt; i}{ f[j]+w[j+1,i] }$</li>
+<li><del>当你发现区间dp的时间复杂度跑不过去但是打表后发现转移位置单调时</del></li>
+</ul>
+<h2 id="石子合并"><a href="#石子合并" class="headerlink" title="石子合并"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1775">石子合并</a></h2><p>有 $n(\le 300)$ 堆石子排成一排，现在要求把它们合并成一堆石子，但每次只能合并相邻两堆石子</p>
+<p>合并一次的代价是相邻两堆石子的个数之和，现在需要求出把 $n$ 堆石子合并到一起的最小代价</p>
+<p>如果 $n \le 5000$ 呐？</p>
+<hr>
+<p>$$<br>\begin{cases}<br>f[i,j]=\min _ {i \le k &lt; j} { f[i,k]+f[k+1,j]+w[i,j] } \\<br>w[i,j]=s[i]-s[j-1]<br>\end{cases}<br>$$</p>
+<p>只需要证 $(w_i-w_{i+1})(j) \le (w_i-w_{i+1})(j+1)$</p>
+<p>$$<br>\begin{aligned}<br>&amp;LHS=(s[j]-s[i-1])-(s[j]-s[i])=s[i]-s[i-1] \\<br>&amp;RHS=(s[j+1]-s[i-1])-(s[j+1]-s[i])=s[i]-s[i-1] \\<br>&amp; \Rightarrow LHS \le RHS<br>\end{aligned}<br>$$</p>
+<p>可以四边形不等式优化！</p>
+<hr>
+<h2 id="IOI2000-邮局"><a href="#IOI2000-邮局" class="headerlink" title="[IOI2000]邮局"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4767">[IOI2000]邮局</a></h2><p>高速公路旁边有一些村庄。高速公路表示为整数轴，每个村庄的位置用单个整数坐标标识。没有两个在同样地方的村庄。两个位置之间的距离是其整数坐标差的绝对值。</p>
+<p>邮局将建在一些，但不一定是所有的村庄中。为了建立邮局，应选择他们建造的位置，使每个村庄与其最近的邮局之间的距离总和最小。</p>
+<p>你要编写一个程序，已知村庄的位置和邮局的数量，计算每个村庄和最近的邮局之间所有距离的最小可能的总和。</p>
+<ul>
+<li>村庄数量为 $V(V \le 3000)$</li>
+<li>邮局数量为 $P(1 \le P \le 300,P \le V)$</li>
+<li>村庄位置为 $x_i(1 \le x_i \le 10000)$</li>
+</ul>
+<hr>
+<p>设 $f[i,j]$ 表示前 $i$ 个城市里放了 $j$ 个邮局的最小代价</p>
+<p>$$<br>\begin{cases}<br>f[i,j]=\min_{k &lt; i}{ f[k,j-1]+w[k+1,i] } \\<br>w[i,j] = w [i,j-1]+x[j]-x\left[\lfloor \frac{i+j}{2} \rfloor\right]<br>\end{cases}<br>$$</p>
+<p>四边形不等式：$w[i,j]+w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$</p>
+<p>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>w[i,j+1]=w[i,j]+x[j+1]-x[(i+j)/2] \\<br>w[i+1,j+1]=w[i+1,j]+x[j+1]-x[(i+j+2)/2]<br>\end{cases} \\<br>\Rightarrow<br>&amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>=&amp;x[j+1]-x[(i+j)/2]-x[j+1]+x[(i+j+2)/2] \\<br>=&amp;x[(i+j+2)/2]-x[(i+j)/2] \ge 0<br>\end{aligned}<br>$$</p>
+<hr>
+<h2 id="E-Ciel-and-Gondolas"><a href="#E-Ciel-and-Gondolas" class="headerlink" title="E. Ciel and Gondolas"></a><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/321/E">E. Ciel and Gondolas</a></h2><ul>
+<li>给定一个长度为 $n$ 的序列，现在你需要将这个序列划分成连续的 $k$ 段</li>
+<li>被划分到同一段的两个位置 $i,j$，会产生代价 $a_{ij}$，不同段不会产生代价</li>
+<li>现在请求出最小的贡献</li>
+<li>$1 \le n \le 4000, 1 \le k \le \min(n, 800), 0 \le u_{ij} \le 9$</li>
+</ul>
+<hr>
+<p>$f [ i , j ]$ 前 $i$ 个人用了 $j$ 艘船</p>
+<p>$$<br>\begin{cases}<br>f [ i , j ] = \min _ {k &lt; i} { f[ k,j - 1 ] + w[k + 1, i] } \\<br>w[i,j]=(\sum _ {x=i}^{j}\sum _ {y = i}^{j} u[x,y]) \cdot \frac{1}{2}<br>\end{cases}<br>$$</p>
+<p>四边形不等式：$w[i,j]+w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$</p>
+<p>$$<br>\begin{aligned}<br>&amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>=&amp;\frac{1}{2} (<br>-\sum_{x=i}^{j}u[x,i]-\sum _ {y=i}^{j}u[i,y]+u[i,i] \\<br>&amp; + \sum_{x=i}^{j+1}u[x,i]+\sum _ {y=i}^{j+1}u[i,y]-u[i,i]<br>) \\<br>=&amp;\frac{1}{2} \left( u[j+1,i]+u[i,j+1] \right) \ge 0<br>\end{aligned}<br>$$</p>
+<hr>
+<h2 id="Division"><a href="#Division" class="headerlink" title="Division"></a><a target="_blank" rel="noopener" href="https://vjudge.csgrandeur.cn/problem/HDU-3480">Division</a></h2><ul>
+<li>给定 $n$ 个数字，将它们划分成 $k$ 个集合，每个集合 $S$ 的代价是 $(\max S-\min S)^2$</li>
+<li>求最小的总代价和</li>
+<li>$n \le 10000, k \le 5000$</li>
+</ul>
+<hr>
+<p>先升序排序，然后有：</p>
+<p>$$<br>\begin{cases}<br>f[i,j]=\min_{k &lt; i} { f[k, j - 1] + w[k+1,i] } \\<br>w[i,j]=(a[j]-a[i])^2<br>\end{cases}<br>$$</p>
+<p>四边形不等式：$w[i,j]+w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$</p>
+<p>$$<br>\begin{aligned}<br>&amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>=&amp;(a[j]-a[i+1])^2+(a[j+1]-a[i])^2 \\<br>&amp;-(a[j]-a[i])^2-(a[j+1]-a[i+1])^2 \\<br>=&amp;(2a[j]-a[i+1]-a[i])(a[i]-a[i+1]) \\<br>&amp;+(2a[j+1]-a[i]-a[i+1])(a[i+1]-a[i]) \\<br>=&amp;(a[i+1]-a[i])(2a[j+1]-2a[j]) \ge 0<br>\end{aligned}<br>$$</p>
+<hr>
+<p>另一个角度：</p>
+<p>$$<br>\begin{aligned}<br>f[i,j]<br>=&amp;\min_{k &lt; i} { f[k, j - 1] + (a[i]-a[k+1])^2 } \\<br>=&amp;\min_{k &lt; i} { (f[k,j-1]+a[k+1]^2)-2a[i]a[k+1] } + a[i]^2<br>\end{aligned}<br>$$</p>
+<p>也可以斜率优化</p>
+<hr>
+<h2 id="Chef-and-Bitwise-OR-Operation"><a href="#Chef-and-Bitwise-OR-Operation" class="headerlink" title="Chef and Bitwise OR Operation"></a><a target="_blank" rel="noopener" href="https://www.codechef.com/problems/CHEFAOR">Chef and Bitwise OR Operation</a></h2><ul>
+<li>给定一个长度为 $n$ 的序列，现在你需要将这个序列划分成连续的 $k$ 段</li>
+<li>每一段的贡献是这一段所有数的按位或</li>
+<li>现在请求出最大的贡献</li>
+<li>$1 \le n \le 5000, 1 \le k \le n, 0 \le a_i \le 2^{30}$</li>
+</ul>
+<hr>
+<p>$$<br>\begin{cases}<br>f[i,j]=\max _ {k &lt; i} { f[k,j-1]+w[k+1,i] } \\<br>w[i,j]=\mathrm{BITOR}_{k=i}^{j}a[k]<br>\end{cases}<br>$$</p>
+<p>四边形不等式：$w[i,j]+w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$</p>
+<p>$$<br>\begin{aligned}<br>&amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>=&amp;w[i+1,j]+a[i] \oplus w[i+1,j]\oplus a[j+1]-a[i] \\<br>&amp; \oplus w[i+1,j]-w[i+1,j]\oplus a[j+1] \\<br>=&amp;M+L\oplus M \oplus R-L \oplus M -M \oplus R \\<br>=&amp;M+L\oplus R \oplus M-L\oplus M-R\oplus M<br>\end{aligned}<br>$$</p>
+<hr>
+<p>只需要考虑每一位</p>
+<ul>
+<li>若 $L=R=0$，则 $M+M-M-M=0$</li>
+<li>若 $L=R=1$，则 $M+1-1-1=M-1$<ul>
+<li><strong>寄！！！</strong></li>
+</ul>
+</li>
+<li>若 $L=1,R=0$，则 $M+1-1-M=0$</li>
+</ul>
+<p>换而言之，看这组数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 0 0 1</span><br></pre></td></tr></table></figure>
+
+<p>$w[1,3]+w[2,4]=2 &gt; 1=w[2,3]+w[1,4]$</p>
+<p>很遗憾，$w$ 不满足四边形不等式，那怎么做？</p>
+<p>但，<strong>真的不满足</strong>吗？</p>
+<hr>
+<p>另一个角度：</p>
+<p>$$<br>\begin{cases}<br>f[i,j]=\min _ {k &lt; i} { f[k,j-1]+w[k+1,i] } \\<br>w[i,j]=-\mathrm{BITOR} _ {k=i}^{j}a[k]<br>\end{cases}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>&amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>=&amp;-M-L\oplus R \oplus M+L\oplus M+R\oplus M<br>\end{aligned}<br>$$</p>
+<hr>
+<p>考虑每一位</p>
+<ul>
+<li>若 $L=R=0$，则 $-M-M+M+M=0$</li>
+<li>若 $L=R=1$，则 $-M-1+1+1=1-M \ge 0$<ul>
+<li><strong>这回没问题了</strong></li>
+</ul>
+</li>
+<li>若 $L=1,R=0$，则 $-M-1+1+M=0$</li>
+</ul>
+<p>哪里出了问题？</p>
+<ul>
+<li>$f=\max \cdots$</li>
+<li>$f=\min \cdots$</li>
+</ul>
+<hr>
+<p>之前用了两个式子：</p>
+<p>$$<br>\begin{aligned}<br>&amp;f[i,M]+f[M+1,j] \le f[i,L]+f[L+1,j] \\<br>&amp;f[i,M]+f[M+1,j] \le f[i,R]+f[R+1,j]<br>\end{aligned}<br>$$</p>
+<p>这里默认了 $f=\min \cdots$，于是引发了上面的问题</p>
+<p>解决方案：让 $w$ 变成 $-w$，这样就可以把 $\max$ 翻转成 $\min$</p>
+<hr>
+<p>上面的算法是 $O(n^2+nk)$ 的，如果 $k$ 比较小呢？</p>
+<hr>
+<h2 id="题单"><a href="#题单" class="headerlink" title="题单"></a>题单</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.spoj.com/problems/LARMY/">LARMY - Lannister Army</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14">[IOI] Guardians of the Lunatics</a></li>
+<li><a target="_blank" rel="noopener" href="https://open.kattis.com/problems/money">Money for Nothing</a></li>
+</ul>
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持nekko</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/FDM/FDdis/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/wqs-bin/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+</body>
+</html>
