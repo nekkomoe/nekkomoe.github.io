@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latent Diffusion: Auto-Play & Interactive</title>
+    
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+            svg: { fontCache: 'global' },
+            startup: { typeset: true }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --pixel-col: #ff6b6b;
+            --latent-col: #4d96ff;
+            --cond-col: #6bcb77;
+            --noise-col: #666;
+            --bg: #f4f7f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 140px; /* Extra space for controls */
+            overflow-x: hidden;
+            user-select: none; /* Prevent text selection during clicking */
+        }
+
+        h2 { margin-top: 20px; color: #444; }
+
+        /* --- VISUALS --- */
+        .vis-pixel {
+            background-image: url('https://nekko.moe/images/avatar.jpg');
+            background-size: cover; background-position: center;
+        }
+        .vis-latent {
+            background-image: url('https://nekko.moe/images/avatar.jpg');
+            background-size: 100% 100%;
+            image-rendering: pixelated;
+            position: relative;
+        }
+        .vis-latent::after {
+            content:''; position:absolute; inset:0;
+            background: linear-gradient(135deg, #ff0000 0%, #ffff00 50%, #00ff00 100%);
+            mix-blend-mode: multiply;
+            filter: contrast(150%) brightness(1.2);
+        }
+        .vis-noise {
+            background-color: #888; position: relative;
+        }
+        .vis-noise::before {
+            content:''; position:absolute; inset:0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay; filter: contrast(180%);
+        }
+
+        /* --- DIAGRAM --- */
+        .diagram {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            max-width: 1200px; width: 95%;
+            margin-top: 20px; position: relative;
+        }
+
+        .box {
+            background: white; border-radius: 12px; padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; border: 2px solid transparent;
+        }
+        .zone-label {
+            position: absolute; top: -12px; left: 15px;
+            font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
+            padding: 2px 8px; border-radius: 4px; color: white; letter-spacing: 1px;
+        }
+        .zone-pixel { border-color: var(--pixel-col); background: #fff5f5; }
+        .zone-latent { 
+            grid-column: 2; grid-row: 2; border: 2px dashed var(--latent-col); background: #f0f8ff;
+            display: flex; flex-direction: row; justify-content: space-between; align-items: center;
+            padding: 30px; gap: 10px;
+        }
+        .zone-cond { 
+            grid-column: 2; grid-row: 1; border-color: var(--cond-col); background: #f0fff4;
+            flex-direction: row; gap: 20px; padding: 15px;
+        }
+
+        .comp { 
+            background: white; border: 1px solid #ccc; padding: 8px 15px; border-radius: 6px; 
+            font-weight: bold; font-size: 0.9rem; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center;
+        }
+        .comp-vae { background: linear-gradient(135deg, var(--pixel-col), var(--latent-col)); color: white; border: none; padding: 12px 20px; }
+        .comp-unet { width: 140px; height: 100px; border: 3px solid var(--latent-col); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        .attn-block {
+            background: var(--cond-col); color: white; font-size: 0.75rem;
+            padding: 4px 10px; border-radius: 4px; margin-top: 8px;
+            transition: transform 0.1s;
+        }
+        .attn-block.active { transform: scale(1.1); box-shadow: 0 0 10px var(--cond-col); }
+
+        .node { width: 70px; height: 70px; border: 2px dashed #ddd; border-radius: 8px; margin: 5px; position: relative; }
+        .arrow-v { font-size: 1.5rem; color: #bbb; margin: 10px 0; }
+        .arrow-h { font-size: 1.5rem; color: #bbb; }
+        .math-lbl { font-size: 0.8rem; color: #666; margin-top: 5px; }
+
+        /* --- PACKET --- */
+        #packet {
+            position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 100;
+            border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            overflow: hidden; background: black; pointer-events: none;
+        }
+        .layer { position: absolute; inset: 0; transition: opacity 0.05s linear; }
+        #lbl-packet {
+            position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); color: white; font-size: 0.7rem; 
+            padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+        }
+        #signal-dot {
+            position: fixed; width: 14px; height: 14px; background: var(--cond-col);
+            border-radius: 50%; z-index: 99; display: none; box-shadow: 0 0 8px var(--cond-col);
+        }
+
+        /* --- INTERACTIVE CONTROLS --- */
+        .controls {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: white; padding: 20px 40px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+            z-index: 1000; display: flex; flex-direction: column; gap: 10px;
+            cursor: pointer; /* Indicates Clickable */
+            transition: background 0.2s;
+        }
+        .controls:hover {
+            background: #fdfdfd;
+        }
+        /* Visual cue for clickable area */
+        .controls::after {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--pixel-col), var(--latent-col), var(--pixel-col));
+            opacity: 0.5;
+        }
+
+        input[type=range] { width: 100%; cursor: ew-resize; }
+        
+        .timeline-labels {
+            display: flex; justify-content: space-between; 
+            font-size: 0.8rem; color: #888; font-weight: 600; pointer-events: none;
+        }
+        .status-display {
+            text-align: center; font-size: 1.1rem; font-weight: bold; color: #333;
+            min-height: 1.5rem; pointer-events: none;
+        }
+        
+        /* Play/Pause Indicator */
+        #play-hint {
+            position: absolute; bottom: 20px; right: 20px;
+            font-size: 0.8rem; color: #999; border: 1px solid #ddd;
+            padding: 4px 10px; border-radius: 20px; background: white;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .icon-play::before { content: '▶'; }
+        .icon-pause::before { content: '❚❚'; }
+
+    </style>
+</head>
+<body>
+
+    <h2>Latent Diffusion Model Interactive Flow</h2>
+
+    <div class="diagram">
+        <div class="box zone-cond">
+            <div class="zone-label" style="background:var(--cond-col)">Conditioning</div>
+            <div style="text-align:center;">
+                <div style="font-weight:bold; font-size:1.1rem">"A cute cat"</div>
+                <div style="font-size:0.8rem; color:#666">Prompt</div>
+            </div>
+            <div style="font-size:1.5rem; color:var(--cond-col)">→</div>
+            <div class="comp" id="t-enc" style="border-color:var(--cond-col)">CLIP Text Encoder</div>
+        </div>
+
+        <div class="box zone-pixel" style="grid-column:1; grid-row:2">
+            <div class="zone-label" style="background:var(--pixel-col)">Pixel Space (Input)</div>
+            <div class="node vis-pixel" id="pos-input" style="border:none;"></div>
+            <div class="math-lbl">Image $x$</div>
+            <div class="arrow-v">⬇</div>
+            <div class="comp comp-vae" id="vae-enc">VAE Encoder $\mathcal{E}$</div>
+        </div>
+
+        <div class="box zone-latent">
+            <div class="zone-label" style="background:var(--latent-col)">Latent Space</div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <div class="node vis-latent" id="pos-z0"></div>
+                <div class="math-lbl">$z_0$</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:0.7rem; color:#888;">Forward</div>
+                <div class="arrow-h">→</div>
+                <div style="font-size:0.7rem; color:#888;">+Noise</div>
+            </div>
+            <div class="comp comp-unet" id="pos-unet">
+                <div style="font-size:1rem;">UNet $\epsilon_\theta$</div>
+                <div class="attn-block" id="attn">Cross Attention</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:0.7rem; color:#888;">Reverse</div>
+                <div class="arrow-h">→</div>
+                <div style="font-size:0.7rem; color:#888;">-Noise</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <div class="node vis-latent" id="pos-z0p"></div>
+                <div class="math-lbl">$z'_0$</div>
+            </div>
+        </div>
+
+        <div class="box zone-pixel" style="grid-column:3; grid-row:2; justify-content: flex-end;">
+            <div class="zone-label" style="background:var(--pixel-col)">Pixel Space (Output)</div>
+            <div class="node vis-pixel" id="pos-output" style="border:none; filter:contrast(1.1);"></div>
+            <div class="math-lbl">Image $\tilde{x}$</div>
+            <div class="arrow-v">⬆</div>
+            <div class="comp comp-vae" id="vae-dec">VAE Decoder $\mathcal{D}$</div>
+        </div>
+    </div>
+
+    <div id="packet">
+        <div id="l-pixel" class="layer vis-pixel"></div>
+        <div id="l-latent" class="layer vis-latent"></div>
+        <div id="l-noise" class="layer vis-noise"></div>
+        <div id="lbl-packet">Pixel</div>
+    </div>
+    <div id="signal-dot"></div>
+
+    <div class="controls" id="controls-box">
+        <div class="status-display" id="status-txt">Auto-playing...</div>
+        
+        <input type="range" min="0" max="100" value="0" step="0.2" id="slider">
+        
+        <div class="timeline-labels">
+            <span>Input</span>
+            <span>Encode</span>
+            <span>$z_0$</span>
+            <span style="color:red; font-weight:bold;">Pure Noise ($z_T$)</span>
+            <span>$z'_0$</span>
+            <span>Decode</span>
+            <span>Output</span>
+        </div>
+
+        <div id="play-hint">
+            <span id="play-icon" class="icon-pause"></span>
+            <span id="play-text">Auto-Play ON</span>
+        </div>
+    </div>
+
+    <script>
+        // --- ELEMENTS ---
+        const packet = document.getElementById('packet');
+        const lPixel = document.getElementById('l-pixel');
+        const lLatent = document.getElementById('l-latent');
+        const lNoise = document.getElementById('l-noise');
+        const lbl = document.getElementById('lbl-packet');
+        const status = document.getElementById('status-txt');
+        const signal = document.getElementById('signal-dot');
+        const slider = document.getElementById('slider');
+        const controlsBox = document.getElementById('controls-box');
+        const playIcon = document.getElementById('play-icon');
+        const playText = document.getElementById('play-text');
+
+        // --- POSITIONS ---
+        const targets = {
+            input: document.getElementById('pos-input'),
+            vaeE: document.getElementById('vae-enc'),
+            z0: document.getElementById('pos-z0'),
+            unet: document.getElementById('pos-unet'),
+            attn: document.getElementById('attn'),
+            text: document.getElementById('t-enc'),
+            z0p: document.getElementById('pos-z0p'),
+            vaeD: document.getElementById('vae-dec'),
+            output: document.getElementById('pos-output')
+        };
+
+        function getPos(el) {
+            const r = el.getBoundingClientRect();
+            return { x: r.left + r.width/2, y: r.top + r.height/2 };
+        }
+        function lerp(a, b, t) { return a + (b-a)*t; }
+
+        // --- ANIMATION STATE ---
+        let isPlaying = true;
+        let animationSpeed = 0.3; // Speed of auto-play
+        let progress = 0;
+
+        // --- CONTROL LOGIC ---
+
+        // 1. Click Box to Toggle
+        controlsBox.addEventListener('click', (e) => {
+            // Prevent toggle if clicking the slider itself
+            if (e.target === slider) return;
+            
+            togglePlay();
+        });
+
+        // 2. Drag Slider to Pause
+        slider.addEventListener('input', () => {
+            if (isPlaying) {
+                isPlaying = false;
+                updateUIState();
+            }
+            progress = parseFloat(slider.value);
+            render(progress);
+        });
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            updateUIState();
+            if (isPlaying) {
+                loop();
+            }
+        }
+
+        function updateUIState() {
+            if (isPlaying) {
+                playIcon.className = 'icon-pause';
+                playText.innerText = "Auto-Play ON";
+                controlsBox.style.backgroundColor = '#fff';
+            } else {
+                playIcon.className = 'icon-play';
+                playText.innerText = "Paused (Click to Resume)";
+                controlsBox.style.backgroundColor = '#fafafa'; // Subtle dim
+            }
+        }
+
+        // --- ANIMATION LOOP ---
+        function loop() {
+            if (!isPlaying) return;
+
+            progress += animationSpeed;
+            if (progress >= 100) {
+                progress = 0; // Loop back
+            }
+            
+            slider.value = progress;
+            render(progress);
+            
+            requestAnimationFrame(loop);
+        }
+
+        // --- RENDER LOGIC (Same as previous, just optimized) ---
+        function render(val) {
+            val = parseFloat(val);
+            let x=0, y=0, scale=1;
+            let opP=0, opL=0, opN=0;
+            let txt = "";
+            let tag = "";
+            let tagCol = "#333";
+
+            signal.style.display = 'none';
+            targets.attn.classList.remove('active');
+
+            if (val < 15) {
+                // Input -> VAE
+                const t = val/15;
+                const p1 = getPos(targets.input), p2 = getPos(targets.vaeE);
+                x = lerp(p1.x, p2.x, t); y = lerp(p1.y, p2.y, t);
+                opP=1; opL=0; opN=0;
+                txt = "Pixel Space: Input Image"; tag = "Pixel Data";
+            } else if (val < 30) {
+                // VAE -> z0
+                const t = (val-15)/15;
+                const p1 = getPos(targets.vaeE), p2 = getPos(targets.z0);
+                x = lerp(p1.x, p2.x, t); y = lerp(p1.y, p2.y, t); scale = lerp(1, 0.8, t);
+                opP=1-t; opL=t; opN=0;
+                txt = "VAE Encoder: Compressing..."; tag = "Encoding"; tagCol="#d63384";
+            } else if (val < 50) {
+                // Forward
+                const t = (val-30)/20;
+                const p1 = getPos(targets.z0), p2 = getPos(targets.unet);
+                x = lerp(p1.x, p2.x-40, t); y = p1.y; scale = 0.8;
+                opP=0; opL=1; opN=t;
+                txt = `Forward (q): Adding Noise (${Math.round(t*100)}%)`; 
+                tag = "Add Noise"; tagCol="#666";
+                if(t>0.95) { tag="PURE NOISE"; tagCol="red"; }
+            } else if (val < 80) {
+                // Reverse
+                const t = (val-50)/30;
+                const sx = getPos(targets.unet).x-40, ex = getPos(targets.z0p).x;
+                x = lerp(sx, ex, t); y = getPos(targets.unet).y; scale = 0.8;
+                y += Math.sin(t*30)*1.5;
+                opP=0; opL=1; opN=1-t;
+                txt = "Reverse (p): Denoising..."; tag = "Denoising"; tagCol="#4d96ff";
+                
+                // Signal
+                const cycle = (t*10)%2;
+                if(cycle < 1) {
+                    const s1 = getPos(targets.text), s2 = getPos(targets.attn);
+                    const sigX = lerp(s1.x, s2.x, cycle), sigY = lerp(s1.y, s2.y, cycle);
+                    signal.style.display='block';
+                    signal.style.left=(sigX-7)+'px'; signal.style.top=(sigY-7)+'px';
+                } else targets.attn.classList.add('active');
+            } else if (val < 90) {
+                // z0' -> Decoder
+                const t = (val-80)/10;
+                const p1 = getPos(targets.z0p), p2 = getPos(targets.vaeD);
+                x = lerp(p1.x, p2.x, t); y = lerp(p1.y, p2.y, t); scale = lerp(0.8, 1, t);
+                opP=0; opL=1; opN=0;
+                txt = "Moving to Decoder"; tag="Transfer"; tagCol="#d63384";
+            } else {
+                // Decoder -> Output
+                const t = (val-90)/10;
+                const p1 = getPos(targets.vaeD), p2 = getPos(targets.output);
+                x = lerp(p1.x, p2.x, t); y = lerp(p1.y, p2.y, t); scale = 1;
+                opP=t; opL=1-t; opN=0;
+                txt = "VAE Decoder: Reconstruction"; tag="Decoding"; tagCol="#333";
+            }
+
+            packet.style.left = (x-40)+'px'; packet.style.top = (y-40)+'px';
+            packet.style.transform = `scale(${scale})`;
+            lPixel.style.opacity = opP; lLatent.style.opacity = opL; lNoise.style.opacity = opN;
+            lbl.innerText = tag; lbl.style.background = tagCol;
+            status.innerText = txt;
+        }
+
+        // --- INIT ---
+        window.onload = () => {
+            render(0);
+            loop(); // Start Auto-play
+        };
+        window.onresize = () => render(slider.value);
+
+    </script>
+</body>
+</html>

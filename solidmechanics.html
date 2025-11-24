@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>2D FEM 平板形变模拟 (CG Solver)</title>
+    <style>
+        :root {
+            --umich-blue: #00274C;
+            --umich-maize: #FFCB05;
+            --gray-bg: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--gray-bg);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 { 
+            color: var(--umich-blue);
+            border-bottom: 3px solid var(--umich-maize);
+            padding-bottom: 5px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            align-items: flex-start;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            cursor: crosshair;
+        }
+        .controls {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .control-group {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--umich-blue);
+        }
+        label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--umich-blue);
+        }
+        input[type="range"] { width: 100%; margin: 8px 0; cursor: pointer; }
+        
+        button {
+            background-color: var(--umich-blue);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 5px;
+        }
+        button:hover { background-color: #003a70; }
+        button.secondary { background-color: #666; }
+        button.secondary:hover { background-color: #888; }
+        
+        .status {
+            font-family: monospace;
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 10px;
+            padding: 5px;
+            background: #eee;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>FEM 2D 平板形变 (Q4 Elements)</h2>
+    
+    <div class="container">
+        <div style="position:relative;">
+            <canvas id="femCanvas" width="600" height="400"></canvas>
+            <div id="loading" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.7); color:white; padding:10px 20px; border-radius:5px;">
+                Solving...
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>外部压强 (P) <span id="val-force">100</span></label>
+                <input type="range" id="input-force" min="0" max="500" value="100">
+            </div>
+
+            <div class="control-group">
+                <label>形变显示夸大 <span id="val-scale">1.0</span>x</label>
+                <input type="range" id="input-scale" min="0.1" max="5.0" step="0.1" value="1.0">
+            </div>
+
+            <div class="control-group">
+                <label>网格密度 (重置模拟)</label>
+                <div style="display:flex; gap:10px; margin-top:5px;">
+                    <button class="secondary" onclick="setResolution(20)">低 (20x15)</button>
+                    <button class="secondary" onclick="setResolution(50)">中 (50x37)</button>
+                    <button class="secondary" onclick="setResolution(80)">高 (80x60)</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>材料分布 (E)</label>
+                <button onclick="setScenario('uniform')">均匀材料</button>
+                <button onclick="setScenario('hard-inclusion')">硬核夹杂 (Inclusion)</button>
+                <button onclick="setScenario('soft-layer')">软弱夹层 (Layer)</button>
+                <button onclick="setScenario('void')">中心空洞 (Void)</button>
+            </div>
+            
+            <div class="status" id="status-text">Ready.</div>
+        </div>
+    </div>
+
+<script>
+    // --- FEM 配置与常量 ---
+    const POISSON = 0.3;     // 泊松比
+    const THICKNESS = 1.0;   // 板厚
+    const MAX_ITER = 1000;   // CG 最大迭代次数
+    const TOLERANCE = 1e-4;  // 收敛容差
+
+    // 视觉配置 (密歇根大学配色)
+    const COLOR_HARD = {r: 0, g: 39, b: 76};    // UMich Blue (Hard)
+    const COLOR_SOFT = {r: 255, g: 203, b: 5};  // UMich Maize (Soft)
+
+    // 全局状态
+    let glCanvas = document.getElementById('femCanvas');
+    let ctx = glCanvas.getContext('2d'); // 使用 2D Context 绘制，WebGL 用于计算太繁琐，2D Canvas 足够绘制几千个四边形
+    
+    let state = {
+        nx: 40,  // 节点列数
+        ny: 30,  // 节点行数
+        width: 600,
+        height: 400,
+        nodes: null,    // Float32Array [x, y] original
+        u: null,        // Float32Array [u, v] displacement
+        forces: null,   // Float32Array [fx, fy]
+        elements: [],   // Array of {nodeIndices:[], E: number}
+        fixedNodes: [], // Set of indices
+        loadP: 100,
+        visScale: 1.0
+    };
+
+    // UI 引用
+    const statusEl = document.getElementById('status-text');
+    const loadingEl = document.getElementById('loading');
+
+    // --- 1. 初始化网格与场景 ---
+    function initMesh(cols, rows, scenario) {
+        state.nx = cols;
+        state.ny = rows;
+        let dx = state.width / (cols - 1);
+        let dy = state.height / (rows - 1);
+
+        let numNodes = cols * rows;
+        state.nodes = new Float32Array(numNodes * 2);
+        state.u = new Float32Array(numNodes * 2); // 初始位移为0
+        state.forces = new Float32Array(numNodes * 2);
+        state.elements = [];
+        state.fixedNodes = new Set();
+
+        // 生成节点
+        for (let j = 0; j < rows; j++) {
+            for (let i = 0; i < cols; i++) {
+                let idx = j * cols + i;
+                // 物理坐标: x 向右, y 向上 (Canvas y 是向下的，绘制时翻转)
+                state.nodes[idx*2] = i * dx;
+                state.nodes[idx*2+1] = j * dy; 
+
+                // 边界条件:
+                // 1. 地面 (j=0): 垂直固定 (v=0)，允许水平滑动 (Roller)
+                if (j === 0) {
+                   // 实际上，为了稳定，我们需要至少一个点水平固定
+                   // 题目要求：左下角固定。
+                   if (i === 0) {
+                       // 左下角: 全固定 (u=0, v=0)
+                       state.fixedNodes.add(idx * 2);     // u
+                       state.fixedNodes.add(idx * 2 + 1); // v
+                   } else {
+                       // 地面其他点: 仅垂直固定 (v=0)
+                       state.fixedNodes.add(idx * 2 + 1); 
+                   }
+                }
+            }
+        }
+
+        // 生成单元 (Q4)
+        for (let j = 0; j < rows - 1; j++) {
+            for (let i = 0; i < cols - 1; i++) {
+                // 节点索引 (逆时针)
+                // n3 -- n2
+                // |      |
+                // n0 -- n1
+                let n0 = j * cols + i;
+                let n1 = j * cols + (i + 1);
+                let n2 = (j + 1) * cols + (i + 1);
+                let n3 = (j + 1) * cols + i;
+
+                // 确定材料属性 E
+                let cx = (i + 0.5) / (cols - 1);
+                let cy = (j + 0.5) / (rows - 1);
+                let E = 1000; // 基础
+
+                if (scenario === 'uniform') {
+                    E = 1000;
+                } else if (scenario === 'hard-inclusion') {
+                    let d = Math.sqrt((cx-0.5)**2 + (cy-0.5)**2);
+                    E = (d < 0.25) ? 5000 : 500; // 硬核
+                } else if (scenario === 'soft-layer') {
+                    // 中间一层软的
+                    E = (cy > 0.4 && cy < 0.6) ? 200 : 2000;
+                } else if (scenario === 'void') {
+                    // 模拟空洞: 极低的 E (不能为0，否则奇异)
+                    let d = Math.sqrt((cx-0.5)**2 + (cy-0.5)**2);
+                    E = (d < 0.2) ? 1 : 2000; 
+                }
+
+                state.elements.push({
+                    indices: [n0, n1, n2, n3],
+                    E: E
+                });
+            }
+        }
+        
+        applyForces();
+        solveFEM(); // 初始求解
+    }
+
+    function applyForces() {
+        // 重置力
+        state.forces.fill(0);
+        let P = state.loadP;
+        
+        // 顶部施加压强 -> 转化为节点力
+        // 顶部节点: j = ny - 1
+        let topRow = state.ny - 1;
+        let dx = state.width / (state.nx - 1);
+        
+        // 简单的节点力分配: 中间节点 P*dx, 边缘 P*dx/2
+        for (let i = 0; i < state.nx; i++) {
+            let idx = topRow * state.nx + i;
+            let forceVal = -P * dx; // 向下
+            if (i === 0 || i === state.nx - 1) forceVal *= 0.5;
+            
+            state.forces[idx*2 + 1] = forceVal; // Fy
+        }
+    }
+
+    // --- 2. FEM 求解器 (Conjugate Gradient) ---
+
+    // 预计算局部刚度矩阵 (对于单位 E=1 的正方形单元)
+    // 假设是正方形单元，如果是长方形稍微复杂点，这里简化假设 aspect ratio 接近 1
+    // 这是一个 8x8 矩阵。
+    function getElementStiffnessBase(dx, dy) {
+        // 平面应力 Q4 单元刚度矩阵通常很长。
+        // 为了代码简洁，我们使用数值积分 (高斯积分 2x2) 实时计算，或者简化。
+        // 由于这只是 JS，我们写一个标准的数值积分函数。
+        
+        let k = new Float32Array(64); // 8x8 flattened
+        // Gauss points
+        const g = 0.577350269;
+        const pts = [[-g,-g], [g,-g], [g,g], [-g,g]];
+        
+        // D 矩阵 (Constitutive)
+        const C = E => {
+            let f = E / (1 - POISSON*POISSON);
+            return [f, f*POISSON, 0, f*POISSON, f, 0, 0, 0, f*(1-POISSON)/2];
+        }; // Returns [D00, D01, D02, D10...] flattened 3x3
+
+        // Shape function derivatives wrt local coords xi, eta
+        // N0 = 0.25(1-xi)(1-eta) ...
+        // B matrix is 3x8
+        
+        // 实际上，为了性能，我们这里只计算一次 base matrix (假设 E=1)，
+        // 然后求解时乘以真实的 E。
+        // 假设所有单元尺寸接近 (dx, dy)。
+        
+        // 简化：如果网格是规则矩形，所有单元形状一样。
+        // 我们计算一个 element 的 K，设 E=1.
+        
+        let D_base = [1/(1-POISSON**2), POISSON/(1-POISSON**2), 0, 
+                      POISSON/(1-POISSON**2), 1/(1-POISSON**2), 0, 
+                      0, 0, (1-POISSON)/2/(1-POISSON**2)]; // D without E
+                      
+        for (let p=0; p<4; p++) {
+            let xi = pts[p][0];
+            let eta = pts[p][1];
+            
+            // Jacobian
+            // J = [dx/dxi dx/deta; dy/dxi dy/deta]
+            // For rectangular element: J = [dx/2 0; 0 dy/2]
+            // detJ = dx*dy/4
+            // invJ = [2/dx 0; 0 2/dy]
+            
+            let invJ00 = 2/dx; 
+            let invJ11 = 2/dy;
+            let detJ = dx*dy/4;
+            
+            // Derivatives of N wrt xi, eta
+            let dN_dxi = [-(1-eta)*0.25, (1-eta)*0.25, (1+eta)*0.25, -(1+eta)*0.25];
+            let dN_deta = [-(1-xi)*0.25, -(1+xi)*0.25, (1+xi)*0.25, (1-xi)*0.25];
+            
+            // Derivatives wrt x, y (B matrix components)
+            // dN_dx = dN_dxi * invJ00
+            // dN_dy = dN_deta * invJ11
+            
+            let B = new Float32Array(3 * 8); // 3 rows, 8 cols
+            for(let i=0; i<4; i++) {
+                B[0*8 + i*2]     = dN_dxi[i] * invJ00; // dNi/dx
+                B[1*8 + i*2 + 1] = dN_deta[i] * invJ11; // dNi/dy
+                B[2*8 + i*2]     = dN_deta[i] * invJ11; // dNi/dy
+                B[2*8 + i*2 + 1] = dN_dxi[i] * invJ00; // dNi/dx
+            }
+            
+            // K += B^T * D * B * detJ
+            // 手动矩阵乘法 B_T (8x3) * D (3x3) * B (3x8)
+            // Temp = D * B (3x8)
+            let DB = new Float32Array(24);
+            for(let r=0; r<3; r++) {
+                for(let c=0; c<8; c++) {
+                    let sum = 0;
+                    for(let k=0; k<3; k++) {
+                        // D is symmetric 3x3 stored flat
+                        let D_val = D_base[r*3 + k]; 
+                        sum += D_val * B[k*8 + c];
+                    }
+                    DB[r*8 + c] = sum;
+                }
+            }
+            
+            // K_local += B^T * DB * detJ
+            for(let r=0; r<8; r++) {
+                for(let c=0; c<8; c++) {
+                    let sum = 0;
+                    for(let k=0; k<3; k++) {
+                        sum += B[k*8 + r] * DB[k*8 + c];
+                    }
+                    k[r*8 + c] += sum * detJ;
+                }
+            }
+        }
+        return k;
+    }
+
+    // 计算全局 K * vector 乘积 (Matrix-Free)
+    // result = K * vec
+    function multiplyK(vec, out, baseK) {
+        out.fill(0);
+        
+        let elK = new Float32Array(64);
+        let elU = new Float32Array(8);
+        let elF = new Float32Array(8);
+
+        // 遍历所有单元
+        for (let e = 0; e < state.elements.length; e++) {
+            let elem = state.elements[e];
+            // 组装局部位移向量
+            for(let i=0; i<4; i++) {
+                let nodeIdx = elem.indices[i];
+                elU[i*2]   = vec[nodeIdx*2];
+                elU[i*2+1] = vec[nodeIdx*2+1];
+            }
+            
+            // 局部乘法: f = (E * K_base) * u
+            // 优化: f = E * (K_base * u)
+            elF.fill(0);
+            for(let r=0; r<8; r++) {
+                let sum = 0;
+                for(let c=0; c<8; c++) {
+                    sum += baseK[r*8 + c] * elU[c];
+                }
+                elF[r] = sum * elem.E; // Scale by Young's modulus
+            }
+            
+            // 累加到全局
+            for(let i=0; i<4; i++) {
+                let nodeIdx = elem.indices[i];
+                out[nodeIdx*2]   += elF[i*2];
+                out[nodeIdx*2+1] += elF[i*2+1];
+            }
+        }
+
+        // 处理边界条件 (Penalty Method or simply Zeroing rows/cols for fixed DOFs)
+        // 简单方法：对于固定自由度，我们希望 u_i = 0。
+        // 在 CG 中，如果不修改 K，迭代出的解可能不满足 BC。
+        // 标准做法：Modify K to be identity at fixed rows, and Force to be 0 (or target value).
+        // Matrix-free 下，我们在乘法后强制结果：
+        // 如果是固定点，我们假装 K 行只有对角线是 1，其他是 0。
+        // 即: out[fixed] = 1 * vec[fixed]
+        
+        for (let dof of state.fixedNodes) {
+             out[dof] = vec[dof] * 10000; // Penalty factor roughly
+             // 或者更严谨的CG处理: 
+             // 在 solver 里处理 residuals 设为 0。这里用 Penalty 比较粗暴但有效。
+        }
+    }
+
+    // 共轭梯度求解
+    function solveFEM() {
+        loadingEl.style.display = 'block';
+        
+        // 使用 setTimeout 让 UI 有机会渲染 loading
+        setTimeout(() => {
+            let numDOFs = state.nodes.length;
+            let x = state.u; // 初始猜测 (上次的结果)
+            
+            let b = state.forces; // RHS
+            let r = new Float32Array(numDOFs);
+            let p = new Float32Array(numDOFs);
+            let Ap = new Float32Array(numDOFs);
+            
+            let dx = state.width / (state.nx - 1);
+            let dy = state.height / (state.ny - 1);
+            let baseK = getElementStiffnessBase(dx, dy);
+
+            // r = b - A*x
+            multiplyK(x, Ap, baseK);
+            
+            // 修正 Residual 的边界条件
+            // 对于固定点，Force (b) 应该是未知的反应力，但在求解位移方程时，
+            // 我们已知 x=0。
+            // 简单的 Penalty 方法: 
+            // 修改 multiplyK 让固定点的 A_ii 很大。
+            // 并且对应的 b_i 应该 = A_ii * 0 = 0.
+            
+            // 这里我们用更简单的 "Projected CG":
+            // 强制固定点的 x 永远为 0，并且让残差在这些点也为 0。
+            
+            for(let i=0; i<numDOFs; i++) {
+                if(state.fixedNodes.has(i)) {
+                    r[i] = 0; // 残差为0，不再更新
+                    x[i] = 0; // 强制位移为0
+                } else {
+                    r[i] = b[i] - Ap[i];
+                }
+                p[i] = r[i];
+            }
+
+            let rsold = dot(r, r);
+
+            for (let k = 0; k < MAX_ITER; k++) {
+                multiplyK(p, Ap, baseK);
+                
+                // 投影 Ap (固定点设为0，防止影响) - 
+                // 其实不设也没关系，只要 p 在固定点是 0，Ap 在这些点的值就不重要(如果我们在更新x时忽略它)
+                
+                let pAp = dot(p, Ap);
+                if (pAp === 0) break; // 防止除零
+                
+                let alpha = rsold / pAp;
+                
+                // x = x + alpha * p
+                // r = r - alpha * Ap
+                for(let i=0; i<numDOFs; i++) {
+                    if(!state.fixedNodes.has(i)) {
+                        x[i] += alpha * p[i];
+                        r[i] -= alpha * Ap[i];
+                    }
+                }
+                
+                let rsnew = dot(r, r);
+                if (Math.sqrt(rsnew) < TOLERANCE) {
+                    console.log(`Converged in ${k} iterations.`);
+                    statusEl.textContent = `Converged: ${k} iters, Res: ${rsnew.toExponential(2)}`;
+                    break;
+                }
+                
+                let beta = rsnew / rsold;
+                // p = r + beta * p
+                for(let i=0; i<numDOFs; i++) {
+                     if(!state.fixedNodes.has(i)) {
+                        p[i] = r[i] + beta * p[i];
+                     } else {
+                        p[i] = 0;
+                     }
+                }
+                rsold = rsnew;
+                
+                if (k === MAX_ITER - 1) {
+                    statusEl.textContent = "Max iters reached (might be unstable)";
+                }
+            }
+            
+            loadingEl.style.display = 'none';
+            draw();
+        }, 10);
+    }
+
+    function dot(a, b) {
+        let sum = 0;
+        for(let i=0; i<a.length; i++) sum += a[i] * b[i];
+        return sum;
+    }
+
+    // --- 3. 渲染 ---
+    function draw() {
+        ctx.clearRect(0, 0, state.width, state.height);
+        
+        // 绘制地面
+        ctx.beginPath();
+        ctx.moveTo(0, state.height);
+        ctx.lineTo(state.width, state.height);
+        ctx.strokeStyle = "#888";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // 绘制单元
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = "rgba(0,0,0,0.1)"; // 极淡的网格线
+
+        for (let e = 0; e < state.elements.length; e++) {
+            let elem = state.elements[e];
+            
+            // 获取变形后的 4 个角点
+            let pts = [];
+            for(let i=0; i<4; i++) {
+                let nIdx = elem.indices[i];
+                let x0 = state.nodes[nIdx*2];
+                let y0 = state.nodes[nIdx*2+1];
+                let dx = state.u[nIdx*2] * state.visScale;
+                let dy = state.u[nIdx*2+1] * state.visScale;
+                
+                // Canvas Y 翻转: 屏幕y = height - (y_phys + dy)
+                // 这里我们假设 y_phys 是从0开始往上的
+                pts.push({
+                    x: x0 + dx + 20, // 稍微偏移x，避免贴边
+                    y: state.height - (y0 + dy) - 20 // 稍微偏移y
+                });
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            ctx.lineTo(pts[1].x, pts[1].y);
+            ctx.lineTo(pts[2].x, pts[2].y);
+            ctx.lineTo(pts[3].x, pts[3].y);
+            ctx.closePath();
+
+            // 颜色插值 (基于 E)
+            ctx.fillStyle = getFillStyle(elem.E);
+            ctx.fill();
+            ctx.stroke();
+        }
+        
+        // 绘制力箭头 (在顶部中间)
+        if (state.loadP > 0) {
+            let centerIdx = (state.ny-1) * state.nx + Math.floor(state.nx/2);
+            let cx = state.nodes[centerIdx*2] + state.u[centerIdx*2]*state.visScale + 20;
+            let cy = state.height - (state.nodes[centerIdx*2+1] + state.u[centerIdx*2+1]*state.visScale) - 20;
+            
+            ctx.strokeStyle = "#d00000";
+            ctx.lineWidth = 2;
+            drawArrow(ctx, cx, cy - 40, cx, cy - 5);
+            ctx.fillStyle = "#d00000";
+            ctx.font = "14px sans-serif";
+            ctx.fillText(`P = ${state.loadP}`, cx - 20, cy - 45);
+        }
+    }
+
+    function getFillStyle(E) {
+        // Interpolate between Maize (Soft) and Blue (Hard)
+        // E range approx 200 - 5000
+        let minE = 200, maxE = 5000;
+        let t = (E - minE) / (maxE - minE);
+        t = Math.max(0, Math.min(1, t));
+        
+        // Soft (Yellow) -> Hard (Blue)
+        let r = COLOR_SOFT.r + t * (COLOR_HARD.r - COLOR_SOFT.r);
+        let g = COLOR_SOFT.g + t * (COLOR_HARD.g - COLOR_SOFT.g);
+        let b = COLOR_SOFT.b + t * (COLOR_HARD.b - COLOR_SOFT.b);
+        return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+    }
+
+    function drawArrow(ctx, x1, y1, x2, y2) {
+        let head = 8;
+        let angle = Math.atan2(y2-y1, x2-x1);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x2 - head * Math.cos(angle - Math.PI / 6), y2 - head * Math.sin(angle - Math.PI / 6));
+        ctx.moveTo(x2, y2);
+        ctx.lineTo(x2 - head * Math.cos(angle + Math.PI / 6), y2 + head * Math.sin(angle + Math.PI / 6));
+        ctx.stroke();
+    }
+
+    // --- UI Events ---
+    document.getElementById('input-force').addEventListener('input', e => {
+        state.loadP = parseInt(e.target.value);
+        document.getElementById('val-force').textContent = state.loadP;
+        applyForces();
+        solveFEM();
+    });
+
+    document.getElementById('input-scale').addEventListener('input', e => {
+        state.visScale = parseFloat(e.target.value);
+        document.getElementById('val-scale').textContent = state.visScale;
+        draw();
+    });
+
+    function setResolution(n) {
+        let r = Math.floor(n * 0.75); // 保持 4:3 比例
+        initMesh(n, r, 'uniform');
+    }
+
+    function setScenario(s) {
+        // 保持当前分辨率
+        initMesh(state.nx, state.ny, s);
+    }
+
+    // Init
+    initMesh(40, 30, 'uniform');
+
+</script>
+</body>
+</html>
