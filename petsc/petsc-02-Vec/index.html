@@ -15,15 +15,15 @@
     <meta name="keywords" content="C++,petsc,Python," />
   
 
-  <meta name="description" content="Vec第四章 Vec：创建、分布、装配、与 numpy 互操作（getArray 系列）；常见坑（装配、local&#x2F;global）。 在PETSc中，创建Vec对象往往需要以下几个步骤： 1234x &#x3D; PETSc.Vec().create(comm&#x3D;comm)x.setSizes(100)x.setFromOptions()x.assemble()  其中：  create()负责在对">
+  <meta name="description" content="Vec在PETSc中，创建Vec对象往往需要以下几个步骤： 1234x &#x3D; PETSc.Vec().create(comm&#x3D;comm)x.setSizes(100)x.setFromOptions()x.assemble()  其中：  create()负责在对应的communicator上创建Vec对象，或者通过createSeq, createMPI来指定创建方式 setSizes() 定义的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PETSc[02] petsc4py中的Vec">
 <meta property="og:url" content="https://nekko.moe/petsc/petsc-02-Vec/index.html">
 <meta property="og:site_name" content="Zhuoyu Chen">
-<meta property="og:description" content="Vec第四章 Vec：创建、分布、装配、与 numpy 互操作（getArray 系列）；常见坑（装配、local&#x2F;global）。 在PETSc中，创建Vec对象往往需要以下几个步骤： 1234x &#x3D; PETSc.Vec().create(comm&#x3D;comm)x.setSizes(100)x.setFromOptions()x.assemble()  其中：  create()负责在对">
+<meta property="og:description" content="Vec在PETSc中，创建Vec对象往往需要以下几个步骤： 1234x &#x3D; PETSc.Vec().create(comm&#x3D;comm)x.setSizes(100)x.setFromOptions()x.assemble()  其中：  create()负责在对应的communicator上创建Vec对象，或者通过createSeq, createMPI来指定创建方式 setSizes() 定义的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-01T19:02:00.000Z">
-<meta property="article:modified_time" content="2026-01-04T06:22:50.251Z">
+<meta property="article:modified_time" content="2026-01-04T06:27:18.977Z">
 <meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="Python">
@@ -190,8 +190,7 @@
 
   <div class="article-content">
     
-      <h1 id="Vec"><a href="#Vec" class="headerlink" title="Vec"></a>Vec</h1><p>第四章 Vec：创建、分布、装配、与 numpy 互操作（getArray 系列）；常见坑（装配、local&#x2F;global）。</p>
-<p>在PETSc中，创建Vec对象往往需要以下几个步骤：</p>
+      <h1 id="Vec"><a href="#Vec" class="headerlink" title="Vec"></a>Vec</h1><p>在PETSc中，创建Vec对象往往需要以下几个步骤：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = PETSc.Vec().create(comm=comm)</span><br><span class="line">x.setSizes(<span class="number">100</span>)</span><br><span class="line">x.setFromOptions()</span><br><span class="line">x.assemble()</span><br></pre></td></tr></table></figure>
 
 <p>其中：</p>
