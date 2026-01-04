@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[00] 从编译到安装 | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="PETScPETSc, 即便携式可扩展科学计算工具包(Portable, Extensible Toolkit for Scientific Computation), 特点为:  可用于PDE求解; 提供 C、Fortran 和 Python(通过 petsc4py)的绑定; 高级优化工具包(TAO, Toolkit for Advanced Optimization); 支持 MPI 和 GP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[00] 从编译到安装">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-00-install/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="PETScPETSc, 即便携式可扩展科学计算工具包(Portable, Extensible Toolkit for Scientific Computation), 特点为:  可用于PDE求解; 提供 C、Fortran 和 Python(通过 petsc4py)的绑定; 高级优化工具包(TAO, Toolkit for Advanced Optimization); 支持 MPI 和 GP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-02T00:28:49.471Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PETSc"><span class="toc-text">PETSc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install"><span class="toc-text">Install</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#petsc4py"><span class="toc-text">petsc4py</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#petsc-with-CUDA"><span class="toc-text">petsc with CUDA</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-00-install" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[00] 从编译到安装</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="PETSc"><a href="#PETSc" class="headerlink" title="PETSc"></a>PETSc</h1><p><a target="_blank" rel="noopener" href="https://petsc.org/release/">PETSc</a>, 即便携式可扩展科学计算工具包(Portable, Extensible Toolkit for Scientific Computation), 特点为:</p>
+<ul>
+<li>可用于PDE求解;</li>
+<li>提供 C、Fortran 和 Python(通过 petsc4py)的绑定;</li>
+<li>高级优化工具包(TAO, Toolkit for Advanced Optimization);</li>
+<li>支持 MPI 和 GPU(通过 CUDA、HIP、Kokkos 或 OpenCL),以及混合 MPI-GPU 并行;</li>
+<li>支持 NEC-SX Tsubasa 向量引擎.</li>
+</ul>
+<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><p>使用常见的包管理器可以方便的进行安装:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda install -c conda-forge petsc</span><br><span class="line"><span class="built_in">sudo</span> apt install petsc-dev</span><br><span class="line">brew install petsc</span><br><span class="line">python -m pip install petsc petsc4py mpi4py</span><br></pre></td></tr></table></figure>
+
+<p>以<code>homebrew</code>安装好后为例子，可以通过下面命令查看一下安装的版本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> /opt/homebrew/Cellar/petsc</span><br><span class="line"><span class="comment"># 3.24.2</span></span><br></pre></td></tr></table></figure>
+
+<p>之后要配置<code>PETSC_DIR</code>和<code>PETSC_ARCH</code>两个环境变量，从而方便进行（对于<code>homebrew</code>安装，不需要指定<code>PETSC_ARCH</code>）:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PETSC_DIR=/opt/homebrew/opt/petsc</span><br><span class="line"><span class="built_in">export</span> PETSC_ARCH=<span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>编译方法为:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mpicxx -O3 test.cpp -o test.out \</span><br><span class="line">    -I/opt/homebrew/opt/petsc/include \</span><br><span class="line">    -L/opt/homebrew/opt/petsc/lib -lpetsc</span><br><span class="line"><span class="comment"># or use pkg-config</span></span><br><span class="line">mpicxx -O3 test.cpp -o test.out $(pkg-config --cflags --libs petsc)</span><br></pre></td></tr></table></figure>
+
+<p>可以用下面代码进行测试:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">mpicxx -O3 -x c++ - -o petsc_test $(pkg-config --cflags --libs petsc) &lt;&lt; <span class="string">&#x27;EOF&#x27;</span></span><br><span class="line"><span class="comment">#include &lt;petscvec.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;petscsys.h&gt;</span></span><br><span class="line">static char <span class="built_in">help</span>[] = <span class="string">&quot;Simple PETSc example.\n&quot;</span>;</span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    PetscCall(PetscInitialize(&amp;argc, &amp;argv, NULL, <span class="built_in">help</span>));</span><br><span class="line">    char version[256];</span><br><span class="line">    PetscCall(PetscGetVersion(version, sizeof(version)));</span><br><span class="line">    PetscPrintf(PETSC_COMM_WORLD, <span class="string">&quot;%s\n&quot;</span>, version);</span><br><span class="line">    Vec x; PetscInt n = 4;</span><br><span class="line">    PetscCall(VecCreate(PETSC_COMM_WORLD, &amp;x));</span><br><span class="line">    PetscCall(VecSetSizes(x, PETSC_DECIDE, n));</span><br><span class="line">    PetscCall(VecSetFromOptions(x));</span><br><span class="line">    PetscCall(VecSet(x, 1.0));</span><br><span class="line">    PetscCall(VecView(x, PETSC_VIEWER_STDOUT_WORLD));</span><br><span class="line">    PetscCall(VecDestroy(&amp;x));</span><br><span class="line">    PetscCall(PetscFinalize());</span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">mpirun -n 2 ./petsc_test</span><br><span class="line"><span class="comment"># PETSc Release Version 3.24.2, Nov 29, 2025</span></span><br><span class="line"><span class="comment"># Vec Object: 2 MPI processes</span></span><br><span class="line"><span class="comment">#   type: mpi</span></span><br><span class="line"><span class="comment"># Process [0]</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line"><span class="comment"># Process [1]</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line"><span class="comment"># 1.</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="petsc4py"><a href="#petsc4py" class="headerlink" title="petsc4py"></a>petsc4py</h1><p>可以通过<code>pip</code>来安装petsc的python binding，从而在python中方便的使用petsc:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install petsc petsc4py</span><br></pre></td></tr></table></figure>
+
+<p>可以用下面代码进行测试:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line"><span class="keyword">from</span> contextlib <span class="keyword">import</span> contextmanager</span><br><span class="line"></span><br><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timeit_ctx</span>(<span class="params">label=<span class="string">&quot;elapsed&quot;</span></span>):</span><br><span class="line">    start = timeit.default_timer()</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    end = timeit.default_timer()</span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;label&#125;</span>: <span class="subst">&#123;(end - start) * <span class="number">1000</span>:<span class="number">.2</span>f&#125;</span> ms&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># compute y = sin(x) + x^2</span></span><br><span class="line"><span class="meta">@jit(<span class="params">nopython=<span class="literal">True</span>, cache=<span class="literal">True</span>, fastmath=<span class="literal">True</span>, parallel=<span class="literal">True</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">kernel</span>(<span class="params">n, x, y</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> prange(n):</span><br><span class="line">        val = x[i]</span><br><span class="line">        y[i] = np.sin(val) + val * val</span><br><span class="line"></span><br><span class="line">n = <span class="built_in">int</span>(<span class="number">2e8</span>)</span><br><span class="line">x = PETSc.Vec().createMPI(n, comm=PETSc.COMM_WORLD)</span><br><span class="line">y = PETSc.Vec().createMPI(n, comm=PETSc.COMM_WORLD)</span><br><span class="line"></span><br><span class="line">x.<span class="built_in">set</span>(<span class="number">2.0</span>)</span><br><span class="line">y.<span class="built_in">set</span>(<span class="number">0.0</span>)</span><br><span class="line">x_np = x.getArray()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> timeit_ctx(<span class="string">&quot;Numba Compile&quot;</span>):</span><br><span class="line">    kernel.<span class="built_in">compile</span>((int64, float64[:], float64[:]))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> timeit_ctx(<span class="string">&quot;PETSc&quot;</span>):</span><br><span class="line">    <span class="keyword">with</span> x <span class="keyword">as</span> x_loc, y <span class="keyword">as</span> y_loc:</span><br><span class="line">        size_loc = x.getLocalSize()</span><br><span class="line">        kernel(size_loc, x_loc, y_loc)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> timeit_ctx(<span class="string">&quot;NumPy&quot;</span>):</span><br><span class="line">    y_np = np.sin(x_np) + x_np**<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> PETSc.COMM_WORLD.getRank() == <span class="number">0</span>:</span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;True value: <span class="subst">&#123;np.sin(<span class="number">2.0</span>) + <span class="number">4.0</span>:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;PETSc value: <span class="subst">&#123;y.getValue(<span class="number">0</span>):<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">x.destroy()</span><br><span class="line">y.destroy()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 8 -x NUMBA_NUM_THREADS=1 -x OMP_NUM_THREADS=1 -x KMP_WARNINGS=0 python petsc_test.py</span><br><span class="line"><span class="comment"># Numba Compile: 371.68 ms</span></span><br><span class="line"><span class="comment"># PETSc: 656.95 ms</span></span><br><span class="line"><span class="comment"># NumPy: 1735.71 ms</span></span><br><span class="line"><span class="comment"># True value: 4.91</span></span><br><span class="line"><span class="comment"># PETSc value: 4.91</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="petsc-with-CUDA"><a href="#petsc-with-CUDA" class="headerlink" title="petsc with CUDA"></a>petsc with CUDA</h1><p>需要提前设置petsc的位置<code>PETSC_DIR</code>和python的位置<code>CONDA_PYTHON</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># export PETSC_DIR=...</span></span><br><span class="line"><span class="comment"># export CONDA_PYTHON=...</span></span><br><span class="line"></span><br><span class="line">COMMON_OPTS=<span class="string">&quot;--with-cc=gcc --with-cxx=g++ --with-fc=gfortran \</span></span><br><span class="line"><span class="string">--with-cuda=1 \</span></span><br><span class="line"><span class="string">--with-cudac=nvcc \</span></span><br><span class="line"><span class="string">--with-clanguage=cxx \</span></span><br><span class="line"><span class="string">--with-petsc4py=1 \</span></span><br><span class="line"><span class="string">--with-python-exec=<span class="variable">$CONDA_PYTHON</span> \</span></span><br><span class="line"><span class="string">--download-mpich \</span></span><br><span class="line"><span class="string">--download-hypre&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$PETSC_DIR</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># debug version</span></span><br><span class="line">ARCH_DEBUG=<span class="string">&quot;arch-cuda-cxx-debug&quot;</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n\033[0;32m[Step 1/2] Configuring Debug Version (<span class="variable">$ARCH_DEBUG</span>)...\033[0m&quot;</span></span><br><span class="line">./configure <span class="variable">$COMMON_OPTS</span> --with-debugging=1 PETSC_ARCH=<span class="variable">$ARCH_DEBUG</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n\033[0;32mBuilding Debug Version (<span class="variable">$ARCH_DEBUG</span>)...\033[0m&quot;</span></span><br><span class="line">make PETSC_DIR=<span class="variable">$PETSC_DIR</span> PETSC_ARCH=<span class="variable">$ARCH_DEBUG</span> all</span><br><span class="line"></span><br><span class="line"><span class="comment"># optimized version</span></span><br><span class="line">ARCH_OPT=<span class="string">&quot;arch-cuda-cxx-opt&quot;</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n\033[0;32m[Step 2/2] Configuring Optimized Version (<span class="variable">$ARCH_OPT</span>)...\033[0m&quot;</span></span><br><span class="line">./configure <span class="variable">$COMMON_OPTS</span> --with-debugging=0 PETSC_ARCH=<span class="variable">$ARCH_OPT</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n\033[0;32mBuilding Optimized Version (<span class="variable">$ARCH_OPT</span>)...\033[0m&quot;</span></span><br><span class="line">make PETSC_DIR=<span class="variable">$PETSC_DIR</span> PETSC_ARCH=<span class="variable">$ARCH_OPT</span> all</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n\033[0;32m========================================\033[0m&quot;</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\033[0;32m       Installation Successful!         \033[0m&quot;</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\033[0;32m========================================\033[0m&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\nAdd the following to your ~/.bashrc or run in your terminal to use the \033[1mOptimized\033[0m version:&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;---------------------------------------------------&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export PETSC_DIR=<span class="variable">$PETSC_DIR</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export PETSC_ARCH=<span class="variable">$ARCH_OPT</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export PYTHONPATH=\\<span class="variable">$PETSC_DIR</span>/\\<span class="variable">$PETSC_ARCH</span>/lib:<span class="variable">$PYTHONPATH</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;---------------------------------------------------&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\nSwitch to \033[1mDebug\033[0m version when developing:&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;---------------------------------------------------&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export PETSC_ARCH=<span class="variable">$ARCH_DEBUG</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export PYTHONPATH=\\<span class="variable">$PETSC_DIR</span>/\\<span class="variable">$PETSC_ARCH</span>/lib:<span class="variable">$PYTHONPATH</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;---------------------------------------------------&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>检查是否正常安装好了:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line">PETSc.Options().insertString(<span class="string">&quot;-vec_type cuda&quot;</span>)</span><br><span class="line">opts = PETSc.Options()</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> opts.getAll():</span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;k&#125;</span> = <span class="subst">&#123;opts.getString(k)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">n = <span class="number">1024</span></span><br><span class="line">v = PETSc.Vec().create(PETSc.COMM_SELF)</span><br><span class="line">v.setSizes(n)</span><br><span class="line">v.setFromOptions()</span><br><span class="line">v.<span class="built_in">set</span>(<span class="number">1.0</span>)</span><br><span class="line">v.assemblyBegin(); v.assemblyEnd()</span><br><span class="line"></span><br><span class="line">v.scale(<span class="number">2.0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Vec type:&quot;</span>, v.getType())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Vec norm:&quot;</span>, v.norm())</span><br><span class="line">v.destroy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># vec_type = cuda</span></span><br><span class="line"><span class="comment"># Vec type: seqcuda</span></span><br><span class="line"><span class="comment"># Vec norm: 64.0</span></span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/moni-deci/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-01-basics/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

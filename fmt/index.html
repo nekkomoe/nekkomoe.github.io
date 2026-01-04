@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>高维前缀和 | nekko</title>
+  <title>高维前缀和 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,18 +15,18 @@
     <meta name="keywords" content="算法,前缀和," />
   
 
-  <meta name="description" content="高维前缀和$$f_s&#x3D;\sum_{t \subseteq s}a_t$$ 枚举二进制的每一维，然后依次求一遍前缀和 1234567for(int i &#x3D; 1 ; i &lt;&#x3D; n ; ++ i) &amp;#123;	for(int s &#x3D; 0 ; s &lt; U ; ++ s) &amp;#123;        if(s &amp; (1 &lt;&lt; (i - 1))) &amp;#123;">
+  <meta name="description" content="高维前缀和$$f_s&#x3D;\sum_{t \subseteq s}a_t$$ 枚举二进制的每一维，然后依次求一遍前缀和 1234567for(int i &#x3D; 1 ; i &lt;&#x3D; n ; ++ i) &#123;	for(int s &#x3D; 0 ; s &lt; U ; ++ s) &#123;        if(s &amp; (1 &lt;&lt; (i - 1))) &#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高维前缀和">
 <meta property="og:url" content="https://nekko.moe/fmt/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="高维前缀和$$f_s&#x3D;\sum_{t \subseteq s}a_t$$ 枚举二进制的每一维，然后依次求一遍前缀和 1234567for(int i &#x3D; 1 ; i &lt;&#x3D; n ; ++ i) &amp;#123;	for(int s &#x3D; 0 ; s &lt; U ; ++ s) &amp;#123;        if(s &amp; (1 &lt;&lt; (i - 1))) &amp;#123;">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="高维前缀和$$f_s&#x3D;\sum_{t \subseteq s}a_t$$ 枚举二进制的每一维，然后依次求一遍前缀和 1234567for(int i &#x3D; 1 ; i &lt;&#x3D; n ; ++ i) &#123;	for(int s &#x3D; 0 ; s &lt; U ; ++ s) &#123;        if(s &amp; (1 &lt;&lt; (i - 1))) &#123;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-03-22T03:28:02.000Z">
-<meta property="article:modified_time" content="2019-03-22T03:28:51.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:published_time" content="2019-03-22T15:28:02.000Z">
+<meta property="article:modified_time" content="2019-03-22T03:28:52.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="前缀和">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -185,11 +189,11 @@
 
   <div class="article-content">
     
-      <h1 id="高维前缀和"><a href="#高维前缀和" class="headerlink" title="高维前缀和"></a>高维前缀和</h1><p>$$<br>f_s=\sum_{t \subseteq s}a_t<br>$$</p>
+      <h1 id="高维前缀和"><a href="#高维前缀和" class="headerlink" title="高维前缀和"></a>高维前缀和</h1><p>$$<br>f_s&#x3D;\sum_{t \subseteq s}a_t<br>$$</p>
 <p>枚举二进制的每一维，然后依次求一遍前缀和</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> s = <span class="number">0</span> ; s &lt; U ; ++ s) &#123;</span><br><span class="line">        <span class="keyword">if</span>(s &amp; (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))) &#123;</span><br><span class="line">            f[s] += f[s - (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> s = <span class="number">0</span> ; s &lt; U ; ++ s) &#123;</span><br><span class="line">        <span class="keyword">if</span>(s &amp; (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))) &#123;</span><br><span class="line">            f[s] += f[s - (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><p>$$<br>\begin{aligned}<br>\sum_{s \cap t=\emptyset} g_sg_t=\sum_{s}g_s\sum_{t \subseteq (U-s)}g_t<br>\end{aligned}<br>$$</p>
+<h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><p>$$<br>\begin{aligned}<br>\sum_{s \cap t&#x3D;\emptyset} g_sg_t&#x3D;\sum_{s}g_s\sum_{t \subseteq (U-s)}g_t<br>\end{aligned}<br>$$</p>
 
     
   </div>
@@ -215,25 +219,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -451,6 +436,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

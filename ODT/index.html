@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ODT | nekko</title>
+  <title>ODT | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,15 +19,15 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="ODT">
 <meta property="og:url" content="https://nekko.moe/ODT/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="起源codeforces 896 C  给定一个序列$a_i$，长度为$n(n \le 10^5)$有$m(m \le 10^5)$次操作  1 l r x $\forall i \in [l,r],a_i \leftarrow a_i + x$ 2 l r x $\forall i \in [l,r],a_i \leftarrow x$ 3 l r x 输出$[l,r]$的第$k$小，保证$1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-05-05T07:16:20.000Z">
+<meta property="article:published_time" content="2018-05-05T19:16:20.000Z">
 <meta property="article:modified_time" content="2018-09-09T15:16:38.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="平衡树">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="ODT">
+<meta property="article:tag" content="平衡树">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -193,7 +197,7 @@
 <li><code>1 l r x</code> $\forall i \in [l,r],a_i \leftarrow a_i + x$</li>
 <li><code>2 l r x</code> $\forall i \in [l,r],a_i \leftarrow x$</li>
 <li><code>3 l r x</code> 输出$[l,r]$的第$k$小，保证$1 \le x \le r-l+1$</li>
-<li><code>4 l r x y</code> 输出$(\sum\limits_{i=l}^{r}a_i^x) \text{ mod } y$</li>
+<li><code>4 l r x y</code> 输出$(\sum\limits_{i&#x3D;l}^{r}a_i^x) \text{ mod } y$</li>
 </ul>
 <p><strong>保证数据随机</strong></p>
 </blockquote>
@@ -206,24 +210,24 @@
 <blockquote>
 <p>我们假设现在随机的选取了一个区间$[l,r]$，之后我们随机的选择一个操作，假设当前平衡树上$[l,r]$中有$x$个区间<br>$\frac{1}{4}$的概率我们用$O(x)$的时间去删除$O(x)$个节点<br>$\frac{2}{4}$的概率我们用$O(x)$的时间苟着<br>$\frac{1}{4}$的概率我们用$O(x)$的时间苟着，并相平衡树添加两个新节点</p>
 </blockquote>
-<p>所以我们期望用$O(x)$的一件去删除$O(x)$个点<br>在用平衡树维护的同时，这道题的时间复杂度是$O(m \text{log} n)$<br>如果操作$3$和操作$4$变为输出$\sum\limits_{i=l}^{r}a_i$，那么时间复杂度看起来变为$O(m \text{log} \text{ log} n)$，但我不会证……</p>
+<p>所以我们期望用$O(x)$的一件去删除$O(x)$个点<br>在用平衡树维护的同时，这道题的时间复杂度是$O(m \text{log} n)$<br>如果操作$3$和操作$4$变为输出$\sum\limits_{i&#x3D;l}^{r}a_i$，那么时间复杂度看起来变为$O(m \text{log} \text{ log} n)$，但我不会证……</p>
 </blockquote>
 <p>然而为什么一定要用std::set实现，如果序列长度下降的很快的话，直接用数组就行了</p>
 <p><del>所以我选择用std::set实现</del></p>
 <p>胡乱看一看<strong>推平</strong>操作的推平区间长度的期望是多少，即从序列中随机取出一个子区间的长度的期望</p>
 <p>区间总个数为（即长度为$1$、长度为$2$等区间的个数和）</p>
-<p>$$<br>T=n+(n-1)+(n-2)+ \cdots + 1=\frac{n(1+n)}{2}<br>$$</p>
+<p>$$<br>T&#x3D;n+(n-1)+(n-2)+ \cdots + 1&#x3D;\frac{n(1+n)}{2}<br>$$</p>
 <p>长度的期望为</p>
-<p>$$<br>E=\frac{n }{T} \times 1 + \frac{n-1}{T} \times 2 + \cdots + \frac{(n-(n-1))}{T} \times n<br>$$</p>
-<p>$$<br>ET=n \times 1 + (n-1) \times 2 + \cdots (n-(n-1)) \times n<br>$$</p>
-<p>$$<br>ET=n + 2n + 3n + \cdots + n \cdot n - (1 \times 2 + 2 \times 3 +  \cdots + (n-1)n)<br>$$</p>
-<p>$$<br>ET=\frac{n^2(1+n)}{2}-(1 \times (1 + 1) + 2 \times(2+1) + \cdots + (n-1) \times ((n-1) + 1))<br>$$</p>
-<p>$$<br>ET=\frac{n^2(1+n)}{2}-(1^2 + 2^2 + \cdots + (n-1)^2) - (1 + 2 + \cdots (n-1))<br>$$</p>
-<p>$$<br>ET=\frac{n^2(1+n)}{2}-\frac{(n-1)((n-1)+1)(2(n-1) + 1)}{6}-\frac{(1+(n-1))n}{2}<br>$$</p>
-<p>$$<br>ET=\frac{n^2(1+n)}{2}-\frac{n(n-1)(2n-1)}{6}-\frac{n^2}{2}<br>$$</p>
-<p>$$<br>E\frac{n(n+1)}{2}=\frac{n^3}{2}-\frac{n(n-1)(2n-1)}{6}<br>$$</p>
-<p>$$<br>E=\frac{3n^3-n(n-1)(2n-1)}{3n(n+1)}=\frac{3n^3-n(n-1)(2n-1)}{3n(n+1)}<br>$$</p>
-<p>$$<br>E=\frac{n(n^2+3n-1)}{3n(n+1)}=\frac{(n+1)(n+2)-3}{3(n+1)}=\frac{n}{3}+(\frac{2}{3}-\frac{3}{n+1})<br>$$</p>
+<p>$$<br>E&#x3D;\frac{n }{T} \times 1 + \frac{n-1}{T} \times 2 + \cdots + \frac{(n-(n-1))}{T} \times n<br>$$</p>
+<p>$$<br>ET&#x3D;n \times 1 + (n-1) \times 2 + \cdots (n-(n-1)) \times n<br>$$</p>
+<p>$$<br>ET&#x3D;n + 2n + 3n + \cdots + n \cdot n - (1 \times 2 + 2 \times 3 +  \cdots + (n-1)n)<br>$$</p>
+<p>$$<br>ET&#x3D;\frac{n^2(1+n)}{2}-(1 \times (1 + 1) + 2 \times(2+1) + \cdots + (n-1) \times ((n-1) + 1))<br>$$</p>
+<p>$$<br>ET&#x3D;\frac{n^2(1+n)}{2}-(1^2 + 2^2 + \cdots + (n-1)^2) - (1 + 2 + \cdots (n-1))<br>$$</p>
+<p>$$<br>ET&#x3D;\frac{n^2(1+n)}{2}-\frac{(n-1)((n-1)+1)(2(n-1) + 1)}{6}-\frac{(1+(n-1))n}{2}<br>$$</p>
+<p>$$<br>ET&#x3D;\frac{n^2(1+n)}{2}-\frac{n(n-1)(2n-1)}{6}-\frac{n^2}{2}<br>$$</p>
+<p>$$<br>E\frac{n(n+1)}{2}&#x3D;\frac{n^3}{2}-\frac{n(n-1)(2n-1)}{6}<br>$$</p>
+<p>$$<br>E&#x3D;\frac{3n^3-n(n-1)(2n-1)}{3n(n+1)}&#x3D;\frac{3n^3-n(n-1)(2n-1)}{3n(n+1)}<br>$$</p>
+<p>$$<br>E&#x3D;\frac{n(n^2+3n-1)}{3n(n+1)}&#x3D;\frac{(n+1)(n+2)-3}{3(n+1)}&#x3D;\frac{n}{3}+(\frac{2}{3}-\frac{3}{n+1})<br>$$</p>
 <p>$$<br>E \approx \frac{n}{3}<br>$$</p>
 <p>也就是说推一次就合并了$\frac{1}{3}$左右的区间咯？看起来的确是log级别的<del>大概</del></p>
 <h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p><a target="_blank" rel="noopener" href="http://codeforces.com/contest/896/submission/37654105">代码</a></p>
@@ -257,25 +261,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -493,6 +478,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

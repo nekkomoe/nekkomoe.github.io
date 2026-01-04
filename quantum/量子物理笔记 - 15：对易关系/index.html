@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>量子物理笔记 - 15：对易关系 | nekko</title>
+  <title>量子物理笔记 - 15：对易关系 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="量子力学,原子物理,线性代数," />
   
 
-  <meta name="description" content="（1）第一个性质。$$\begin{aligned}\left[AB,C\right]&amp;&#x3D;ABC-CAB \\&amp;&#x3D;A(BC-CB)-(CA-AC)B \\&amp;&#x3D;A[B,C]-[C,A]B \\&amp;&#x3D;A[B,C]+[A,C]B\end{aligned}$$（2）第二个性质。$$\begin{aligned}\left[x^n,\hat{p}\right]\psi&amp;">
+  <meta name="description" content="（1）第一个性质。$$\begin{aligned}\left[AB,C\right]&amp;&#x3D;ABC-CAB \\&amp;&#x3D;A(BC-CB)-(CA-AC)B \\&amp;&#x3D;A[B,C]-[C,A]B \\&amp;&#x3D;A[B,C]+[A,C]B\end{aligned}$$（2）第二个性质。$$\begin{aligned}\left[x^n,\ha">
 <meta property="og:type" content="article">
 <meta property="og:title" content="量子物理笔记 - 15：对易关系">
 <meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%2015%EF%BC%9A%E5%AF%B9%E6%98%93%E5%85%B3%E7%B3%BB/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="（1）第一个性质。$$\begin{aligned}\left[AB,C\right]&amp;&#x3D;ABC-CAB \\&amp;&#x3D;A(BC-CB)-(CA-AC)B \\&amp;&#x3D;A[B,C]-[C,A]B \\&amp;&#x3D;A[B,C]+[A,C]B\end{aligned}$$（2）第二个性质。$$\begin{aligned}\left[x^n,\hat{p}\right]\psi&amp;">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="（1）第一个性质。$$\begin{aligned}\left[AB,C\right]&amp;&#x3D;ABC-CAB \\&amp;&#x3D;A(BC-CB)-(CA-AC)B \\&amp;&#x3D;A[B,C]-[C,A]B \\&amp;&#x3D;A[B,C]+[A,C]B\end{aligned}$$（2）第二个性质。$$\begin{aligned}\left[x^n,\ha">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-16T00:00:15.000Z">
-<meta property="article:modified_time" content="2023-01-16T06:42:08.854Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="量子力学">
+<meta property="article:published_time" content="2023-01-16T13:00:15.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:42:10.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="原子物理">
 <meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="量子力学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -154,7 +158,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -181,8 +185,8 @@
 
   <div class="article-content">
     
-      <p>（1）第一个性质。<br>$$<br>\begin{aligned}<br>\left[AB,C\right]<br>&amp;=ABC-CAB \\<br>&amp;=A(BC-CB)-(CA-AC)B \\<br>&amp;=A[B,C]-[C,A]B \\<br>&amp;=A[B,C]+[A,C]B<br>\end{aligned}<br>$$<br>（2）第二个性质。<br>$$<br>\begin{aligned}<br>\left[x^n,\hat{p}\right]\psi<br>&amp;=-i\hbar x^n\nabla\psi+i\hbar \nabla(x^n\psi) \\<br>&amp;=i\hbar(-x^n\nabla \psi+nx^{n-1}\psi+x^n\nabla\psi) \\<br>&amp;=i\hbar nx^{n-1}\psi<br>\end{aligned}<br>$$<br>即：<br>$$<br>[x^n,p]=i\hbar nx^{n-1}<br>$$<br>（3）第三个性质。<br>$$<br>\begin{aligned}<br>\left[f(x),\hat{p}\right]\psi<br>&amp;=-i\hbar f\nabla\psi+i\hbar \nabla(f\psi) \\<br>&amp;=i\hbar(-f\nabla \psi+\psi\nabla f+f\nabla\psi) \\<br>&amp;=i\hbar \psi \nabla f<br>\end{aligned}<br>$$<br>即：<br>$$<br>[f(x),\hat{p}]=i\hbar \nabla f(x)<br>$$<br>（4）坐标 $x$ 和能量 $H$ 的不确定性原理。<br>$$<br>\begin{aligned}<br>\left[x,\hat{H}\right]<br>&amp;=[x,\frac{1}{2m}\hat{p}^2+V] \\<br>&amp;=\frac{1}{2m}[x,\hat{p}\hat{p}]+[x,V], \quad [x,V]=xV-Vx=0 \\<br>&amp;=\frac{1}{2m}\left(x\hat{p}^2-\hat{p}^2x\right) \\<br>&amp;=\frac{1}{2m}\left(x\hat{p}^2-\hat{p}x\hat{p}+\hat{p}x\hat{p}-\hat{p}^2x\right) \\<br>&amp;=\frac{1}{2m}\left([x,\hat{p}]\hat{p}+\hat{p}[x,\hat{p}]\right), \quad [x,\hat{p}]=i\hbar \\<br>&amp;=\frac{i\hbar}{m}\hat{p}<br>\end{aligned}<br>$$<br>即：<br>$$<br>\sigma_x\sigma_H<br>\ge \left|\frac{\langle [x,\hat{H}] \rangle}{2i}\right|<br>=\frac{\hbar}{2m}|\langle p \rangle|<br>$$<br>对于定态系综，有：<br>$$<br>\sigma_H=\langle p \rangle=0<br>$$<br>不确定性原理等价于：<br>$$<br>0 \ge 0<br>$$<br>（5）两个非对易算符不能拥有共同的完备本征函数系。</p>
-<p>若 $f$ 是 $\hat{P},\hat{Q}$ 的共同本征函数，则：<br>$$<br>\begin{aligned}<br>&amp; \hat{P}\hat{Q}f=\hat{P}\langle Q \rangle f=\langle Q \rangle \hat{P}f=\langle Q \rangle \langle P \rangle \\<br>&amp; \hat{Q}\hat{P}f=\hat{Q}\langle P \rangle f=\langle P \rangle \hat{Q}f=\langle P \rangle \langle Q \rangle<br>\end{aligned}<br>$$<br>即：<br>$$<br>[\hat{P},\hat{Q}]f=0<br>$$<br>因此只有对易算符才拥有共同的完备本征函数系。</p>
+      <p>（1）第一个性质。<br>$$<br>\begin{aligned}<br>\left[AB,C\right]<br>&amp;&#x3D;ABC-CAB \\<br>&amp;&#x3D;A(BC-CB)-(CA-AC)B \\<br>&amp;&#x3D;A[B,C]-[C,A]B \\<br>&amp;&#x3D;A[B,C]+[A,C]B<br>\end{aligned}<br>$$<br>（2）第二个性质。<br>$$<br>\begin{aligned}<br>\left[x^n,\hat{p}\right]\psi<br>&amp;&#x3D;-i\hbar x^n\nabla\psi+i\hbar \nabla(x^n\psi) \\<br>&amp;&#x3D;i\hbar(-x^n\nabla \psi+nx^{n-1}\psi+x^n\nabla\psi) \\<br>&amp;&#x3D;i\hbar nx^{n-1}\psi<br>\end{aligned}<br>$$<br>即：<br>$$<br>[x^n,p]&#x3D;i\hbar nx^{n-1}<br>$$<br>（3）第三个性质。<br>$$<br>\begin{aligned}<br>\left[f(x),\hat{p}\right]\psi<br>&amp;&#x3D;-i\hbar f\nabla\psi+i\hbar \nabla(f\psi) \\<br>&amp;&#x3D;i\hbar(-f\nabla \psi+\psi\nabla f+f\nabla\psi) \\<br>&amp;&#x3D;i\hbar \psi \nabla f<br>\end{aligned}<br>$$<br>即：<br>$$<br>[f(x),\hat{p}]&#x3D;i\hbar \nabla f(x)<br>$$<br>（4）坐标 $x$ 和能量 $H$ 的不确定性原理。<br>$$<br>\begin{aligned}<br>\left[x,\hat{H}\right]<br>&amp;&#x3D;[x,\frac{1}{2m}\hat{p}^2+V] \\<br>&amp;&#x3D;\frac{1}{2m}[x,\hat{p}\hat{p}]+[x,V], \quad [x,V]&#x3D;xV-Vx&#x3D;0 \\<br>&amp;&#x3D;\frac{1}{2m}\left(x\hat{p}^2-\hat{p}^2x\right) \\<br>&amp;&#x3D;\frac{1}{2m}\left(x\hat{p}^2-\hat{p}x\hat{p}+\hat{p}x\hat{p}-\hat{p}^2x\right) \\<br>&amp;&#x3D;\frac{1}{2m}\left([x,\hat{p}]\hat{p}+\hat{p}[x,\hat{p}]\right), \quad [x,\hat{p}]&#x3D;i\hbar \\<br>&amp;&#x3D;\frac{i\hbar}{m}\hat{p}<br>\end{aligned}<br>$$<br>即：<br>$$<br>\sigma_x\sigma_H<br>\ge \left|\frac{\langle [x,\hat{H}] \rangle}{2i}\right|<br>&#x3D;\frac{\hbar}{2m}|\langle p \rangle|<br>$$<br>对于定态系综，有：<br>$$<br>\sigma_H&#x3D;\langle p \rangle&#x3D;0<br>$$<br>不确定性原理等价于：<br>$$<br>0 \ge 0<br>$$<br>（5）两个非对易算符不能拥有共同的完备本征函数系。</p>
+<p>若 $f$ 是 $\hat{P},\hat{Q}$ 的共同本征函数，则：<br>$$<br>\begin{aligned}<br>&amp; \hat{P}\hat{Q}f&#x3D;\hat{P}\langle Q \rangle f&#x3D;\langle Q \rangle \hat{P}f&#x3D;\langle Q \rangle \langle P \rangle \\<br>&amp; \hat{Q}\hat{P}f&#x3D;\hat{Q}\langle P \rangle f&#x3D;\langle P \rangle \hat{Q}f&#x3D;\langle P \rangle \langle Q \rangle<br>\end{aligned}<br>$$<br>即：<br>$$<br>[\hat{P},\hat{Q}]f&#x3D;0<br>$$<br>因此只有对易算符才拥有共同的完备本征函数系。</p>
 
     
   </div>
@@ -208,25 +212,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -444,6 +429,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

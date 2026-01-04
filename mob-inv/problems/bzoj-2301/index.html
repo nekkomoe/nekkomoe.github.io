@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>莫比乌斯反演习题：bzoj 2301 [HAOI2011]Problem b | nekko</title>
+  <title>莫比乌斯反演习题：bzoj 2301 [HAOI2011]Problem b | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,22 +15,22 @@
     <meta name="keywords" content="数学,数论,莫比乌斯反演,bzoj,题解,莫比乌斯反演习题," />
   
 
-  <meta name="description" content="题目描述有$T$组询问，每次给定整数$a,b,c,d,k$，求有多少对正整数$x,y$，满足$a \le x \le b \wedge c \le y \le d \wedge (x,y)&#x3D;k$ $1 \le a,b,c,d,k,T \le 50000 \wedge a \le b \wedge c \le d$ 题解与bzoj1101类似，在二维前缀和上大力容斥 代码12345678910111">
+  <meta name="description" content="题目描述有$T$组询问，每次给定整数$a,b,c,d,k$，求有多少对正整数$x,y$，满足$a \le x \le b \wedge c \le y \le d \wedge (x,y)&#x3D;k$ $1 \le a,b,c,d,k,T \le 50000 \wedge a \le b \wedge c \le d$ 题解与bzoj1101类似，在二维前缀和上大力容斥 代码123456789">
 <meta property="og:type" content="article">
 <meta property="og:title" content="莫比乌斯反演习题：bzoj 2301 [HAOI2011]Problem b">
 <meta property="og:url" content="https://nekko.moe/mob-inv/problems/bzoj-2301/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="题目描述有$T$组询问，每次给定整数$a,b,c,d,k$，求有多少对正整数$x,y$，满足$a \le x \le b \wedge c \le y \le d \wedge (x,y)&#x3D;k$ $1 \le a,b,c,d,k,T \le 50000 \wedge a \le b \wedge c \le d$ 题解与bzoj1101类似，在二维前缀和上大力容斥 代码12345678910111">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="题目描述有$T$组询问，每次给定整数$a,b,c,d,k$，求有多少对正整数$x,y$，满足$a \le x \le b \wedge c \le y \le d \wedge (x,y)&#x3D;k$ $1 \le a,b,c,d,k,T \le 50000 \wedge a \le b \wedge c \le d$ 题解与bzoj1101类似，在二维前缀和上大力容斥 代码123456789">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-06-11T06:03:05.000Z">
+<meta property="article:published_time" content="2018-06-11T18:03:05.000Z">
 <meta property="article:modified_time" content="2018-09-09T14:57:04.000Z">
-<meta property="article:author" content="nekko">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="bzoj">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="数论">
 <meta property="article:tag" content="莫比乌斯反演">
-<meta property="article:tag" content="bzoj">
-<meta property="article:tag" content="题解">
 <meta property="article:tag" content="莫比乌斯反演习题">
+<meta property="article:tag" content="题解">
 <meta name="twitter:card" content="summary">
 
   
@@ -49,6 +49,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -60,7 +64,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -162,7 +166,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -189,10 +193,10 @@
 
   <div class="article-content">
     
-      <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>有$T$组询问，每次给定整数$a,b,c,d,k$，求有多少对正整数$x,y$，满足$a \le x \le b \wedge c \le y \le d \wedge (x,y)=k$</p>
+      <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>有$T$组询问，每次给定整数$a,b,c,d,k$，求有多少对正整数$x,y$，满足$a \le x \le b \wedge c \le y \le d \wedge (x,y)&#x3D;k$</p>
 <p>$1 \le a,b,c,d,k,T \le 50000 \wedge a \le b \wedge c \le d$</p>
 <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>与bzoj1101类似，在二维前缀和上大力容斥</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">50000</span> + <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> mu[N], vis[N], p[N], tot;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">sol</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m, <span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(n &gt; m) <span class="built_in">swap</span>(n, m);</span><br><span class="line">    n /= d, m /= d;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, j ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">        j = <span class="built_in">min</span>(n / (n / i), m / (m / i));</span><br><span class="line">        ans += (ll) (mu[j] - mu[i - <span class="number">1</span>]) * (n / i) * (m / i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a, b, c, d, k; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d%d&quot;</span>, &amp;a, &amp;b, &amp;c, &amp;d, &amp;k);</span><br><span class="line">    ll ans = <span class="built_in">sol</span>(b, d, k) + <span class="built_in">sol</span>(a - <span class="number">1</span>, c - <span class="number">1</span>, k) - <span class="built_in">sol</span>(a - <span class="number">1</span>, d, k) - <span class="built_in">sol</span>(b, c - <span class="number">1</span>, k);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mu[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> ; i &lt;= <span class="number">50000</span> ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!vis[i]) mu[i] = <span class="number">-1</span>, p[++ tot] = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; (ll) i * p[j] &lt;= <span class="number">50000</span> ; ++ j) &#123;</span><br><span class="line">            vis[i * p[j]] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(i % p[j] == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            mu[i * p[j]] = -mu[i];</span><br><span class="line">        &#125;</span><br><span class="line">        mu[i] += mu[i - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> T; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">    <span class="keyword">while</span>(T --) <span class="built_in">sol</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">50000</span> + <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> mu[N], vis[N], p[N], tot;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">sol</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> m, <span class="type">int</span> d)</span> </span>&#123;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(n &gt; m) <span class="built_in">swap</span>(n, m);</span><br><span class="line">    n /= d, m /= d;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">        j = <span class="built_in">min</span>(n / (n / i), m / (m / i));</span><br><span class="line">        ans += (ll) (mu[j] - mu[i - <span class="number">1</span>]) * (n / i) * (m / i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> a, b, c, d, k; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d%d&quot;</span>, &amp;a, &amp;b, &amp;c, &amp;d, &amp;k);</span><br><span class="line">    ll ans = <span class="built_in">sol</span>(b, d, k) + <span class="built_in">sol</span>(a - <span class="number">1</span>, c - <span class="number">1</span>, k) - <span class="built_in">sol</span>(a - <span class="number">1</span>, d, k) - <span class="built_in">sol</span>(b, c - <span class="number">1</span>, k);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mu[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span> ; i &lt;= <span class="number">50000</span> ; ++ i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!vis[i]) mu[i] = <span class="number">-1</span>, p[++ tot] = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; (ll) i * p[j] &lt;= <span class="number">50000</span> ; ++ j) &#123;</span><br><span class="line">            vis[i * p[j]] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(i % p[j] == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            mu[i * p[j]] = -mu[i];</span><br><span class="line">        &#125;</span><br><span class="line">        mu[i] += mu[i - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> T; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">    <span class="keyword">while</span>(T --) <span class="built_in">sol</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -220,25 +224,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -456,6 +441,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

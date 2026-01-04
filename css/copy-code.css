@@ -1,0 +1,39 @@
+/* 代码块容器设为相对定位 */
+figure.highlight {
+    position: relative !important;
+}
+
+/* Copy 按钮样式 */
+figure.highlight .copy-btn {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 2px 8px;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #333;
+    font-size: 12px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    line-height: 1.5;
+    cursor: pointer;
+    border-bottom-left-radius: 4px;
+    opacity: 1; /* 始终显示 */
+    transition: background-color 0.2s;
+    user-select: none;
+    z-index: 99;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-top: none;
+    border-right: none;
+}
+
+/* 按钮悬停效果 */
+figure.highlight .copy-btn:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+/* 复制成功后的状态 */
+figure.highlight .copy-btn.copied {
+    background-color: #4caf50;
+    color: white;
+}

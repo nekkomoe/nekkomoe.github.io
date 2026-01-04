@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[01] petsc4py的基础知识 | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="Initialization在petsc4py中，需要通过下面代码进行初始化： 123456789101112131415161718192021222324import sys, petsc4pypetsc4py.init(sys.argv)from petsc4py import PETScopt &#x3D; PETSc.Options()                # get PETSc opt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[01] petsc4py的基础知识">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-01-basics/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="Initialization在petsc4py中，需要通过下面代码进行初始化： 123456789101112131415161718192021222324import sys, petsc4pypetsc4py.init(sys.argv)from petsc4py import PETScopt &#x3D; PETSc.Options()                # get PETSc opt">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:01:00.000Z">
+<meta property="article:modified_time" content="2026-01-02T08:54:12.199Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Initialization"><span class="toc-text">Initialization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Options"><span class="toc-text">Options</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Communicator"><span class="toc-text">Communicator</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-01-basics" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[01] petsc4py的基础知识</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Initialization"><a href="#Initialization" class="headerlink" title="Initialization"></a>Initialization</h1><p>在petsc4py中，需要通过下面代码进行初始化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"></span><br><span class="line">opt = PETSc.Options()                <span class="comment"># get PETSc options</span></span><br><span class="line">comm = PETSc.COMM_WORLD              <span class="comment"># get the global communicator</span></span><br><span class="line">rank = comm.getRank()                <span class="comment"># get the rank of the process</span></span><br><span class="line">size = comm.getSize()                <span class="comment"># get the size of the communicator</span></span><br><span class="line">PETSc.Sys.setDefaultComm(comm)       <span class="comment"># set default communicator</span></span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;opt.getAll()=&#125;</span>&quot;</span>)  <span class="comment"># see all PETSc options, only rank=0 prints</span></span><br><span class="line">n = opt.getInt(<span class="string">&quot;n&quot;</span>, <span class="number">10</span>)              <span class="comment"># get integer option -n &lt;value&gt;, default 10</span></span><br><span class="line">a = opt.getReal(<span class="string">&quot;a&quot;</span>, <span class="number">1.5</span>)            <span class="comment"># get real option -a &lt;value&gt;, default 1.5</span></span><br><span class="line">s = opt.getString(<span class="string">&quot;s&quot;</span>, <span class="string">&quot;hello&quot;</span>)      <span class="comment"># get string option -s &lt;value&gt;, default &quot;hello&quot;</span></span><br><span class="line"></span><br><span class="line">opt_pfx = PETSc.Options(<span class="string">&quot;test_&quot;</span>)</span><br><span class="line">test_x = opt_pfx.getInt(<span class="string">&quot;x&quot;</span>, <span class="number">42</span>)     <span class="comment"># get integer option -test_x &lt;value&gt;, default 42</span></span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;rank=&#125;</span>, <span class="subst">&#123;size=&#125;</span>&quot;</span>)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;n=&#125;</span>, <span class="subst">&#123;a=&#125;</span>, <span class="subst">&#123;s=&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># collect prints from all ranks and display them in order</span></span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;Hello from rank <span class="subst">&#123;rank&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br></pre></td></tr></table></figure>
+
+<p>可以通过下面两种方式，来从命令行中传入参数（保存到了<code>opt</code>变量中），通过<code>PETSc.Options().getAll()</code>获取字典保存的结果，或者通过<code>opt.get*</code>方法，来读取（并设置默认值）命令行参数内容。更全面的函数，在<a target="_blank" rel="noopener" href="https://petsc.org/release/petsc4py/reference/petsc4py.PETSc.Options.html">PETSc的文档</a>里可以查看到。</p>
+<p>下面两种方法都可以进行含有参数的调用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 4 python test.py -n 20 -test_x 30</span><br><span class="line">PETSC_OPTIONS=<span class="string">&quot;-n 20 -test_x 30&quot;</span> mpirun -np 4 python test.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># opt.getAll()=&#123;&#x27;n&#x27;: &#x27;20&#x27;, &#x27;test_x&#x27;: &#x27;30&#x27;&#125;</span></span><br><span class="line"><span class="comment"># rank=0, size=4</span></span><br><span class="line"><span class="comment"># n=20, a=1.5, s=&#x27;hello&#x27;</span></span><br><span class="line"><span class="comment"># Hello from rank 0</span></span><br><span class="line"><span class="comment"># Hello from rank 1</span></span><br><span class="line"><span class="comment"># Hello from rank 2</span></span><br><span class="line"><span class="comment"># Hello from rank 3</span></span><br></pre></td></tr></table></figure>
+
+<p>下面几个开关可以方便参数调试：</p>
+<ul>
+<li><code>-help</code>：查看PETSc所有的帮助选项</li>
+<li><code>-options_view</code>：启动时输出全部的 options</li>
+<li><code>-options_left</code>：输出没有被使用的参数列表</li>
+<li><code>-options_file $FILENAME</code>：从<code>$FILENAME</code>中读取参数列表，并加入到PETSc程序中，但是命令行参数的优先级更高</li>
+</ul>
+<h1 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h1><p>PETSc里的一些常用对象（<code>Vec, Mat, KSP ...</code>），都可以通过<code>.setFromOptions()</code>方法，来通过命令行参数进行初始化。</p>
+<p>如果需要特定的前缀进行区分，那么可以使用<code>.setOptionsPrefix(...)</code>，之后再进行<code>.setFromOptions()</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line">comm = PETSc.COMM_WORLD</span><br><span class="line">opt = PETSc.Options()</span><br><span class="line">pprint = PETSc.Sys.Print</span><br><span class="line"></span><br><span class="line">x = PETSc.Vec().create(comm=comm)</span><br><span class="line">x.setSizes(<span class="number">1</span>)</span><br><span class="line">x.setFromOptions()        <span class="comment"># -vec_type mpi</span></span><br><span class="line">x.assemble()</span><br><span class="line">pprint(<span class="string">f&quot;<span class="subst">&#123;x.getType()=&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">y = PETSc.Vec().create(comm=PETSc.COMM_SELF)</span><br><span class="line">y.setSizes(<span class="number">1</span>)</span><br><span class="line">y.setOptionsPrefix(<span class="string">&quot;y_&quot;</span>)  <span class="comment"># -y_vec_type seq</span></span><br><span class="line">y.setFromOptions()</span><br><span class="line">y.assemble()</span><br><span class="line">pprint(<span class="string">f&quot;<span class="subst">&#123;y.getType()=&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python test.py -vec_type mpi -y_vec_type seqcuda -vec_view ascii:stdout</span><br><span class="line"><span class="comment">#  Vec Object: 1 MPI process</span></span><br><span class="line"><span class="comment">#   type: mpi</span></span><br><span class="line"><span class="comment"># Process [0]</span></span><br><span class="line"><span class="comment"># 0.</span></span><br><span class="line"><span class="comment"># x.getType()=&#x27;mpi&#x27;</span></span><br><span class="line"><span class="comment"># y.getType()=&#x27;seqcuda&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Communicator"><a href="#Communicator" class="headerlink" title="Communicator"></a>Communicator</h1><p>在PETSc中，几乎所有核心对象(<code>Vec, Mat, KSP, ...</code>) 都绑定在某一个 <code>MPI communicator</code> 上。communicator 决定了哪些进程参与这个对象&#x2F;数据如何分布，以及对象之间能否一起工作。</p>
+<p>PETSc定义了常用的两个comm，分别为：</p>
+<ul>
+<li><code>PETSc.COMM_WORLD</code>：所有 MPI 进程共同参与</li>
+<li><code>PETSc.COMM_SELF</code>：每个进程各自独立（每个 rank 都有一个“单进程 communicator”）</li>
+</ul>
+<p>下面代码，给出了在<code>COMM_WORLD</code>和在<code>COMM_SELF</code>上创建相同大小的<code>Vec</code>对象时，PETSc分配的向量类型和每个处理器上的向量大小：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"></span><br><span class="line">rank = PETSc.COMM_WORLD.getRank()</span><br><span class="line">size = PETSc.COMM_WORLD.getSize()</span><br><span class="line"></span><br><span class="line">x = PETSc.Vec().create(comm=PETSc.COMM_WORLD)</span><br><span class="line">x.setSizes(<span class="number">8</span>)</span><br><span class="line">x.setFromOptions()</span><br><span class="line">x.assemble()</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;[<span class="subst">&#123;rank&#125;</span>/<span class="subst">&#123;size&#125;</span>]: <span class="subst">&#123;x.getType()=&#125;</span>, <span class="subst">&#123;x.getLocalSize()=&#125;</span>&quot;</span>, comm=PETSc.COMM_WORLD)</span><br><span class="line">PETSc.Sys.syncFlush()</span><br><span class="line"></span><br><span class="line">x = PETSc.Vec().create(comm=PETSc.COMM_SELF)</span><br><span class="line">x.setSizes(<span class="number">8</span>)</span><br><span class="line">x.setFromOptions()</span><br><span class="line">x.assemble()</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;[<span class="subst">&#123;rank&#125;</span>/<span class="subst">&#123;size&#125;</span>]: <span class="subst">&#123;x.getType()=&#125;</span>, <span class="subst">&#123;x.getLocalSize()=&#125;</span>&quot;</span>, comm=PETSc.COMM_WORLD)</span><br><span class="line">PETSc.Sys.syncFlush()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 2 python test.py</span><br><span class="line"><span class="comment"># [0/2]: x.getType()=&#x27;mpi&#x27;, x.getLocalSize()=4</span></span><br><span class="line"><span class="comment"># [1/2]: x.getType()=&#x27;mpi&#x27;, x.getLocalSize()=4</span></span><br><span class="line"><span class="comment"># [0/2]: x.getType()=&#x27;seq&#x27;, x.getLocalSize()=8</span></span><br><span class="line"><span class="comment"># [1/2]: x.getType()=&#x27;seq&#x27;, x.getLocalSize()=8</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，在<code>COMM_WORLD</code>中创建向量对象，每个处理器会平均分配到向量的一部分内容（类型为<code>mpi</code>）；而在<code>COMM_SELF</code>上创建向量对象，每个处理器会分配一个完整的向量（同时，类型会被设置为序列对象<code>seq</code>）。</p>
+<p>为了在处理器上，正确地进行数据间通信，PETSc要求进行相同操作的对象位于同一个communicator中，比如：</p>
+<ul>
+<li><code>MatMult(A, x, y)</code>：<code>A/x/y</code> 处在相同 comm 中</li>
+<li><code>KSP.setOperators(A)</code>：<code>ksp</code> 与 <code>A</code> 处在相同 comm 中</li>
+<li><code>SNES/TS</code> 与其内部用到的 <code>Vec/Mat/DM</code>：处在相同 comm 中</li>
+</ul>
+<p>在创建PETSc对象时，可以通过<code>.create(comm=PETSc.COMM_WORLD)</code>来确定communicator环境。</p>
+<p>利用communicator环境，可以方便的进行代码调试和输出，比如：</p>
+<ul>
+<li><p><code>PETSc.Sys.Print(&quot;hello&quot;, comm=PETSc.COMM_WORLD)</code>只会在comm中<code>rank=0</code>的处理器上进行输出</p>
+</li>
+<li><p><code>PETSc.Sys.syncPrint(f&quot;hello {rank}&quot;, comm=comm)</code>会按照<code>rank</code>的顺序，依次进行输出</p>
+</li>
+<li><p><code>PETSc.Sys.syncFlush(comm=comm)</code>需要在执行完<code>syncPrint</code>之后，刷新输出缓存</p>
+</li>
+</ul>
+<p>在更复杂的应用里，可能希望把 <code>COMM_WORLD</code> 的进程拆成多个组，每个组运行一个独立的 PETSc 子问题，例如：</p>
+<ul>
+<li>同一脚本里同时求解多个互不耦合的线性系统</li>
+<li>多物理场：不同子模型用不同进程数</li>
+<li>一个组负责计算，另一个组负责 I&#x2F;O 或后处理</li>
+</ul>
+<p>通过不同的communicator分组，可以将没有耦合关系的求解过程进行解耦，减少额外的同步等待时间。</p>
+<p>通过<code>PETSc.Comm.tompi4py()</code>可以将PETSc中的communicator,转换成为<code>mpi4py</code>中comm, 并进行进一步的切割，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"></span><br><span class="line">comm = PETSc.COMM_WORLD</span><br><span class="line">rank = comm.getRank()</span><br><span class="line">size = comm.getSize()</span><br><span class="line">mpi_world = comm.tompi4py()</span><br><span class="line"></span><br><span class="line">color = rank % <span class="number">2</span></span><br><span class="line">comm_sub = mpi_world.Split(color=color, key=rank)</span><br><span class="line"></span><br><span class="line">rank_sub = comm_sub.Get_rank()</span><br><span class="line">size_sub = comm_sub.Get_size()</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;[<span class="subst">&#123;rank&#125;</span>/<span class="subst">&#123;size&#125;</span>]: local(<span class="subst">&#123;rank_sub&#125;</span>/<span class="subst">&#123;size_sub&#125;</span>), <span class="subst">&#123;color=&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 4 python test.py</span><br><span class="line"><span class="comment"># [0/4]: local(0/2), color=0</span></span><br><span class="line"><span class="comment"># [1/4]: local(0/2), color=1</span></span><br><span class="line"><span class="comment"># [2/4]: local(1/2), color=0</span></span><br><span class="line"><span class="comment"># [3/4]: local(1/2), color=1</span></span><br></pre></td></tr></table></figure>
+
+<p>其中，我们通过<code>comm.Split(color=color, key=key)</code>进行分割，保证：</p>
+<ul>
+<li><code>color</code> 决定属于哪一组，即相同 color 的进程会进入同一个子 communicator</li>
+<li><code>key</code> 决定子 communicator 内的 rank 排序，一般直接用原 rank 即可</li>
+<li>如果 <code>color = MPI.UNDEFINED</code>，它会得到 <code>MPI_COMM_NULL</code>，表示“不属于任何子 communicator”，可以通过这个设置来将某个处理器单独剥离出来</li>
+</ul>
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-00-install/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-02-Vec/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

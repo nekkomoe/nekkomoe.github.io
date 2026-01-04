@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[05] petsc4py中的SNES | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="SNESSNES（Scalable Nonlinear Equations Solvers）负责求解非线性方程组：$$F(x) &#x3D; 0$$SNES并不直接求解线性系统，而是在每一步非线性迭代中，构造并求解一个线性化问题，这一线性问题由 KSP 完成，即：  SNES：决定非线性迭代策略（Newton、线搜索、收敛判据） KSP：负责解当前一步的线性系统 PC：影响每一步线性系统的求解效率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[05] petsc4py中的SNES">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-05-SNES/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="SNESSNES（Scalable Nonlinear Equations Solvers）负责求解非线性方程组：$$F(x) &#x3D; 0$$SNES并不直接求解线性系统，而是在每一步非线性迭代中，构造并求解一个线性化问题，这一线性问题由 KSP 完成，即：  SNES：决定非线性迭代策略（Newton、线搜索、收敛判据） KSP：负责解当前一步的线性系统 PC：影响每一步线性系统的求解效率">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:05:00.000Z">
+<meta property="article:modified_time" content="2026-01-03T00:56:15.211Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SNES"><span class="toc-text">SNES</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jacobian-free-Newton-Krylov-JFNK"><span class="toc-text">Jacobian-free Newton-Krylov (JFNK)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%9D%80%E8%89%B2%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86Newton-Krylov"><span class="toc-text">图着色有限差分Newton Krylov</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Poisson-equation"><span class="toc-text">Poisson equation</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-05-SNES" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[05] petsc4py中的SNES</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="SNES"><a href="#SNES" class="headerlink" title="SNES"></a>SNES</h1><p>SNES（Scalable Nonlinear Equations Solvers）负责求解<strong>非线性方程组</strong>：<br>$$<br>F(x) &#x3D; 0<br>$$<br>SNES并不直接求解线性系统，而是在每一步非线性迭代中，<strong>构造并求解一个线性化问题</strong>，这一线性问题由 KSP 完成，即：</p>
+<ul>
+<li>SNES：决定<strong>非线性迭代策略</strong>（Newton、线搜索、收敛判据）</li>
+<li>KSP：负责<strong>解当前一步的线性系统</strong></li>
+<li>PC：影响每一步线性系统的求解效率</li>
+<li>DM：负责数据布局与装配回调</li>
+</ul>
+<p>在 petsc4py 中，SNES 的 Python 接口主要定义在 <a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/SNES.pyx"><code>SNES.pyx</code></a> 中，而其与底层 C 接口的绑定细节集中在 <a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscsnes.pxi"><code>petscsnes.pxi</code></a>。</p>
+<p>一个最小的 SNES 使用流程为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">snes = PETSc.SNES().create(comm)</span><br><span class="line">snes.setFunction(form_function, F)</span><br><span class="line">snes.setJacobian(form_jacobian, J, P) <span class="comment"># P is the preconditioner of J</span></span><br><span class="line">snes.setFromOptions()</span><br><span class="line">snes.solve(<span class="literal">None</span>, x)</span><br><span class="line"><span class="comment"># `snes.solve(b, x)`:</span></span><br><span class="line"><span class="comment">#     b: The affine right-hand side or `None` to use zero.</span></span><br><span class="line"><span class="comment">#     x: The starting vector or `None` to use the vector stored internally.</span></span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>x</code>：是未知量（Vec）</li>
+<li><code>F</code>：是残差向量（Vec），表示 $F(x)$</li>
+<li><code>J</code>：是Jacobian 矩阵（Mat），表示 $\partial F &#x2F; \partial x$</li>
+</ul>
+<p>在 petsc4py 中，<code>setFunction()</code> 接受一个 <strong>Python callable</strong> 作为残差回调，其标准签名是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">form_function</span>(<span class="params">snes, x, F</span>):</span><br><span class="line">    <span class="comment"># compute F(x)</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>语义上，这个回调必须完全覆盖写入 F，而不是返回一个新对象。</p>
+<p>SNES 的每一步 Newton 型方法都需要构造一个线性化问题：<br>$$<br>J(x_k),\delta x &#x3D; -F(x_k)<br>$$<br>在 petsc4py 中，Jacobian 回调的标准形式是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">form_jacobian</span>(<span class="params">snes, x, J, P</span>):</span><br><span class="line">    ...</span><br><span class="line">    J.assemble()</span><br><span class="line">    ...</span><br><span class="line">    P.assemble()</span><br></pre></td></tr></table></figure>
+
+<p>直接进行牛顿迭代，计算效率往往不会很高，因此在 SNES 中，Newton 方法几乎总是与 <strong>线搜索（LineSearch）</strong> 绑定使用，即：<br>$$<br>x_{k+1} &#x3D; x_k + \alpha_k ,\delta x_k<br>$$<br>其中 $\delta x_k$ 来自 KSP 解线性系统，而 $\alpha_k$ 由 LineSearch 决定。在 petsc4py 中，可以通过选项控制线搜索类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-snes_linesearch_type basic</span><br><span class="line">-snes_linesearch_type bt</span><br><span class="line">-snes_linesearch_type l2</span><br></pre></td></tr></table></figure>
+
+<p>SNES 的收敛判据与 KSP 是完全独立的，常用的诊断选项包括：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-snes_monitor</span><br><span class="line">-snes_converged_reason</span><br><span class="line">-snes_view</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过<code>snes.setErrorIfNotConverged(True)</code>将非收敛视为错误。</p>
+<h2 id="Jacobian-free-Newton-Krylov-JFNK"><a href="#Jacobian-free-Newton-Krylov-JFNK" class="headerlink" title="Jacobian-free Newton-Krylov (JFNK)"></a>Jacobian-free Newton-Krylov (JFNK)</h2><p>如果显式构建 Jacobian 矩阵过于复杂，可以采用 matrix-free 方法，即 Jacobian-free Newton–Krylov（JFNK）。在这种方法中，SNES 不再显式装配 Jacobian，而是通过有限差分近似来计算 Jacobian–向量乘法，从而驱动内层的 Krylov 迭代。</p>
+<p>在 Newton 型方法中，每一步非线性迭代都需要求解线性化问题<br>$$<br>J(x_k),\delta x &#x3D; -F(x_k),<br>$$<br>其中 $J(x_k)$ 是当前状态下的 Jacobian。KSP 在求解该线性系统时，并不需要完整的 Jacobian 矩阵，而只需要能够计算算子–向量乘法 $Jv$。JFNK 正是利用这一点，通过有限差分近似<br>$$<br>J(x),v \approx \frac{F(x + \varepsilon v) - F(x)}{\varepsilon},<br>$$<br>从而避免显式构建 Jacobian。</p>
+<p>在 PETSc 中，SNES 对 JFNK 的支持是内建的。在 petsc4py 里，只需打开 matrix-free 开关即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">snes.setUseMF(<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># or use `-snes_mf`</span></span><br></pre></td></tr></table></figure>
+
+<p>启用该选项后，SNES 会在内部创建一个 matrix-free 的线性算子，并将其传递给 KSP，此时：</p>
+<ul>
+<li><code>FormFunction</code> 是必需的，因为有限差分需要多次计算残差</li>
+<li><code>FormJacobian</code> 不再用于构造线性算子本身</li>
+<li>KSP 所看到的算子是一个基于残差计算的近似解 $Jv$</li>
+</ul>
+<p>需要注意的是，<strong>JFNK 只替代 Jacobian 的算子作用，并不自动替代预处理矩阵</strong>。在实际计算中，通常仍然需要提供一个显式装配的矩阵作为预处理子 $P$，例如一个<strong>近似 Jacobian</strong> 或<strong>简化算子</strong>。否则，许多常用的预处理方法（如 ILU、GAMG、fieldsplit）将无法使用，KSP 的收敛性也会明显变差。</p>
+<p>因此，JFNK 在工程中的典型配置是：</p>
+<ul>
+<li>Jacobian：matrix-free（仅用于 Krylov 迭代中的算子乘法）</li>
+<li>预处理矩阵 $P$：显式装配，用于加速线性求解</li>
+</ul>
+<p>这种组合在 Jacobian 推导困难、但仍可给出合理近似结构的非线性问题中非常常见。</p>
+<h2 id="图着色有限差分Newton-Krylov"><a href="#图着色有限差分Newton-Krylov" class="headerlink" title="图着色有限差分Newton Krylov"></a>图着色有限差分Newton Krylov</h2><p>如果无法给出 Jacobian 的解析表达式，但已知其非零结构，则可以使用图着色方法，将 Jacobian 的列按稀疏结构进行分组，并通过有限差分在一次残差计算中同时更新多列，从而高效地构建 Jacobian 的数值近似。</p>
+<p>与 JFNK 不同，图着色方法的目标仍然是<strong>构建一个显式 Jacobian 矩阵</strong>，只是采用数值方式完成装配，并尽可能减少残差评估的次数。最朴素的有限差分 Jacobian 装配方法需要对每一个自由度分别扰动一次，即需要 $O(n)$ 次 <code>FormFunction</code> 调用，这在大规模问题中代价很高。图着色方法利用 Jacobian 的稀疏结构，将列按照<strong>在同一行上不同时非零</strong>的原则分组，同一组中的列可以同时扰动，从而在一次残差计算中更新多列。</p>
+<p>在 PETSc 中，这一机制由 FD coloring 实现；在 petsc4py 中，可以通过以下方式启用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">snes.setUseFD(<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># or use `-snes_fd_color`</span></span><br></pre></td></tr></table></figure>
+
+<p>在这种模式下，用户通常只需要提供 <code>FormFunction</code>，并为 Jacobian 准备一个<strong>预分配好非零结构的稀疏矩阵容器</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snes.setJacobian(<span class="literal">None</span>, J=J, P=J)</span><br></pre></td></tr></table></figure>
+
+<p>SNES 会根据矩阵的非零结构自动生成着色方案，并使用有限差分填充 Jacobian。需要注意的是，图着色方法对 Jacobian 的稀疏结构假设是强依赖的。如果矩阵的预分配结构与真实 Jacobian 不匹配，可能导致装配效率低下，甚至得到错误的数值结果。</p>
+<h2 id="Poisson-equation"><a href="#Poisson-equation" class="headerlink" title="Poisson equation"></a>Poisson equation</h2><p>下面考虑在一个2D正方形$[0,1]\times [0,1]$上求解泊松方程：<br>$$<br>-\nabla^2 u&#x3D;f<br>$$<br>边界条件设置为$u|_{\partial \Omega}&#x3D;0$，分别用下面三种方法求解：</p>
+<ul>
+<li><strong>解析 Jacobian</strong>：人工装配 $J&#x3D;A$（稀疏五点格式）</li>
+<li><strong>JFNK（matrix-free）</strong>：SNES 用有限差分计算 $Jv$，但仍然装配一个稀疏矩阵 $P$ 给 PC 做预处理</li>
+<li><strong>图着色 + 有限差分 Jacobian</strong>：不给解析 Jacobian，让 PETSc 用 FD + coloring 去装配显式 $J$</li>
+</ul>
+<p>其中，构造了人造解 $u(x,y)&#x3D;\sin(\pi x)\cdot \sin(\pi y)$，满足：<br>$$<br>f(x,y)&#x3D;2\pi^2 \cdot \sin(\pi x) \cdot \sin(\pi y)<br>$$<br>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">SNES_REASONS = &#123;</span><br><span class="line">    v: k <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="built_in">vars</span>(PETSc.SNES.ConvergedReason).items()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(v, <span class="built_in">int</span>)</span><br><span class="line">&#125;</span><br><span class="line">comm = PETSc.COMM_WORLD</span><br><span class="line">opt = PETSc.Options()</span><br><span class="line"></span><br><span class="line">jac_type = opt.getString(<span class="string">&quot;jac_type&quot;</span>, <span class="string">&quot;analytic&quot;</span>)</span><br><span class="line">nx = opt.getInt(<span class="string">&quot;nx&quot;</span>, <span class="number">50</span>)</span><br><span class="line">ny = opt.getInt(<span class="string">&quot;ny&quot;</span>, <span class="number">50</span>)</span><br><span class="line">N = nx * ny</span><br><span class="line">hx = <span class="number">1.0</span> / (nx - <span class="number">1</span>)</span><br><span class="line">hy = <span class="number">1.0</span> / (ny - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_coords</span>(<span class="params">row, nx</span>): <span class="keyword">return</span> row % nx, row // nx</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exact_u</span>(<span class="params">x, y</span>): <span class="keyword">return</span> np.sin(np.pi * x) * np.sin(np.pi * y)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rhs_f</span>(<span class="params">x, y</span>): <span class="keyword">return</span> <span class="number">2.0</span> * (np.pi**<span class="number">2</span>) * np.sin(np.pi * x) * np.sin(np.pi * y)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">form_function</span>(<span class="params">snes, X, F</span>):</span><br><span class="line">    <span class="comment"># compute F = A*X - R</span></span><br><span class="line">    ctx = snes.getApplicationContext()</span><br><span class="line">    A, R = ctx[<span class="string">&quot;A&quot;</span>], ctx[<span class="string">&quot;R&quot;</span>]</span><br><span class="line">    A.mult(X, F)      <span class="comment"># F = A * X</span></span><br><span class="line">    F.axpy(-<span class="number">1.0</span>, R)   <span class="comment"># F = F - R</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">form_jacobian</span>(<span class="params">snes, X, J, P</span>):</span><br><span class="line">    <span class="comment"># compute J and P (P=J)</span></span><br><span class="line">    ctx = snes.getApplicationContext()</span><br><span class="line">    A = ctx[<span class="string">&quot;A&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># copy A to P</span></span><br><span class="line">    <span class="keyword">if</span> P.handle != A.handle:</span><br><span class="line">        A.copy(P, structure=PETSc.Mat.Structure.SAME_NONZERO_PATTERN)</span><br><span class="line">        P.assemble()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># copy A to J</span></span><br><span class="line">    <span class="keyword">if</span> J.handle != P.handle <span class="keyword">and</span> J.handle != A.handle:</span><br><span class="line">        <span class="keyword">if</span> J.getType() != <span class="string">&quot;mffd&quot;</span>: <span class="comment"># JFNK</span></span><br><span class="line">            A.copy(J, structure=PETSc.Mat.Structure.SAME_NONZERO_PATTERN)</span><br><span class="line">        J.assemble()</span><br><span class="line"></span><br><span class="line"><span class="comment"># create matrix A</span></span><br><span class="line">A = PETSc.Mat().createAIJ(size=(N, N), comm=comm)</span><br><span class="line">A.setFromOptions()</span><br><span class="line">A.setPreallocationNNZ(<span class="number">5</span>) <span class="comment"># 5-point stencil</span></span><br><span class="line">A.setUp()</span><br><span class="line"></span><br><span class="line">rstart, rend = A.getOwnershipRange()</span><br><span class="line">cstart, cend = A.getOwnershipRangeColumn()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(rstart, rend):</span><br><span class="line">    i, j = get_coords(row, nx)</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">or</span> j == <span class="number">0</span> <span class="keyword">or</span> i == nx - <span class="number">1</span> <span class="keyword">or</span> j == ny - <span class="number">1</span>:</span><br><span class="line">        A.setValue(row, row, <span class="number">1.0</span>) <span class="comment"># Dirichlet boundary, u=0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># -Δu discretization</span></span><br><span class="line">        inv_hx2 = <span class="number">1.0</span> / (hx**<span class="number">2</span>)</span><br><span class="line">        inv_hy2 = <span class="number">1.0</span> / (hy**<span class="number">2</span>)</span><br><span class="line">        diag_val = <span class="number">2.0</span> * (inv_hx2 + inv_hy2)</span><br><span class="line">        A.setValues(row, [row,      row-<span class="number">1</span>,    row+<span class="number">1</span>,    row-nx,   row+nx], </span><br><span class="line">                         [diag_val, -inv_hx2, -inv_hx2, -inv_hy2, -inv_hy2])</span><br><span class="line">A.assemble()</span><br><span class="line"></span><br><span class="line"><span class="comment"># create rhs `R`</span></span><br><span class="line">R = A.createVecLeft() <span class="comment"># F(X) = A*X - R</span></span><br><span class="line"><span class="keyword">with</span> R <span class="keyword">as</span> r_arr:</span><br><span class="line">    <span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(rstart, rend):</span><br><span class="line">        i, j = get_coords(row, nx)</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">or</span> j == <span class="number">0</span> <span class="keyword">or</span> i == nx - <span class="number">1</span> <span class="keyword">or</span> j == ny - <span class="number">1</span>:</span><br><span class="line">            r_arr[row - rstart] = <span class="number">0.0</span> <span class="comment"># u = 0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r_arr[row - rstart] = rhs_f(i * hx, j * hy)</span><br><span class="line">R.assemble()</span><br><span class="line"></span><br><span class="line"><span class="comment"># create SNES solver</span></span><br><span class="line">snes = PETSc.SNES().create(comm=comm)</span><br><span class="line">snes.setApplicationContext(&#123;<span class="string">&quot;A&quot;</span>: A, <span class="string">&quot;R&quot;</span>: R&#125;)</span><br><span class="line"></span><br><span class="line">F = A.createVecLeft() <span class="comment"># F(X) = A*X - R</span></span><br><span class="line">J = A.copy()</span><br><span class="line">P = A.copy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># setup SNES: form_function, form_jacobian, options</span></span><br><span class="line">snes.setFunction(form_function, F)</span><br><span class="line"><span class="keyword">if</span> jac_type == <span class="string">&quot;analytic&quot;</span>:</span><br><span class="line">    snes.setJacobian(form_jacobian, J, P)</span><br><span class="line"><span class="keyword">elif</span> jac_type == <span class="string">&quot;jfnk&quot;</span>:</span><br><span class="line">    snes.setUseMF(<span class="literal">True</span>) <span class="comment"># -snes_mf</span></span><br><span class="line">    snes.setJacobian(form_jacobian, J, P)</span><br><span class="line"><span class="keyword">elif</span> jac_type == <span class="string">&quot;color&quot;</span>:</span><br><span class="line">    snes.setUseFD(<span class="literal">True</span>)  <span class="comment"># -snes_fd_color</span></span><br><span class="line">    J.zeroEntries()</span><br><span class="line">    snes.setJacobian(<span class="literal">None</span>, J) <span class="comment"># let P=J</span></span><br><span class="line"><span class="keyword">else</span>: <span class="keyword">raise</span> ValueError(<span class="string">f&quot;Unknown <span class="subst">&#123;jac_type=&#125;</span>&quot;</span>)</span><br><span class="line">snes.setFromOptions()</span><br><span class="line"></span><br><span class="line"><span class="comment"># solve F(X)=0</span></span><br><span class="line">X = A.createVecRight() <span class="comment"># F(X) = A*X - R</span></span><br><span class="line">X.<span class="built_in">set</span>(<span class="number">0.0</span>)</span><br><span class="line">snes.solve(<span class="literal">None</span>, X) <span class="comment"># `None` stands for `0` in `F(X)=0`</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> jac_type == <span class="string">&quot;color&quot;</span>:</span><br><span class="line">    <span class="comment"># output the coloring info</span></span><br><span class="line">    func_calls = snes.getFunctionEvaluations()</span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;SNES form_function calls = <span class="subst">&#123;func_calls&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="comment"># or use `-mat_coloring_view` to see the coloring info</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># compute exact solution</span></span><br><span class="line">U_ex = A.createVecRight()</span><br><span class="line"><span class="keyword">with</span> U_ex <span class="keyword">as</span> ue_arr:</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(cstart, cend):</span><br><span class="line">        i, j = get_coords(col, nx)</span><br><span class="line">        ue_arr[col - cstart] = exact_u(i * hx, j * hy)</span><br><span class="line">U_ex.assemble()</span><br><span class="line"></span><br><span class="line">X.viewFromOptions(<span class="string">&quot;-vec_view&quot;</span>)          <span class="comment"># -vec_view binary:result_analytic.bin</span></span><br><span class="line">U_ex.viewFromOptions(<span class="string">&quot;-vec_view_exact&quot;</span>) <span class="comment"># -vec_view_exact binary:result_exact.bin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># error analysis</span></span><br><span class="line">E = X.copy()</span><br><span class="line">E.axpy(-<span class="number">1.0</span>, U_ex) <span class="comment"># E = X - U_ex</span></span><br><span class="line"></span><br><span class="line">err_2 = E.norm(PETSc.NormType.NORM_2)</span><br><span class="line">err_inf = E.norm(PETSc.NormType.NORM_INFINITY)</span><br><span class="line">reason = SNES_REASONS[snes.getConvergedReason()]</span><br><span class="line">iters = snes.getIterationNumber()</span><br><span class="line">norm = snes.getFunctionNorm()</span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;SNES done: \t<span class="subst">&#123;reason&#125;</span>\n&quot;</span></span><br><span class="line">                <span class="string">f&quot;  iters   =\t<span class="subst">&#123;iters&#125;</span>\n&quot;</span></span><br><span class="line">                <span class="string">f&quot;  |F|     =\t<span class="subst">&#123;norm:<span class="number">.2</span>e&#125;</span>\n&quot;</span></span><br><span class="line">                <span class="string">f&quot;  |e|_2   =\t<span class="subst">&#123;err_2:<span class="number">.2</span>e&#125;</span>\n&quot;</span></span><br><span class="line">                <span class="string">f&quot;  |e|_inf =\t<span class="subst">&#123;err_inf:<span class="number">.2</span>e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>对于显式Jacobian, 使用下面方式运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mpirun -n 4 python test.py \</span><br><span class="line">  -nx 100 -ny 100 -jac_type analytic \</span><br><span class="line">  -snes_type newtonls -snes_converged_reason -snes_monitor \</span><br><span class="line">  -ksp_type cg -pc_type jacobi</span><br></pre></td></tr></table></figure>
+
+<p>对于JFNK, 使用下面方式运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mpirun -n 4 python test.py \</span><br><span class="line">  -nx 100 -ny 100 -jac_type jfnk \</span><br><span class="line">  -snes_type newtonls -snes_converged_reason -snes_monitor \</span><br><span class="line">  -ksp_type cg -pc_type jacobi -ksp_monitor</span><br></pre></td></tr></table></figure>
+
+<p>对于图着色（FD coloring 装配 Jacobian），使用下面方式运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mpirun -n 4 python test.py \</span><br><span class="line">  -nx 100 -ny 100 -jac_type color \</span><br><span class="line">  -snes_type newtonls -snes_converged_reason -snes_monitor \</span><br><span class="line">  -ksp_type cg -pc_type jacobi -ksp_monitor</span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-04-KSPandPC/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-06-TS/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

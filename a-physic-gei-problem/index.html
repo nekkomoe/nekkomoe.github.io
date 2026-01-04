@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>一道物理给题 | nekko</title>
+  <title>一道物理给题 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,18 +15,18 @@
     <meta name="keywords" content="数学,微积分," />
   
 
-  <meta name="description" content="题目描述设一物体在无限高的地方以初速度为 $0$ 掉落，仅受到重力 $G&#x3D;mg$，以及 zrq理想空气 阻力 $F&#x3D;kv^2$ 有若干次询问，每次给定 $t$，求在 $t$ 时刻该物体的速度和位移 最后一行输出该物体可能达到的最大速度 题解先证明一个引理： $$\begin{aligned} &amp; \int \frac{dx}{a-bx^2} \\&#x3D;&amp; \frac{1}{2\sqrt">
+  <meta name="description" content="题目描述设一物体在无限高的地方以初速度为 $0$ 掉落，仅受到重力 $G&#x3D;mg$，以及 zrq理想空气 阻力 $F&#x3D;kv^2$ 有若干次询问，每次给定 $t$，求在 $t$ 时刻该物体的速度和位移 最后一行输出该物体可能达到的最大速度 题解先证明一个引理： $$\begin{aligned} &amp; \int \frac{dx}{a-bx^2} \\&#x3D;&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一道物理给题">
 <meta property="og:url" content="https://nekko.moe/a-physic-gei-problem/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="题目描述设一物体在无限高的地方以初速度为 $0$ 掉落，仅受到重力 $G&#x3D;mg$，以及 zrq理想空气 阻力 $F&#x3D;kv^2$ 有若干次询问，每次给定 $t$，求在 $t$ 时刻该物体的速度和位移 最后一行输出该物体可能达到的最大速度 题解先证明一个引理： $$\begin{aligned} &amp; \int \frac{dx}{a-bx^2} \\&#x3D;&amp; \frac{1}{2\sqrt">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="题目描述设一物体在无限高的地方以初速度为 $0$ 掉落，仅受到重力 $G&#x3D;mg$，以及 zrq理想空气 阻力 $F&#x3D;kv^2$ 有若干次询问，每次给定 $t$，求在 $t$ 时刻该物体的速度和位移 最后一行输出该物体可能达到的最大速度 题解先证明一个引理： $$\begin{aligned} &amp; \int \frac{dx}{a-bx^2} \\&#x3D;&amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-03-22T04:10:25.000Z">
-<meta property="article:modified_time" content="2019-03-22T04:11:21.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="数学">
+<meta property="article:published_time" content="2019-03-22T16:10:25.000Z">
+<meta property="article:modified_time" content="2019-03-22T04:11:22.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="微积分">
+<meta property="article:tag" content="数学">
 <meta name="twitter:card" content="summary">
 
   
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -185,27 +189,27 @@
 
   <div class="article-content">
     
-      <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>设一物体在无限高的地方以初速度为 $0$ 掉落，仅受到重力 $G=mg$，以及 <code>zrq理想空气</code> 阻力 $F=kv^2$</p>
+      <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>设一物体在无限高的地方以初速度为 $0$ 掉落，仅受到重力 $G&#x3D;mg$，以及 <code>zrq理想空气</code> 阻力 $F&#x3D;kv^2$</p>
 <p>有若干次询问，每次给定 $t$，求在 $t$ 时刻该物体的速度和位移</p>
 <p>最后一行输出该物体可能达到的最大速度</p>
 <h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>先证明一个引理：</p>
-<p>$$<br>\begin{aligned}<br> &amp; \int \frac{dx}{a-bx^2} \\<br>=&amp; \frac{1}{2\sqrt a}\int \left(\frac{dx}{\sqrt a-\sqrt bx} + \frac{dx}{\sqrt a+\sqrt bx}\right) \\<br>=&amp; \frac{1}{2\sqrt a} \left(\frac{1}{-\sqrt b}\ln |\sqrt a-\sqrt bx|+\frac{1}{\sqrt b} \ln |\sqrt a + \sqrt bx| \right)<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br> &amp; \int \frac{dx}{a-bx^2} \\<br>&#x3D;&amp; \frac{1}{2\sqrt a}\int \left(\frac{dx}{\sqrt a-\sqrt bx} + \frac{dx}{\sqrt a+\sqrt bx}\right) \\<br>&#x3D;&amp; \frac{1}{2\sqrt a} \left(\frac{1}{-\sqrt b}\ln |\sqrt a-\sqrt bx|+\frac{1}{\sqrt b} \ln |\sqrt a + \sqrt bx| \right)<br>\end{aligned}<br>$$</p>
 <p>然后有：</p>
-<p>$$<br>\begin{aligned}<br>&amp; ma=mg-kv^2 \\<br>\Rightarrow<br>&amp; \frac{mdv}{dt}=mg-kv^2 \\<br>\Rightarrow<br>&amp; \frac{mdv}{mg-kv^2}=dt \\<br>\Rightarrow<br>&amp; m\int \frac{dv}{mg-kv^2} =C+t \\<br>\Rightarrow<br>&amp; m \frac{\ln(\sqrt{mg}+\sqrt{k}v) - \ln(\sqrt{mg}-\sqrt{k}v)}{2\sqrt{mgk}}=C+t \\<br>\Rightarrow<br>&amp; \ln(\sqrt{mg}+\sqrt{k}v) - \ln(\sqrt{mg}-\sqrt{k}v)=\frac{2\sqrt{mgk}(C+t)}{m} \\<br>\Rightarrow<br>&amp; \frac{\sqrt{mg}+\sqrt{k}v}{\sqrt{mg}-\sqrt{k}v}=e^{\frac{2\sqrt{mgk}(C+t)}{m}} \\<br>\Rightarrow<br>&amp; \sqrt{mg}+\sqrt{k}v=e^{\frac{2\sqrt{mgk}(C+t)}{m}}(\sqrt{mg}-\sqrt{k}v) \\<br>\Rightarrow<br>&amp; v=\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}(C+t)}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}(C+t)}{m}}+1\right)}<br>\end{aligned}<br>$$</p>
-<p>由于 $t=0$ 时，有 $v=0$，于是：</p>
-<p>$$<br>\begin{aligned}<br>&amp; 0=\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}C}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}C}{m}}+1\right)} \\<br>\Rightarrow<br>&amp; 1=e^{\frac{2\sqrt{mgk}C}{m}} \\<br>\Rightarrow<br>&amp; 0=\frac{2\sqrt{mgk}C}{m} \\<br>\Rightarrow<br>&amp; C=0<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>&amp; ma&#x3D;mg-kv^2 \\<br>\Rightarrow<br>&amp; \frac{mdv}{dt}&#x3D;mg-kv^2 \\<br>\Rightarrow<br>&amp; \frac{mdv}{mg-kv^2}&#x3D;dt \\<br>\Rightarrow<br>&amp; m\int \frac{dv}{mg-kv^2} &#x3D;C+t \\<br>\Rightarrow<br>&amp; m \frac{\ln(\sqrt{mg}+\sqrt{k}v) - \ln(\sqrt{mg}-\sqrt{k}v)}{2\sqrt{mgk}}&#x3D;C+t \\<br>\Rightarrow<br>&amp; \ln(\sqrt{mg}+\sqrt{k}v) - \ln(\sqrt{mg}-\sqrt{k}v)&#x3D;\frac{2\sqrt{mgk}(C+t)}{m} \\<br>\Rightarrow<br>&amp; \frac{\sqrt{mg}+\sqrt{k}v}{\sqrt{mg}-\sqrt{k}v}&#x3D;e^{\frac{2\sqrt{mgk}(C+t)}{m}} \\<br>\Rightarrow<br>&amp; \sqrt{mg}+\sqrt{k}v&#x3D;e^{\frac{2\sqrt{mgk}(C+t)}{m}}(\sqrt{mg}-\sqrt{k}v) \\<br>\Rightarrow<br>&amp; v&#x3D;\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}(C+t)}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}(C+t)}{m}}+1\right)}<br>\end{aligned}<br>$$</p>
+<p>由于 $t&#x3D;0$ 时，有 $v&#x3D;0$，于是：</p>
+<p>$$<br>\begin{aligned}<br>&amp; 0&#x3D;\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}C}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}C}{m}}+1\right)} \\<br>\Rightarrow<br>&amp; 1&#x3D;e^{\frac{2\sqrt{mgk}C}{m}} \\<br>\Rightarrow<br>&amp; 0&#x3D;\frac{2\sqrt{mgk}C}{m} \\<br>\Rightarrow<br>&amp; C&#x3D;0<br>\end{aligned}<br>$$</p>
 <p>因此：</p>
-<p>$$<br>v=\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)}<br>$$</p>
+<p>$$<br>v&#x3D;\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)}<br>$$</p>
 <p>同时有：</p>
-<p>$$<br>\begin{aligned}<br>v_{\max}<br>=&amp; \lim_{t \to \infty}\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)} \\<br>=&amp; \sqrt \frac{mg}{k}\lim_{t \to \infty}\frac{2\sqrt{mgk}e^{\frac{2\sqrt{mgk}t}{m}}}{2\sqrt{mgk}e^{\frac{2\sqrt{mgk}t}{m}}} \\<br>=&amp;\sqrt \frac{mg}{k}<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>v_{\max}<br>&#x3D;&amp; \lim_{t \to \infty}\frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)} \\<br>&#x3D;&amp; \sqrt \frac{mg}{k}\lim_{t \to \infty}\frac{2\sqrt{mgk}e^{\frac{2\sqrt{mgk}t}{m}}}{2\sqrt{mgk}e^{\frac{2\sqrt{mgk}t}{m}}} \\<br>&#x3D;&amp;\sqrt \frac{mg}{k}<br>\end{aligned}<br>$$</p>
 <p>还要证明另一个引理：</p>
-<p>$$<br>\int \frac{e^x-1}{e^{x}+1}dx=2 \ln(e^x+1)-x<br>$$</p>
+<p>$$<br>\int \frac{e^x-1}{e^{x}+1}dx&#x3D;2 \ln(e^x+1)-x<br>$$</p>
 <p>因为有：</p>
-<p>$$<br>v=\frac{dx}{dt}<br>$$</p>
+<p>$$<br>v&#x3D;\frac{dx}{dt}<br>$$</p>
 <p>于是：</p>
-<p>$$<br>\begin{aligned}<br>&amp; \frac{dx}{dt} = \frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)} \\<br>\Rightarrow<br>&amp; x=C+\int \frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)} dt \\<br>\Rightarrow<br>&amp; x=C+\sqrt \frac{mg}{k} \frac{2 \ln (e^{2\sqrt{mgk}t}+1)-2\sqrt{mgk}t}{2\sqrt{mgk}} \\<br>\Rightarrow<br>&amp; x= C+\frac{\ln(e^{2\sqrt{mgk}t}+1)-\sqrt{mgk}t}{k}\\<br>\end{aligned}<br>$$</p>
-<p>显然 $C=-\frac{\ln 2}{k}$，所以：</p>
-<p>$$<br>x= \frac{\ln(e^{2\sqrt{mgk}t}+1)-\sqrt{mgk}t}{k}-\frac{\ln 2}{k}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>&amp; \frac{dx}{dt} &#x3D; \frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)} \\<br>\Rightarrow<br>&amp; x&#x3D;C+\int \frac{\sqrt{mg}\left(e^{\frac{2\sqrt{mgk}t}{m}}-1\right)}{\sqrt k\left(e^{\frac{2\sqrt{mgk}t}{m}}+1\right)} dt \\<br>\Rightarrow<br>&amp; x&#x3D;C+\sqrt \frac{mg}{k} \frac{2 \ln (e^{2\sqrt{mgk}t}+1)-2\sqrt{mgk}t}{2\sqrt{mgk}} \\<br>\Rightarrow<br>&amp; x&#x3D; C+\frac{\ln(e^{2\sqrt{mgk}t}+1)-\sqrt{mgk}t}{k}\\<br>\end{aligned}<br>$$</p>
+<p>显然 $C&#x3D;-\frac{\ln 2}{k}$，所以：</p>
+<p>$$<br>x&#x3D; \frac{\ln(e^{2\sqrt{mgk}t}+1)-\sqrt{mgk}t}{k}-\frac{\ln 2}{k}<br>$$</p>
 
     
   </div>
@@ -231,25 +235,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -467,6 +452,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

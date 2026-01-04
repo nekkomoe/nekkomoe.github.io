@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>量子物理笔记 - 12：定值态 | nekko</title>
+  <title>量子物理笔记 - 12：定值态 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="量子力学,原子物理,线性代数," />
   
 
-  <meta name="description" content="若可观测量 $Q$ 在每次测量时，其结果不变，则此时系综的态为可观测量 $Q$ 的定值态，并且 $Q$ 的方差为 $0$，即：$$\begin{aligned}\sigma^2&amp;&#x3D;\langle (\hat{Q}-\langle Q \rangle)^2 \rangle \\&amp;&#x3D;\langle \Psi | (\hat{Q}-\langle Q \rangle)^2 \Psi \r">
+  <meta name="description" content="若可观测量 $Q$ 在每次测量时，其结果不变，则此时系综的态为可观测量 $Q$ 的定值态，并且 $Q$ 的方差为 $0$，即：$$\begin{aligned}\sigma^2&amp;&#x3D;\langle (\hat{Q}-\langle Q \rangle)^2 \rangle \\&amp;&#x3D;\langle \Psi | (\hat{Q}-\langle Q \rangle)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="量子物理笔记 - 12：定值态">
 <meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%2012%EF%BC%9A%E5%AE%9A%E5%80%BC%E6%80%81/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="若可观测量 $Q$ 在每次测量时，其结果不变，则此时系综的态为可观测量 $Q$ 的定值态，并且 $Q$ 的方差为 $0$，即：$$\begin{aligned}\sigma^2&amp;&#x3D;\langle (\hat{Q}-\langle Q \rangle)^2 \rangle \\&amp;&#x3D;\langle \Psi | (\hat{Q}-\langle Q \rangle)^2 \Psi \r">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="若可观测量 $Q$ 在每次测量时，其结果不变，则此时系综的态为可观测量 $Q$ 的定值态，并且 $Q$ 的方差为 $0$，即：$$\begin{aligned}\sigma^2&amp;&#x3D;\langle (\hat{Q}-\langle Q \rangle)^2 \rangle \\&amp;&#x3D;\langle \Psi | (\hat{Q}-\langle Q \rangle)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-16T00:00:12.000Z">
-<meta property="article:modified_time" content="2023-01-16T06:41:07.800Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="量子力学">
+<meta property="article:published_time" content="2023-01-16T13:00:12.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:41:08.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="原子物理">
 <meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="量子力学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,11 +190,11 @@
 
   <div class="article-content">
     
-      <p>若可观测量 $Q$ 在每次测量时，其结果不变，则此时系综的态为可观测量 $Q$ 的定值态，并且 $Q$ 的方差为 $0$，即：<br>$$<br>\begin{aligned}<br>\sigma^2<br>&amp;=\langle (\hat{Q}-\langle Q \rangle)^2 \rangle \\<br>&amp;=\langle \Psi | (\hat{Q}-\langle Q \rangle)^2 \Psi \rangle, \quad (\hat{Q}-\langle Q \rangle)^\dagger=\hat{Q}-\langle Q \rangle \\<br>&amp;=\langle (\hat{Q}-\langle Q \rangle)\Psi|(\hat{Q}-\langle Q \rangle)\Psi \rangle \\<br>&amp;=0<br>\end{aligned}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>&amp; (\hat{Q}-\langle Q \rangle)\Psi=0 \\<br>\Rightarrow<br>&amp; \hat{Q}\Psi=\langle Q \rangle \Psi<br>\end{aligned}<br>$$<br>总能量的定值态是算符 $\hat{H}$ 的本征函数，即定态薛定谔方程：<br>$$<br>\hat{H}\psi=E\psi, \quad E=\langle H \rangle<br>$$<br>分立谱往往对应着可归一化的波函数，连续谱对应着不可归一化的波函数，下面分别考虑分立谱和连续谱的性质。</p>
+      <p>若可观测量 $Q$ 在每次测量时，其结果不变，则此时系综的态为可观测量 $Q$ 的定值态，并且 $Q$ 的方差为 $0$，即：<br>$$<br>\begin{aligned}<br>\sigma^2<br>&amp;&#x3D;\langle (\hat{Q}-\langle Q \rangle)^2 \rangle \\<br>&amp;&#x3D;\langle \Psi | (\hat{Q}-\langle Q \rangle)^2 \Psi \rangle, \quad (\hat{Q}-\langle Q \rangle)^\dagger&#x3D;\hat{Q}-\langle Q \rangle \\<br>&amp;&#x3D;\langle (\hat{Q}-\langle Q \rangle)\Psi|(\hat{Q}-\langle Q \rangle)\Psi \rangle \\<br>&amp;&#x3D;0<br>\end{aligned}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>&amp; (\hat{Q}-\langle Q \rangle)\Psi&#x3D;0 \\<br>\Rightarrow<br>&amp; \hat{Q}\Psi&#x3D;\langle Q \rangle \Psi<br>\end{aligned}<br>$$<br>总能量的定值态是算符 $\hat{H}$ 的本征函数，即定态薛定谔方程：<br>$$<br>\hat{H}\psi&#x3D;E\psi, \quad E&#x3D;\langle H \rangle<br>$$<br>分立谱往往对应着可归一化的波函数，连续谱对应着不可归一化的波函数，下面分别考虑分立谱和连续谱的性质。</p>
 <h2 id="分立谱"><a href="#分立谱" class="headerlink" title="分立谱"></a>分立谱</h2><p>Hermition 算符可归一化的本征函数（定值态）有性质：</p>
-<p>（1）本征值是实数。<br>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>\hat{Q} f=qf \\<br>\langle f|\hat{Q}f \rangle=\langle\hat{Q}f|f\rangle<br>\end{cases} \\<br>\Rightarrow<br>&amp; \langle f|\hat{Q}f \rangle<br>=\langle f| q f \rangle<br>=q\langle f|f \rangle<br>=\langle\hat{Q}f|f\rangle<br>=\langle q f|f\rangle<br>=q^* \langle f|f\rangle \\<br>\Rightarrow<br>&amp;q=q^*  \\<br>\Rightarrow<br>&amp; q\in\mathbb{R}<br>\end{aligned}<br>$$<br>（2）属于不同本征值的本征函数是正交的。<br>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>\hat{Q} f=q_1f \\<br>\hat{Q} g=q_2g<br>\end{cases} \\<br>\Rightarrow<br>&amp; \langle f|\hat{Q} g\rangle=\langle \hat{Q} f|g\rangle \\<br>\Rightarrow<br>&amp; \langle f|q_2 g\rangle=\langle q_1 f|g\rangle, \quad q_1 \in \mathbb{R} \\<br>\Rightarrow<br>&amp; q_2\langle f|g\rangle=q_1\langle f|g\rangle, \quad q_1 \ne q_2 \\<br>\Rightarrow<br>&amp; \langle f|g\rangle=0<br>\end{aligned}<br>$$<br>可以看到，不同能量的定态薛定谔方程的解是相互正交的。</p>
+<p>（1）本征值是实数。<br>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>\hat{Q} f&#x3D;qf \\<br>\langle f|\hat{Q}f \rangle&#x3D;\langle\hat{Q}f|f\rangle<br>\end{cases} \\<br>\Rightarrow<br>&amp; \langle f|\hat{Q}f \rangle<br>&#x3D;\langle f| q f \rangle<br>&#x3D;q\langle f|f \rangle<br>&#x3D;\langle\hat{Q}f|f\rangle<br>&#x3D;\langle q f|f\rangle<br>&#x3D;q^* \langle f|f\rangle \\<br>\Rightarrow<br>&amp;q&#x3D;q^*  \\<br>\Rightarrow<br>&amp; q\in\mathbb{R}<br>\end{aligned}<br>$$<br>（2）属于不同本征值的本征函数是正交的。<br>$$<br>\begin{aligned}<br>&amp;\begin{cases}<br>\hat{Q} f&#x3D;q_1f \\<br>\hat{Q} g&#x3D;q_2g<br>\end{cases} \\<br>\Rightarrow<br>&amp; \langle f|\hat{Q} g\rangle&#x3D;\langle \hat{Q} f|g\rangle \\<br>\Rightarrow<br>&amp; \langle f|q_2 g\rangle&#x3D;\langle q_1 f|g\rangle, \quad q_1 \in \mathbb{R} \\<br>\Rightarrow<br>&amp; q_2\langle f|g\rangle&#x3D;q_1\langle f|g\rangle, \quad q_1 \ne q_2 \\<br>\Rightarrow<br>&amp; \langle f|g\rangle&#x3D;0<br>\end{aligned}<br>$$<br>可以看到，不同能量的定态薛定谔方程的解是相互正交的。</p>
 <p>（3）可观测量算符的本征函数是完备的，Hilbert 空间中的任何函数都可以用它们的线性迭加来表达。</p>
-<h2 id="连续谱"><a href="#连续谱" class="headerlink" title="连续谱"></a>连续谱</h2><p>考虑动量算符 $\hat{p}$ 的本征值 $p$ 和本征函数 $f_p$，即：<br>$$<br>\begin{aligned}<br>&amp; -i\hbar \nabla f_p(x)=pf_p(x) \\<br>\Rightarrow<br>&amp; f_p(x)=Ae^{\frac{ipx}{\hbar}}<br>\end{aligned}<br>$$<br>若 $p \in \mathbb{C}/\mathbb{R}$，则 $f_p \not\in L^2$，因此只能限定 $p\in \mathbb{R}$，此时对于特征值 $p_1,p_2$，有：<br>$$<br>\begin{aligned}<br>\langle f_1|f_2 \rangle<br>&amp;=\int_{-\infty}^{\infty} A^* e^{-ip_1x/\hbar}Ae^{ip_2x/\hbar}dx \\<br>&amp;=|A|^2\int_{-\infty}^{\infty} \exp \left(\frac{i(p_2-p_1)x}{\hbar}\right) dx \\<br>&amp;=|A|^2 2\pi\hbar \delta(p_2-p_1) \\<br>&amp;=\delta(p_2-p_1)<br>\end{aligned}<br>$$<br>可得：<br>$$<br>\begin{aligned}<br>&amp; A=\frac{1}{\sqrt{2\pi\hbar}} \\<br>&amp; f_p(x)=\frac{1}{\sqrt{2\pi \hbar}}e^{\frac{ipx}{\hbar}}<br>\end{aligned}<br>$$<br>即：<br>$$<br>\begin{aligned}<br>&amp; f(x)=\frac{1}{\sqrt{2\pi\hbar}}\int_{-\infty}^{\infty}c(p)e^{\frac{ipx}{\hbar}}dp \\<br>&amp; \langle f_{p’}|f \rangle=\int_{-\infty}^{\infty}c(p)\langle f_{p’}|f_p \rangle dp=\int_{-\infty}^{\infty} c(p)\delta(p-p’)dp=c(p’)<br>\end{aligned}<br>$$<br>对于坐标算符 $\hat{x}$，设其本征函数为 $g_y(x)$，特征值 $y$，则：<br>$$<br>xg_y(x)=yg_y(x) \Rightarrow g_y(x)=A\delta(x-y)<br>$$<br>本征函数平方不可积，但可正交归一化：<br>$$<br>\begin{aligned}<br>\langle g_1|g_2 \rangle<br>&amp;=\int_{-\infty}^{\infty} A^* \delta(x-y_1)A\delta(x-y_2)dx \\<br>&amp;=|A|^2\int_{-\infty}^{\infty} \delta(x-y_1)\delta(x-y_2) dx \\<br>&amp;=|A|^2 \delta(y_1-y_2) \\<br>&amp;=\delta(y_2-y_1)<br>\end{aligned}<br>$$<br>可得：<br>$$<br>\begin{aligned}<br>&amp; A=1 \\<br>&amp; g_y(x)=\delta(x-y)<br>\end{aligned}<br>$$<br>即：<br>$$<br>g(x)=\int_{-\infty}^{\infty}c(y)\delta(x-y)dy=c(x)<br>$$</p>
+<h2 id="连续谱"><a href="#连续谱" class="headerlink" title="连续谱"></a>连续谱</h2><p>考虑动量算符 $\hat{p}$ 的本征值 $p$ 和本征函数 $f_p$，即：<br>$$<br>\begin{aligned}<br>&amp; -i\hbar \nabla f_p(x)&#x3D;pf_p(x) \\<br>\Rightarrow<br>&amp; f_p(x)&#x3D;Ae^{\frac{ipx}{\hbar}}<br>\end{aligned}<br>$$<br>若 $p \in \mathbb{C}&#x2F;\mathbb{R}$，则 $f_p \not\in L^2$，因此只能限定 $p\in \mathbb{R}$，此时对于特征值 $p_1,p_2$，有：<br>$$<br>\begin{aligned}<br>\langle f_1|f_2 \rangle<br>&amp;&#x3D;\int_{-\infty}^{\infty} A^* e^{-ip_1x&#x2F;\hbar}Ae^{ip_2x&#x2F;\hbar}dx \\<br>&amp;&#x3D;|A|^2\int_{-\infty}^{\infty} \exp \left(\frac{i(p_2-p_1)x}{\hbar}\right) dx \\<br>&amp;&#x3D;|A|^2 2\pi\hbar \delta(p_2-p_1) \\<br>&amp;&#x3D;\delta(p_2-p_1)<br>\end{aligned}<br>$$<br>可得：<br>$$<br>\begin{aligned}<br>&amp; A&#x3D;\frac{1}{\sqrt{2\pi\hbar}} \\<br>&amp; f_p(x)&#x3D;\frac{1}{\sqrt{2\pi \hbar}}e^{\frac{ipx}{\hbar}}<br>\end{aligned}<br>$$<br>即：<br>$$<br>\begin{aligned}<br>&amp; f(x)&#x3D;\frac{1}{\sqrt{2\pi\hbar}}\int_{-\infty}^{\infty}c(p)e^{\frac{ipx}{\hbar}}dp \\<br>&amp; \langle f_{p’}|f \rangle&#x3D;\int_{-\infty}^{\infty}c(p)\langle f_{p’}|f_p \rangle dp&#x3D;\int_{-\infty}^{\infty} c(p)\delta(p-p’)dp&#x3D;c(p’)<br>\end{aligned}<br>$$<br>对于坐标算符 $\hat{x}$，设其本征函数为 $g_y(x)$，特征值 $y$，则：<br>$$<br>xg_y(x)&#x3D;yg_y(x) \Rightarrow g_y(x)&#x3D;A\delta(x-y)<br>$$<br>本征函数平方不可积，但可正交归一化：<br>$$<br>\begin{aligned}<br>\langle g_1|g_2 \rangle<br>&amp;&#x3D;\int_{-\infty}^{\infty} A^* \delta(x-y_1)A\delta(x-y_2)dx \\<br>&amp;&#x3D;|A|^2\int_{-\infty}^{\infty} \delta(x-y_1)\delta(x-y_2) dx \\<br>&amp;&#x3D;|A|^2 \delta(y_1-y_2) \\<br>&amp;&#x3D;\delta(y_2-y_1)<br>\end{aligned}<br>$$<br>可得：<br>$$<br>\begin{aligned}<br>&amp; A&#x3D;1 \\<br>&amp; g_y(x)&#x3D;\delta(x-y)<br>\end{aligned}<br>$$<br>即：<br>$$<br>g(x)&#x3D;\int_{-\infty}^{\infty}c(y)\delta(x-y)dy&#x3D;c(x)<br>$$</p>
 
     
   </div>
@@ -216,25 +220,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -452,6 +437,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

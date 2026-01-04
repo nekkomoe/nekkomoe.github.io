@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>wqs二分/dp凸优化 | nekko</title>
+  <title>wqs二分/dp凸优化 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,12 +19,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="wqs二分&#x2F;dp凸优化">
 <meta property="og:url" content="https://nekko.moe/wqs-bin/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="带权二分 dp是凸的 二分切线（斜率）   在有数量限制的dp下，有三类模型：  $f[n]$ 表示从 $n$ 个物品中选取任意多个后最大的价值和 $f[n,k]$ 表示从 $n$ 个物品中选取恰好 $k$ 个后最大的价值和 $f[n,k]$ 表示从 $n$ 个物品中选取至多 $k$ 个后最大的价值和   这里先讨论第二类模型 若物品之间相互无影响，则 $f[n,k]$ 必定是从按照价值排序后的所">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-08T03:48:16.000Z">
-<meta property="article:modified_time" content="2023-08-08T03:59:40.685Z">
-<meta property="article:author" content="nekko">
+<meta property="article:published_time" content="2023-08-08T15:48:16.000Z">
+<meta property="article:modified_time" content="2023-08-08T03:59:42.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="algorithm">
 <meta property="article:tag" content="convex optimization">
 <meta name="twitter:card" content="summary">
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -139,7 +143,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%A6%E6%9D%83%E4%BA%8C%E5%88%86"><span class="toc-text">带权二分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chef-and-Bitwise-OR-Operation"><span class="toc-text">Chef and Bitwise OR Operation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BD%E5%AE%B6%E9%9B%86%E8%AE%AD%E9%98%9F-%E7%A7%8D%E6%A0%91"><span class="toc-text">[国家集训队]种树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%8D%E6%A0%91"><span class="toc-text">种树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E5%8D%95"><span class="toc-text">题单</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%A6%E6%9D%83%E4%BA%8C%E5%88%86"><span class="toc-text">带权二分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chef-and-Bitwise-OR-Operation"><span class="toc-text">Chef and Bitwise OR Operation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BD%E5%AE%B6%E9%9B%86%E8%AE%AD%E9%98%9F-%E7%A7%8D%E6%A0%91"><span class="toc-text">[国家集训队]种树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%8D%E6%A0%91"><span class="toc-text">种树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E5%8D%95"><span class="toc-text">题单</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -199,13 +203,13 @@
 <hr>
 <p>这里先讨论第二类模型</p>
 <p>若物品之间相互无影响，则 $f[n,k]$ 必定是从按照价值排序后的所有物品中选取前 $k$ 大，则：</p>
-<p>$$<br>\begin{aligned}<br>\forall k, s.t.<br>f[n,k]-f[n,k-1] &amp;= a[k] \\<br>&amp;\ge a[k-1] \\<br>&amp;=f[n,k-1]-f[n,k-2]<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\forall k, s.t.<br>f[n,k]-f[n,k-1] &amp;&#x3D; a[k] \\<br>&amp;\ge a[k-1] \\<br>&amp;&#x3D;f[n,k-1]-f[n,k-2]<br>\end{aligned}<br>$$</p>
 <p>也就是说dp是凸的</p>
 <hr>
 <p>那么可以选择一系列递增的斜率 ${s_n}$ 使得斜率 $s_k$ 对应恰好选择 $k$ 个物品的最优解（当然不一定是双射，不过不影响）</p>
-<p>对于 $s_k$，考虑以它为斜率的直线和凸包的切点 $(k,y_k)$，也就是说 $s_k=f’[n,k]$</p>
+<p>对于 $s_k$，考虑以它为斜率的直线和凸包的切点 $(k,y_k)$，也就是说 $s_k&#x3D;f’[n,k]$</p>
 <p>由于 $f’’ \ge 0$，所以 $f’[n,k]-s_k$ 单调递增</p>
-<p>于是 $f[n,k]-s_kk+C$ 的最大值点就是 $x=k$ 时取到</p>
+<p>于是 $f[n,k]-s_kk+C$ 的最大值点就是 $x&#x3D;k$ 时取到</p>
 <p>这相当于每选一个物品就要付出代价 $s_k$ 时的最优解</p>
 <hr>
 <p>也就是说原先需要记录两维的dp问题可以转化为一维问题，但要二分一个权值 $s_k$</p>
@@ -222,7 +226,7 @@
 <li>$1 \le n \le 5000, 1 \le k \le n, 0 \le a_i \le 2^{30}$</li>
 </ul>
 <hr>
-<p>$$<br>\begin{cases}<br>f[i,j]=\max _ {k &lt; i} { f[k,j-1]+w[k+1,i] } \\<br>w[i,j]=\mathrm{BITOR}_{k=i}^{j}a[k]<br>\end{cases}<br>$$</p>
+<p>$$<br>\begin{cases}<br>f[i,j]&#x3D;\max _ {k &lt; i} { f[k,j-1]+w[k+1,i] } \\<br>w[i,j]&#x3D;\mathrm{BITOR}_{k&#x3D;i}^{j}a[k]<br>\end{cases}<br>$$</p>
 <p>那么这个dp是凸的嘛？</p>
 <p>也就是说是否满足：$f[n,k]-f[n,k-1]  \le f[n,k-1]-f[n,k-2]$</p>
 <p>感性理解：分割的段数越多，贡献和越大，但增长的越慢（逐渐趋向于单独一组）</p>
@@ -233,12 +237,12 @@
 </blockquote>
 <ul>
 <li>设 $g(x)$ 表示恰好选择 $x$ 个物品所得到的最大收益，目标是求出 $g(m)$，如果它是一个凸函数的话，则可以进行凸优化，为了简便起见，假设最优化的是最大收益，且 $g(x)$ 上凸</li>
-<li>那么可以得到 $g’(x)$ 是一个单调递减的函数，且 $g(x)$ 的最大值在 $g’(x)=0$ 处取到，假设这个值为 $x_0$</li>
-<li>于是可以二分一个权 $k$，表示每选择一个物品，那么会额外付出代价 $k$，构造函数 $f(x)=g(x)-kx$，由于 $g(x)$ 和 $-kx$ 都是凸的，因此 $f(x)$ 依旧是凸的，即 $f’(x)=0$ 的时候 $f(x)$ 取得最大值</li>
+<li>那么可以得到 $g’(x)$ 是一个单调递减的函数，且 $g(x)$ 的最大值在 $g’(x)&#x3D;0$ 处取到，假设这个值为 $x_0$</li>
+<li>于是可以二分一个权 $k$，表示每选择一个物品，那么会额外付出代价 $k$，构造函数 $f(x)&#x3D;g(x)-kx$，由于 $g(x)$ 和 $-kx$ 都是凸的，因此 $f(x)$ 依旧是凸的，即 $f’(x)&#x3D;0$ 的时候 $f(x)$ 取得最大值</li>
 </ul>
 <hr>
 <ul>
-<li>假设 $f(x)$ 在 $f’(x)=g’(x)-k=0 \Leftrightarrow g’(x)=k$ 的时候取得最大值，此时 $x$ 为 $x_1$</li>
+<li>假设 $f(x)$ 在 $f’(x)&#x3D;g’(x)-k&#x3D;0 \Leftrightarrow g’(x)&#x3D;k$ 的时候取得最大值，此时 $x$ 为 $x_1$</li>
 <li>由于 $g’(x)$ 是单调函数，所以随着 $k$ 的变化 $x_1$ 随着单调变化，即随着 $k$ 变小，$x_1$ 也会变大</li>
 <li>换而言之，实际上是用一条斜率为 $k$ 的直线来切这个 $g(x)$ 构成的凸包</li>
 <li>于是可以二分 $k$ 来得到 $x_1$，从而适当调整 $k$ 的取值</li>
@@ -254,10 +258,10 @@
 <h2 id="种树"><a href="#种树" class="headerlink" title="种树"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1484">种树</a></h2><p>给定 $n$ 个物品，从中选择 <strong>最多</strong> $m$ 个物品使得收益最大，其中 $g(x)$ 上凸</p>
 <hr>
 <p>由于是“最多”的限制，因此不能再像之前一样设置二分边界了，此时应该设为 $[0, \infty)$</p>
-<p>此时当 $m \le x_0$ 的时候，最优解斜率在二分边界之内，因此可行，当 $m &gt; x_0$ 的时候，最优解应在 $x=x_0$ 处取到，此时最优解的斜率为 $0$，依然在二分边界之内</p>
+<p>此时当 $m \le x_0$ 的时候，最优解斜率在二分边界之内，因此可行，当 $m &gt; x_0$ 的时候，最优解应在 $x&#x3D;x_0$ 处取到，此时最优解的斜率为 $0$，依然在二分边界之内</p>
 <hr>
 <h2 id="题单"><a href="#题单" class="headerlink" title="题单"></a>题单</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3620">[APIO/CTSC 2007] 数据备份</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3620">[APIO&#x2F;CTSC 2007] 数据备份</a></li>
 <li><a target="_blank" rel="noopener" href="https://codeforces.com/gym/102059/problem/M">M. Utilitarianism</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4383">[八省联考 2018] 林克卡特树</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4072">[SDOI2016]征途</a></li>
@@ -294,25 +298,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -530,6 +515,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

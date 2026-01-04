@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>量子物理笔记 - 10：Hilbert 空间 | nekko</title>
+  <title>量子物理笔记 - 10：Hilbert 空间 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="量子力学,原子物理,线性代数," />
   
 
-  <meta name="description" content="Hilbert 空间在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：$$|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}a_ 1 \\a_ 2 \\\vdots \\a_ n\end{bmatrix}, \quad a_ k \in \mathbb{C}$$同理，共轭向量与内积定义为：$$\begin{aligned}&amp; \langl">
+  <meta name="description" content="Hilbert 空间在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：$$|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}a_ 1 \\a_ 2 \\\vdots \\a_ n\end{bmatrix}, \quad a_ k \in \mathbb{C}$$同理，共轭向量与内积定义为：$$\begin{aligned}&amp; \">
 <meta property="og:type" content="article">
 <meta property="og:title" content="量子物理笔记 - 10：Hilbert 空间">
 <meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%2010%EF%BC%9AHilbert%20%E7%A9%BA%E9%97%B4/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="Hilbert 空间在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：$$|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}a_ 1 \\a_ 2 \\\vdots \\a_ n\end{bmatrix}, \quad a_ k \in \mathbb{C}$$同理，共轭向量与内积定义为：$$\begin{aligned}&amp; \langl">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="Hilbert 空间在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：$$|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}a_ 1 \\a_ 2 \\\vdots \\a_ n\end{bmatrix}, \quad a_ k \in \mathbb{C}$$同理，共轭向量与内积定义为：$$\begin{aligned}&amp; \">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-16T00:00:10.000Z">
-<meta property="article:modified_time" content="2023-01-16T06:40:23.370Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="量子力学">
+<meta property="article:published_time" content="2023-01-16T13:00:10.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:40:24.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="原子物理">
 <meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="量子力学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,8 +190,8 @@
 
   <div class="article-content">
     
-      <h2 id="Hilbert-空间"><a href="#Hilbert-空间" class="headerlink" title="Hilbert 空间"></a>Hilbert 空间</h2><p>在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：<br>$$<br>|\alpha\rangle \to \textbf{a}=\begin{bmatrix}<br>a_ 1 \\<br>a_ 2 \\<br>\vdots \\<br>a_ n<br>\end{bmatrix}, \quad a_ k \in \mathbb{C}<br>$$<br>同理，共轭向量与内积定义为：<br>$$<br>\begin{aligned}<br>&amp; \langle \beta |=(|\beta \rangle )^*  \\<br>&amp; \langle \beta | \alpha \rangle=\sum_ {k=1}^{n}\beta_ k^* \alpha_ k<br>\end{aligned}<br>$$<br>考虑定义在 $[a,b]$ 上满足平方可积的函数族 $L^2[a,b]$，即：<br>$$<br>L^2[a,b]=\left\{f \bigg|\int_ a^b |f(x)|^2 dx=C \in \mathbb{R}\right\}<br>$$<br>定义 $f,g \in L^2[a,b]$ 的内积为：<br>$$<br>\langle f|g\rangle=\int_ a^b f^* (x)g(x)dx<br>$$<br>由 Schwarz 不等式可知：<br>$$<br>\left| \int_ {a}^b f^* (x)g(x)dx \right| \le \sqrt{\int_ a^b|f(x)|^2dx\int_ a^b|g(x)|^2dx}<br>$$<br>即内积 $\langle f|g\rangle$ 存在，或者等价的来说：<br>$$<br>|\langle f|g \rangle|^2 \le\langle f | f \rangle \langle g|g\rangle<br>$$<br>若 ${f_ n}$ 是正交归一向量组，则：<br>$$<br>\langle f_ n|f_ m\rangle=\delta_ {nm}<br>$$<br>于是对于完备的向量组，有：<br>$$<br>\begin{aligned}<br>&amp; f(x)=\sum_ {n=1}^{\infty}c_ nf_ n(x), \quad c_ n=\langle f_ n|f \rangle  \\<br>&amp; |f\rangle=\sum_ {n=1}^{\infty}|f_ n\rangle \langle f_ n|f\rangle<br>\end{aligned}<br>$$</p>
-<h2 id="Dirac-符号"><a href="#Dirac-符号" class="headerlink" title="Dirac 符号"></a>Dirac 符号</h2><p>波函数 $\Psi(x,t)$ 是 Hilbert 空间上的 $|\Im(t) \rangle$ 向量用坐标表示的本征函数的展开系数，即：<br>$$<br>\Psi(x,t)=\langle g_ y|\Im(t) \rangle<br>$$<br>在动量空间中的表述是：<br>$$<br>\Phi(p,t)=\langle f_ p| \Im(t) \rangle<br>$$<br>用能量本征函数展开为：<br>$$<br>c_ n(t)=\langle \psi_ n|\Im(t) \rangle<br>$$<br>为了简便起见，分别记作：<br>$$<br>\begin{aligned}<br>&amp; \Psi(x,t)=\langle x|\Im(t) \rangle \\<br>&amp; \Phi(p,t)=\langle p|\Im(t) \rangle \\<br>&amp; c_ n(t)=\langle n | \Im(t) \rangle<br>\end{aligned}<br>$$<br>可观测量的算符是线性变换，即：<br>$$<br>|\beta\rangle=\hat{Q}|\alpha\rangle<br>$$<br>于是有：<br>$$<br>\newcommand\bra[1]{\langle #1 |}<br>\newcommand\ket[1]{| #1 \rangle}<br>\bra{e_ m}\hat{Q}\ket{e_ n}=Q_ {mn}<br>$$<br>向量可以由一组完备的基底表示，即：<br>$$<br>\ket{\alpha}=\sum_ {n} \ket{e_ n} \bra{e_ n}\ket{\alpha}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>&amp; |\beta\rangle=\hat{Q}|\alpha\rangle \\<br>\Rightarrow<br>&amp; \sum_ {n} \ket{e_ n} \bra{e_ n}\ket{\beta}=\sum_ {n}\hat{Q} \ket{e_ n} \bra{e_ n}\ket{\alpha} \\<br>\Rightarrow<br>&amp; \sum_ {n} \bra{e_ m}\ket{e_ n} \bra{e_ n}\ket{\beta}=\sum_ {n}\bra{e_ m}\hat{Q}\ket{e_ n}\bra{e_ n}\ket{\alpha} \\<br>\Rightarrow<br>&amp; \sum_ {n} \bra{e_ m}\ket{e_ n} \bra{e_ n}\ket{\beta}=\sum_ {n}Q_ {mn}\bra{e_ n}\ket{\alpha}<br>\end{aligned}<br>$$<br>若 ${e_ n}$ 是正交的，则：<br>$$<br>\bra{e_ m}\ket{\beta}=\sum_ {n}Q_ {mn} \bra{e_ n}\ket{\alpha}<br>$$<br>薛定谔方程可以表示为：<br>$$<br>i\hbar \frac{d}{dt}\ket{\Im(t)}=H\ket{\Im(t)}<br>$$<br>定态薛定谔方程为：<br>$$<br>H\ket{\Im}=E\ket{\Im}<br>$$</p>
+      <h2 id="Hilbert-空间"><a href="#Hilbert-空间" class="headerlink" title="Hilbert 空间"></a>Hilbert 空间</h2><p>在 $\mathbb{C}^{n}$ 空间上，可以定义向量为：<br>$$<br>|\alpha\rangle \to \textbf{a}&#x3D;\begin{bmatrix}<br>a_ 1 \\<br>a_ 2 \\<br>\vdots \\<br>a_ n<br>\end{bmatrix}, \quad a_ k \in \mathbb{C}<br>$$<br>同理，共轭向量与内积定义为：<br>$$<br>\begin{aligned}<br>&amp; \langle \beta |&#x3D;(|\beta \rangle )^*  \\<br>&amp; \langle \beta | \alpha \rangle&#x3D;\sum_ {k&#x3D;1}^{n}\beta_ k^* \alpha_ k<br>\end{aligned}<br>$$<br>考虑定义在 $[a,b]$ 上满足平方可积的函数族 $L^2[a,b]$，即：<br>$$<br>L^2[a,b]&#x3D;\left\{f \bigg|\int_ a^b |f(x)|^2 dx&#x3D;C \in \mathbb{R}\right\}<br>$$<br>定义 $f,g \in L^2[a,b]$ 的内积为：<br>$$<br>\langle f|g\rangle&#x3D;\int_ a^b f^* (x)g(x)dx<br>$$<br>由 Schwarz 不等式可知：<br>$$<br>\left| \int_ {a}^b f^* (x)g(x)dx \right| \le \sqrt{\int_ a^b|f(x)|^2dx\int_ a^b|g(x)|^2dx}<br>$$<br>即内积 $\langle f|g\rangle$ 存在，或者等价的来说：<br>$$<br>|\langle f|g \rangle|^2 \le\langle f | f \rangle \langle g|g\rangle<br>$$<br>若 ${f_ n}$ 是正交归一向量组，则：<br>$$<br>\langle f_ n|f_ m\rangle&#x3D;\delta_ {nm}<br>$$<br>于是对于完备的向量组，有：<br>$$<br>\begin{aligned}<br>&amp; f(x)&#x3D;\sum_ {n&#x3D;1}^{\infty}c_ nf_ n(x), \quad c_ n&#x3D;\langle f_ n|f \rangle  \\<br>&amp; |f\rangle&#x3D;\sum_ {n&#x3D;1}^{\infty}|f_ n\rangle \langle f_ n|f\rangle<br>\end{aligned}<br>$$</p>
+<h2 id="Dirac-符号"><a href="#Dirac-符号" class="headerlink" title="Dirac 符号"></a>Dirac 符号</h2><p>波函数 $\Psi(x,t)$ 是 Hilbert 空间上的 $|\Im(t) \rangle$ 向量用坐标表示的本征函数的展开系数，即：<br>$$<br>\Psi(x,t)&#x3D;\langle g_ y|\Im(t) \rangle<br>$$<br>在动量空间中的表述是：<br>$$<br>\Phi(p,t)&#x3D;\langle f_ p| \Im(t) \rangle<br>$$<br>用能量本征函数展开为：<br>$$<br>c_ n(t)&#x3D;\langle \psi_ n|\Im(t) \rangle<br>$$<br>为了简便起见，分别记作：<br>$$<br>\begin{aligned}<br>&amp; \Psi(x,t)&#x3D;\langle x|\Im(t) \rangle \\<br>&amp; \Phi(p,t)&#x3D;\langle p|\Im(t) \rangle \\<br>&amp; c_ n(t)&#x3D;\langle n | \Im(t) \rangle<br>\end{aligned}<br>$$<br>可观测量的算符是线性变换，即：<br>$$<br>|\beta\rangle&#x3D;\hat{Q}|\alpha\rangle<br>$$<br>于是有：<br>$$<br>\newcommand\bra[1]{\langle #1 |}<br>\newcommand\ket[1]{| #1 \rangle}<br>\bra{e_ m}\hat{Q}\ket{e_ n}&#x3D;Q_ {mn}<br>$$<br>向量可以由一组完备的基底表示，即：<br>$$<br>\ket{\alpha}&#x3D;\sum_ {n} \ket{e_ n} \bra{e_ n}\ket{\alpha}<br>$$<br>于是有：<br>$$<br>\begin{aligned}<br>&amp; |\beta\rangle&#x3D;\hat{Q}|\alpha\rangle \\<br>\Rightarrow<br>&amp; \sum_ {n} \ket{e_ n} \bra{e_ n}\ket{\beta}&#x3D;\sum_ {n}\hat{Q} \ket{e_ n} \bra{e_ n}\ket{\alpha} \\<br>\Rightarrow<br>&amp; \sum_ {n} \bra{e_ m}\ket{e_ n} \bra{e_ n}\ket{\beta}&#x3D;\sum_ {n}\bra{e_ m}\hat{Q}\ket{e_ n}\bra{e_ n}\ket{\alpha} \\<br>\Rightarrow<br>&amp; \sum_ {n} \bra{e_ m}\ket{e_ n} \bra{e_ n}\ket{\beta}&#x3D;\sum_ {n}Q_ {mn}\bra{e_ n}\ket{\alpha}<br>\end{aligned}<br>$$<br>若 ${e_ n}$ 是正交的，则：<br>$$<br>\bra{e_ m}\ket{\beta}&#x3D;\sum_ {n}Q_ {mn} \bra{e_ n}\ket{\alpha}<br>$$<br>薛定谔方程可以表示为：<br>$$<br>i\hbar \frac{d}{dt}\ket{\Im(t)}&#x3D;H\ket{\Im(t)}<br>$$<br>定态薛定谔方程为：<br>$$<br>H\ket{\Im}&#x3D;E\ket{\Im}<br>$$</p>
 
     
   </div>
@@ -213,25 +217,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -449,6 +434,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>bzoj 4245 [ONTAK2015]OR-XOR | nekko</title>
+  <title>bzoj 4245 [ONTAK2015]OR-XOR | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,12 +19,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="bzoj 4245 [ONTAK2015]OR-XOR">
 <meta property="og:url" content="https://nekko.moe/bzoj/bzoj4245/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="给定一个长度为 $n$​ 的序列 $a_1,a_2,\cdots,a_n$​，请将它划分为 $m$​ 段连续的区间，设第 $i$​ 段的费用 $c_i$​ 为该段内所有数字的异或和，则总费用为 $c_1 \text{ or } c_2 \text{ or } \cdots \text{ or } c_m$​ 请求出总费用的最小值，$1 \le 𝑚 \le 𝑛 \le 5 \cdot 10^{5">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-08-07T12:22:02.000Z">
-<meta property="article:modified_time" content="2021-08-07T12:34:15.000Z">
-<meta property="article:author" content="nekko">
+<meta property="article:published_time" content="2021-08-08T00:22:02.000Z">
+<meta property="article:modified_time" content="2021-08-07T12:34:16.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="bzoj">
 <meta property="article:tag" content="集合">
 <meta name="twitter:card" content="summary">
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -153,7 +157,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -187,8 +191,8 @@
 <p>很遗憾，贪心的做法有些问题……</p>
 <p>比如说 $[1,1,1,1]$ 可以分为 $[1,1],[1,1]$ 或 $[1],[1,1],[1]$</p>
 <p>先求前缀异或和，转化为 $s_1 \text{ or } (s_1 \oplus s_2) \text{ or } \cdots \text{ or }(s_{n-1} \text{ or } \oplus s_n)$</p>
-<p>考虑到 $(A\Delta B)\cup B=(A-B) \cup (B-A) \cup B=(A-B)\cup B=A \cup B$</p>
-<p>即 $(a \oplus b) \text{ or } b=a \text{ or } b$</p>
+<p>考虑到 $(A\Delta B)\cup B&#x3D;(A-B) \cup (B-A) \cup B&#x3D;(A-B)\cup B&#x3D;A \cup B$</p>
+<p>即 $(a \oplus b) \text{ or } b&#x3D;a \text{ or } b$</p>
 <p>原式化简为 $s_1 \text{ or } s_2 \text{ or } \cdots \text { or }s_n$</p>
 <p>于是问题就转化为了把一个异或前缀和序列中选若干个元素，使得 $\text{or}$ 的值最小</p>
 <p>逐位贪心</p>
@@ -217,25 +221,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -453,6 +438,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

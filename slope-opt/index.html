@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>斜率优化 | nekko</title>
+  <title>斜率优化 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,18 +15,18 @@
     <meta name="keywords" content="算法,斜率优化," />
   
 
-  <meta name="description" content="何为斜率优化对于一类动态规划问题，方程式诸如 $$f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}$$ 朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$ 从改写方程开始$$f_i&#x3D;\max\{c_i + k_i \cdot">
+  <meta name="description" content="何为斜率优化对于一类动态规划问题，方程式诸如 $$f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}$$ 朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$ 从改写方程开始$$f_i&#x3D;\max\{c_i +">
 <meta property="og:type" content="article">
 <meta property="og:title" content="斜率优化">
 <meta property="og:url" content="https://nekko.moe/slope-opt/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="何为斜率优化对于一类动态规划问题，方程式诸如 $$f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}$$ 朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$ 从改写方程开始$$f_i&#x3D;\max\{c_i + k_i \cdot">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="何为斜率优化对于一类动态规划问题，方程式诸如 $$f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}$$ 朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$ 从改写方程开始$$f_i&#x3D;\max\{c_i +">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-05-07T04:45:12.000Z">
+<meta property="article:published_time" content="2018-05-07T16:45:12.000Z">
 <meta property="article:modified_time" content="2018-09-09T15:21:34.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="斜率优化">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,11 +190,11 @@
   <div class="article-content">
     
       <h1 id="何为斜率优化"><a href="#何为斜率优化" class="headerlink" title="何为斜率优化"></a>何为斜率优化</h1><p>对于一类动态规划问题，方程式诸如</p>
-<p>$$<br>f_i=\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
+<p>$$<br>f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
 <p>朴素的 $dp$ 做法的时间复杂度是 $O(n^2)$ 的，可以利用这个方程的一些特殊性质达到 $O(n \text{log}n)$ 乃至 $O(n \text{log}^2n)$</p>
-<h1 id="从改写方程开始"><a href="#从改写方程开始" class="headerlink" title="从改写方程开始"></a>从改写方程开始</h1><p>$$<br>f_i=\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
+<h1 id="从改写方程开始"><a href="#从改写方程开始" class="headerlink" title="从改写方程开始"></a>从改写方程开始</h1><p>$$<br>f_i&#x3D;\max\{c_i + k_i \cdot x_j + y_j | j \lt i\}<br>$$</p>
 <p>可以改写为</p>
-<p>$$<br>-k_i \cdot x_j + f_i - c_i = y_j<br>$$</p>
+<p>$$<br>-k_i \cdot x_j + f_i - c_i &#x3D; y_j<br>$$</p>
 <p>这个式子的意义是一条斜率为 $-k_i$ ，过点 $(x_j,y_j)$ ,截距为 $f_i-c_i$ 的直线</p>
 <p>此时目标是最大化 $f_i - c_i$ ，由于 $c_i$ 是定值，原目标等价于最大化 $f_i$</p>
 <h1 id="维护点集和获取最大值"><a href="#维护点集和获取最大值" class="headerlink" title="维护点集和获取最大值"></a>维护点集和获取最大值</h1><p>那么现在需要维护一个点集 $(x_j,y_j)$ ，每当处理完 $f_i$ 后就需要将 $(x_i,y_i)$ 加入点集</p>
@@ -212,7 +216,7 @@
 <p>然后按照$k_i$将结构体排序</p>
 <p>定义cdq(l,r)表示计算所有$l \le i \le r$的$f_i$</p>
 <p>那么执行完$cdq(1,n)$之后就完成任务咯</p>
-<p>那么假设执行了cdq(l,r)，不妨先根据$mid=\lfloor \frac{l+r}{2} \rfloor$将下标为$[l,r]$的结构体分开计算</p>
+<p>那么假设执行了cdq(l,r)，不妨先根据$mid&#x3D;\lfloor \frac{l+r}{2} \rfloor$将下标为$[l,r]$的结构体分开计算</p>
 <p>先把所有$id \le mid$的分成一波，另外的分成一波，这个操作要在原序列上进行</p>
 <p>分割完之后，结构体的$[l,mid]$中的元素的$id$都是$\le mid$的，此时先递归一下cdq(l,mid)</p>
 <p>假设cdq(l,mid)递归完之后，这些元素所表示的点集都已经排好序了</p>
@@ -223,7 +227,7 @@
 <p>发现$[l,mid]$和$[mid+1,r]$分别都排好序了，那么归并排序一下就好咯？</p>
 <p>时间复杂度$O(n \log n)$</p>
 <p>也许看一下<a target="_blank" rel="noopener" href="https://www.luogu.org/recordnew/show/7036759">代码</a>比较好理解</p>
-<h3 id="平衡树-std-set"><a href="#平衡树-std-set" class="headerlink" title="平衡树/std::set"></a>平衡树/std::set</h3><p>二进制分组可以支持在线查询$f_i$，但是时间复杂度比较高</p>
+<h3 id="平衡树-std-set"><a href="#平衡树-std-set" class="headerlink" title="平衡树&#x2F;std::set"></a>平衡树&#x2F;std::set</h3><p>二进制分组可以支持在线查询$f_i$，但是时间复杂度比较高</p>
 <p>cdq分治可以支持复杂度较小的查询$f_i$,但是需要离线</p>
 <p>如果强制在线的查询$f_i$呢？</p>
 <p>用平衡树来维护凸壳，并在上面二分！</p>
@@ -253,25 +257,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -489,6 +474,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

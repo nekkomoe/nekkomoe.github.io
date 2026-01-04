@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[08] petsc4py中的GPU | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="GPUPETSc 的 GPU 支持，需要注意：  Vec, Mat对象的 类型（VecType、MatType）决定了算子实现是否走 CUDA&#x2F;HIP&#x2F;Kokkos 等device后端，可以通过 -vec_type {cuda,hip,kokkos} 与 -mat_type {aijcusparse,aijhipsparse,aijkokkos} ，来让PETSc在GPU上创建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[08] petsc4py中的GPU">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-08-GPU/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="GPUPETSc 的 GPU 支持，需要注意：  Vec, Mat对象的 类型（VecType、MatType）决定了算子实现是否走 CUDA&#x2F;HIP&#x2F;Kokkos 等device后端，可以通过 -vec_type {cuda,hip,kokkos} 与 -mat_type {aijcusparse,aijhipsparse,aijkokkos} ，来让PETSc在GPU上创建">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:08:00.000Z">
+<meta property="article:modified_time" content="2026-01-04T06:21:05.809Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GPU"><span class="toc-text">GPU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DLPack"><span class="toc-text">DLPack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Matrix-coordinate-COO-assembly"><span class="toc-text">Matrix coordinate (COO) assembly</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-08-GPU" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[08] petsc4py中的GPU</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="GPU"><a href="#GPU" class="headerlink" title="GPU"></a>GPU</h1><p>PETSc 的 GPU 支持，需要注意：</p>
+<ul>
+<li><code>Vec, Mat</code>对象的 <strong>类型</strong>（<code>VecType</code>、<code>MatType</code>）决定了算子实现是否走 CUDA&#x2F;HIP&#x2F;Kokkos 等device后端，可以通过 <code>-vec_type {cuda,hip,kokkos}</code> 与 <code>-mat_type {aijcusparse,aijhipsparse,aijkokkos}</code> ，来让PETSc在GPU上创建计算对象</li>
+<li>数据在 host 与 device 之间需要通过通信来进行传递，而PETSc 需要维护两侧一致性，任何一次访问都可能触发隐式的数据迁移</li>
+<li>使用GPU计算，核心问题在于，如何让数据长期停留在 device，并减少 host&#x2F;device 之间的数据迁移，以及减少host上的计算</li>
+</ul>
+<p>一个常用的命令行形式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mpirun -n <span class="number">4</span> python test.py \</span><br><span class="line">  -vec_type cuda \</span><br><span class="line">  -mat_type aijcusparse \</span><br><span class="line">  -log_view_gpu_time -log_view</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 在<a target="_blank" rel="noopener" href="https://petsc.gitlab.io/annual-meetings/2023/slides/JunchaoZhang.pdf">MINI TUTORIAL: PETSC ON THE GPU, JUNCHAO ZHANG</a>中，有更详细的PETSc+CUDA的介绍。</p>
+<p>在GPU上，直接<code>–log_view</code>会获得NaN，需要改用<code>–log_view_gpu_time –log_view</code></p>
+</blockquote>
+<h2 id="DLPack"><a href="#DLPack" class="headerlink" title="DLPack"></a>DLPack</h2><p>petsc4py 为 <code>Vec</code> 提供 <code>toDLPack([mode])</code>，用于导出一个 DLPack <code>PyCapsule</code> 来包装向量数据，或者直接使用<code>createWithDLPack</code>方法。矩阵侧也提供 <code>Mat.toDLPack([mode])</code>，用于导出矩阵数据。在<a target="_blank" rel="noopener" href="https://dmlc.github.io/dlpack/latest/">DLPack文档</a>中，有更详细的相关信息。</p>
+<p>下面代码给出在GPU上创建数据方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch, torch.utils.dlpack</span><br><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"></span><br><span class="line">PETSC_OFFLOAD = &#123;</span><br><span class="line">    <span class="number">1</span>: <span class="string">&quot;PETSC_OFFLOAD_CPU&quot;</span>,</span><br><span class="line">    <span class="number">2</span>: <span class="string">&quot;PETSC_OFFLOAD_GPU&quot;</span>,</span><br><span class="line">    <span class="number">3</span>: <span class="string">&quot;PETSC_OFFLOAD_BOTH&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">x = PETSc.Vec().create()</span><br><span class="line">x.setSizes(<span class="number">1000</span>); x.setType(<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">x.<span class="built_in">set</span>(<span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line">A = PETSc.Mat().create()</span><br><span class="line">A.setSizes(<span class="number">1000</span>); A.setType(<span class="string">&#x27;aijcusparse&#x27;</span>)</span><br><span class="line">A.setDiagonal(x)</span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;x.getType()=&#125;</span>&quot;</span>)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;A.getType()=&#125;</span>&quot;</span>)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;PETSC_OFFLOAD[x.getOffloadMask()]=&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">y = torch.ones(<span class="number">1000</span>, dtype=torch.float64, device=<span class="string">&quot;cuda&quot;</span>)</span><br><span class="line">y = torch.utils.dlpack.to_dlpack(y)</span><br><span class="line">y = PETSc.Vec().createWithDLPack(y)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;y.getType()=&#125;</span>&quot;</span>)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;PETSC_OFFLOAD[y.getOffloadMask()]=&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x.getType()=&#x27;seqcuda&#x27;</span><br><span class="line">A.getType()=&#x27;seqaijcusparse&#x27;</span><br><span class="line">PETSC_OFFLOAD[x.getOffloadMask()]=&#x27;PETSC_OFFLOAD_BOTH&#x27;</span><br><span class="line">y.getType()=&#x27;seqcuda&#x27;</span><br><span class="line">PETSC_OFFLOAD[y.getOffloadMask()]=&#x27;PETSC_OFFLOAD_GPU&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果要在GPU上进行PETSc的Vec进行零拷贝的访问，可以考虑下面的包装器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> contextlib, torch</span><br><span class="line"><span class="meta">@contextlib.contextmanager</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gpu_access</span>(<span class="params">vec, mode=<span class="string">&quot;rw&quot;</span></span>):</span><br><span class="line">  <span class="comment"># High-level wrapper for zero-copy GPU access via DLPack.</span></span><br><span class="line">  dlpack = vec.toDLPack(mode=mode)</span><br><span class="line">  tensor = torch.utils.dlpack.from_dlpack(dlpack)</span><br><span class="line">  <span class="keyword">yield</span> tensor</span><br><span class="line">  <span class="keyword">if</span> mode != <span class="string">&quot;r&quot;</span>: torch.cuda.synchronize()</span><br><span class="line"><span class="keyword">with</span> gpu_access(U, mode=<span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> u:</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Matrix-coordinate-COO-assembly"><a href="#Matrix-coordinate-COO-assembly" class="headerlink" title="Matrix coordinate (COO) assembly"></a>Matrix coordinate (COO) assembly</h2><blockquote>
+<p>在<a target="_blank" rel="noopener" href="https://petsc.gitlab.io/annual-meetings/2023/slides/JunchaoZhang.pdf">MINI TUTORIAL: PETSC ON THE GPU, JUNCHAO ZHANG</a>中，有更详细的介绍。</p>
+</blockquote>
+<p>在CPU上通过<code>MatSetValues</code>进行矩阵装配方法，并不是在GPU上使用Mat的最佳实践途径，而PETSc加入了矩阵坐标系统(matric coordinate, COO)，来提高装配效率，以实现下面三个步骤：</p>
+<ul>
+<li>用户给出非零元(nonzeros)的坐标(coordinate)</li>
+<li>PETSc使用该数据，创建稀疏矩阵模式(sparsity pattern)，并指定插入&#x2F;修改计划，以及GPU上的通信计划</li>
+<li>用户给出非零元(nonzeros)的值，并且需要保证顺序和之前给出的坐标顺序相同</li>
+</ul>
+<p>在PETSc中，这个可以简化成两个语句：</p>
+<ul>
+<li><code>MatSetPreallocationCOO(Mat A, PetscCount n, PetscInt i[], PetscInt j[])</code></li>
+<li><code>MatSetValuesCOO(Mat A, const PetscScalar v[], InsertMode imode)</code></li>
+</ul>
+<p>并且可以通过<code>MatDuplicate(A,op,&amp;B)</code>进行矩阵结构的复制，以及<code>MatSetValuesCOO(B, ...)</code>给矩阵分配不同值。</p>
+<p>下面是一个示例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">n = <span class="number">4</span></span><br><span class="line">A = PETSc.Mat().create()</span><br><span class="line">A.setSizes(n)</span><br><span class="line">A.setType(<span class="string">&#x27;aijcusparse&#x27;</span>)</span><br><span class="line">A.setUp()</span><br><span class="line"></span><br><span class="line">rows = np.arange(n, dtype=np.int32)</span><br><span class="line">cols = np.arange(n, dtype=np.int32)</span><br><span class="line"></span><br><span class="line">I = np.repeat(rows, n).astype(np.int32)   <span class="comment"># [0,0,0,0, 1,1,1,1, ...]</span></span><br><span class="line">J = np.tile(cols, n).astype(np.int32)     <span class="comment"># [0,1,2,3, 0,1,2,3, ...]</span></span><br><span class="line">V = (<span class="number">100.0</span> * I + J).astype(np.float64)    <span class="comment"># A[i,j] = 100*i + j</span></span><br><span class="line"></span><br><span class="line">A.setPreallocationCOO(I, J)</span><br><span class="line">A.setValuesCOO(V)</span><br><span class="line"></span><br><span class="line">A.assemble()</span><br><span class="line">A.view()</span><br></pre></td></tr></table></figure>
+
+<p>其输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Mat Object: 1 MPI process</span><br><span class="line">  type: seqaijcusparse</span><br><span class="line">row 0: (0, 0.)  (1, 1.)  (2, 2.)  (3, 3.)</span><br><span class="line">row 1: (0, 100.)  (1, 101.)  (2, 102.)  (3, 103.)</span><br><span class="line">row 2: (0, 200.)  (1, 201.)  (2, 202.)  (3, 203.)</span><br><span class="line">row 3: (0, 300.)  (1, 301.)  (2, 302.)  (3, 303.)</span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-07-DM/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

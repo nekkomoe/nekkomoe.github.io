@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>线性筛与积性函数 | nekko</title>
+  <title>线性筛与积性函数 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,21 +15,21 @@
     <meta name="keywords" content="算法,数学,数论,线性筛,积性函数," />
   
 
-  <meta name="description" content="前置技能 数论函数 积性函数 完全积性函数 整除 素数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 线性筛前提 积性函数$f$ 对于素数$p$，可以快速">
+  <meta name="description" content="前置技能 数论函数 积性函数 完全积性函数 整除 素数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 线性筛前提 积性函数$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线性筛与积性函数">
 <meta property="og:url" content="https://nekko.moe/linear-sieves/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="前置技能 数论函数 积性函数 完全积性函数 整除 素数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 线性筛前提 积性函数$f$ 对于素数$p$，可以快速">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="前置技能 数论函数 积性函数 完全积性函数 整除 素数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 线性筛前提 积性函数$">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-06-26T08:14:50.000Z">
+<meta property="article:published_time" content="2018-06-26T20:14:50.000Z">
 <meta property="article:modified_time" content="2018-12-27T02:37:36.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="数论">
-<meta property="article:tag" content="线性筛">
 <meta property="article:tag" content="积性函数">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="线性筛">
 <meta name="twitter:card" content="summary">
 
   
@@ -48,6 +48,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -59,7 +63,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -142,7 +146,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%8A%80%E8%83%BD"><span class="toc-text">前置技能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E8%AE%BA%E5%87%BD%E6%95%B0"><span class="toc-text">数论函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0"><span class="toc-text">积性函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0"><span class="toc-text">完全积性函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E7%AD%9B"><span class="toc-text">线性筛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4"><span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86"><span class="toc-text">处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i"><span class="toc-text">$p \mid i$</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-g-k"><span class="toc-text">计算$g,k$</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-1"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#p-nmid-i-1"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#p-mid-i-1"><span class="toc-text">$p \mid i$</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-phi"><span class="toc-text">计算$\phi$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-2"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-2"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-2"><span class="toc-text">$p \mid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-mu"><span class="toc-text">计算$\mu$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-3"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-3"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-3"><span class="toc-text">$p \mid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-tau"><span class="toc-text">计算$\tau$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-4"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-4"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-5"><span class="toc-text">$p \nmid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-sigma"><span class="toc-text">计算$\sigma$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-5"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-6"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-4"><span class="toc-text">$p \mid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-sigma-k"><span class="toc-text">计算$\sigma_k$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#base"><span class="toc-text">base</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-in-P"><span class="toc-text">$p \in P$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-7"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-5"><span class="toc-text">$p \mid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-text">优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-text">代码</span></a></li></ol></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%8A%80%E8%83%BD"><span class="toc-text">前置技能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E8%AE%BA%E5%87%BD%E6%95%B0"><span class="toc-text">数论函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0"><span class="toc-text">积性函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E7%A7%AF%E6%80%A7%E5%87%BD%E6%95%B0"><span class="toc-text">完全积性函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E7%AD%9B"><span class="toc-text">线性筛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4"><span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86"><span class="toc-text">处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i"><span class="toc-text">$p \mid i$</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-g-k"><span class="toc-text">计算$g,k$</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-1"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#p-nmid-i-1"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#p-mid-i-1"><span class="toc-text">$p \mid i$</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-phi"><span class="toc-text">计算$\phi$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-2"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-2"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-2"><span class="toc-text">$p \mid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-mu"><span class="toc-text">计算$\mu$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-3"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-3"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-3"><span class="toc-text">$p \mid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-tau"><span class="toc-text">计算$\tau$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-4"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-4"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-5"><span class="toc-text">$p \nmid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-sigma"><span class="toc-text">计算$\sigma$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%95%B0-p-5"><span class="toc-text">素数$p$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-6"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-4"><span class="toc-text">$p \mid i$</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-sigma-k"><span class="toc-text">计算$\sigma_k$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#base"><span class="toc-text">base</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-in-P"><span class="toc-text">$p \in P$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-nmid-i-7"><span class="toc-text">$p \nmid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-mid-i-5"><span class="toc-text">$p \mid i$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-text">优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-text">代码</span></a></li></ol></li></ol></li></ol>
   </div>
 
 
@@ -161,7 +165,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -197,8 +201,8 @@
 </ul>
 <h1 id="数论函数"><a href="#数论函数" class="headerlink" title="数论函数"></a>数论函数</h1><p>定义在正整数集上的实值或复值函数</p>
 <p>一般可视作定义域为正整数，值域为整数的函数</p>
-<h1 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h1><p>对于一个数论函数$f$，若当$(a,b)=1$时，$f(ab)=f(a)f(b)$，则称其为<strong>积性函数</strong></p>
-<h1 id="完全积性函数"><a href="#完全积性函数" class="headerlink" title="完全积性函数"></a>完全积性函数</h1><p>对于一个数论函数$f$，若$f(ab)=f(a)f(b)$，则称其为<strong>完全积性函数</strong></p>
+<h1 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h1><p>对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为<strong>积性函数</strong></p>
+<h1 id="完全积性函数"><a href="#完全积性函数" class="headerlink" title="完全积性函数"></a>完全积性函数</h1><p>对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为<strong>完全积性函数</strong></p>
 <h1 id="线性筛"><a href="#线性筛" class="headerlink" title="线性筛"></a>线性筛</h1><h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><ul>
 <li>积性函数$f$</li>
 <li>对于素数$p$，可以快速求出$f(p^k)$的值</li>
@@ -210,67 +214,67 @@
 <li>$i \times p$，其中$i$是任意正整数， 且$p \mid i$，且$p$是素数，且$p$是$i$的最小素因子，且$p$是$i \times p$的最小素因子</li>
 </ul>
 <h3 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h3><h4 id="素数-p"><a href="#素数-p" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>由于已经可以快速求出$f(p^k)$了，所以可以快速求出$f(p)$</p>
-<h4 id="p-nmid-i"><a href="#p-nmid-i" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>由于是积性函数，且$(p,i)=1$，因此$f(i \times p)=f(i) \times f(p)$</p>
+<h4 id="p-nmid-i"><a href="#p-nmid-i" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>由于是积性函数，且$(p,i)&#x3D;1$，因此$f(i \times p)&#x3D;f(i) \times f(p)$</p>
 <p>由于$i \le i \times p \wedge p \le i \times p$，所以可以计算出$f(i \times p)$</p>
-<h4 id="p-mid-i"><a href="#p-mid-i" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>同时需要计算出来$g(n)$，表示$n$的最小素因数的乘积，即将$n$分解为$p_{min}^{k_{min}} \times t$的形式，其中$(p_{min}^{k_{min}},t)=1$</p>
+<h4 id="p-mid-i"><a href="#p-mid-i" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>同时需要计算出来$g(n)$，表示$n$的最小素因数的乘积，即将$n$分解为$p_{min}^{k_{min}} \times t$的形式，其中$(p_{min}^{k_{min}},t)&#x3D;1$</p>
 <p>先假设会计算$g$了</p>
-<p>那么$i \times p=\frac{i}{g(i)} \times g(i) \times p$，其中$(\frac{i}{g(i)} , g(i) \times p)=1$</p>
-<p>因此$f(i \times p)=f(\frac{i}{g(i)}) \times f(g(i) \times p)$</p>
+<p>那么$i \times p&#x3D;\frac{i}{g(i)} \times g(i) \times p$，其中$(\frac{i}{g(i)} , g(i) \times p)&#x3D;1$</p>
+<p>因此$f(i \times p)&#x3D;f(\frac{i}{g(i)}) \times f(g(i) \times p)$</p>
 <p>$g(i) \times p$可以分解为$p^k$的形式，如果需要用到$k$的话，可以在求$g$的时候顺便求一下$k$</p>
 <p>由于$f(p^k)$可以快速求，所以就可以计算出$f(i \times p)$</p>
 <h5 id="计算-g-k"><a href="#计算-g-k" class="headerlink" title="计算$g,k$"></a>计算$g,k$</h5><p>依然是分成三类</p>
-<h6 id="素数-p-1"><a href="#素数-p-1" class="headerlink" title="素数$p$"></a>素数$p$</h6><p>$g(p)=p$</p>
-<p>$k(p)=1$</p>
-<h6 id="p-nmid-i-1"><a href="#p-nmid-i-1" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h6><p>$g(i \times p)=p$</p>
-<p>$k(i \times p)=1$</p>
-<h6 id="p-mid-i-1"><a href="#p-mid-i-1" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h6><p>$g(i \times p)=g(i) \times p$</p>
-<p>$k(i \times p)=k(i)+1$</p>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h3 id="计算-phi"><a href="#计算-phi" class="headerlink" title="计算$\phi$"></a>计算$\phi$</h3><p>定义$\phi(n)=\sum_{i=1}^{n}\epsilon((i,n))$</p>
-<p>同时有计算公式$\phi(n)=n\Pi \frac{p_i-1}{p_i}$</p>
+<h6 id="素数-p-1"><a href="#素数-p-1" class="headerlink" title="素数$p$"></a>素数$p$</h6><p>$g(p)&#x3D;p$</p>
+<p>$k(p)&#x3D;1$</p>
+<h6 id="p-nmid-i-1"><a href="#p-nmid-i-1" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h6><p>$g(i \times p)&#x3D;p$</p>
+<p>$k(i \times p)&#x3D;1$</p>
+<h6 id="p-mid-i-1"><a href="#p-mid-i-1" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h6><p>$g(i \times p)&#x3D;g(i) \times p$</p>
+<p>$k(i \times p)&#x3D;k(i)+1$</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h3 id="计算-phi"><a href="#计算-phi" class="headerlink" title="计算$\phi$"></a>计算$\phi$</h3><p>定义$\phi(n)&#x3D;\sum_{i&#x3D;1}^{n}\epsilon((i,n))$</p>
+<p>同时有计算公式$\phi(n)&#x3D;n\Pi \frac{p_i-1}{p_i}$</p>
 <p>依旧是分类讨论</p>
-<h4 id="素数-p-2"><a href="#素数-p-2" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\phi(p)=p-1$</p>
+<h4 id="素数-p-2"><a href="#素数-p-2" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\phi(p)&#x3D;p-1$</p>
 <p>因为$[1,p-1]$中所有的整数都和$p$互素</p>
-<h4 id="p-nmid-i-2"><a href="#p-nmid-i-2" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\phi(i \times p)=\phi(i) \times \phi(p)=\phi(i) \times (p-1)$</p>
+<h4 id="p-nmid-i-2"><a href="#p-nmid-i-2" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\phi(i \times p)&#x3D;\phi(i) \times \phi(p)&#x3D;\phi(i) \times (p-1)$</p>
 <p>$\phi$是积性函数</p>
-<h4 id="p-mid-i-2"><a href="#p-mid-i-2" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>设$\phi(i)=n \Pi \frac{p_i-1}{p_i}$</p>
+<h4 id="p-mid-i-2"><a href="#p-mid-i-2" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>设$\phi(i)&#x3D;n \Pi \frac{p_i-1}{p_i}$</p>
 <p>因为$i$中已经有素因子$p$</p>
-<p>则$\phi(i \times p)=np \Pi  \frac{p_i-1}{p_i}=p \times (n\Pi \frac{p_i-1}{p_i})$</p>
-<p>也就是说$\phi(i \times p)=p \times \phi(i)$</p>
+<p>则$\phi(i \times p)&#x3D;np \Pi  \frac{p_i-1}{p_i}&#x3D;p \times (n\Pi \frac{p_i-1}{p_i})$</p>
+<p>也就是说$\phi(i \times p)&#x3D;p \times \phi(i)$</p>
 <h3 id="计算-mu"><a href="#计算-mu" class="headerlink" title="计算$\mu$"></a>计算$\mu$</h3><p>定义</p>
-<p>$$<br>\mu(n)=<br>\begin{cases}<br>1 \qquad &amp; n=1 \\<br>(-1)^k \qquad &amp; n=\Pi_{i=1}^{k} p_i \\<br>0 \qquad &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
+<p>$$<br>\mu(n)&#x3D;<br>\begin{cases}<br>1 \qquad &amp; n&#x3D;1 \\<br>(-1)^k \qquad &amp; n&#x3D;\Pi_{i&#x3D;1}^{k} p_i \\<br>0 \qquad &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
 <p>依旧是分类讨论</p>
-<h4 id="素数-p-3"><a href="#素数-p-3" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\mu(p)=-1$</p>
+<h4 id="素数-p-3"><a href="#素数-p-3" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\mu(p)&#x3D;-1$</p>
 <p>根据$\mu$的定义</p>
-<h4 id="p-nmid-i-3"><a href="#p-nmid-i-3" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\mu(i \times p)=\mu(i) \times \mu(p)=-\mu(i)$</p>
+<h4 id="p-nmid-i-3"><a href="#p-nmid-i-3" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\mu(i \times p)&#x3D;\mu(i) \times \mu(p)&#x3D;-\mu(i)$</p>
 <p>$\mu$是积性函数</p>
-<h4 id="p-mid-i-3"><a href="#p-mid-i-3" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>$\mu(i \times p)=\mu(\frac{i}{p^t} \times p^t)=\mu(\frac{i}{p^t}) \times \mu(p^t)=0 \wedge (\frac{i}{p^t},p^t)=1 \wedge t \ge 2$</p>
-<p>根据$\mu$的定义，如果$n$包含非$1$的完全平方因子，那么$\mu(n)=0$</p>
-<h3 id="计算-tau"><a href="#计算-tau" class="headerlink" title="计算$\tau$"></a>计算$\tau$</h3><p>定义$\sigma_k(n)=\sum_{d \mid n}d^k$</p>
-<p>定义$\tau(n)=\sigma_0(n)$，叫做<strong>约数个数</strong>函数</p>
-<p>则$\tau(n)=\Pi (a_i+1)$，其中$n=\Pi p_i^{a_i}$</p>
-<h4 id="素数-p-4"><a href="#素数-p-4" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\tau(p)=2$</p>
+<h4 id="p-mid-i-3"><a href="#p-mid-i-3" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>$\mu(i \times p)&#x3D;\mu(\frac{i}{p^t} \times p^t)&#x3D;\mu(\frac{i}{p^t}) \times \mu(p^t)&#x3D;0 \wedge (\frac{i}{p^t},p^t)&#x3D;1 \wedge t \ge 2$</p>
+<p>根据$\mu$的定义，如果$n$包含非$1$的完全平方因子，那么$\mu(n)&#x3D;0$</p>
+<h3 id="计算-tau"><a href="#计算-tau" class="headerlink" title="计算$\tau$"></a>计算$\tau$</h3><p>定义$\sigma_k(n)&#x3D;\sum_{d \mid n}d^k$</p>
+<p>定义$\tau(n)&#x3D;\sigma_0(n)$，叫做<strong>约数个数</strong>函数</p>
+<p>则$\tau(n)&#x3D;\Pi (a_i+1)$，其中$n&#x3D;\Pi p_i^{a_i}$</p>
+<h4 id="素数-p-4"><a href="#素数-p-4" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\tau(p)&#x3D;2$</p>
 <p>即$1$和$p$</p>
-<h4 id="p-nmid-i-4"><a href="#p-nmid-i-4" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\tau(i \times p)=\tau(i) \times \tau(p)$</p>
+<h4 id="p-nmid-i-4"><a href="#p-nmid-i-4" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\tau(i \times p)&#x3D;\tau(i) \times \tau(p)$</p>
 <p>$\sigma_k$是积性函数</p>
-<h4 id="p-nmid-i-5"><a href="#p-nmid-i-5" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\tau(i \times p)=\tau(\frac{i}{p^t}) \times \tau(p^t)=\tau(\frac{i}{p^t}) \times (t+1)$</p>
-<h3 id="计算-sigma"><a href="#计算-sigma" class="headerlink" title="计算$\sigma$"></a>计算$\sigma$</h3><p>定义$\sigma(n)=\sigma_1(n)​$，叫做<strong>约数和</strong>函数</p>
-<p>则$\sigma(n)=\Pi_i \sum_{j=0}^{a_i} p_i^j$</p>
-<h4 id="素数-p-5"><a href="#素数-p-5" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\sigma(p)=1+p$</p>
+<h4 id="p-nmid-i-5"><a href="#p-nmid-i-5" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\tau(i \times p)&#x3D;\tau(\frac{i}{p^t}) \times \tau(p^t)&#x3D;\tau(\frac{i}{p^t}) \times (t+1)$</p>
+<h3 id="计算-sigma"><a href="#计算-sigma" class="headerlink" title="计算$\sigma$"></a>计算$\sigma$</h3><p>定义$\sigma(n)&#x3D;\sigma_1(n)​$，叫做<strong>约数和</strong>函数</p>
+<p>则$\sigma(n)&#x3D;\Pi_i \sum_{j&#x3D;0}^{a_i} p_i^j$</p>
+<h4 id="素数-p-5"><a href="#素数-p-5" class="headerlink" title="素数$p$"></a>素数$p$</h4><p>$\sigma(p)&#x3D;1+p$</p>
 <p>即$1$和$p$</p>
-<h4 id="p-nmid-i-6"><a href="#p-nmid-i-6" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\sigma(i \times p)=\sigma(i) \times \sigma(p)$</p>
+<h4 id="p-nmid-i-6"><a href="#p-nmid-i-6" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\sigma(i \times p)&#x3D;\sigma(i) \times \sigma(p)$</p>
 <p>$\sigma_k$是积性函数</p>
-<h4 id="p-mid-i-4"><a href="#p-mid-i-4" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>$\sigma(i \times p)=\sigma(\frac{i}{p^t}) \times \sigma(p^t)=\sigma(\frac{i}{p^t}) \times \sum_{j=0}^{t}p^j=\sigma(\frac{i}{p^t}) \times h(i)$</p>
+<h4 id="p-mid-i-4"><a href="#p-mid-i-4" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>$\sigma(i \times p)&#x3D;\sigma(\frac{i}{p^t}) \times \sigma(p^t)&#x3D;\sigma(\frac{i}{p^t}) \times \sum_{j&#x3D;0}^{t}p^j&#x3D;\sigma(\frac{i}{p^t}) \times h(i)$</p>
 <p>其中$h(i)$表示$i$的最小素因数的幂次和，这个可以在线性筛的同时处理</p>
-<h3 id="计算-sigma-k"><a href="#计算-sigma-k" class="headerlink" title="计算$\sigma_k$"></a>计算$\sigma_k$</h3><h4 id="base"><a href="#base" class="headerlink" title="base"></a>base</h4><p>$\sigma_k(1)=\sum_{d \mid 1}d^k=1$</p>
-<h4 id="p-in-P"><a href="#p-in-P" class="headerlink" title="$p \in P$"></a>$p \in P$</h4><p>$\sigma_k(p)=\sum_{d \mid p}d^k=1+p^k$</p>
-<h4 id="p-nmid-i-7"><a href="#p-nmid-i-7" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\sigma_k(i \times p)=\sigma_k(i) \times \sigma_k(p)$</p>
-<h4 id="p-mid-i-5"><a href="#p-mid-i-5" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>$i \times p=t \times p^r \wedge (t,p^r)=1$</p>
-<p>$\sigma_k(i \times p)=\sigma_k(t) \times \sigma_k(p^r)$</p>
-<p>$\sigma_k(p^r)=\sum_{j=0}^{r}(p^j)^k=\sum_{j=0}^{r}p^{jk}$</p>
+<h3 id="计算-sigma-k"><a href="#计算-sigma-k" class="headerlink" title="计算$\sigma_k$"></a>计算$\sigma_k$</h3><h4 id="base"><a href="#base" class="headerlink" title="base"></a>base</h4><p>$\sigma_k(1)&#x3D;\sum_{d \mid 1}d^k&#x3D;1$</p>
+<h4 id="p-in-P"><a href="#p-in-P" class="headerlink" title="$p \in P$"></a>$p \in P$</h4><p>$\sigma_k(p)&#x3D;\sum_{d \mid p}d^k&#x3D;1+p^k$</p>
+<h4 id="p-nmid-i-7"><a href="#p-nmid-i-7" class="headerlink" title="$p \nmid i$"></a>$p \nmid i$</h4><p>$\sigma_k(i \times p)&#x3D;\sigma_k(i) \times \sigma_k(p)$</p>
+<h4 id="p-mid-i-5"><a href="#p-mid-i-5" class="headerlink" title="$p \mid i$"></a>$p \mid i$</h4><p>$i \times p&#x3D;t \times p^r \wedge (t,p^r)&#x3D;1$</p>
+<p>$\sigma_k(i \times p)&#x3D;\sigma_k(t) \times \sigma_k(p^r)$</p>
+<p>$\sigma_k(p^r)&#x3D;\sum_{j&#x3D;0}^{r}(p^j)^k&#x3D;\sum_{j&#x3D;0}^{r}p^{jk}$</p>
 <h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>当然这还是不够的，每次大力计算$\sigma_k(p^r)$是会超时的</p>
-<p>不妨测一下$n=k=10^7$的时候，$p,r$的最大值吧</p>
+<p>不妨测一下$n&#x3D;k&#x3D;10^7$的时候，$p,r$的最大值吧</p>
 <p>可以得到$p \le 4000, r \le 25$，不妨开个数组直接记忆化保存即可</p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">1e7</span> + <span class="number">10</span>, p = <span class="number">1000000007</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n, k, pri[N], tot, c[N], mn[N], g[N];</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> vis[N];</span><br><span class="line"></span><br><span class="line">ll f[N], ans;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pw</span><span class="params">(<span class="keyword">int</span> a, ll b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> r = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>( ; b ; b &gt;&gt;= <span class="number">1</span>, a = (ll) a * a % p) <span class="keyword">if</span>(b &amp; <span class="number">1</span>) r = (ll) r * a % p;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> val[<span class="number">4000</span>][<span class="number">25</span>];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">F</span><span class="params">(<span class="keyword">int</span> mn, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(val[mn][c] != <span class="number">-1</span>) <span class="keyword">return</span> val[mn][c];</span><br><span class="line">	<span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span> ; j &lt;= c ; ++ j) r = ((ll) r + <span class="built_in">pw</span>(mn, (ll) j * k)) % p;</span><br><span class="line">	<span class="keyword">return</span> val[mn][c] = r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(val, <span class="number">-1</span>, <span class="keyword">sizeof</span> val);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;k);</span><br><span class="line">	ans = f[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">		<span class="keyword">if</span>(!vis[i]) pri[++ tot] = i, f[i] = <span class="number">1</span> + <span class="built_in">pw</span>(i, k), g[i] = i, c[i] = <span class="number">1</span>, mn[i] = i;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; (ll) i * pri[j] &lt;= n ; ++ j) &#123;</span><br><span class="line">			<span class="keyword">int</span> x = i * pri[j];</span><br><span class="line">			vis[x] = <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(i % pri[j] == <span class="number">0</span>) &#123;</span><br><span class="line">				f[x] = f[i / g[i]] * <span class="built_in">F</span>(mn[i], c[i] + <span class="number">1</span>) % p;</span><br><span class="line">				g[x] = g[i] * pri[j];</span><br><span class="line">				c[x] = c[i] + <span class="number">1</span>;</span><br><span class="line">				mn[x] = pri[j];</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> f[x] = f[i] * f[pri[j]] % p, g[x] = pri[j], c[x] = <span class="number">1</span>, mn[x] = pri[j];</span><br><span class="line">		&#125;</span><br><span class="line">		ans = (ans + f[i]) % p;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;bits/stdc++.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e7</span> + <span class="number">10</span>, p = <span class="number">1000000007</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, k, pri[N], tot, c[N], mn[N], g[N];</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> vis[N];</span><br><span class="line"></span><br><span class="line">ll f[N], ans;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pw</span><span class="params">(<span class="type">int</span> a, ll b)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> r = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>( ; b ; b &gt;&gt;= <span class="number">1</span>, a = (ll) a * a % p) <span class="keyword">if</span>(b &amp; <span class="number">1</span>) r = (ll) r * a % p;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> val[<span class="number">4000</span>][<span class="number">25</span>];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">F</span><span class="params">(<span class="type">int</span> mn, <span class="type">int</span> c)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(val[mn][c] != <span class="number">-1</span>) <span class="keyword">return</span> val[mn][c];</span><br><span class="line">	<span class="type">int</span> r = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span> ; j &lt;= c ; ++ j) r = ((ll) r + <span class="built_in">pw</span>(mn, (ll) j * k)) % p;</span><br><span class="line">	<span class="keyword">return</span> val[mn][c] = r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(val, <span class="number">-1</span>, <span class="keyword">sizeof</span> val);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;k);</span><br><span class="line">	ans = f[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">		<span class="keyword">if</span>(!vis[i]) pri[++ tot] = i, f[i] = <span class="number">1</span> + <span class="built_in">pw</span>(i, k), g[i] = i, c[i] = <span class="number">1</span>, mn[i] = i;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span> ; j &lt;= tot &amp;&amp; (ll) i * pri[j] &lt;= n ; ++ j) &#123;</span><br><span class="line">			<span class="type">int</span> x = i * pri[j];</span><br><span class="line">			vis[x] = <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(i % pri[j] == <span class="number">0</span>) &#123;</span><br><span class="line">				f[x] = f[i / g[i]] * <span class="built_in">F</span>(mn[i], c[i] + <span class="number">1</span>) % p;</span><br><span class="line">				g[x] = g[i] * pri[j];</span><br><span class="line">				c[x] = c[i] + <span class="number">1</span>;</span><br><span class="line">				mn[x] = pri[j];</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> f[x] = f[i] * f[pri[j]] % p, g[x] = pri[j], c[x] = <span class="number">1</span>, mn[x] = pri[j];</span><br><span class="line">		&#125;</span><br><span class="line">		ans = (ans + f[i]) % p;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
   </div>
@@ -296,25 +300,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -532,6 +517,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

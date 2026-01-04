@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【loj 2541】「PKUWC2018」猎人杀 | nekko</title>
+  <title>【loj 2541】「PKUWC2018」猎人杀 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,21 +15,21 @@
     <meta name="keywords" content="算法,数学,多项式,概率,生成函数,背包," />
   
 
-  <meta name="description" content="题目链接 题目描述猎人杀是一款风靡一时的游戏“狼人杀”的民间版本，他的规则是这样的： 一开始有 $n$ 个猎人，第 $i$ 个猎人有仇恨度 $w_i$ ，每个猎人只有一个固定的技能：死亡后必须开一枪，且被射中的人也会死亡 然而向谁开枪也是有讲究的，假设当前还活着的猎人有 $[i_1\ldots i_m]$，那么有 $\frac{w_{i_k}}{\sum\limits_{j &#x3D; 1}^{m} w_">
+  <meta name="description" content="题目链接 题目描述猎人杀是一款风靡一时的游戏“狼人杀”的民间版本，他的规则是这样的： 一开始有 $n$ 个猎人，第 $i$ 个猎人有仇恨度 $w_i$ ，每个猎人只有一个固定的技能：死亡后必须开一枪，且被射中的人也会死亡 然而向谁开枪也是有讲究的，假设当前还活着的猎人有 $[i_1\ldots i_m]$，那么有 $\frac{w_{i_k}}{\sum\limits_{j &#x3D; 1}^{">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【loj 2541】「PKUWC2018」猎人杀">
 <meta property="og:url" content="https://nekko.moe/loj-solutions/loj-2541/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="题目链接 题目描述猎人杀是一款风靡一时的游戏“狼人杀”的民间版本，他的规则是这样的： 一开始有 $n$ 个猎人，第 $i$ 个猎人有仇恨度 $w_i$ ，每个猎人只有一个固定的技能：死亡后必须开一枪，且被射中的人也会死亡 然而向谁开枪也是有讲究的，假设当前还活着的猎人有 $[i_1\ldots i_m]$，那么有 $\frac{w_{i_k}}{\sum\limits_{j &#x3D; 1}^{m} w_">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="题目链接 题目描述猎人杀是一款风靡一时的游戏“狼人杀”的民间版本，他的规则是这样的： 一开始有 $n$ 个猎人，第 $i$ 个猎人有仇恨度 $w_i$ ，每个猎人只有一个固定的技能：死亡后必须开一枪，且被射中的人也会死亡 然而向谁开枪也是有讲究的，假设当前还活着的猎人有 $[i_1\ldots i_m]$，那么有 $\frac{w_{i_k}}{\sum\limits_{j &#x3D; 1}^{">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-04-12T08:56:48.000Z">
-<meta property="article:modified_time" content="2019-04-12T09:09:41.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="数学">
+<meta property="article:published_time" content="2019-04-12T20:56:48.000Z">
+<meta property="article:modified_time" content="2019-04-12T09:09:42.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="多项式">
+<meta property="article:tag" content="数学">
 <meta property="article:tag" content="概率">
 <meta property="article:tag" content="生成函数">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="背包">
 <meta name="twitter:card" content="summary">
 
@@ -49,6 +49,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -60,7 +64,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -162,7 +166,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -192,21 +196,21 @@
       <p><a target="_blank" rel="noopener" href="https://loj.ac/problem/2541">题目链接</a></p>
 <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>猎人杀是一款风靡一时的游戏“狼人杀”的民间版本，他的规则是这样的：</p>
 <p>一开始有 $n$ 个猎人，第 $i$ 个猎人有仇恨度 $w_i$ ，每个猎人只有一个固定的技能：死亡后必须开一枪，且被射中的人也会死亡</p>
-<p>然而向谁开枪也是有讲究的，假设当前还活着的猎人有 $[i_1\ldots i_m]$，那么有 $\frac{w_{i_k}}{\sum\limits_{j = 1}^{m} w_{i_j}}$ 的概率是向猎人 $i_k$ 开枪</p>
-<p>一开始第一枪由你打响，目标的选择方法和猎人一样（即有 $\frac{w_i}{\sum\limits_{j=1}^{n}w_j}$ 的概率射中第 $i$ 个猎人）</p>
+<p>然而向谁开枪也是有讲究的，假设当前还活着的猎人有 $[i_1\ldots i_m]$，那么有 $\frac{w_{i_k}}{\sum\limits_{j &#x3D; 1}^{m} w_{i_j}}$ 的概率是向猎人 $i_k$ 开枪</p>
+<p>一开始第一枪由你打响，目标的选择方法和猎人一样（即有 $\frac{w_i}{\sum\limits_{j&#x3D;1}^{n}w_j}$ 的概率射中第 $i$ 个猎人）</p>
 <p>由于开枪导致的连锁反应，所有猎人最终都会死亡，现在 $1$ 号猎人想知道它是最后一个死的的概率</p>
 <p>答案对 $998244353$ 取模</p>
-<p>对于$100%$的数据，有$w_i&gt;0$，且$1\leq \sum\limits_{i=1}^{n}w_i \leq 100000$</p>
+<p>对于$100%$的数据，有$w_i&gt;0$，且$1\leq \sum\limits_{i&#x3D;1}^{n}w_i \leq 100000$</p>
 <h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>不妨对于每一个猎人，如果他死亡后不要把他移除游戏，而是如果在某次选择到他的时候就再选择一次，直到选择了一个存活的猎人</p>
-<p>设 $A$ 为总人数的 $w$ 的和，$B$ 为已经死亡的人数的 $w$ 的和，$P$ 为选择一个权值为 $w$ 的存活的人的概率，显然 $P=\frac{w}{A-B}$</p>
+<p>设 $A$ 为总人数的 $w$ 的和，$B$ 为已经死亡的人数的 $w$ 的和，$P$ 为选择一个权值为 $w$ 的存活的人的概率，显然 $P&#x3D;\frac{w}{A-B}$</p>
 <p>如果用上面那个做法来计算概率，有：</p>
-<p>$$<br>P=\frac{B}{A}P+\frac{w}{A} \Rightarrow P=\frac{w}{A-B}<br>$$</p>
+<p>$$<br>P&#x3D;\frac{B}{A}P+\frac{w}{A} \Rightarrow P&#x3D;\frac{w}{A-B}<br>$$</p>
 <p>于是这个模型是一个完全等价的</p>
-<p>考虑容斥，设 $f(S)$ 表示 $S$ 中的人比 $1$ 后死亡的概率，设 $x=\sum_{y \in S} w_y$，则：</p>
-<p>$$<br>\begin{aligned}<br>f(S)<br>&amp;=(-1)^{|S|}\sum_{i=0}^{\infty} (1-\frac{x+w_1}{A})^{i}\frac{w_1}{A} \\<br>&amp;=(-1)^{|S|} \frac{1}{1-(1-\frac{x+w_1}{A})} \frac{w_1}{A} \\<br>&amp;=(-1)^{|S|}\frac{w_1}{w_1+x} \\<br>\end{aligned}<br>$$</p>
+<p>考虑容斥，设 $f(S)$ 表示 $S$ 中的人比 $1$ 后死亡的概率，设 $x&#x3D;\sum_{y \in S} w_y$，则：</p>
+<p>$$<br>\begin{aligned}<br>f(S)<br>&amp;&#x3D;(-1)^{|S|}\sum_{i&#x3D;0}^{\infty} (1-\frac{x+w_1}{A})^{i}\frac{w_1}{A} \\<br>&amp;&#x3D;(-1)^{|S|} \frac{1}{1-(1-\frac{x+w_1}{A})} \frac{w_1}{A} \\<br>&amp;&#x3D;(-1)^{|S|}\frac{w_1}{w_1+x} \\<br>\end{aligned}<br>$$</p>
 <p>于是只需要计算 $g(x)$ 表示权值和为 $x$ 时，$(-1)^{|S|}$ 的和即可</p>
 <p>相当于一个背包问题，每个物品有权值 $w$，每次选择一个贡献 $-1$ 的系数</p>
-<p>也就是说每个物品看作 $1-x^{w}$，它们卷积起来就行了，即 $\prod_{i=2}^{n}(1-x^{w_{i}})$</p>
+<p>也就是说每个物品看作 $1-x^{w}$，它们卷积起来就行了，即 $\prod_{i&#x3D;2}^{n}(1-x^{w_{i}})$</p>
 <p>分治 $fft$ 一下就好了</p>
 
     
@@ -233,25 +237,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -469,6 +454,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>min-max 容斥 | nekko</title>
+  <title>min-max 容斥 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="算法,容斥原理,组合数学," />
   
 
-  <meta name="description" content="可以忽略掉这一段之前写过一篇 初探容斥原理，评论里有这么一句：  然后我发现我并不会……于是就去学了一下 min-max容斥 …… 前置知识二项式反演$$ \begin{aligned} f_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} g_i &amp;\Leftrightarrow g_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} f">
+  <meta name="description" content="可以忽略掉这一段之前写过一篇 初探容斥原理，评论里有这么一句：  然后我发现我并不会……于是就去学了一下 min-max容斥 …… 前置知识二项式反演$$ \begin{aligned} f_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} g_i &amp;\Leftrightarrow g_n&#x3D;\sum_{i&#x3D;0}^{n}(-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="min-max 容斥">
 <meta property="og:url" content="https://nekko.moe/min-max-in-ex/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="可以忽略掉这一段之前写过一篇 初探容斥原理，评论里有这么一句：  然后我发现我并不会……于是就去学了一下 min-max容斥 …… 前置知识二项式反演$$ \begin{aligned} f_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} g_i &amp;\Leftrightarrow g_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} f">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="可以忽略掉这一段之前写过一篇 初探容斥原理，评论里有这么一句：  然后我发现我并不会……于是就去学了一下 min-max容斥 …… 前置知识二项式反演$$ \begin{aligned} f_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} g_i &amp;\Leftrightarrow g_n&#x3D;\sum_{i&#x3D;0}^{n}(-">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2018/12/23/5c1f72522be7b.png">
-<meta property="article:published_time" content="2018-12-27T02:42:21.000Z">
+<meta property="article:published_time" content="2018-12-27T15:42:21.000Z">
 <meta property="article:modified_time" content="2019-07-10T07:42:42.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="容斥原理">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="组合数学">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2018/12/23/5c1f72522be7b.png">
@@ -48,6 +48,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -59,7 +63,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -161,7 +165,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -193,40 +197,40 @@
 <h1 id="可以忽略掉这一段"><a href="#可以忽略掉这一段" class="headerlink" title="可以忽略掉这一段"></a>可以忽略掉这一段</h1><p>之前写过一篇 <a target="_blank" rel="noopener" href="https://www.luogu.org/blog/KingSann/chu-tan-rong-chi-yuan-li">初探容斥原理</a>，评论里有这么一句：</p>
 <p><img src="https://i.loli.net/2018/12/23/5c1f72522be7b.png"></p>
 <p>然后我发现我并不会……于是就去学了一下 <code>min-max容斥</code> ……</p>
-<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="二项式反演"><a href="#二项式反演" class="headerlink" title="二项式反演"></a>二项式反演</h2><p>$$ \begin{aligned} f_n=\sum_{i=0}^{n}(-1)^i {n \choose i} g_i &amp;\Leftrightarrow g_n=\sum_{i=0}^{n}(-1)^i {n \choose i} f_i \\ f_n=\sum_{i=0}^{n}{n \choose i} g_i &amp;\Leftrightarrow g_n=\sum_{i=0}^{n}(-1)^{n-i} {n \choose i} f_i \end{aligned} $$</p>
+<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="二项式反演"><a href="#二项式反演" class="headerlink" title="二项式反演"></a>二项式反演</h2><p>$$ \begin{aligned} f_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} g_i &amp;\Leftrightarrow g_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^i {n \choose i} f_i \\ f_n&#x3D;\sum_{i&#x3D;0}^{n}{n \choose i} g_i &amp;\Leftrightarrow g_n&#x3D;\sum_{i&#x3D;0}^{n}(-1)^{n-i} {n \choose i} f_i \end{aligned} $$</p>
 <h1 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h1><p>设有一集合 $S$，定义 $\max(S)$ 表示集合 $S$ 的最大值，$\min(S)$ 表示集合 $S$ 的最小值</p>
 <p>则有如下两个式子成立：</p>
-<p>$$\begin{cases} &amp;\max(S)=\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}\min(T) \\ &amp;\min(S)=\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}\max(T) \end{cases}$$</p>
+<p>$$\begin{cases} &amp;\max(S)&#x3D;\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}\min(T) \\ &amp;\min(S)&#x3D;\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}\max(T) \end{cases}$$</p>
 <p>证明的话其实十分简单易懂，在此只证明第一个的正确性</p>
 <p>假设现在把集合 $S$ 从小到大排序（假设集合大小为 $x$），若某个元素的排名为 $x$，那么它在最终答案中的系数就是（考虑它在何时作为最小值出现）：</p>
-<p>$$\sum_{i=0}^{n-x} {n-x \choose i} (-1)^{i+1+1}=(1-1)^{n-x}=[x=n]$$</p>
+<p>$$\sum_{i&#x3D;0}^{n-x} {n-x \choose i} (-1)^{i+1+1}&#x3D;(1-1)^{n-x}&#x3D;[x&#x3D;n]$$</p>
 <p>于是一个元素对答案产生贡献当且仅当它是最大的元素，于是就是 $\max(S)$ 了</p>
 <p>一个更加有用的结论是，<code>min-max 容斥</code> 在期望意义下仍然成立</p>
 <p>也就是说：</p>
-<p>$$\begin{cases} &amp;E(\max(S))=\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}E(\min(T)) \\ &amp;E(\min(S))=\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}E(\max(T)) \end{cases}$$</p>
+<p>$$\begin{cases} &amp;E(\max(S))&#x3D;\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}E(\min(T)) \\ &amp;E(\min(S))&#x3D;\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}E(\max(T)) \end{cases}$$</p>
 <h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>那么这个是怎么推出来的呢……（注意这个很重要）</p>
 <p>现在想构造一个 $f$ 函数，使得下式成立：</p>
-<p>$$\max(S)=\sum_{T \subseteq S} f(\mid T \mid) \min(T)$$</p>
+<p>$$\max(S)&#x3D;\sum_{T \subseteq S} f(\mid T \mid) \min(T)$$</p>
 <p>然后依然考虑一个元素排序后在哪些集合产生贡献，假设某个元素从小到大后排在第 $x$ 位（集合大小为 $n$），那么它的贡献就是：</p>
-<p>$$[x=n]=\sum_{i=0}^{n-x} {n-x \choose i}f(i+1)$$</p>
+<p>$$[x&#x3D;n]&#x3D;\sum_{i&#x3D;0}^{n-x} {n-x \choose i}f(i+1)$$</p>
 <p>套用二项式反演，可以得到：</p>
-<p>$$[x=n]=\sum_{i=0}^{n-x} {n-x \choose i}f(i+1)$$</p>
-<p>$$[n-x=0]=\sum_{i=0}^{n-x} {n-x \choose i} f(i+1)$$</p>
-<p>$$[x=0]=\sum_{i=0}^{x} {x \choose i} f(i+1)$$</p>
-<p>$$f(x+1)=\sum_{i=0}^{x}(-1)^{x-i} {x \choose i} [i=0]=(-1)^x {x \choose 0}=(-1)^{x}$$</p>
-<p>$$f(x)=(-1)^{x+1}$$</p>
+<p>$$[x&#x3D;n]&#x3D;\sum_{i&#x3D;0}^{n-x} {n-x \choose i}f(i+1)$$</p>
+<p>$$[n-x&#x3D;0]&#x3D;\sum_{i&#x3D;0}^{n-x} {n-x \choose i} f(i+1)$$</p>
+<p>$$[x&#x3D;0]&#x3D;\sum_{i&#x3D;0}^{x} {x \choose i} f(i+1)$$</p>
+<p>$$f(x+1)&#x3D;\sum_{i&#x3D;0}^{x}(-1)^{x-i} {x \choose i} [i&#x3D;0]&#x3D;(-1)^x {x \choose 0}&#x3D;(-1)^{x}$$</p>
+<p>$$f(x)&#x3D;(-1)^{x+1}$$</p>
 <p>于是就得到了：</p>
-<p>$$\max(S)=\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}\min(T)$$</p>
+<p>$$\max(S)&#x3D;\sum\limits_{\emptyset \ne T \subseteq S}(-1)^{\mid T \mid + 1}\min(T)$$</p>
 <h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1><p>既然现在有了求最大值的容斥了，而且还知道原理，不放搞一搞第 $k$ 大的容斥</p>
 <p>即现在要构造一个 $f$，满足：</p>
-<p>$$kthmax(S)=\sum_{T \subseteq S} f(\mid T \mid) \min(T)$$</p>
+<p>$$kthmax(S)&#x3D;\sum_{T \subseteq S} f(\mid T \mid) \min(T)$$</p>
 <p>依然是考虑一个排名（从小到大）为 $x$ 的元素在大小为 $n$ 的集合中的贡献：</p>
-<p>$$[n-x+1=k]=\sum_{i=0}^{n-x} {n-x \choose i} f(i+1)$$</p>
-<p>$$[x=k-1]=\sum_{i=0}^{x} {x \choose i} f(i+1)$$</p>
-<p>$$f(x+1)=\sum_{i=0}^{x} (-1)^{x-i} {x \choose i} [i=k-1]=(-1)^{x-(k-1)}{x \choose k-1}$$</p>
-<p>$$f(x)=(-1)^{x-k} {x-1 \choose k-1}$$</p>
+<p>$$[n-x+1&#x3D;k]&#x3D;\sum_{i&#x3D;0}^{n-x} {n-x \choose i} f(i+1)$$</p>
+<p>$$[x&#x3D;k-1]&#x3D;\sum_{i&#x3D;0}^{x} {x \choose i} f(i+1)$$</p>
+<p>$$f(x+1)&#x3D;\sum_{i&#x3D;0}^{x} (-1)^{x-i} {x \choose i} [i&#x3D;k-1]&#x3D;(-1)^{x-(k-1)}{x \choose k-1}$$</p>
+<p>$$f(x)&#x3D;(-1)^{x-k} {x-1 \choose k-1}$$</p>
 <p>也就是说：</p>
-<p>$$kthmax(S)=\sum_{T \subseteq S} (-1)^{\mid T \mid-k} {\mid T \mid -1 \choose k-1} \min(T)$$</p>
+<p>$$kthmax(S)&#x3D;\sum_{T \subseteq S} (-1)^{\mid T \mid-k} {\mid T \mid -1 \choose k-1} \min(T)$$</p>
 <h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><ul>
 <li><a target="_blank" rel="noopener" href="http://acm.hdu.edu.cn/showproblem.php?pid=4336">[hdu 4336] Card Collector</a> <a target="_blank" rel="noopener" href="https://www.luogu.org/blog/KingSann/hdu-4336card-collector">题解</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3175">[HAOI 2015] 按位或</a> <a target="_blank" rel="noopener" href="https://www.luogu.org/blog/ShadowassIIXVIIIIV/solution-p3175">题解</a></li>
@@ -264,25 +268,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -500,6 +485,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

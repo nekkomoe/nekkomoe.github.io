@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>二进制分组 | nekko</title>
+  <title>二进制分组 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,18 +19,18 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="二进制分组">
 <meta property="og:url" content="https://nekko.moe/2-grop/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="一个想法如果需要让你维护一个数据结构 支持往里面添加一个数据，或者查询一个信息 且强制在线，应该怎么做呢？ 如果支持快速插入和快速查询的话，直接做就好啦 下面从一道经典题目来探讨 动态凸包 这里有若干次操作，诸如  添加一个点 给定$x,y$，从所有的点中找一个点$(a,b)$，使得$a \cdot x+b \cdot y$最大  强制在线，且数据范围如下 $1 \le a,b,x,y \le 1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-05-05T15:03:12.000Z">
+<meta property="article:published_time" content="2018-05-06T03:03:12.000Z">
 <meta property="article:modified_time" content="2018-09-09T15:05:42.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="平衡树">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="二进制分组">
 <meta property="article:tag" content="凸包">
 <meta property="article:tag" content="分块">
 <meta property="article:tag" content="定期重构">
+<meta property="article:tag" content="平衡树">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -49,6 +49,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -60,7 +64,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -162,7 +166,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -204,7 +208,7 @@
 <p>$1 \le a,b,x,y \le 10^9$<br>$1 \le n \le 50000$</p>
 </blockquote>
 <p>怎么做？</p>
-<p>设$z=ax+by$，现在要最大化$z$，整理一下式子：$-\frac{x}{y}a+\frac{z}{y}=b$</p>
+<p>设$z&#x3D;ax+by$，现在要最大化$z$，整理一下式子：$-\frac{x}{y}a+\frac{z}{y}&#x3D;b$</p>
 <p>可以发现这个式子的意义是</p>
 <p>经过点$(a,b)$，斜率为$-\frac{x}{y}$，截距为$\frac{z}{y}$的一条直线</p>
 <p>现在需要最大化$\frac{z}{y}$，即最大化截距</p>
@@ -219,14 +223,14 @@
 <p>实现的话可以用vector套vector来实现</p>
 <p>其中子vector维护的是凸包，父vector维护的是所有的凸包</p>
 <p>查询的话在每个凸包上查询就好</p>
-<p>时间复杂度$O(n \cdot (\sqrt n + \log n))=O(n \cdot \sqrt n)$</p>
+<p>时间复杂度$O(n \cdot (\sqrt n + \log n))&#x3D;O(n \cdot \sqrt n)$</p>
 <h2 id="二进制分组"><a href="#二进制分组" class="headerlink" title="二进制分组"></a>二进制分组</h2><p>事实上定期重构的时间复杂度还是很差，这里有一个更加优秀的做法</p>
 <p>维护$\log n$个块，大小分别（大概是这样）为$2^{\log(n)},2^{\log (n)-1},…$</p>
 <p>这个用vector可以实现</p>
 <p>每次添加点直接push_back</p>
 <p>如果相邻两块的大小相同，那么将这两块合并掉，并弹掉最后一个块</p>
 <p>凸包合并的话，把所有的点都搞出来扫一遍就行（inplace_merge）</p>
-<p>时间复杂度$O(\sum\limits_{i=1}^{\log(n)}\frac{n}{2^i} \cdot 2^i \cdot T(2^i))=O(n \cdot \log(n) \cdot T(n))$</p>
+<p>时间复杂度$O(\sum\limits_{i&#x3D;1}^{\log(n)}\frac{n}{2^i} \cdot 2^i \cdot T(2^i))&#x3D;O(n \cdot \log(n) \cdot T(n))$</p>
 <p>其中$n \cdot T(n)$是处理大小为$n$的块的时间</p>
 <p>查询的话在这$\log(n)$个块上二分就行</p>
 <h1 id="那么问题来了……"><a href="#那么问题来了……" class="headerlink" title="那么问题来了……"></a>那么问题来了……</h1><p>如果有删除？</p>
@@ -265,11 +269,11 @@
 <p>删除一个元素相当于在这个新开的vector中加入并维护二进制分组</p>
 <p>$$<br>O(\log(n))<br>$$</p>
 <h3 id="查询排名"><a href="#查询排名" class="headerlink" title="查询排名"></a>查询排名</h3><p>在所有表示插入的vector中二分排名，并减去表示删除的vector中的贡献</p>
-<p>$$<br>O(\log(n) \cdot \sum_{i=1}^{\log(n)}\log(2^i))<br>$$</p>
-<p>$$<br>= O(\log(n) \cdot \log(\Pi_{i=1}^{\log(n)}2^i))<br>$$</p>
-<p>$$<br>= O(\log(n) \cdot \log(2^{\sum_{i=1}^{\log(n)}i}))<br>$$</p>
-<p>$$<br>= O(\log(n) \cdot \frac{(1+\log(n)) \cdot \log(n)}{2})<br>$$</p>
-<p>$$<br>= O(\log^2(n))<br>$$</p>
+<p>$$<br>O(\log(n) \cdot \sum_{i&#x3D;1}^{\log(n)}\log(2^i))<br>$$</p>
+<p>$$<br>&#x3D; O(\log(n) \cdot \log(\Pi_{i&#x3D;1}^{\log(n)}2^i))<br>$$</p>
+<p>$$<br>&#x3D; O(\log(n) \cdot \log(2^{\sum_{i&#x3D;1}^{\log(n)}i}))<br>$$</p>
+<p>$$<br>&#x3D; O(\log(n) \cdot \frac{(1+\log(n)) \cdot \log(n)}{2})<br>$$</p>
+<p>$$<br>&#x3D; O(\log^2(n))<br>$$</p>
 <h3 id="查询kth"><a href="#查询kth" class="headerlink" title="查询kth"></a>查询kth</h3><p>二分答案后查询排名</p>
 <p>$$<br>O(\log^3(n))<br>$$</p>
 <h3 id="前驱"><a href="#前驱" class="headerlink" title="前驱"></a>前驱</h3><p>结合查询排名和查询kth解决</p>
@@ -312,25 +316,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -548,6 +533,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

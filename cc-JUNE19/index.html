@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Codechef JUNE Challenge 2019 | nekko</title>
+  <title>Codechef JUNE Challenge 2019 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,16 +15,16 @@
     <meta name="keywords" content="算法," />
   
 
-  <meta name="description" content="比赛链接 Chef and Proxy - PROXYC题目描述给定一个由字符 $A,P$ 构成序列 $S$ 你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：  $3 \le i \le n-2$ $S_i&#x3D;A$ $([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor [S_{i+2}&#x3D;P])$  你的目标">
+  <meta name="description" content="比赛链接 Chef and Proxy - PROXYC题目描述给定一个由字符 $A,P$ 构成序列 $S$ 你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：  $3 \le i \le n-2$ $S_i&#x3D;A$ $([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Codechef JUNE Challenge 2019">
 <meta property="og:url" content="https://nekko.moe/cc-JUNE19/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="比赛链接 Chef and Proxy - PROXYC题目描述给定一个由字符 $A,P$ 构成序列 $S$ 你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：  $3 \le i \le n-2$ $S_i&#x3D;A$ $([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor [S_{i+2}&#x3D;P])$  你的目标">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="比赛链接 Chef and Proxy - PROXYC题目描述给定一个由字符 $A,P$ 构成序列 $S$ 你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：  $3 \le i \le n-2$ $S_i&#x3D;A$ $([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-06-11T01:59:10.000Z">
-<meta property="article:modified_time" content="2019-07-10T07:42:47.000Z">
-<meta property="article:author" content="nekko">
+<meta property="article:published_time" content="2019-06-11T13:59:10.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:48.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
@@ -44,6 +44,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -55,7 +59,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -157,7 +161,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -191,8 +195,8 @@
 <p>你可以把一些位置上的值变成 $B$，如果 $S_i$ 能变成 $B$，当且仅当：</p>
 <ul>
 <li>$3 \le i \le n-2$</li>
-<li>$S_i=A$</li>
-<li>$([S_{i-1}=P] \lor [S_{i-2}=P]) \land ([S_{i+1}=P] \lor [S_{i+2}=P])$</li>
+<li>$S_i&#x3D;A$</li>
+<li>$([S_{i-1}&#x3D;P] \lor [S_{i-2}&#x3D;P]) \land ([S_{i+1}&#x3D;P] \lor [S_{i+2}&#x3D;P])$</li>
 </ul>
 <p>你的目标是把尽可能少的 $A$ 变成 $B$，之后需要满足 $ \frac{\sum_{x \in S}[x \ne A]}{|S|} \ge \frac{3}{4}$</p>
 <p>数据范围：$1 \le |S| \le 1000$</p>
@@ -224,7 +228,7 @@
 <h2 id="题解-3"><a href="#题解-3" class="headerlink" title="题解"></a>题解</h2><p>设你能使用的数字为 $a,a+1,a+2,\cdots,b$，那么 $1 \sim a-1$ 一定无法达成</p>
 <p>如果 $b \ge 2a$，则所有数字都可以构成</p>
 <p>否则 $b+1 \sim 2a$ 是无法构成的，把 $[a,2a]$ 当作一块，所有块的 $b+1 \sim 2a$ 部分都无法构成</p>
-<p>于是答案就是：<br>$$<br>\sum_{i=0}^{K+N-3}\left\lfloor \frac{i}{N-1} \right\rfloor<br>$$</p>
+<p>于是答案就是：<br>$$<br>\sum_{i&#x3D;0}^{K+N-3}\left\lfloor \frac{i}{N-1} \right\rfloor<br>$$</p>
 <h1 id="Sum-and-GCD-SUMAGCD"><a href="#Sum-and-GCD-SUMAGCD" class="headerlink" title="Sum and GCD - SUMAGCD"></a>Sum and GCD - SUMAGCD</h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h2><p>大厨有一个正整数序列 $A_1, A_2, \cdots , A_N$</p>
 <p>他想要将这个序列分成两个非空的（未必连续的）子序列 $B$ 和 $C$，使得 $\gcd(B) + \gcd(C)$ 尽可能大</p>
 <p>请你求出这一最大值</p>
@@ -249,7 +253,7 @@
 <p>数据范围：$1 \le N \le 10^4, 1 \le K \le N, 0 \le A_i \le 10^9, 0 \le X \le 10^9$</p>
 <h2 id="题解-5"><a href="#题解-5" class="headerlink" title="题解"></a>题解</h2><p>首先题意可以转化为，给定 $n$ 张牌，每张牌正面是 $0$，反面是 $b_i$</p>
 <p>每次你可以选择 $k$ 张牌并把它们翻面，最大化最终所有牌朝上面的数字之和</p>
-<p>首先如果 $k=n$ 可以特判掉</p>
+<p>首先如果 $k&#x3D;n$ 可以特判掉</p>
 <p>否则，如果 $k$ 是奇数，则可以把任意多张牌都翻面</p>
 <p>如果 $k$ 是偶数，则只能把任意偶数张牌翻面</p>
 <p>那么从大到小排序后贪心即可</p>
@@ -260,7 +264,7 @@
 <p>对于树中每一条简单路径 $(a, b)$，我们定义完美相交如下：</p>
 <ul>
 <li>记路径 $(u, v)$ 和 $(a, b)$ 途经的节点（包括端点）集合分别为 $S_1$ 和 $S_2$</li>
-<li>如果 $|S_1 \cap S_2|=1$（即两条路径只有一个公共节点），那么 $(a, b)$ 与 $(u, v)$ 完美相交</li>
+<li>如果 $|S_1 \cap S_2|&#x3D;1$（即两条路径只有一个公共节点），那么 $(a, b)$ 与 $(u, v)$ 完美相交</li>
 </ul>
 <p>询问的回答即与 $(u, v)$ 完美相交的简单路径条数</p>
 <p>数据范围：$1 \le Q \le 3 \cdot 10^5,1 \le u,v \le N \le 250000$</p>
@@ -289,12 +293,12 @@
 <p>数据范围：$1 \le K\ le 10^9, 1 \le N,M \le 10^5$</p>
 <h2 id="题解-8"><a href="#题解-8" class="headerlink" title="题解"></a>题解</h2><p>猜想这个序列只需要满足前 $n$ 个位置和后 $m$ 个位置的最大值相同即可</p>
 <p>不难得到答案为：</p>
-<p>$$<br>\begin{aligned}<br>\sum_{x=1}^{k} \left(x^n-(x-1)^n\right) \left( x^m-(x-1)^m \right)<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\sum_{x&#x3D;1}^{k} \left(x^n-(x-1)^n\right) \left( x^m-(x-1)^m \right)<br>\end{aligned}<br>$$</p>
 <p>至多是个 $n+m+10$ 次多项式，暴力插值即可</p>
 <p>另一个没法做的想法：</p>
-<p>定义 $0^0=1$，答案为：</p>
-<p>$$<br>\begin{aligned}<br> &amp;\sum_{x=1}^{k} \sum_{i=1}^{n} {n \choose i} (x-1)^{n-i} \sum_{j=1}^{m} {m \choose i} (x-1)^{m-j} \\<br>=&amp;\sum_{x=1}^{k} \sum_{i=0}^{n-1} {n \choose n-i} (x-1)^{i} \sum_{j=0}^{m-1} {m \choose m-i} (x-1)^{j} \\<br>=&amp;\sum_{x=1}^{k} \sum_{i=0}^{n-1} {n \choose i} (x-1)^{i} \sum_{j=0}^{m-1} {m \choose i} (x-1)^{j} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} {n \choose i} {m \choose j} \sum_{x=1}^{k} (x-1)^{i+j} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} {n \choose i} {m \choose j} \sum_{x=0}^{k-1} x^{i+j} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{j=0}^{m-1} {n \choose i} {m \choose j} f_{i+j}(k) \\<br>=&amp;\sum_{T=0}^{n+m-2}f_T(k) \sum_{i=0}^{T} {n \choose i} {m \choose T-i}[i&lt;n][T-i&lt;m] \\<br>=&amp;\sum_{T=0}^{n+m-2}f_T(k) \left({n+m \choose T}-{m \choose T-n}-{n \choose T-m} \right)<br>\end{aligned}<br>$$</p>
-<p>其中 $f_T(k)=\sum_{i=0}^{k-1}i^T$</p>
+<p>定义 $0^0&#x3D;1$，答案为：</p>
+<p>$$<br>\begin{aligned}<br> &amp;\sum_{x&#x3D;1}^{k} \sum_{i&#x3D;1}^{n} {n \choose i} (x-1)^{n-i} \sum_{j&#x3D;1}^{m} {m \choose i} (x-1)^{m-j} \\<br>&#x3D;&amp;\sum_{x&#x3D;1}^{k} \sum_{i&#x3D;0}^{n-1} {n \choose n-i} (x-1)^{i} \sum_{j&#x3D;0}^{m-1} {m \choose m-i} (x-1)^{j} \\<br>&#x3D;&amp;\sum_{x&#x3D;1}^{k} \sum_{i&#x3D;0}^{n-1} {n \choose i} (x-1)^{i} \sum_{j&#x3D;0}^{m-1} {m \choose i} (x-1)^{j} \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{n-1}\sum_{j&#x3D;0}^{m-1} {n \choose i} {m \choose j} \sum_{x&#x3D;1}^{k} (x-1)^{i+j} \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{n-1}\sum_{j&#x3D;0}^{m-1} {n \choose i} {m \choose j} \sum_{x&#x3D;0}^{k-1} x^{i+j} \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{n-1}\sum_{j&#x3D;0}^{m-1} {n \choose i} {m \choose j} f_{i+j}(k) \\<br>&#x3D;&amp;\sum_{T&#x3D;0}^{n+m-2}f_T(k) \sum_{i&#x3D;0}^{T} {n \choose i} {m \choose T-i}[i&lt;n][T-i&lt;m] \\<br>&#x3D;&amp;\sum_{T&#x3D;0}^{n+m-2}f_T(k) \left({n+m \choose T}-{m \choose T-n}-{n \choose T-m} \right)<br>\end{aligned}<br>$$</p>
+<p>其中 $f_T(k)&#x3D;\sum_{i&#x3D;0}^{k-1}i^T$</p>
 <p>然而这个玩意不太能做，还是算了</p>
 <h1 id="Forgotten-Tree-9-FGTREE"><a href="#Forgotten-Tree-9-FGTREE" class="headerlink" title="Forgotten Tree 9 - FGTREE"></a>Forgotten Tree 9 - FGTREE</h1><h1 id="SnackDown-99-SNCK99"><a href="#SnackDown-99-SNCK99" class="headerlink" title="SnackDown 99 - SNCK99"></a>SnackDown 99 - SNCK99</h1>
     
@@ -321,25 +325,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -557,6 +542,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>非旋转平衡树 | nekko</title>
+  <title>非旋转平衡树 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,14 +19,14 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="非旋转平衡树">
 <meta property="og:url" content="https://nekko.moe/treap/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="所以这是啥……在维护各种数据的时候，常用的方法是平衡树套上一堆东西 普通的平衡树主要面临几个问题  代码超长不易调试 不可持久化 维护序列和维护集合的写法千差万别  当然splay还是很有用的，LCT全靠它 非旋转treap是一个很有实用性的平衡树，核心操作只有split和merge 如果是维护的数集的话，可能还需要一个ls操作来查询小于等于某个数的个数 split(x,k)用途将子树x的前k个节">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-05-05T05:14:20.000Z">
+<meta property="article:published_time" content="2018-05-05T17:14:20.000Z">
 <meta property="article:modified_time" content="2018-09-09T15:14:32.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="平衡树">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="非旋转平衡树">
 <meta name="twitter:card" content="summary">
 
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -197,21 +201,21 @@
 <p>非旋转treap是一个很有实用性的平衡树，核心操作只有split和merge</p>
 <p>如果是维护的数集的话，可能还需要一个ls操作来查询小于等于某个数的个数</p>
 <h1 id="split-x-k"><a href="#split-x-k" class="headerlink" title="split(x,k)"></a>split(x,k)</h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>将子树x的前k个节点和后n-k个节点分成两个子树，保证分成后的子树的先序遍历依然满足原序列的先后顺序</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; <span class="title">split</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x);</span><br><span class="line">    pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(k &lt;= sz[ch[x][<span class="number">0</span>]]) &#123;</span><br><span class="line">        res = <span class="built_in">split</span>(ch[x][<span class="number">0</span>], k);</span><br><span class="line">        ch[x][<span class="number">0</span>] = res.second;</span><br><span class="line">        res.second = x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res = <span class="built_in">split</span>(ch[x][<span class="number">1</span>], k - sz[ch[x][<span class="number">0</span>]] - <span class="number">1</span>);</span><br><span class="line">        ch[x][<span class="number">1</span>] = res.first;</span><br><span class="line">        res.first = x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">update</span>(x);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; <span class="title">split</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x);</span><br><span class="line">    pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; res;</span><br><span class="line">    <span class="keyword">if</span>(k &lt;= sz[ch[x][<span class="number">0</span>]]) &#123;</span><br><span class="line">        res = <span class="built_in">split</span>(ch[x][<span class="number">0</span>], k);</span><br><span class="line">        ch[x][<span class="number">0</span>] = res.second;</span><br><span class="line">        res.second = x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res = <span class="built_in">split</span>(ch[x][<span class="number">1</span>], k - sz[ch[x][<span class="number">0</span>]] - <span class="number">1</span>);</span><br><span class="line">        ch[x][<span class="number">1</span>] = res.first;</span><br><span class="line">        res.first = x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">update</span>(x);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>是不是很简单</p>
 <h1 id="merge-x-y"><a href="#merge-x-y" class="headerlink" title="merge(x,y)"></a>merge(x,y)</h1><h2 id="用途-1"><a href="#用途-1" class="headerlink" title="用途"></a>用途</h2><p>将子树x和子树y合并，返回合并后的新树</p>
-<h2 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x), <span class="built_in">push</span>(y);</span><br><span class="line">    <span class="keyword">if</span>(!x || !y) <span class="keyword">return</span> x | y;</span><br><span class="line">    <span class="keyword">if</span>(fix[x] &lt; fix[y]) &#123;</span><br><span class="line">        ch[x][<span class="number">1</span>] = <span class="built_in">merge</span>(ch[x][<span class="number">1</span>], y);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">update</span>(x), x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ch[y][<span class="number">0</span>] = <span class="built_in">merge</span>(x, ch[y][<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">udpate</span>(y), y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x), <span class="built_in">push</span>(y);</span><br><span class="line">    <span class="keyword">if</span>(!x || !y) <span class="keyword">return</span> x | y;</span><br><span class="line">    <span class="keyword">if</span>(fix[x] &lt; fix[y]) &#123;</span><br><span class="line">        ch[x][<span class="number">1</span>] = <span class="built_in">merge</span>(ch[x][<span class="number">1</span>], y);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">update</span>(x), x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ch[y][<span class="number">0</span>] = <span class="built_in">merge</span>(x, ch[y][<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">udpate</span>(y), y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>似乎比split操作还简单</p>
 <h1 id="ls-x-val"><a href="#ls-x-val" class="headerlink" title="ls(x,val)"></a>ls(x,val)</h1><h2 id="用途-2"><a href="#用途-2" class="headerlink" title="用途"></a>用途</h2><p>查询小于等于val的数的个数</p>
-<h2 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ls</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x);</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(val &gt;= :: val[x]) &#123;</span><br><span class="line">        <span class="keyword">return</span> sz[ch[x][<span class="number">0</span>]] + <span class="number">1</span> + <span class="built_in">ls</span>(ch[x][<span class="number">1</span>], val);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">ls</span>(ch[x][<span class="number">0</span>], val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">ls</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">push</span>(x);</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(val &gt;= :: val[x]) &#123;</span><br><span class="line">        <span class="keyword">return</span> sz[ch[x][<span class="number">0</span>]] + <span class="number">1</span> + <span class="built_in">ls</span>(ch[x][<span class="number">1</span>], val);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">ls</span>(ch[x][<span class="number">0</span>], val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>利用二叉树的性质计算</p>
 <h1 id="所以到底能干啥……"><a href="#所以到底能干啥……" class="headerlink" title="所以到底能干啥……"></a>所以到底能干啥……</h1><h2 id="维护序列"><a href="#维护序列" class="headerlink" title="维护序列"></a>维护序列</h2><p>通过split操作，可以提取区间，并打标号实现各种区间操作</p>
 <h2 id="维护数集"><a href="#维护数集" class="headerlink" title="维护数集"></a>维护数集</h2><p>如果将数字的大小关系当作顺序的话，这也是一个维护序列的操作了，通过split和ls可以精准定位，之后该干啥干啥</p>
 <h1 id="可持久化平衡树"><a href="#可持久化平衡树" class="headerlink" title="可持久化平衡树"></a>可持久化平衡树</h1><p>可以发现，如果将merge和split中的修改ch[x]改为新建节点并复制ch[x][0]和ch[x][1]，之后返回新建节点的话，就实现了可持久化平衡树</p>
-<h1 id="关于fix的小技巧"><a href="#关于fix的小技巧" class="headerlink" title="关于fix的小技巧"></a>关于fix的小技巧</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">srand</span>((<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>) <span class="keyword">new</span> <span class="keyword">char</span>); <span class="comment">// cstdlib</span></span><br><span class="line"><span class="built_in">iota</span>(fix, fix + N, <span class="number">0</span>); <span class="comment">// numeric</span></span><br><span class="line"><span class="built_in">random_shuffle</span>(fix, fix + N); <span class="comment">// algorithm</span></span><br></pre></td></tr></table></figure>
+<h1 id="关于fix的小技巧"><a href="#关于fix的小技巧" class="headerlink" title="关于fix的小技巧"></a>关于fix的小技巧</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">srand</span>((<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>) <span class="keyword">new</span> <span class="type">char</span>); <span class="comment">// cstdlib</span></span><br><span class="line"><span class="built_in">iota</span>(fix, fix + N, <span class="number">0</span>); <span class="comment">// numeric</span></span><br><span class="line"><span class="built_in">random_shuffle</span>(fix, fix + N); <span class="comment">// algorithm</span></span><br></pre></td></tr></table></figure>
     
   </div>
 
@@ -236,25 +240,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -472,6 +457,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

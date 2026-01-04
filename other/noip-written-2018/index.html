@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>noip 2018 初赛杂题 | nekko</title>
+  <title>noip 2018 初赛杂题 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,18 +15,18 @@
     <meta name="keywords" content="数学,信息学竞赛," />
   
 
-  <meta name="description" content="1 在一条长度为 $1$ 的线段上随机取两个点，求以这两个点为端点的线段的期望长度  等等这不就是证明 ODT 的推平操作的长度期望吗 有一个简单粗暴的做法，就是直接用期望的定义，即$E(x)&#x3D;\sum p(x_i) \cdot x_i$ 也就是说（希望没有算错）： $$\begin{aligned}E&#x3D;&amp;\lim_{n \to +\infty}\sum_{i&#x3D;0}^{n}\sum_{">
+  <meta name="description" content="1 在一条长度为 $1$ 的线段上随机取两个点，求以这两个点为端点的线段的期望长度  等等这不就是证明 ODT 的推平操作的长度期望吗 有一个简单粗暴的做法，就是直接用期望的定义，即$E(x)&#x3D;\sum p(x_i) \cdot x_i$ 也就是说（希望没有算错）： $$\begin{aligned}E&#x3D;&amp;\lim_{n \to +\infty}\sum_{i&amp;#x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="noip 2018 初赛杂题">
 <meta property="og:url" content="https://nekko.moe/other/noip-written-2018/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="1 在一条长度为 $1$ 的线段上随机取两个点，求以这两个点为端点的线段的期望长度  等等这不就是证明 ODT 的推平操作的长度期望吗 有一个简单粗暴的做法，就是直接用期望的定义，即$E(x)&#x3D;\sum p(x_i) \cdot x_i$ 也就是说（希望没有算错）： $$\begin{aligned}E&#x3D;&amp;\lim_{n \to +\infty}\sum_{i&#x3D;0}^{n}\sum_{">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="1 在一条长度为 $1$ 的线段上随机取两个点，求以这两个点为端点的线段的期望长度  等等这不就是证明 ODT 的推平操作的长度期望吗 有一个简单粗暴的做法，就是直接用期望的定义，即$E(x)&#x3D;\sum p(x_i) \cdot x_i$ 也就是说（希望没有算错）： $$\begin{aligned}E&#x3D;&amp;\lim_{n \to +\infty}\sum_{i&amp;#x">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-10-13T11:58:28.000Z">
-<meta property="article:modified_time" content="2019-07-10T07:42:35.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="数学">
+<meta property="article:published_time" content="2018-10-13T23:58:28.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:36.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="信息学竞赛">
+<meta property="article:tag" content="数学">
 <meta name="twitter:card" content="summary">
 
   
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -191,16 +195,16 @@
 <p>在一条长度为 $1$ 的线段上随机取两个点，求以这两个点为端点的线段的期望长度</p>
 </blockquote>
 <p><del>等等这不就是证明 ODT 的推平操作的长度期望吗</del></p>
-<p>有一个简单粗暴的做法，就是直接用期望的定义，即$E(x)=\sum p(x_i) \cdot x_i$</p>
+<p>有一个简单粗暴的做法，就是直接用期望的定义，即$E(x)&#x3D;\sum p(x_i) \cdot x_i$</p>
 <p>也就是说（<del>希望没有算错</del>）：</p>
-<p>$$<br>\begin{aligned}<br>E=&amp;\lim_{n \to +\infty}\sum_{i=0}^{n}\sum_{j=0}^{n}\frac{|\frac{i}{n}-\frac{j}{n}|}{(n+1)^2} \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{(n+1)^2n}\sum_{i=0}^{n}\sum_{j=0}^{n}|i-j| \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{(n+1)^2n}\sum_{i=0}^{n}\left(\left(\sum_{j=0}^{i}i-j\right)+\left(\sum_{j=i+1}^{n}j - i\right)\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{(n+1)^2n}\sum_{i=0}^{n}\left(\left(\sum_{j=0}^{i}j\right)+\left(\sum_{j=1}^{n-i}j\right)\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\sum_{i=0}^{n}\left((1+i)i+(1+n-i)(n-i)\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\sum_{i=0}^{n}\left(i+i^2+n-i+n^2-in-in+i^2\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\sum_{i=0}^{n}\left(2i^2-2in+n+n^2\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\left(2\frac{n(n+1)(2n+1)}{6}-2n\frac{(1+n)n}{2}+(n+n^2)(n+1)\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\left(\frac{n(n+1)(2n+1)}{3}-n^2(1+n)+n^2+n+n^3+n^2\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\left(\frac{n(n+1)(2n+1)}{3}+n^2(2-1-n)+n+n^3\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2n}\left(n(n+1)(2n+1)+6n^2(1-n)+6n+6n^3\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left((n+1)(2n+1)+6n(1-n)+6+6n^2\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left(2n^2+n+2n+1+6n-6n^2+6+6n^2\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left(2n^2+9n+7\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left(2(n+1)^2+9n+5\right) \\<br>=&amp;\lim_{n \to +\infty}\frac{1}{3}+\frac{9n+5}{12(n+1)^2} \\<br>=&amp;\frac{1}{3}<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>E&#x3D;&amp;\lim_{n \to +\infty}\sum_{i&#x3D;0}^{n}\sum_{j&#x3D;0}^{n}\frac{|\frac{i}{n}-\frac{j}{n}|}{(n+1)^2} \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{(n+1)^2n}\sum_{i&#x3D;0}^{n}\sum_{j&#x3D;0}^{n}|i-j| \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{(n+1)^2n}\sum_{i&#x3D;0}^{n}\left(\left(\sum_{j&#x3D;0}^{i}i-j\right)+\left(\sum_{j&#x3D;i+1}^{n}j - i\right)\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{(n+1)^2n}\sum_{i&#x3D;0}^{n}\left(\left(\sum_{j&#x3D;0}^{i}j\right)+\left(\sum_{j&#x3D;1}^{n-i}j\right)\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\sum_{i&#x3D;0}^{n}\left((1+i)i+(1+n-i)(n-i)\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\sum_{i&#x3D;0}^{n}\left(i+i^2+n-i+n^2-in-in+i^2\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\sum_{i&#x3D;0}^{n}\left(2i^2-2in+n+n^2\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\left(2\frac{n(n+1)(2n+1)}{6}-2n\frac{(1+n)n}{2}+(n+n^2)(n+1)\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\left(\frac{n(n+1)(2n+1)}{3}-n^2(1+n)+n^2+n+n^3+n^2\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{2(n+1)^2n}\left(\frac{n(n+1)(2n+1)}{3}+n^2(2-1-n)+n+n^3\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2n}\left(n(n+1)(2n+1)+6n^2(1-n)+6n+6n^3\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left((n+1)(2n+1)+6n(1-n)+6+6n^2\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left(2n^2+n+2n+1+6n-6n^2+6+6n^2\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left(2n^2+9n+7\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{6(n+1)^2}\left(2(n+1)^2+9n+5\right) \\<br>&#x3D;&amp;\lim_{n \to +\infty}\frac{1}{3}+\frac{9n+5}{12(n+1)^2} \\<br>&#x3D;&amp;\frac{1}{3}<br>\end{aligned}<br>$$</p>
 <p>从积分的角度来看，是这个（实际上是与上式等价的）：</p>
-<p>$$<br>\begin{aligned}<br>E=&amp;\int_{0}^{1}\int_{0}^{1}|x-y|,dx,dy \\<br>=&amp;2\int_{0}^{1}\int_{x}^{1}(y-x),dx,dy \\<br>=&amp;2\int_{0}^{1}\int_{0}^{1-x}y,dx,dy \\<br>=&amp;2\int_{0}^{1}\frac{1}{2}(1-x)^2,dx,dy \\<br>=&amp;\int_{0}^{1}(1+x^2-2x),dx,dy \\<br>=&amp;1+\frac{1}{3}1^3-2\frac{1}{2}1^2 \\<br>=&amp;\frac{1}{3}<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>E&#x3D;&amp;\int_{0}^{1}\int_{0}^{1}|x-y|,dx,dy \\<br>&#x3D;&amp;2\int_{0}^{1}\int_{x}^{1}(y-x),dx,dy \\<br>&#x3D;&amp;2\int_{0}^{1}\int_{0}^{1-x}y,dx,dy \\<br>&#x3D;&amp;2\int_{0}^{1}\frac{1}{2}(1-x)^2,dx,dy \\<br>&#x3D;&amp;\int_{0}^{1}(1+x^2-2x),dx,dy \\<br>&#x3D;&amp;1+\frac{1}{3}1^3-2\frac{1}{2}1^2 \\<br>&#x3D;&amp;\frac{1}{3}<br>\end{aligned}<br>$$</p>
 <p>顺便一提，从$[0,p]$中随机选取一个点的值的期望是：</p>
-<p>$$<br>\lim_{n \to +\infty}\sum_{i=0}^{n}\frac{ip}{n}\frac{1}{n+1}=\int_{0}^{p}x,\frac{dx}{p}=\frac{p}{2}<br>$$</p>
+<p>$$<br>\lim_{n \to +\infty}\sum_{i&#x3D;0}^{n}\frac{ip}{n}\frac{1}{n+1}&#x3D;\int_{0}^{p}x,\frac{dx}{p}&#x3D;\frac{p}{2}<br>$$</p>
 <p>因此期望最大值不会超过$\frac{1}{2}$，因为第一个选择之后，第二个点的期望值是$\frac{1}{2}$（可能这句话会有一些偏差，忽略掉）</p>
 <p>一般的，从$[a,b]$中随机选取一个点的值的期望为：</p>
-<p>$$<br>\lim_{n \to +\infty}\sum_{i=0}^{n}\left(a+\frac{i(b-a)}{n}\right)\frac{1}{n+1}=\int_{a}^{b}x,\frac{dx}{b-a}=\frac{a+b}{2}<br>$$</p>
+<p>$$<br>\lim_{n \to +\infty}\sum_{i&#x3D;0}^{n}\left(a+\frac{i(b-a)}{n}\right)\frac{1}{n+1}&#x3D;\int_{a}^{b}x,\frac{dx}{b-a}&#x3D;\frac{a+b}{2}<br>$$</p>
 <h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><blockquote>
 <p>假设一台抽奖机中有红、蓝两色的球，任意时刻按下抽奖按钮，都会等概率获得红球或蓝球之一</p>
 <p>有足够多的人每人都用这台抽奖机抽奖</p>
@@ -213,9 +217,9 @@
 <p>这么做下去后男女比例依然是$1:1$</p>
 <p>那么回到这道题，依然是考虑期望的定义</p>
 <p>可以发现：</p>
-<p>$$<br>\begin{aligned}<br>E=&amp;\sum_{k=0}^{\infty}\left( \frac{1}{2} \right)^{k+1}\frac{k}{1}\\<br>=&amp;\frac{1}{2}\sum_{k=0}^{\infty}\left( \frac{1}{2} \right)^{k}k \\<br>=&amp;\frac{1}{2}T<br>\end{aligned}<br>$$</p>
-<p>$$<br>\begin{aligned}<br>\because,&amp; T=\sum_{k=0}^{\infty}\left( \frac{1}{2} \right)^{k}k \\<br>\therefore,&amp;\frac{1}{2}T=\sum_{k=0}^{\infty}\frac{k}{2^{k+1}}=\sum_{k=1}^{\infty}\frac{k-1}{2^k} \\<br>\therefore,&amp;\frac{1}{2}T=\frac{1}{2^0}\sum_{k=1}^{\infty}\frac{1}{2^k}=1<br>\end{aligned}<br>$$</p>
-<p>所以，$E=1$</p>
+<p>$$<br>\begin{aligned}<br>E&#x3D;&amp;\sum_{k&#x3D;0}^{\infty}\left( \frac{1}{2} \right)^{k+1}\frac{k}{1}\\<br>&#x3D;&amp;\frac{1}{2}\sum_{k&#x3D;0}^{\infty}\left( \frac{1}{2} \right)^{k}k \\<br>&#x3D;&amp;\frac{1}{2}T<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\because,&amp; T&#x3D;\sum_{k&#x3D;0}^{\infty}\left( \frac{1}{2} \right)^{k}k \\<br>\therefore,&amp;\frac{1}{2}T&#x3D;\sum_{k&#x3D;0}^{\infty}\frac{k}{2^{k+1}}&#x3D;\sum_{k&#x3D;1}^{\infty}\frac{k-1}{2^k} \\<br>\therefore,&amp;\frac{1}{2}T&#x3D;\frac{1}{2^0}\sum_{k&#x3D;1}^{\infty}\frac{1}{2^k}&#x3D;1<br>\end{aligned}<br>$$</p>
+<p>所以，$E&#x3D;1$</p>
 <h1 id="3"><a href="#3" class="headerlink" title="3"></a>3</h1><blockquote>
 <p>甲乙丙丁四人在考虑周末要不要外出郊游</p>
 <p>已知：</p>
@@ -227,10 +231,10 @@
 </ol>
 <p>如果周末<strong>丙去了</strong>，则：</p>
 <ol>
-<li>甲（去了/没去）</li>
-<li>乙（去了/没去）</li>
-<li>丁（去了/没去）</li>
-<li>周末（下雨/没下雨）</li>
+<li>甲（去了&#x2F;没去）</li>
+<li>乙（去了&#x2F;没去）</li>
+<li>丁（去了&#x2F;没去）</li>
+<li>周末（下雨&#x2F;没下雨）</li>
 </ol>
 </blockquote>
 <p><del>约束都列出来然后推推不就行了么</del><br>$$<br>\begin{aligned}<br>\left.\begin{aligned}\text{下雨} \\ \text{乙不去}\end{aligned}\right\} \to&amp; \text{甲不去} \\<br>\text{乙去} \to&amp; \text{丁去} \\<br>\text{丙去} \to&amp; \text{丁不去} \\<br>\left.\begin{aligned}\text{丁不去} \\ \text{甲不去}\end{aligned}\right\} \to&amp; \text{丙不去} \\<br>\end{aligned}<br>$$</p>
@@ -239,18 +243,18 @@
 <p>由于丙去了，且丁没去，所以甲去了（条件四）</p>
 <p>由于甲去了，且乙没去，所以没下雨（条件一）</p>
 <h1 id="4"><a href="#4" class="headerlink" title="4"></a>4</h1><blockquote>
-<p>方程 $a \times b = (a \mathop{or} b) \times (a \mathop{and} b)$，在 $a,b$ 都取 $[0, 31]$ 中的整数时</p>
+<p>方程 $a \times b &#x3D; (a \mathop{or} b) \times (a \mathop{and} b)$，在 $a,b$ 都取 $[0, 31]$ 中的整数时</p>
 <p>求共有多少组解？</p>
 <p>（$\times$ 表示乘法；$\mathop{or}$ 表示按位或运算；$\mathop{and}$ 表示按位与运算）</p>
 </blockquote>
-<p>设$x=a \mathop{and} b,y=x \mathop{xor} a, z = x \mathop{xor} b$</p>
+<p>设$x&#x3D;a \mathop{and} b,y&#x3D;x \mathop{xor} a, z &#x3D; x \mathop{xor} b$</p>
 <p>则此时$x$是$a$和$b$共有的位构成的数，$y$是$a$去掉共有的位后的数，$z$是$b$去掉共有的位之后的数</p>
-<p>则有$ab=(x+y)(x+z)$，且$(a \mathop{or} b)(a \mathop{and} b)=(x+y+z)x$</p>
-<p>也就是说，$(x+y)(x+z)=x(x+y+z)$</p>
-<p>化简得$yz=0$，即要么$y=0$，要么$z=0$，也就是说这个等式成立，当且仅当$a,b$中的某一个数是另一个数的二进制下的子集时才成立</p>
+<p>则有$ab&#x3D;(x+y)(x+z)$，且$(a \mathop{or} b)(a \mathop{and} b)&#x3D;(x+y+z)x$</p>
+<p>也就是说，$(x+y)(x+z)&#x3D;x(x+y+z)$</p>
+<p>化简得$yz&#x3D;0$，即要么$y&#x3D;0$，要么$z&#x3D;0$，也就是说这个等式成立，当且仅当$a,b$中的某一个数是另一个数的二进制下的子集时才成立</p>
 <p>因此解的个数就是：</p>
-<p>$$<br>\left(\sum_{i=0}^{31}2^{\mathop{popcount}(i)}\right)-32=454<br>$$</p>
-<p>当然可以这么算（十分简单）：<br>$$<br>\begin{aligned}<br>2\left(\sum_{i=0}^{5} {5 \choose i}2^i\right)-32=2 \times 3^5-32=454<br>\end{aligned}<br>$$</p>
+<p>$$<br>\left(\sum_{i&#x3D;0}^{31}2^{\mathop{popcount}(i)}\right)-32&#x3D;454<br>$$</p>
+<p>当然可以这么算（十分简单）：<br>$$<br>\begin{aligned}<br>2\left(\sum_{i&#x3D;0}^{5} {5 \choose i}2^i\right)-32&#x3D;2 \times 3^5-32&#x3D;454<br>\end{aligned}<br>$$</p>
 
     
   </div>
@@ -276,25 +280,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -512,6 +497,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

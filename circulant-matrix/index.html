@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>循环矩阵及其乘法 | nekko</title>
+  <title>循环矩阵及其乘法 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,15 +19,15 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="循环矩阵及其乘法">
 <meta property="og:url" content="https://nekko.moe/circulant-matrix/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="定义定义循环矩阵为： $$\begin{pmatrix} a _ {0} &amp; a _ {1} &amp; a _ {2} &amp; \cdots &amp; a _ {n-1} \\ a _ {n-1} &amp; a _ {0} &amp; a _ {1} &amp; \cdots &amp; a _ {n-2} \\ a _ {n-2} &amp; a _ {n-1} &amp; a">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-03-22T03:59:59.000Z">
-<meta property="article:modified_time" content="2019-04-25T02:51:57.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="数学">
-<meta property="article:tag" content="循环矩阵">
+<meta property="article:published_time" content="2019-03-22T15:59:59.000Z">
+<meta property="article:modified_time" content="2019-04-25T02:51:58.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="多项式乘法">
+<meta property="article:tag" content="循环矩阵">
+<meta property="article:tag" content="数学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -188,38 +192,38 @@
     
       <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>定义循环矩阵为：</p>
 <p>$$<br>\begin{pmatrix} a _ {0} &amp; a _ {1} &amp; a _ {2} &amp; \cdots &amp; a _ {n-1} \\ a _ {n-1} &amp; a _ {0} &amp; a _ {1} &amp; \cdots &amp; a _ {n-2} \\ a _ {n-2} &amp; a _ {n-1} &amp; a _ {0} &amp; \cdots &amp; a _ {n-3} \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a _ {1} &amp; a _ {2} &amp; a _ {3}&amp; \cdots &amp; a _ {0} \end{pmatrix}<br>$$</p>
-<p>换而言之，$A _ {i,j}=A _ {0,(j-i) \bmod n}$，也就是说可以用循环矩阵的第一行来表示整个矩阵</p>
-<h1 id="矩阵乘法-O-k-3"><a href="#矩阵乘法-O-k-3" class="headerlink" title="矩阵乘法 $O(k^3)$"></a>矩阵乘法 $O(k^3)$</h1><p>根据矩阵乘法的定义，假设有 $A,B$ 两个 $n$ 阶矩阵，则 $C = A \times B$ 为：</p>
-<p>$$<br>c _ {i,j}=\sum _ {k=0}^{n-1}a _ {i,k}b _ {k,j}<br>$$</p>
+<p>换而言之，$A _ {i,j}&#x3D;A _ {0,(j-i) \bmod n}$，也就是说可以用循环矩阵的第一行来表示整个矩阵</p>
+<h1 id="矩阵乘法-O-k-3"><a href="#矩阵乘法-O-k-3" class="headerlink" title="矩阵乘法 $O(k^3)$"></a>矩阵乘法 $O(k^3)$</h1><p>根据矩阵乘法的定义，假设有 $A,B$ 两个 $n$ 阶矩阵，则 $C &#x3D; A \times B$ 为：</p>
+<p>$$<br>c _ {i,j}&#x3D;\sum _ {k&#x3D;0}^{n-1}a _ {i,k}b _ {k,j}<br>$$</p>
 <h1 id="矩阵乘法-O-k-2"><a href="#矩阵乘法-O-k-2" class="headerlink" title="矩阵乘法 $O(k^2)$"></a>矩阵乘法 $O(k^2)$</h1><p>考虑循环矩阵的特殊性，即可以用第一行来表示整个矩阵，也就是说这个矩阵的所有信息只存在于第一行中</p>
-<p>那么考虑 $n$ 阶矩阵 $C=A \times B$：</p>
-<p>$$<br>\begin{aligned}<br>c _ {i,j}<br>&amp;=\sum _ {k=0}^{n-1}a _ {i,k}b _ {k,j} \\<br>&amp;=\sum _ {k=0}^{n-1}a _ {0,(k-i) \bmod n}b _ {0,(j-k) \bmod n} \\<br>&amp;=c _ {0,(j-i) \bmod n} \\<br>\end{aligned}<br>$$</p>
+<p>那么考虑 $n$ 阶矩阵 $C&#x3D;A \times B$：</p>
+<p>$$<br>\begin{aligned}<br>c _ {i,j}<br>&amp;&#x3D;\sum _ {k&#x3D;0}^{n-1}a _ {i,k}b _ {k,j} \\<br>&amp;&#x3D;\sum _ {k&#x3D;0}^{n-1}a _ {0,(k-i) \bmod n}b _ {0,(j-k) \bmod n} \\<br>&amp;&#x3D;c _ {0,(j-i) \bmod n} \\<br>\end{aligned}<br>$$</p>
 <p>也就是说，循环矩阵的乘积依旧是循环矩阵</p>
 <p>所以可以得知，循环矩阵的乘法实际上只有第一行参与了运算，那么就可以直接用 $a _ 0,b _ 0,c _ 0$ 代替掉 $A,B,C$ 了</p>
 <p>于是可以得到：</p>
-<p>$$<br>c _ {k}=\sum _ {i+j \equiv k \pmod {n}}a _ {i}b _ {j}<br>$$</p>
-<h1 id="矩阵乘法-O-k-log-k"><a href="#矩阵乘法-O-k-log-k" class="headerlink" title="矩阵乘法 $O(k \log k)$"></a>矩阵乘法 $O(k \log k)$</h1><p>实际上 $C=A \times B$ 是一个循环卷积运算，直接求出 $c’=a \times b$，然后可以得到：</p>
-<p>$$<br>c _ i=c’ _ i+c’ _ {i+n}<br>$$</p>
+<p>$$<br>c _ {k}&#x3D;\sum _ {i+j \equiv k \pmod {n}}a _ {i}b _ {j}<br>$$</p>
+<h1 id="矩阵乘法-O-k-log-k"><a href="#矩阵乘法-O-k-log-k" class="headerlink" title="矩阵乘法 $O(k \log k)$"></a>矩阵乘法 $O(k \log k)$</h1><p>实际上 $C&#x3D;A \times B$ 是一个循环卷积运算，直接求出 $c’&#x3D;a \times b$，然后可以得到：</p>
+<p>$$<br>c _ i&#x3D;c’ _ i+c’ _ {i+n}<br>$$</p>
 <h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>给定一个序列 $p _ 0 \sim p _ {n-1}$，以及一个系数系列 $t _ 0 \sim t _ {n-1}$，一共进行 $T$ 次变换，每一次会把 $p$ 变化为 $p’$，其中 ：</p>
-<p>$$<br>p _ i’=\sum _ {j=0}^{n-1}t _ {(j-i) \bmod n}p _ j<br>$$</p>
+<p>$$<br>p _ i’&#x3D;\sum _ {j&#x3D;0}^{n-1}t _ {(j-i) \bmod n}p _ j<br>$$</p>
 <blockquote>
-<p>是不是感觉有点眼熟？我们来看一下常系数齐次线性递推的一般形式：<br>$$<br>p _ i=\sum _ {j=1}^{k}t _ jp _ {i-j}<br>$$</p>
+<p>是不是感觉有点眼熟？我们来看一下常系数齐次线性递推的一般形式：<br>$$<br>p _ i&#x3D;\sum _ {j&#x3D;1}^{k}t _ jp _ {i-j}<br>$$</p>
 <p>没错，本质上是模意义下的常系数齐次线性递推！</p>
 </blockquote>
 <p>构造矩阵 $A$：</p>
-<p>$$<br>A=<br>\begin{pmatrix}<br>p _ 0 &amp; p _ 1 &amp; \cdots &amp; p _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
+<p>$$<br>A&#x3D;<br>\begin{pmatrix}<br>p _ 0 &amp; p _ 1 &amp; \cdots &amp; p _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
 <p>构造矩阵 $B$：</p>
-<p>$$<br>B=<br>\begin{pmatrix}<br>t _ {0} &amp; t _ {n-1} &amp; \cdots &amp; t _ {1} \\<br>t _ {1} &amp; t _ {0} &amp; \cdots &amp; t _ {2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>t _ {n-1} &amp; t _ {n-2} &amp; \cdots &amp; t _ {0} \\<br>\end{pmatrix}<br>$$</p>
+<p>$$<br>B&#x3D;<br>\begin{pmatrix}<br>t _ {0} &amp; t _ {n-1} &amp; \cdots &amp; t _ {1} \\<br>t _ {1} &amp; t _ {0} &amp; \cdots &amp; t _ {2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>t _ {n-1} &amp; t _ {n-2} &amp; \cdots &amp; t _ {0} \\<br>\end{pmatrix}<br>$$</p>
 <p>那么矩阵 $B$ 依然是一个循环矩阵，但是需要把 $t _ 1 \sim t _ {n-1}$ 翻转一下</p>
-<p>之后可以得到矩阵 $C=A \times B$：</p>
-<p>$$<br>C=<br>\begin{pmatrix}<br>p’ _ 0 &amp; p’ _ 1 &amp; \cdots &amp; p’ _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
+<p>之后可以得到矩阵 $C&#x3D;A \times B$：</p>
+<p>$$<br>C&#x3D;<br>\begin{pmatrix}<br>p’ _ 0 &amp; p’ _ 1 &amp; \cdots &amp; p’ _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
 <p>然而行矩阵乘以循环矩阵还需要再进行讨论，不妨直接把 $A$ 扩充为循环矩阵，最后第一行的结果依旧是期望的结果：</p>
-<p>$$<br>A=<br>\begin{pmatrix}<br>p _ 0 &amp; p _ 1 &amp; \cdots &amp; p _ {n-1} \\<br>p _ {n-1} &amp; p _ 0 &amp; \cdots &amp; p _ {n-2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>p _ {1} &amp; p _ {2} &amp; \cdots &amp; p _ {0} \\<br>\end{pmatrix}<br>$$</p>
-<p>即 $C=A \times B$ 就是：</p>
-<p>$$<br>C=<br>\begin{pmatrix}<br>p’  _  0 &amp; p’  _  1 &amp; \cdots &amp; p’  _  {n-1} \\<br>p’ _  {n-1} &amp; p’  _  0 &amp; \cdots &amp; p’  _  {n-2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>p’  _  {1} &amp; p’  _  {2} &amp; \cdots &amp; p’  _  {0} \\<br>\end{pmatrix}<br>$$</p>
-<h1 id="模-2-意义下的多项式的平方"><a href="#模-2-意义下的多项式的平方" class="headerlink" title="模 $2$ 意义下的多项式的平方"></a>模 $2$ 意义下的多项式的平方</h1><p>$$<br>\begin{aligned}<br> &amp; (a _ 1+a _ 2+\cdots+a _ n)^2 \\<br>=&amp; a _ 1^2+a _ 2^2+\cdots+a _ n^2+2\left(\sum _ {i=1}^{n}a _ i\sum _ {j=i+1}^{n}a _ j\right)<br>\end{aligned}<br>$$</p>
+<p>$$<br>A&#x3D;<br>\begin{pmatrix}<br>p _ 0 &amp; p _ 1 &amp; \cdots &amp; p _ {n-1} \\<br>p _ {n-1} &amp; p _ 0 &amp; \cdots &amp; p _ {n-2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>p _ {1} &amp; p _ {2} &amp; \cdots &amp; p _ {0} \\<br>\end{pmatrix}<br>$$</p>
+<p>即 $C&#x3D;A \times B$ 就是：</p>
+<p>$$<br>C&#x3D;<br>\begin{pmatrix}<br>p’  _  0 &amp; p’  _  1 &amp; \cdots &amp; p’  _  {n-1} \\<br>p’ _  {n-1} &amp; p’  _  0 &amp; \cdots &amp; p’  _  {n-2} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>p’  _  {1} &amp; p’  _  {2} &amp; \cdots &amp; p’  _  {0} \\<br>\end{pmatrix}<br>$$</p>
+<h1 id="模-2-意义下的多项式的平方"><a href="#模-2-意义下的多项式的平方" class="headerlink" title="模 $2$ 意义下的多项式的平方"></a>模 $2$ 意义下的多项式的平方</h1><p>$$<br>\begin{aligned}<br> &amp; (a _ 1+a _ 2+\cdots+a _ n)^2 \\<br>&#x3D;&amp; a _ 1^2+a _ 2^2+\cdots+a _ n^2+2\left(\sum _ {i&#x3D;1}^{n}a _ i\sum _ {j&#x3D;i+1}^{n}a _ j\right)<br>\end{aligned}<br>$$</p>
 <p>那么在模 $2$ 意义下，就是：</p>
-<p>$$<br>\left(\sum _ {i=0}^{n}a _ ix^i\right)^2 \equiv \sum _ {i=0}^{n}a _ i^2x^{2i} \pmod {2}<br>$$</p>
+<p>$$<br>\left(\sum _ {i&#x3D;0}^{n}a _ ix^i\right)^2 \equiv \sum _ {i&#x3D;0}^{n}a _ i^2x^{2i} \pmod {2}<br>$$</p>
 
     
   </div>
@@ -245,25 +249,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -481,6 +466,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

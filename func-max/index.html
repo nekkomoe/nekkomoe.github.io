@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>函数极值 | nekko</title>
+  <title>函数极值 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,14 +19,14 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="函数极值">
 <meta property="og:url" content="https://nekko.moe/func-max/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="驻点：一阶导数为 $0$ 的点（只需要函数在某点一阶可导，且一阶导数值为 $0$） 拐点：函数凹凸性发生变化的点（二阶导数为零，且三阶导不为零） 极值点：在邻域内为最大值的点 如何判定拐点：  若函数二阶可导，某点二阶导数值为零，两端二阶导数值异号 若函数三阶可导，则二阶导数为 $0$，三阶导数不为 $0$ 的点就是拐点  如何判定极值点：取极值的点一阶导数为 $0$ 或导数不存在  一阶导为 $">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-03-22T03:53:45.000Z">
-<meta property="article:modified_time" content="2019-03-22T03:54:25.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="数学">
+<meta property="article:published_time" content="2019-03-22T15:53:45.000Z">
+<meta property="article:modified_time" content="2019-03-22T03:54:26.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="函数">
+<meta property="article:tag" content="数学">
 <meta name="twitter:card" content="summary">
 
   
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -153,7 +157,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -197,14 +201,14 @@
 </ol>
 <p>极值点不一定是驻点，驻点不一定是极值点：因为取极值不需要可导，驻点必须可导</p>
 <p>对于可导函数，极值点必定是驻点</p>
-<p>拐点不一定是驻点，例如 $y=x^+$：因为二阶导数某点为 $0$ 不能判定一阶导数在某点为 $0$</p>
+<p>拐点不一定是驻点，例如 $y&#x3D;x^+$：因为二阶导数某点为 $0$ 不能判定一阶导数在某点为 $0$</p>
 <p>驻点显然更不一定是拐点，驻点只需要一阶导数为 $0$，而拐点需要二阶可导</p>
 <p>在驻点处的单调性可能改变，而在拐点处凹凸性肯定改变</p>
 <p>二阶导数为零时，一阶不一定为零；一阶导数为零时，二阶不一定为零</p>
-<p>驻点和极值点的区别：可导函数 $f(x)$ 的极值点必定是它的驻点，可导函数 $f(x)$ 的最值点未必是它的驻点，函数的驻点也不一定是极值点；函数在它的导数不存在时，也可能取得极值，例如 $y=|x|$</p>
+<p>驻点和极值点的区别：可导函数 $f(x)$ 的极值点必定是它的驻点，可导函数 $f(x)$ 的最值点未必是它的驻点，函数的驻点也不一定是极值点；函数在它的导数不存在时，也可能取得极值，例如 $y&#x3D;|x|$</p>
 <hr>
-<p>若 $f(x)$ 在 $x=x_0$ 处存在 $k+1$ 阶导，若 $f^{(k)}(x_0)=0$，且 $f^{(k+1)}(x_0) \not=0 $，则 $f^{(k)}(x)$ 在 $x=x_0$ 左右两端异号</p>
-<p>若 $f(x)$ 在 $x=x_0$ 处可导，若 $f(x_0)=0$，且 $f’(x_0) \not =0$，则 $f(x)$ 在 $x=x_0$ 左右两端异号，若 $f’(x_0) &gt; 0$，则 $f(x)$ 在 $x_0$ 处是凹的，否则是凸的</p>
+<p>若 $f(x)$ 在 $x&#x3D;x_0$ 处存在 $k+1$ 阶导，若 $f^{(k)}(x_0)&#x3D;0$，且 $f^{(k+1)}(x_0) \not&#x3D;0 $，则 $f^{(k)}(x)$ 在 $x&#x3D;x_0$ 左右两端异号</p>
+<p>若 $f(x)$ 在 $x&#x3D;x_0$ 处可导，若 $f(x_0)&#x3D;0$，且 $f’(x_0) \not &#x3D;0$，则 $f(x)$ 在 $x&#x3D;x_0$ 左右两端异号，若 $f’(x_0) &gt; 0$，则 $f(x)$ 在 $x_0$ 处是凹的，否则是凸的</p>
 
     
   </div>
@@ -230,25 +234,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -466,6 +451,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

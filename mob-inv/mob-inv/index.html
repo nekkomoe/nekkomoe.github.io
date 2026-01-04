@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>莫比乌斯反演 | nekko</title>
+  <title>莫比乌斯反演 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="算法,数学,数论,莫比乌斯反演," />
   
 
-  <meta name="description" content="前置知识 线性筛 四则运算 常见的积性函数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 莫比乌斯函数$$\mu(n) &#x3D;\begin{cases}1">
+  <meta name="description" content="前置知识 线性筛 四则运算 常见的积性函数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 莫比乌斯函数$$\mu(n)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="莫比乌斯反演">
 <meta property="og:url" content="https://nekko.moe/mob-inv/mob-inv/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="前置知识 线性筛 四则运算 常见的积性函数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 莫比乌斯函数$$\mu(n) &#x3D;\begin{cases}1">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="前置知识 线性筛 四则运算 常见的积性函数  数论函数定义在正整数集上的实值或复值函数 一般可视作定义域为正整数，值域为整数的函数 积性函数对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为积性函数 完全积性函数对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为完全积性函数 莫比乌斯函数$$\mu(n)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-06-11T06:00:05.000Z">
-<meta property="article:modified_time" content="2019-07-10T07:42:41.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:published_time" content="2018-06-11T18:00:05.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:42.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="数论">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="莫比乌斯反演">
 <meta name="twitter:card" content="summary">
 
@@ -47,6 +47,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -58,7 +62,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -160,7 +164,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -196,76 +200,76 @@
 </ul>
 <h1 id="数论函数"><a href="#数论函数" class="headerlink" title="数论函数"></a>数论函数</h1><p>定义在正整数集上的实值或复值函数</p>
 <p>一般可视作定义域为正整数，值域为整数的函数</p>
-<h1 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h1><p>对于一个数论函数$f$，若当$(a,b)=1$时，$f(ab)=f(a)f(b)$，则称其为<strong>积性函数</strong></p>
-<h1 id="完全积性函数"><a href="#完全积性函数" class="headerlink" title="完全积性函数"></a>完全积性函数</h1><p>对于一个数论函数$f$，若$f(ab)=f(a)f(b)$，则称其为<strong>完全积性函数</strong></p>
-<h1 id="莫比乌斯函数"><a href="#莫比乌斯函数" class="headerlink" title="莫比乌斯函数"></a>莫比乌斯函数</h1><p>$$<br>\mu(n) =<br>\begin{cases}<br>1 \qquad &amp;n=1 \\<br>(-1)^k \qquad &amp;n=\Pi_{i=1}^{k} p_i \\<br>0 \qquad &amp;\text{otherwise}<br>\end{cases}<br>$$</p>
+<h1 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h1><p>对于一个数论函数$f$，若当$(a,b)&#x3D;1$时，$f(ab)&#x3D;f(a)f(b)$，则称其为<strong>积性函数</strong></p>
+<h1 id="完全积性函数"><a href="#完全积性函数" class="headerlink" title="完全积性函数"></a>完全积性函数</h1><p>对于一个数论函数$f$，若$f(ab)&#x3D;f(a)f(b)$，则称其为<strong>完全积性函数</strong></p>
+<h1 id="莫比乌斯函数"><a href="#莫比乌斯函数" class="headerlink" title="莫比乌斯函数"></a>莫比乌斯函数</h1><p>$$<br>\mu(n) &#x3D;<br>\begin{cases}<br>1 \qquad &amp;n&#x3D;1 \\<br>(-1)^k \qquad &amp;n&#x3D;\Pi_{i&#x3D;1}^{k} p_i \\<br>0 \qquad &amp;\text{otherwise}<br>\end{cases}<br>$$</p>
 <h2 id="线性筛莫比乌斯函数"><a href="#线性筛莫比乌斯函数" class="headerlink" title="线性筛莫比乌斯函数"></a>线性筛莫比乌斯函数</h2><p>假设当前枚举到了$i$和素数$p$</p>
 <ol>
 <li>若$i$是素数</li>
 </ol>
 <blockquote>
-<p>$\mu(i)=-1$</p>
+<p>$\mu(i)&#x3D;-1$</p>
 </blockquote>
 <ol start="2">
 <li>若$p \nmid  i$</li>
 </ol>
 <blockquote>
-<p>$\mu(i \times p)=\mu(i)\mu(p)=-\mu(i)$</p>
+<p>$\mu(i \times p)&#x3D;\mu(i)\mu(p)&#x3D;-\mu(i)$</p>
 </blockquote>
 <ol start="3">
 <li>若$p \mid i$</li>
 </ol>
 <blockquote>
-<p>$\mu(i \times p)=\mu(\frac{i}{p} \times p^2)=0$</p>
+<p>$\mu(i \times p)&#x3D;\mu(\frac{i}{p} \times p^2)&#x3D;0$</p>
 </blockquote>
-<h1 id="狄利克雷卷积"><a href="#狄利克雷卷积" class="headerlink" title="狄利克雷卷积"></a>狄利克雷卷积</h1><p>定义数论函数$f$和$g$的狄利克雷卷积为<br>$$<br>h(n)=(f \times g)(n)=\sum_{d \mid n}f(d)g(\frac{n}{d})<br>$$</p>
-<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h3><p>$(f \times g) \times h=f \times (g \times h)$</p>
-<h3 id="交换律"><a href="#交换律" class="headerlink" title="交换律"></a>交换律</h3><p>$f \times g=g \times f$</p>
-<h3 id="存在单位元"><a href="#存在单位元" class="headerlink" title="存在单位元"></a>存在单位元</h3><p>$f \times \epsilon = \epsilon \times f = f$</p>
+<h1 id="狄利克雷卷积"><a href="#狄利克雷卷积" class="headerlink" title="狄利克雷卷积"></a>狄利克雷卷积</h1><p>定义数论函数$f$和$g$的狄利克雷卷积为<br>$$<br>h(n)&#x3D;(f \times g)(n)&#x3D;\sum_{d \mid n}f(d)g(\frac{n}{d})<br>$$</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h3><p>$(f \times g) \times h&#x3D;f \times (g \times h)$</p>
+<h3 id="交换律"><a href="#交换律" class="headerlink" title="交换律"></a>交换律</h3><p>$f \times g&#x3D;g \times f$</p>
+<h3 id="存在单位元"><a href="#存在单位元" class="headerlink" title="存在单位元"></a>存在单位元</h3><p>$f \times \epsilon &#x3D; \epsilon \times f &#x3D; f$</p>
 <h3 id="传递性"><a href="#传递性" class="headerlink" title="传递性"></a>传递性</h3><p>若$f,g$是积性函数，则$f \times g$也是积性函数</p>
 <p>若$g$和$f \times g$是积性函数，则$f$也是积性函数</p>
 <p>若$f \times \mu$是积性函数，则$f$是积性函数</p>
-<h3 id="混合积"><a href="#混合积" class="headerlink" title="混合积"></a>混合积</h3><p>若$g$是完全积性函数，且$h=f \times g$，则$f = h \times (\mu \cdot g)$</p>
-<p>即<br>$$<br>h(n)=\sum_{d \mid n}f(n)g(\frac{n}{d}) \Rightarrow f(n)=\sum_{d \mid n}h(n) \mu(\frac{n}{d})g(\frac{n}{d})<br>$$</p>
-<h2 id="常用变换"><a href="#常用变换" class="headerlink" title="常用变换"></a>常用变换</h2><p>$\mu \times 1 = \epsilon$</p>
-<p>$\phi \times 1 = id$</p>
-<p>$\mu \times id = \phi$</p>
-<p>$\sigma_0(ij)=\sum_{x \mid i}\sum_{y \mid j}\epsilon((x,y))$</p>
-<p>$\sigma_1(ij)=\sum_{x \mid i}\sum_{y \mid j}\frac{xj}{y}\epsilon((x,y))$</p>
+<h3 id="混合积"><a href="#混合积" class="headerlink" title="混合积"></a>混合积</h3><p>若$g$是完全积性函数，且$h&#x3D;f \times g$，则$f &#x3D; h \times (\mu \cdot g)$</p>
+<p>即<br>$$<br>h(n)&#x3D;\sum_{d \mid n}f(n)g(\frac{n}{d}) \Rightarrow f(n)&#x3D;\sum_{d \mid n}h(n) \mu(\frac{n}{d})g(\frac{n}{d})<br>$$</p>
+<h2 id="常用变换"><a href="#常用变换" class="headerlink" title="常用变换"></a>常用变换</h2><p>$\mu \times 1 &#x3D; \epsilon$</p>
+<p>$\phi \times 1 &#x3D; id$</p>
+<p>$\mu \times id &#x3D; \phi$</p>
+<p>$\sigma_0(ij)&#x3D;\sum_{x \mid i}\sum_{y \mid j}\epsilon((x,y))$</p>
+<p>$\sigma_1(ij)&#x3D;\sum_{x \mid i}\sum_{y \mid j}\frac{xj}{y}\epsilon((x,y))$</p>
 <h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><ol>
-<li><p>$\mu \times 1 = \epsilon$</p>
+<li><p>$\mu \times 1 &#x3D; \epsilon$</p>
 <p>证明略</p>
 </li>
-<li><p>$\phi \times 1 = id$</p>
-<p>$$<br>\begin{align}<br>\sum_{d \mid n}\phi(d)<br>&amp;=\sum_{d \mid n}\sum_{i=1}^{d}\epsilon((i,d)) \\<br>&amp;=\sum_{d \mid n}\sum_{i=1}^{d}\sum_{d’ \mid (i,d)}\mu(d’) \\<br>&amp;=\sum_{d \mid n}\sum_{d’=1 \wedge d’ \mid d}^{d} \mu(d’)\sum_{i=1 \wedge d’ \mid i}^{d}1 \\<br>&amp;=\sum_{d \mid n}\sum_{d’ \mid d} \mu(d’) \frac{d}{d’} \\<br>&amp;=\sum_{d \mid n}\sum_{d’ \mid d} \mu(\frac{d}{d’}) d’ \\<br>&amp;=\sum_{d’ \mid n}d’\sum_{d  \mid n \wedge d’ \mid d} \mu(\frac{d}{d’}) \\<br>&amp;=\sum_{d’ \mid n}d’\sum_{d \mid \frac{n}{d’}} \mu(d) \\<br>&amp;=\sum_{d’ \mid n}d’ \epsilon(\frac{n}{d’}) \\<br>&amp;=n<br>\end{align}<br>$$</p>
+<li><p>$\phi \times 1 &#x3D; id$</p>
+<p>$$<br>\begin{align}<br>\sum_{d \mid n}\phi(d)<br>&amp;&#x3D;\sum_{d \mid n}\sum_{i&#x3D;1}^{d}\epsilon((i,d)) \\<br>&amp;&#x3D;\sum_{d \mid n}\sum_{i&#x3D;1}^{d}\sum_{d’ \mid (i,d)}\mu(d’) \\<br>&amp;&#x3D;\sum_{d \mid n}\sum_{d’&#x3D;1 \wedge d’ \mid d}^{d} \mu(d’)\sum_{i&#x3D;1 \wedge d’ \mid i}^{d}1 \\<br>&amp;&#x3D;\sum_{d \mid n}\sum_{d’ \mid d} \mu(d’) \frac{d}{d’} \\<br>&amp;&#x3D;\sum_{d \mid n}\sum_{d’ \mid d} \mu(\frac{d}{d’}) d’ \\<br>&amp;&#x3D;\sum_{d’ \mid n}d’\sum_{d  \mid n \wedge d’ \mid d} \mu(\frac{d}{d’}) \\<br>&amp;&#x3D;\sum_{d’ \mid n}d’\sum_{d \mid \frac{n}{d’}} \mu(d) \\<br>&amp;&#x3D;\sum_{d’ \mid n}d’ \epsilon(\frac{n}{d’}) \\<br>&amp;&#x3D;n<br>\end{align}<br>$$</p>
 </li>
-<li><p>$\mu \times id = \phi$</p>
-<p>$$<br>\begin{align}<br>\phi(n)<br>&amp;=\sum_{i=1}^{n} \epsilon((i,n)) \\<br>&amp;=\sum_{i=1}^{n}\sum_{d \mid (i,n)}\mu(d) \\<br>&amp;=\sum_{d=1 \wedge d \mid n}^{n}\mu(d)\sum_{i=1 \wedge d \mid i}^{n}1 \\<br>&amp;=\sum_{d \mid n}\mu(d)\frac{n}{d} \\<br>&amp;=(\mu \times id)(n)<br>\end{align}<br>$$</p>
+<li><p>$\mu \times id &#x3D; \phi$</p>
+<p>$$<br>\begin{align}<br>\phi(n)<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n} \epsilon((i,n)) \\<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{d \mid (i,n)}\mu(d) \\<br>&amp;&#x3D;\sum_{d&#x3D;1 \wedge d \mid n}^{n}\mu(d)\sum_{i&#x3D;1 \wedge d \mid i}^{n}1 \\<br>&amp;&#x3D;\sum_{d \mid n}\mu(d)\frac{n}{d} \\<br>&amp;&#x3D;(\mu \times id)(n)<br>\end{align}<br>$$</p>
 </li>
-<li><p>$\sigma_0(ij)=\sum_{x \mid i}\sum_{y \mid j}\epsilon((x,y))$</p>
+<li><p>$\sigma_0(ij)&#x3D;\sum_{x \mid i}\sum_{y \mid j}\epsilon((x,y))$</p>
 <p>证明略</p>
 </li>
-<li><p>$\sigma_1(ij)=\sum_{x \mid i}\sum_{y \mid j}\frac{xj}{y}\epsilon((x,y))$</p>
+<li><p>$\sigma_1(ij)&#x3D;\sum_{x \mid i}\sum_{y \mid j}\frac{xj}{y}\epsilon((x,y))$</p>
 </li>
 </ol>
 <p>  证明略</p>
-<h1 id="莫比乌斯反演"><a href="#莫比乌斯反演" class="headerlink" title="莫比乌斯反演"></a>莫比乌斯反演</h1><p>对于数论函数$f,g$，若有$f = g \times 1$，则有$g = f \times \mu$</p>
-<h2 id="证明-1"><a href="#证明-1" class="headerlink" title="证明"></a>证明</h2><p>$$<br>\begin{align}<br>f = g \times 1 \Rightarrow &amp;f \times \mu = g \times 1 \times \mu \\<br>\Rightarrow&amp; f \times \mu = g \times 1 \times \mu \\<br>\Rightarrow&amp; f \times \mu = g \times (1 \times \mu) \\<br>\Rightarrow&amp; f \times \mu = g \times \epsilon \\<br>\Rightarrow&amp; g = f \times \mu<br>\end{align}<br>$$</p>
-<h1 id="计算技巧，不仅仅是交换求和号"><a href="#计算技巧，不仅仅是交换求和号" class="headerlink" title="计算技巧，不仅仅是交换求和号"></a>计算技巧，不仅仅是交换求和号</h1><h2 id="贡献独立，各自算完后再合并"><a href="#贡献独立，各自算完后再合并" class="headerlink" title="贡献独立，各自算完后再合并"></a>贡献独立，各自算完后再合并</h2><p>$$<br>\sum_{i=1}^{n}\sum_{j=1}^{m}f(i)g(j)=(\sum_{i=1}^{n}f(i))(\sum_{j=1}^{m}g(j))<br>$$</p>
-<h2 id="正难则反，统计贡献"><a href="#正难则反，统计贡献" class="headerlink" title="正难则反，统计贡献"></a>正难则反，统计贡献</h2><p>$$<br>\begin{align}<br>\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid (i,j)}f(d)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid i \wedge d \mid j}f(d) \\<br>&amp;=\sum_{d=1}^{n}f(d)\sum_{i=1 \wedge d \mid i}^{n}\sum_{j=1 \wedge d \mid j}^{m}1 \\<br>&amp;=\sum_{d=1}^{n}f(d)(\sum_{i=1 \wedge d \mid i}^{n} 1 ) (\sum_{j=1 \wedge d \mid j}^{m}1) \\<br>&amp;=\sum_{d=1}^{n}f(d) \lfloor \frac{n}{d} \rfloor \lfloor \frac{m}{d} \rfloor<br>\end{align}<br>$$</p>
-<h2 id="变量替换，枚举乘积"><a href="#变量替换，枚举乘积" class="headerlink" title="变量替换，枚举乘积"></a>变量替换，枚举乘积</h2><p>$$<br>\begin{align}<br>\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k<br>&amp;=\sum_{d=1}^{\min(n,m)}d^k\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=d] \\<br>&amp;=\sum_{d=1}^{\min(n,m)}d^k \sum_{d’=1}^{\lfloor \frac{\min(n,m)}{d} \rfloor}\mu(d’)\lfloor \frac{n}{dd’} \rfloor \lfloor \frac{m}{dd’} \rfloor \\<br>&amp;=\sum_{T=1}^{\min(n,m)} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor  \sum_{d  \mid  T} d^k \mu(\frac{T}{d}) \\<br>&amp;=\sum_{T=1}^{\min(n,m)} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor f(T) \\<br>f(T) = \sum_{d  \mid  T} d^k \mu(\frac{T}{d})<br>\end{align}<br>$$</p>
+<h1 id="莫比乌斯反演"><a href="#莫比乌斯反演" class="headerlink" title="莫比乌斯反演"></a>莫比乌斯反演</h1><p>对于数论函数$f,g$，若有$f &#x3D; g \times 1$，则有$g &#x3D; f \times \mu$</p>
+<h2 id="证明-1"><a href="#证明-1" class="headerlink" title="证明"></a>证明</h2><p>$$<br>\begin{align}<br>f &#x3D; g \times 1 \Rightarrow &amp;f \times \mu &#x3D; g \times 1 \times \mu \\<br>\Rightarrow&amp; f \times \mu &#x3D; g \times 1 \times \mu \\<br>\Rightarrow&amp; f \times \mu &#x3D; g \times (1 \times \mu) \\<br>\Rightarrow&amp; f \times \mu &#x3D; g \times \epsilon \\<br>\Rightarrow&amp; g &#x3D; f \times \mu<br>\end{align}<br>$$</p>
+<h1 id="计算技巧，不仅仅是交换求和号"><a href="#计算技巧，不仅仅是交换求和号" class="headerlink" title="计算技巧，不仅仅是交换求和号"></a>计算技巧，不仅仅是交换求和号</h1><h2 id="贡献独立，各自算完后再合并"><a href="#贡献独立，各自算完后再合并" class="headerlink" title="贡献独立，各自算完后再合并"></a>贡献独立，各自算完后再合并</h2><p>$$<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}f(i)g(j)&#x3D;(\sum_{i&#x3D;1}^{n}f(i))(\sum_{j&#x3D;1}^{m}g(j))<br>$$</p>
+<h2 id="正难则反，统计贡献"><a href="#正难则反，统计贡献" class="headerlink" title="正难则反，统计贡献"></a>正难则反，统计贡献</h2><p>$$<br>\begin{align}<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sum_{d \mid (i,j)}f(d)<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sum_{d \mid i \wedge d \mid j}f(d) \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}f(d)\sum_{i&#x3D;1 \wedge d \mid i}^{n}\sum_{j&#x3D;1 \wedge d \mid j}^{m}1 \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}f(d)(\sum_{i&#x3D;1 \wedge d \mid i}^{n} 1 ) (\sum_{j&#x3D;1 \wedge d \mid j}^{m}1) \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}f(d) \lfloor \frac{n}{d} \rfloor \lfloor \frac{m}{d} \rfloor<br>\end{align}<br>$$</p>
+<h2 id="变量替换，枚举乘积"><a href="#变量替换，枚举乘积" class="headerlink" title="变量替换，枚举乘积"></a>变量替换，枚举乘积</h2><p>$$<br>\begin{align}<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)^k<br>&amp;&#x3D;\sum_{d&#x3D;1}^{\min(n,m)}d^k\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}[(i,j)&#x3D;d] \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{\min(n,m)}d^k \sum_{d’&#x3D;1}^{\lfloor \frac{\min(n,m)}{d} \rfloor}\mu(d’)\lfloor \frac{n}{dd’} \rfloor \lfloor \frac{m}{dd’} \rfloor \\<br>&amp;&#x3D;\sum_{T&#x3D;1}^{\min(n,m)} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor  \sum_{d  \mid  T} d^k \mu(\frac{T}{d}) \\<br>&amp;&#x3D;\sum_{T&#x3D;1}^{\min(n,m)} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor f(T) \\<br>f(T) &#x3D; \sum_{d  \mid  T} d^k \mu(\frac{T}{d})<br>\end{align}<br>$$</p>
 <h1 id="取整常识"><a href="#取整常识" class="headerlink" title="取整常识"></a>取整常识</h1><p>$\lfloor \frac{n}{x} \rfloor$的取值只有$\sqrt n$种</p>
-<p>$\left\lfloor \frac{\lfloor \frac{n}{a} \rfloor}{b} \right\rfloor=\lfloor \frac{n}{ab} \rfloor=\left\lfloor \frac{\lfloor \frac{n}{b} \rfloor}{a} \right\rfloor$</p>
-<p>$\left\lceil \frac{\lceil \frac{n}{a} \rceil}{b} \right\rceil=\lceil \frac{n}{ab} \rceil=\left\lceil \frac{\lceil \frac{n}{b} \rceil}{a} \right\rceil$</p>
-<h1 id="数论分块"><a href="#数论分块" class="headerlink" title="数论分块"></a>数论分块</h1><p>若要计算$f(n)=\sum_{i=1}^{n}i \lfloor \frac{n}{i} \rfloor$</p>
+<p>$\left\lfloor \frac{\lfloor \frac{n}{a} \rfloor}{b} \right\rfloor&#x3D;\lfloor \frac{n}{ab} \rfloor&#x3D;\left\lfloor \frac{\lfloor \frac{n}{b} \rfloor}{a} \right\rfloor$</p>
+<p>$\left\lceil \frac{\lceil \frac{n}{a} \rceil}{b} \right\rceil&#x3D;\lceil \frac{n}{ab} \rceil&#x3D;\left\lceil \frac{\lceil \frac{n}{b} \rceil}{a} \right\rceil$</p>
+<h1 id="数论分块"><a href="#数论分块" class="headerlink" title="数论分块"></a>数论分块</h1><p>若要计算$f(n)&#x3D;\sum_{i&#x3D;1}^{n}i \lfloor \frac{n}{i} \rfloor$</p>
 <p>直接计算是$O(n)$的，但$\lfloor \frac{n}{i} \rfloor$的取值只有$\sqrt n$种，不妨将取值相同的同时处理</p>
 <p>即找一个最大的$j$，使得$\lfloor \frac{n}{i} \rfloor \le \lfloor \frac{n}{j} \rfloor$<br>$$<br>\begin{align}<br>\lfloor \frac{n}{i} \rfloor \le \lfloor \frac{n}{j} \rfloor \le \frac{n}{j}<br>\Rightarrow &amp;j \le \frac{n}{\lfloor \frac{n}{i} \rfloor} \\<br>\Rightarrow &amp;j \le \left\lfloor \frac{n}{\lfloor \frac{n}{i} \rfloor} \right\rfloor<br>\end{align}<br>$$</p>
-<p>一般的，对于计算$h(n)=\sum_{i=1}^{n}f(i)g(\lfloor \frac{n}{i} \rfloor)$，只需要可以快速计算$f$的前缀和即可用数论分块来快速计算</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">F</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, j = <span class="number">1</span> ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">        j = n / (n / i);</span><br><span class="line">        ans += (<span class="built_in">sumf</span>(j) - <span class="built_in">sumf</span>(i - <span class="number">1</span>)) * <span class="built_in">g</span>(n / i);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般的，对于计算$h(n)&#x3D;\sum_{i&#x3D;1}^{n}f(i)g(\lfloor \frac{n}{i} \rfloor)$，只需要可以快速计算$f$的前缀和即可用数论分块来快速计算</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">F</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    ll ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j = <span class="number">1</span> ; i &lt;= n ; i = j + <span class="number">1</span>) &#123;</span><br><span class="line">        j = n / (n / i);</span><br><span class="line">        ans += (<span class="built_in">sumf</span>(j) - <span class="built_in">sumf</span>(i - <span class="number">1</span>)) * <span class="built_in">g</span>(n / i);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="做题技巧"><a href="#做题技巧" class="headerlink" title="做题技巧"></a>做题技巧</h1><p>先写暴力，再写正解</p>
 <p>如果做不到$O(\sqrt n)$，$O(n)$也可以（骗部分分）</p>
-<p>如果RE/TLE，多半是递归/循环挂了</p>
+<p>如果RE&#x2F;TLE，多半是递归&#x2F;循环挂了</p>
 <p>如果div 0，多半是数论分块挂了</p>
 <p>将暴力逐步修改为正解，寻找那个部分写挂了</p>
 <p>主要注意是不是哪里写了个假的</p>
@@ -273,10 +277,10 @@
 <h1 id="套路"><a href="#套路" class="headerlink" title="套路"></a>套路</h1><p>写出暴力计算的式子，然后用$\phi$或$\mu$等已知等价关系式进行替换</p>
 <p>交换求和号后计算</p>
 <p>有时候会遇到枚举三元环之类的奇奇怪怪的技巧</p>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="计算-sum-i-1-n-sum-j-1-m-i-j-k"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j-k" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=k]$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=k]$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=k]<br>&amp;=\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{k} \rfloor}[(i,j)=1] \\<br>&amp;=\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{k} \rfloor}\sum_{d \mid (i,j)}\mu(d) \\<br>&amp;=\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1}^{\lfloor \frac{m}{k} \rfloor}\sum_{d \mid i \wedge d \mid j}\mu(d) \\<br>&amp;=\sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}\mu(d) \sum_{i=1 \wedge d \mid i}^{\lfloor \frac{n}{k} \rfloor}\sum_{j=1 \wedge d \mid j}^{\lfloor \frac{m}{k} \rfloor}1 \\<br>&amp;=\sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}\mu(d) \lfloor \frac{n}{kd} \rfloor \lfloor \frac{m}{kd} \rfloor \\<br>\end{align}<br>$$</p>
-<h2 id="计算-sum-i-1-n-sum-j-1-m-i-j"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid (i,j)}\phi(d) \\<br>&amp;=\sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}\phi(d) \lfloor \frac{n}{kd} \rfloor \lfloor \frac{m}{kd} \rfloor<br>\end{align}<br>$$</p>
-<h2 id="计算-sum-i-1-n-sum-j-1-m-i-j-k-1"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j-k-1" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}(i,j)^k<br>&amp;=\sum_{d=1}^{n}d^k\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=d] \\<br>&amp;=\sum_{d=1}^{n}d^k \sum_{d’=1}^{\lfloor \frac{n}{d} \rfloor}\mu(d’)\lfloor \frac{n}{dd’} \rfloor \lfloor \frac{m}{dd’} \rfloor \\<br>&amp;=\sum_{T=1}^{n} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor  \sum_{d  \mid  T} d^k \mu(\frac{T}{d}) \\<br>&amp;=\sum_{T=1}^{n} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor f(T) \\<br>f(T) = \sum_{d  \mid  T} d^k \mu(\frac{T}{d})<br>\end{align}<br>$$</p>
-<h2 id="计算-sum-i-1-n-sum-j-1-m-sigma-0-ij"><a href="#计算-sum-i-1-n-sum-j-1-m-sigma-0-ij" class="headerlink" title="计算$\sum_{i=1}^{n}\sum_{j=1}^{m}\sigma_0(ij)$"></a>计算$\sum_{i=1}^{n}\sum_{j=1}^{m}\sigma_0(ij)$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i=1}^{n}\sum_{j=1}^{m}\sigma_0(ij)<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{a \mid i}\sum_{b \mid j}[(a,b)=1] \\<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}[(i,j)=1] \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid (i,j)}\mu(d) \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{d \mid i \wedge d \mid j}\mu(d) \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;=\sum_{d=1}^{n}\mu(d) \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\lfloor \frac{n}{id} \rfloor \sum_{j=1}^{\lfloor \frac{m}{d} \rfloor}\lfloor \frac{m}{jd} \rfloor \\<br>&amp;=\sum_{d=1}^{n}\mu(d)f(\lfloor \frac{n}{d} \rfloor)f(\lfloor \frac{m}{d} \rfloor) \\<br>f(n)=\sum_{i=1}^{n}\lfloor \frac{n}{i} \rfloor<br>\end{align}<br>$$</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="计算-sum-i-1-n-sum-j-1-m-i-j-k"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j-k" class="headerlink" title="计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}[(i,j)&#x3D;k]$"></a>计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}[(i,j)&#x3D;k]$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}[(i,j)&#x3D;k]<br>&amp;&#x3D;\sum_{i&#x3D;1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j&#x3D;1}^{\lfloor \frac{m}{k} \rfloor}[(i,j)&#x3D;1] \\<br>&amp;&#x3D;\sum_{i&#x3D;1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j&#x3D;1}^{\lfloor \frac{m}{k} \rfloor}\sum_{d \mid (i,j)}\mu(d) \\<br>&amp;&#x3D;\sum_{i&#x3D;1}^{\lfloor \frac{n}{k} \rfloor}\sum_{j&#x3D;1}^{\lfloor \frac{m}{k} \rfloor}\sum_{d \mid i \wedge d \mid j}\mu(d) \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{\lfloor \frac{n}{k} \rfloor}\mu(d) \sum_{i&#x3D;1 \wedge d \mid i}^{\lfloor \frac{n}{k} \rfloor}\sum_{j&#x3D;1 \wedge d \mid j}^{\lfloor \frac{m}{k} \rfloor}1 \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{\lfloor \frac{n}{k} \rfloor}\mu(d) \lfloor \frac{n}{kd} \rfloor \lfloor \frac{m}{kd} \rfloor \\<br>\end{align}<br>$$</p>
+<h2 id="计算-sum-i-1-n-sum-j-1-m-i-j"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j" class="headerlink" title="计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)$"></a>计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sum_{d \mid (i,j)}\phi(d) \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{\lfloor \frac{n}{k} \rfloor}\phi(d) \lfloor \frac{n}{kd} \rfloor \lfloor \frac{m}{kd} \rfloor<br>\end{align}<br>$$</p>
+<h2 id="计算-sum-i-1-n-sum-j-1-m-i-j-k-1"><a href="#计算-sum-i-1-n-sum-j-1-m-i-j-k-1" class="headerlink" title="计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)^k$"></a>计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)^k$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}(i,j)^k<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}d^k\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}[(i,j)&#x3D;d] \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}d^k \sum_{d’&#x3D;1}^{\lfloor \frac{n}{d} \rfloor}\mu(d’)\lfloor \frac{n}{dd’} \rfloor \lfloor \frac{m}{dd’} \rfloor \\<br>&amp;&#x3D;\sum_{T&#x3D;1}^{n} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor  \sum_{d  \mid  T} d^k \mu(\frac{T}{d}) \\<br>&amp;&#x3D;\sum_{T&#x3D;1}^{n} \lfloor \frac{n}{T} \rfloor \lfloor \frac{m}{T} \rfloor f(T) \\<br>f(T) &#x3D; \sum_{d  \mid  T} d^k \mu(\frac{T}{d})<br>\end{align}<br>$$</p>
+<h2 id="计算-sum-i-1-n-sum-j-1-m-sigma-0-ij"><a href="#计算-sum-i-1-n-sum-j-1-m-sigma-0-ij" class="headerlink" title="计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sigma_0(ij)$"></a>计算$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sigma_0(ij)$</h2><p>$$<br>\begin{align}<br>n \le m \\<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sigma_0(ij)<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sum_{a \mid i}\sum_{b \mid j}[(a,b)&#x3D;1] \\<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}[(i,j)&#x3D;1] \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sum_{d \mid (i,j)}\mu(d) \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;&#x3D;\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{m}\sum_{d \mid i \wedge d \mid j}\mu(d) \lfloor \frac{n}{i} \rfloor \lfloor \frac{m}{j} \rfloor \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}\mu(d) \sum_{i&#x3D;1}^{\lfloor \frac{n}{d} \rfloor}\lfloor \frac{n}{id} \rfloor \sum_{j&#x3D;1}^{\lfloor \frac{m}{d} \rfloor}\lfloor \frac{m}{jd} \rfloor \\<br>&amp;&#x3D;\sum_{d&#x3D;1}^{n}\mu(d)f(\lfloor \frac{n}{d} \rfloor)f(\lfloor \frac{m}{d} \rfloor) \\<br>f(n)&#x3D;\sum_{i&#x3D;1}^{n}\lfloor \frac{n}{i} \rfloor<br>\end{align}<br>$$</p>
 
     
   </div>
@@ -302,25 +306,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -538,6 +523,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

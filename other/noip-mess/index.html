@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>noip 一些常见套路 | nekko</title>
+  <title>noip 一些常见套路 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,12 +19,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="noip 一些常见套路">
 <meta property="og:url" content="https://nekko.moe/other/noip-mess/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="1对于一类期望类事件，比如说 hdu 5245 首先如果每个元素贡献独立，但如果产生多次贡献算一次，则可以算不产生贡献的概率，用 $1$ 减去这个值就是产生贡献的概率，然后乘以相应的权值即可 2在一棵树上，如果给定一个点集 $S$，同时给定一个点 $p$ 设 $(u,v)$ 是 $S$ 的直径，那么 $p$ 到 $S$ 的最远距离是 $\max(dis(u,p),dis(v,p))$ 一般的，">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-10-23T00:00:29.000Z">
+<meta property="article:published_time" content="2018-10-23T12:00:29.000Z">
 <meta property="article:modified_time" content="2019-07-10T07:42:36.000Z">
-<meta property="article:author" content="nekko">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="noip">
 <meta property="article:tag" content="套路">
 <meta name="twitter:card" content="summary">
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -201,19 +205,19 @@
 <h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><p>如果某题是要求枚举子集，但数据范围很大，不妨枚举每个元素会对答案产生的贡献</p>
 <p>如果在序列上，还可以寻找相邻项的不同之处</p>
 <h1 id="7"><a href="#7" class="headerlink" title="7"></a>7</h1><p>对于括号序列的匹配问题，一般来说用栈就行了，而且是能匹配就匹配</p>
-<h1 id="8"><a href="#8" class="headerlink" title="8"></a>8</h1><p>枚举子集的子集的复杂度：<br>$$<br>\sum_{i=0}^{T} {T \choose i}2^i=3^T<br>$$<br>特别的，对于枚举 $k$ 重子集的方案数为 $(k+1)^T$</p>
+<h1 id="8"><a href="#8" class="headerlink" title="8"></a>8</h1><p>枚举子集的子集的复杂度：<br>$$<br>\sum_{i&#x3D;0}^{T} {T \choose i}2^i&#x3D;3^T<br>$$<br>特别的，对于枚举 $k$ 重子集的方案数为 $(k+1)^T$</p>
 <h1 id="9"><a href="#9" class="headerlink" title="9"></a>9</h1><p>在 <strong>八数码</strong> 问题中，可能会遇到如何给 $9!$ 个状态哈希，当然双哈希是可以的</p>
 <p>然而单哈希有时候也是可以的</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> base = <span class="number">149</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>; <span class="comment">// 这个会有冲突</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> base = <span class="number">137</span>, mod = <span class="number">998244853</span>; <span class="comment">// 这个神奇的不会产生冲突</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> base = <span class="number">149</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>; <span class="comment">// 这个会有冲突</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> base = <span class="number">137</span>, mod = <span class="number">998244853</span>; <span class="comment">// 这个神奇的不会产生冲突</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><p>设 $dia(T)$ 表示树 $T$ 的直径 $(a,b)$，那么 $dia(T \cup {c}) \in {(a,b),(a,c),(b,c)}$</p>
 <h1 id="11"><a href="#11" class="headerlink" title="11"></a>11</h1><p>如果正着思考不行的话，不如将操作反着来</p>
 <p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/acm/contest/17/A">Cut</a></p>
-<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>判读 ${n \choose m}$ 的奇偶性：当 $n&amp;m =m$ 的时候是奇数，反之是偶数</p>
+<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><p>判读 ${n \choose m}$ 的奇偶性：当 $n&amp;m &#x3D;m$ 的时候是奇数，反之是偶数</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fzl194/p/9045315.html">3300. 奇数统计</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/leomessi-/p/7499272.html">如何判断组合数的奇偶</a></p>
 <h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><p>固定 $n$ 后的 ${n \choose m}$ 的最大值是 ${n \choose \frac{n}{2}}$</p>
-<p>特别的，在 $n=20$ 的时候，${20 \choose 10}$ 大约是 $1.8 \times 10^6$</p>
+<p>特别的，在 $n&#x3D;20$ 的时候，${20 \choose 10}$ 大约是 $1.8 \times 10^6$</p>
 <h1 id="14"><a href="#14" class="headerlink" title="14"></a>14</h1><p>在爆搜的时候，状态数可能比你想象的要少许多</p>
 <p><code>map</code> 可能比你想象的要慢很多，但 <code>哈希挂链</code> 可能比你想象的要快很多</p>
 <h1 id="15"><a href="#15" class="headerlink" title="15"></a>15</h1><p>如果数据范围不大，比如说 $20 \sim 30$，而且爆搜一下极限数据后发现状态数不大</p>
@@ -223,10 +227,10 @@
 <h1 id="17"><a href="#17" class="headerlink" title="17"></a>17</h1><p><a target="_blank" rel="noopener" href="http://blog.miskcoo.com/2014/09/power-sum">Miskcoo 幂和</a></p>
 <p><del>于是胡乱想了一个式子……不知道对不对……</del></p>
 <p>若 $\forall x \in [0,n+1] \cap \mathbb{Z}$ 有 $f(x) \in \mathbb{Z}$ 成立，且 $f$ 连续又可积，则有：</p>
-<p>$$<br>\sum_{i=0}^{n} f(i)=\left(\int_{0}^{n+1}f(x)dx \right)-\left(\sum_{i=0}^{n}\int_{i}^{i+1}\left(f(x)-f(i)\right)dx\right)<br>$$</p>
+<p>$$<br>\sum_{i&#x3D;0}^{n} f(i)&#x3D;\left(\int_{0}^{n+1}f(x)dx \right)-\left(\sum_{i&#x3D;0}^{n}\int_{i}^{i+1}\left(f(x)-f(i)\right)dx\right)<br>$$</p>
 <p><del>upd: 然而这个式子的确没有什么用……</del></p>
 <h1 id="18"><a href="#18" class="headerlink" title="18"></a>18</h1><p>遇到图论不妨先缩个连通分量</p>
-<h1 id="19"><a href="#19" class="headerlink" title="19"></a>19</h1><p>看到 <strong>至少</strong> <strong>最小值最大</strong> 或者 <strong>答案至少/至多为某个数存在单调性</strong> 后可以套二分</p>
+<h1 id="19"><a href="#19" class="headerlink" title="19"></a>19</h1><p>看到 <strong>至少</strong> <strong>最小值最大</strong> 或者 <strong>答案至少&#x2F;至多为某个数存在单调性</strong> 后可以套二分</p>
 <h1 id="20"><a href="#20" class="headerlink" title="20"></a>20</h1><p>有选择 $k$ 个的限制后，打表找规律看能否带权二分</p>
 <h1 id="21"><a href="#21" class="headerlink" title="21"></a>21</h1><p><strong>如果不会写正解，一定要记得去写部分分！！！</strong></p>
 <h1 id="22"><a href="#22" class="headerlink" title="22"></a>22</h1><p>遇到输入只给 $n$ 之类的，三种方法：</p>
@@ -237,7 +241,7 @@
 </ol>
 <h1 id="23"><a href="#23" class="headerlink" title="23"></a>23</h1><p>如果遇到关于位运算的子集之类问题，有如下方向：</p>
 <ol>
-<li>高维前/后缀和/极值</li>
+<li>高维前&#x2F;后缀和&#x2F;极值</li>
 <li>（图论中）每个值向去掉某一位后连边</li>
 </ol>
 <h1 id="24"><a href="#24" class="headerlink" title="24"></a>24</h1><p>关于存图：</p>
@@ -251,10 +255,10 @@
 <h1 id="27"><a href="#27" class="headerlink" title="27"></a>27</h1><p>常见打表找规律法：</p>
 <ol>
 <li>瞪眼法：将所有小数据都用暴力跑出来，然后瞪着它们直到发现规律</li>
-<li>扰动法：差分/前缀和</li>
+<li>扰动法：差分&#x2F;前缀和</li>
 <li>假设可以递推法：若系数是常数，直接无脑算系数，否则用瞪眼法</li>
 <li><a target="_blank" rel="noopener" href="https://czyhe.me/algorithm/in-ex/in-ex/">容斥系数找规律</a></li>
-<li>$f_i=\sum g_jf_j$，当然 <del>很有可能</del> 是 $f_o=\sum(j+t_j)f_j$</li>
+<li>$f_i&#x3D;\sum g_jf_j$，当然 <del>很有可能</del> 是 $f_o&#x3D;\sum(j+t_j)f_j$</li>
 <li>遇到多维限制，比如说求的是 $f(x,y)$，不妨固定一维，然后就转化成了降一维度后的问题了，即 $g_x(y)$</li>
 </ol>
 <h1 id="28"><a href="#28" class="headerlink" title="28"></a>28</h1><p>树状数组记得下标不能为 $0$</p>
@@ -293,9 +297,9 @@
 <p>一般来说，第二种做法比较通用</p>
 <h1 id="39-1"><a href="#39-1" class="headerlink" title="39"></a>39</h1><p>暴力大法好</p>
 <ol>
-<li>枚举答案/二分答案/三分答案</li>
+<li>枚举答案&#x2F;二分答案&#x2F;三分答案</li>
 <li>求所有答案的交集？<a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3967">TJOI2014 匹配</a>，不妨直接枚举删掉某个边后答案会不会不是最优，如果不是最优那么就是必要边</li>
-<li>静态区间询问：先想暴力，然后看看能不能改成分块/莫队</li>
+<li>静态区间询问：先想暴力，然后看看能不能改成分块&#x2F;莫队</li>
 </ol>
 <h1 id="40"><a href="#40" class="headerlink" title="40"></a>40</h1><p>注意审题，比如说 <a target="_blank" rel="noopener" href="https://www.luogu.org/problemnew/show/P3745">【六省联考2017】期末考试</a>，影响答案的只有最后一科考试结果的产生时间有关，和之前的无关</p>
 <h1 id="41"><a href="#41" class="headerlink" title="41"></a>41</h1><p>二分图匹配是个好东西</p>
@@ -307,10 +311,10 @@
 <h1 id="44"><a href="#44" class="headerlink" title="44"></a>44</h1><p>只用 $1 \sim n$ 可以凑出来 $1 \sim \frac{n(n+1)}{2}$ 中的所有数（每个数只能用一次）</p>
 <p>于是有一个鬼畜的题</p>
 <blockquote>
-<p>定义 $n$ 是一个好数当且仅当 $\forall T \subseteq S=\mathbb{N} \cap [1,n]$，满足 $\sum T=(\sum S)-(\sum T)$</p>
+<p>定义 $n$ 是一个好数当且仅当 $\forall T \subseteq S&#x3D;\mathbb{N} \cap [1,n]$，满足 $\sum T&#x3D;(\sum S)-(\sum T)$</p>
 <p>试判断 $n$ 是否是好数</p>
 </blockquote>
-<p>$\sum T=(\sum S)-(\sum T) \Rightarrow \sum T=\frac{n(n+1)}{4}$</p>
+<p>$\sum T&#x3D;(\sum S)-(\sum T) \Rightarrow \sum T&#x3D;\frac{n(n+1)}{4}$</p>
 <p>首先 $n$ 的先决条件是 $4 \mid n(n+1)$</p>
 <p>有一种构造 $k$ 的方法（$1 \le k \le \frac{n(n+1)}{2}$）：</p>
 <blockquote>
@@ -342,25 +346,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -578,6 +563,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

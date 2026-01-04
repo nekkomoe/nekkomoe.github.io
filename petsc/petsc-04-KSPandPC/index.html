@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[04] petsc4py中的KSP和PC | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="KSP and PCKSP(Krylov Subspace Methods)负责求解线性系统 $Ax&#x3D;b$, 它只关心在给定算子$A$和右端项$b$的情况下，如何迭代得到近似解$x \approx A^{-1}b$，并且KSP 不关心矩阵是如何装配，因此KSP是所有PETSc的高层求解器共享的线性核心，其中：  SNES 在每一步非线性迭代中反复调用 KSP TS 在每一个时间步中反复调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[04] petsc4py中的KSP和PC">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-04-KSPandPC/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="KSP and PCKSP(Krylov Subspace Methods)负责求解线性系统 $Ax&#x3D;b$, 它只关心在给定算子$A$和右端项$b$的情况下，如何迭代得到近似解$x \approx A^{-1}b$，并且KSP 不关心矩阵是如何装配，因此KSP是所有PETSc的高层求解器共享的线性核心，其中：  SNES 在每一步非线性迭代中反复调用 KSP TS 在每一个时间步中反复调">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:04:00.000Z">
+<meta property="article:modified_time" content="2026-01-02T20:22:27.085Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#KSP-and-PC"><span class="toc-text">KSP and PC</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-04-KSPandPC" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[04] petsc4py中的KSP和PC</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="KSP-and-PC"><a href="#KSP-and-PC" class="headerlink" title="KSP and PC"></a>KSP and PC</h1><p>KSP(Krylov Subspace Methods)负责求解线性系统 $Ax&#x3D;b$, 它只关心在给定算子$A$和右端项$b$的情况下，如何迭代得到近似解$x \approx A^{-1}b$，并且KSP 不关心矩阵是如何装配，因此KSP是所有PETSc的高层求解器共享的线性核心，其中：</p>
+<ul>
+<li>SNES 在每一步非线性迭代中反复调用 KSP</li>
+<li>TS 在每一个时间步中反复调用 SNES &#x2F; KSP</li>
+<li>DM 负责数据布局和装配回调，但不参与线性求解本身</li>
+</ul>
+<p>在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/KSP.pyx">KSP.pyx源文件</a>和<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscksp.pxi">petscksp.pxi源文件</a>中，给出了petsc4py中的接口定义和一些封装好的API实现。在<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/KSP/KSPType/">KSPType文档</a>中，给出了Krylov求解器的类型。</p>
+<p>创建KSP后，需要绑定线性算子$A$，以及一个预处理子$P$，如果没有给出$P$的形式，那么会使用$A$作为预处理子。代码结构如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ksp = PETSc.KSP().create(comm) <span class="comment"># create ksp on `comm`</span></span><br><span class="line">ksp.setOperators(A)   <span class="comment"># set linear operator A, and preconditioner A</span></span><br><span class="line"><span class="comment"># or you can use `ksp.setOperators(A, P)` to set a preconditioner</span></span><br><span class="line">ksp.setFromOptions()  <span class="comment"># set ksp from options</span></span><br><span class="line">ksp.solve(b, x)       <span class="comment"># solve Ax=b</span></span><br></pre></td></tr></table></figure>
+
+<p>如果需要进一步设置ksp的预处理子，可以通过下面代码获取：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pc = ksp.getPC()</span><br><span class="line">pc.setFromOptions()</span><br></pre></td></tr></table></figure>
+
+<p>更多的内容在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/PC.pyx">PC.pyx源文件</a>和<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscpc.pxi">petscpc.pxi源文件</a>中，预处理子的类型可以从<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/PC/PCType/">PCType文档</a>中获取。通过<code>setPCSide</code>函数，可以设置预处理子的方向（左预处理子或者右预处理子），在<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/PC/PCSide/">PCSide文档</a>里给出了详细内容：</p>
+<ul>
+<li><code>PC_SIDE_DEFAULT = -1</code>：由KSP内部决定，或者通过参数<code>-ksp_pc_side</code>传入</li>
+<li>&#96;&#96;PC_LEFT &#x3D; 0&#96;：applied after the operator is applied，左预处理子 $M^{-1}Ax&#x3D;M^{-1}b$</li>
+<li><code>PC_RIGHT = 1</code>：applied before the operator is applied，右预处理子 $AM^{-1}y&#x3D;b, x&#x3D;M^{-1}y$</li>
+<li><code>PC_SYMMETRIC = 2</code>：a portion of the preconditioner is applied before the operator and the  transpose of this portion is applied after the operator is applied，对称预处理子 $M&#x3D;BB^T,B^{-1}AB^{-T}y&#x3D;B^{-1}b, x&#x3D;B^{-T}y$</li>
+</ul>
+<p>KSP的常见配置方案有：</p>
+<ul>
+<li>直接法（LU）： <code>-ksp_type preonly -pc_type lu</code></li>
+<li>迭代法（GMRES + ILU）： <code>-ksp_type gmres -pc_type ilu</code></li>
+<li>CG（要求对称正定）： <code>-ksp_type cg -pc_type jacobi</code></li>
+</ul>
+<p>如果需要创建多个KSP，可以使用<code>setOptionsPrefix(prefix)</code>、<code>appendOptionsPrefix(prefix)</code>、<code>getOptionsPrefix()</code>等函数来通过prefix进行区分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ksp_outer = PETSc.KSP().create(comm)</span><br><span class="line">ksp_outer.setOptionsPrefix(<span class="string">&quot;outer_&quot;</span>)</span><br><span class="line">ksp_outer.setOperators(A)</span><br><span class="line">ksp_outer.setFromOptions()</span><br><span class="line"></span><br><span class="line">ksp_inner = PETSc.KSP().create(comm)</span><br><span class="line">ksp_inner.setOptionsPrefix(<span class="string">&quot;inner_&quot;</span>)</span><br><span class="line">ksp_inner.setOperators(A2)</span><br><span class="line">ksp_inner.setFromOptions()</span><br></pre></td></tr></table></figure>
+
+<p>之后命令行参数可以通过prefix来区分：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-outer_ksp_type gmres -outer_pc_type ilu</span><br><span class="line">-inner_ksp_type cg    -inner_pc_type jacobi</span><br></pre></td></tr></table></figure>
+
+<p>为了判断KSP求解器是否成功计算出数值解，以及控制KSP的敛散条件，可以使用<code>setTolerances(rtol, atol, divtol, max_it)</code>来设置，并通过<code>getTolerances</code>来获取这四个设置参数，其中：</p>
+<ul>
+<li><code>rtol</code>表示相对误差，如果有预处理子则会返回含预处理子的相对误差，即$|r_k|&lt;rtol \cdot |r_0|$</li>
+<li><code>atol</code>表示绝对误差，如果有预处理子则会返回含预处理子的相对误差，即$|r_k|&lt;atol$</li>
+<li><code>divtol</code>表示发散条件，即$|r_k|&gt;divtol \cdot |r_0|$时停止迭代</li>
+<li><code>max_it</code>表示最大迭代次数</li>
+</ul>
+<p>还可以通过下面三个函数，来获取迭代次数、残差范数、停止原因：</p>
+<ul>
+<li><p><code>ksp.getIterationNumber()</code>：返回迭代次数，也常被当作 <code>ksp.its</code> 的来源</p>
+</li>
+<li><p><code>ksp.getResidualNorm()</code>：返回残差范数，也常被当作 <code>ksp.norm</code> 的来源</p>
+</li>
+<li><p><code>ksp.getConvergedReason()</code>：返回停止原因，即返回一个 reason 枚举</p>
+</li>
+</ul>
+<p>每次求解完毕后，可以通过这三个函数来输出结束原因：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ksp.solve(b, x)</span><br><span class="line">reason = ksp.getConvergedReason()</span><br><span class="line">its    = ksp.getIterationNumber()</span><br><span class="line">rnorm  = ksp.getResidualNorm()</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;reason=&#125;</span>, <span class="subst">&#123;its=&#125;</span>, <span class="subst">&#123;rnorm=&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要在求解失败时程序立刻崩溃，可以采用下面两种方案：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ksp.setErrorIfNotConverged(<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># or set `-ksp_error_if_not_converged` as option</span></span><br></pre></td></tr></table></figure>
+
+<p>因为在内层求解（如某些预条件器内部又跑一个 KSP）里，<code>DIVERGED_MAX_IT</code> 不一定被当作错误，因为有些嵌套算法允许内层不完全收敛。还可以通过<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/KSP/KSPNormType/">KSPNormType文档</a>中的值来设置敛散性测试使用的范数类型：</p>
+<ul>
+<li><code>KSP_NORM_DEFAULT</code>：使用默认的KSPType</li>
+<li><code>KSP_NORM_NONE</code>：不使用范数计算</li>
+<li><code>KSP_NORM_PRECONDITIONED</code>：使用预处理残差范数</li>
+<li><code>KSP_NORM_UNPRECONDITIONED</code>：使用未预处理的残差范数</li>
+<li><code>KSP_NORM_NATURAL</code>：使用自然范数（由线性算子诱导的范数）</li>
+</ul>
+<p>在KSP中，其还支持monitor进行求解过程的监控，可以通过<code>-ksp_monitor</code>选项打开。而<code>setPCSide()</code> 和 <code>setNormType()</code>的设置，会影响monitor的输出结果，因此需要设置好这两个类型，才能得知monitor输出的真实含义。</p>
+<p>可以通过<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/KSP.pyx#L1222"><code>setMonitor</code></a>来添加一个monitor，注意KSP的内部会维护一个<code>ksp.__monitor__</code>列表，存储了目前所有注册的monitor信息，使用方法<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/KSP.pyx#L1269"><code>getMonitor</code></a>会返回这个列表。仿照KSP源文件中<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/KSP.pyx#L1297"><code>monitor(ksp, its, rnorm)</code></a>的函数签名，可以写出一个类似的实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_monitor</span>(<span class="params">ksp, its, rnorm</span>):</span><br><span class="line">    <span class="keyword">if</span> its == <span class="number">0</span>: PETSc.Sys.Print(<span class="string">&quot;start KSP&quot;</span>)</span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;[<span class="subst">&#123;its&#125;</span>]: rnorm=<span class="subst">&#123;rnorm:<span class="number">.2</span>e&#125;</span>&quot;</span>)</span><br><span class="line">ksp.setMonitor(my_monitor)</span><br><span class="line">ksp.solve(b, x)</span><br><span class="line">ksp.monitorCancel()</span><br></pre></td></tr></table></figure>
+
+<p>monitor中可以传入一些额外参数，比如<code>*args, **kargs</code>，这里可以结合<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscksp.pxi#L263"><code>KSP_Monitor</code></a>和<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/KSP.pyx#L1222"><code>setMonitor</code></a>中的实现，在<code>ksp.__monitor__</code>中，实际存储的是<code>[(monitor, args, kargs), ...]</code>这样的三元组，而在<code>KSP_Monitor</code>调用的时候，是执行的<code>monitor(Ksp, toInt(its), toReal(rnm), *args, **kargs)</code>语句，因此可以如此添加额外参数（这里的<code>ext1, ext2</code>也可以写成<code>*args</code>）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_monitor</span>(<span class="params">ksp, its, rnorm, ext1, ext2, **kargs</span>):</span><br><span class="line"><span class="comment"># or: `def my_monitor(ksp, its, rnorm, *args, **kargs):`</span></span><br><span class="line">    PETSc.Sys.Print(<span class="string">f&quot;<span class="subst">&#123;ext1=&#125;</span>, <span class="subst">&#123;ext2=&#125;</span>, <span class="subst">&#123;kargs=&#125;</span>&quot;</span>)</span><br><span class="line">ksp.setMonitor(my_monitor, args=(<span class="number">1</span>, <span class="number">2</span>), kargs=&#123;<span class="string">&quot;x&quot;</span>: <span class="string">&quot;3&quot;</span>&#125;)</span><br><span class="line">ksp.solve(b, x)</span><br><span class="line">ksp.monitorCancel()</span><br><span class="line"><span class="comment"># Output: ext1=1, ext2=2, kargs=&#123;&#x27;x&#x27;: &#x27;3&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，总结一下比较常用的参数选项：</p>
+<ul>
+<li><code>-ksp_view</code>：打印 KSP&#x2F;PC 的最终配置</li>
+<li><code>-ksp_converged_reason</code>：每次 solve 后给出 reason</li>
+<li><code>-ksp_monitor</code>：打开monitor控制</li>
+<li><code>-ksp_monitor_true_residual</code>：同时打印 true residual 和 preconditioned residual，避免被 “预条件残差下降很快但真实残差不动” 迷惑</li>
+<li><code>-ksp_initial_guess_nonzero &lt;true|false&gt;</code>：选择是否使用初始非0解假设</li>
+</ul>
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-03-Mat/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-05-SNES/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>量子物理笔记 - 11：可观测量与算符 | nekko</title>
+  <title>量子物理笔记 - 11：可观测量与算符 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="量子力学,原子物理,线性代数," />
   
 
-  <meta name="description" content="可观测量可观测量 $Q(x,p)$ 的期望（要求为实数）为：$$\begin{aligned}&amp; \langle Q \rangle&#x3D;\int \psi^* \hat{Q}\psi dx&#x3D;\langle\psi|\hat{Q}\psi\rangle \in \mathbb{R} \\\Rightarrow&amp; \langle Q \rangle&#x3D;\langle Q \rangle^*">
+  <meta name="description" content="可观测量可观测量 $Q(x,p)$ 的期望（要求为实数）为：$$\begin{aligned}&amp; \langle Q \rangle&#x3D;\int \psi^* \hat{Q}\psi dx&#x3D;\langle\psi|\hat{Q}\psi\rangle \in \mathbb{R} \\\Rightarrow&amp; \langle Q \rangle&#x3D;\lan">
 <meta property="og:type" content="article">
 <meta property="og:title" content="量子物理笔记 - 11：可观测量与算符">
 <meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%2011%EF%BC%9A%E5%8F%AF%E8%A7%82%E6%B5%8B%E9%87%8F%E4%B8%8E%E7%AE%97%E7%AC%A6/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="可观测量可观测量 $Q(x,p)$ 的期望（要求为实数）为：$$\begin{aligned}&amp; \langle Q \rangle&#x3D;\int \psi^* \hat{Q}\psi dx&#x3D;\langle\psi|\hat{Q}\psi\rangle \in \mathbb{R} \\\Rightarrow&amp; \langle Q \rangle&#x3D;\langle Q \rangle^*">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="可观测量可观测量 $Q(x,p)$ 的期望（要求为实数）为：$$\begin{aligned}&amp; \langle Q \rangle&#x3D;\int \psi^* \hat{Q}\psi dx&#x3D;\langle\psi|\hat{Q}\psi\rangle \in \mathbb{R} \\\Rightarrow&amp; \langle Q \rangle&#x3D;\lan">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-16T00:00:11.000Z">
-<meta property="article:modified_time" content="2023-01-16T06:41:46.811Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="量子力学">
+<meta property="article:published_time" content="2023-01-16T13:00:11.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:41:48.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="原子物理">
 <meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="量子力学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,15 +190,15 @@
 
   <div class="article-content">
     
-      <h2 id="可观测量"><a href="#可观测量" class="headerlink" title="可观测量"></a>可观测量</h2><p>可观测量 $Q(x,p)$ 的期望（要求为实数）为：<br>$$<br>\begin{aligned}<br>&amp; \langle Q \rangle=\int \psi^* \hat{Q}\psi dx=\langle\psi|\hat{Q}\psi\rangle \in \mathbb{R} \\<br>\Rightarrow<br>&amp; \langle Q \rangle=\langle Q \rangle^*  \\<br>\Rightarrow<br>&amp; \langle\psi|\hat{Q}\psi\rangle=\langle\hat{Q}\psi|\psi\rangle<br>\end{aligned}<br>$$<br>可以看到，可观测量的算符有一些特殊性质（Hermite 共轭），即：<br>$$<br>\hat{Q}=\hat{Q}^\dagger<br>$$</p>
-<h3 id="动量算符"><a href="#动量算符" class="headerlink" title="动量算符"></a>动量算符</h3><p>动量算符为：<br>$$<br>\hat{p}=-i\hbar \nabla<br>$$<br>考虑 $f,g\in L^2$，内积为：<br>$$<br>\begin{aligned}<br>\langle f|\hat{p}g\rangle<br>&amp;=-i\hbar\int_ {-\infty}^{\infty}f^* \nabla gdx \\<br>&amp;=-i\hbar\left(\underbrace{(f^* g)|_ {-\infty}^{\infty}}_ {0}-\int_ {-\infty}^{\infty}g\nabla f^* dx\right) \\<br>&amp;=\int_ {-\infty}^{\infty}i\hbar \nabla f^*  gdx \\<br>&amp;=\int_ {-\infty}^{\infty}(-i\hbar \nabla f)^*  gdx \\<br>&amp;=\langle \hat{p}f|g\rangle<br>\end{aligned}<br>$$<br>即动量算符是 Hermite 共轭的。</p>
-<h3 id="Hermite-共轭"><a href="#Hermite-共轭" class="headerlink" title="Hermite 共轭"></a>Hermite 共轭</h3><p>实际上，若对于任意 $h \in L^2$，都有：<br>$$<br>\langle h|\hat{Q}h\rangle=\langle \hat{Q}h|h \rangle<br>$$<br>则算符 $\hat{Q}$ 对任意 $f,g \in L^2$ 都是 Hermite 共轭的。</p>
-<p>考虑构造 $h=f+cg$，则：<br>$$<br>\begin{aligned}<br>\langle h|\hat{Q}h \rangle<br>&amp;=\langle f+cg | \hat{Q}f+c\hat{Q}g\rangle \\<br>&amp;=\langle f|\hat{Q}f \rangle+c^* \langle g|\hat{Q}f \rangle<br>+c\langle f|\hat{Q}g\rangle+c^* c\langle g|\hat{Q}g \rangle, \quad c^* c=|c|^2 \\<br>&amp;=\langle\hat{Q}h|h\rangle\\<br>&amp;=\langle \hat{Q}f+c\hat{Q}g|f+cg\rangle \\<br>&amp;=\langle \hat{Q}f|f\rangle+c^* \langle\hat{Q}g|f\rangle<br>+c\langle\hat{Q}f|g\rangle+c^* c\langle\hat{Q}g|g\rangle,\quad c^* c=|c|^2 \\<br>&amp;=\langle f|\hat{Q}f\rangle+c^* \langle\hat{Q}g|f\rangle<br>+c\langle\hat{Q}f|g\rangle+c^* c\langle g|\hat{Q}g\rangle<br>\end{aligned}<br>$$<br>分别取 $c=1,i$，得：<br>$$<br>\begin{aligned}<br>&amp; \begin{cases}<br>\langle f|\hat{Q}g \rangle+\langle g|\hat{Q}f \rangle<br>=\langle \hat{Q}f|g \rangle+\langle \hat{Q}g|f \rangle, \quad &amp; c=1 \\<br>\langle f|\hat{Q}g \rangle-\langle g|\hat{Q}f \rangle<br>=\langle \hat{Q}f|g \rangle-\langle \hat{Q}g|f \rangle, \quad &amp; c=i \\<br>\end{cases} \\<br>\Rightarrow<br>&amp; \langle f|\hat{Q} g\rangle=\langle\hat{Q}f|g\rangle<br>\end{aligned}<br>$$</p>
-<h3 id="算符"><a href="#算符" class="headerlink" title="算符"></a>算符</h3><p>算符 $\hat{Q}$ 的伴随算符是 $\hat{Q}^\dagger$，即：<br>$$<br>\langle f|\hat{Q}g\rangle=\langle\hat{Q}^\dagger f|g \rangle<br>$$<br>Hermite 算符是自伴算符，即：<br>$$<br>\hat{Q}=\hat{Q}^\dagger<br>$$<br>考虑算符乘积的伴随，即：<br>$$<br>\begin{aligned}<br>\langle f|\hat{Q}\hat{R} g \rangle<br>&amp;=\langle \hat{Q}^\dagger f|\hat{R}g\rangle \\<br>&amp;=\langle \hat{R}^\dagger \hat{Q}^\dagger f | g \rangle \\<br>&amp;=\langle (\hat{Q}\hat{R})^\dagger f|g \rangle<br>\end{aligned}<br>$$<br>即：<br>$$<br>(\hat{Q}\hat{R})^\dagger=\hat{R}^\dagger\hat{Q}^\dagger<br>$$<br>进一步的，若 $\hat{Q}\hat{R}$ 是 Hermition 的，则：<br>$$<br>\begin{aligned}<br>&amp; \hat{Q}\hat{R}=\hat{R}^\dagger\hat{Q}^\dagger=\hat{R}\hat{Q} \\<br>\Rightarrow<br>&amp; [\hat{Q},\hat{R}]=0<br>\end{aligned}<br>$$<br>即 $\hat{Q},\hat{R}$ 是对易的。</p>
-<p>一些常见的伴随算符：<br>$$<br>\begin{aligned}<br>&amp; (f(x))^\dagger=f^* (x) \\<br>&amp; \left(\frac{d}{dx}\right)^\dagger=-\frac{d}{dx} \\<br>&amp; a_ {+}^\dagger=a_ {-}<br>\end{aligned}<br>$$</p>
-<p>反厄密算符等于它的负的厄密共轭：<br>$$<br>\hat{Q}^\dagger=-\hat{Q}<br>$$<br>（1）反厄密算符的期望值是虚数。<br>$$<br>\begin{aligned}<br>\langle Q \rangle<br>&amp;=\langle\psi|\hat{Q}\psi\rangle \\<br>&amp;=\langle\hat{Q}^\dagger\psi|\psi\rangle \\<br>&amp;=-\langle\hat{Q}\psi|\psi\rangle \\<br>&amp;=-(\langle\psi|\hat{Q}\psi\rangle)^*  \\<br>&amp;=-(\langle Q \rangle)^*<br>\end{aligned}<br>$$<br>因此：<br>$$<br>\Re(\langle Q \rangle)=\frac{1}{2}\Re(\langle Q \rangle+\langle Q \rangle^* )=0<br>$$<br>所以 $\langle Q \rangle $ 是虚数。</p>
-<p>（2）两个厄密算符的对易子是反厄密的。<br>$$<br>\begin{aligned}<br>\left[\hat{P},\hat{Q}\right]^\dagger<br>&amp;=(\hat{P}\hat{Q})^\dagger-(\hat{Q}\hat{P})^\dagger \\<br>&amp;=\hat{Q}^\dagger\hat{P}^\dagger-\hat{P}^\dagger\hat{Q}^\dagger \\<br>&amp;=\hat{Q}\hat{P}-\hat{P}\hat{Q} \\<br>&amp;=-[\hat{P},\hat{Q}]<br>\end{aligned}<br>$$<br>因此厄米算符的对易子是虚数。</p>
-<p>（3）两个反厄密算符的对易子是反厄密的。<br>$$<br>\begin{aligned}<br>\left[\hat{P},\hat{Q}\right]^\dagger<br>&amp;=(\hat{P}\hat{Q})^\dagger-(\hat{Q}\hat{P})^\dagger \\<br>&amp;=\hat{Q}^\dagger\hat{P}^\dagger-\hat{P}^\dagger\hat{Q}^\dagger \\<br>&amp;=(-\hat{Q})(-\hat{P})-(-\hat{P})(-\hat{Q}) \\<br>&amp;=-[\hat{P},\hat{Q}]<br>\end{aligned}<br>$$<br>因此反厄米算符的对易子是虚数。</p>
+      <h2 id="可观测量"><a href="#可观测量" class="headerlink" title="可观测量"></a>可观测量</h2><p>可观测量 $Q(x,p)$ 的期望（要求为实数）为：<br>$$<br>\begin{aligned}<br>&amp; \langle Q \rangle&#x3D;\int \psi^* \hat{Q}\psi dx&#x3D;\langle\psi|\hat{Q}\psi\rangle \in \mathbb{R} \\<br>\Rightarrow<br>&amp; \langle Q \rangle&#x3D;\langle Q \rangle^*  \\<br>\Rightarrow<br>&amp; \langle\psi|\hat{Q}\psi\rangle&#x3D;\langle\hat{Q}\psi|\psi\rangle<br>\end{aligned}<br>$$<br>可以看到，可观测量的算符有一些特殊性质（Hermite 共轭），即：<br>$$<br>\hat{Q}&#x3D;\hat{Q}^\dagger<br>$$</p>
+<h3 id="动量算符"><a href="#动量算符" class="headerlink" title="动量算符"></a>动量算符</h3><p>动量算符为：<br>$$<br>\hat{p}&#x3D;-i\hbar \nabla<br>$$<br>考虑 $f,g\in L^2$，内积为：<br>$$<br>\begin{aligned}<br>\langle f|\hat{p}g\rangle<br>&amp;&#x3D;-i\hbar\int_ {-\infty}^{\infty}f^* \nabla gdx \\<br>&amp;&#x3D;-i\hbar\left(\underbrace{(f^* g)|_ {-\infty}^{\infty}}_ {0}-\int_ {-\infty}^{\infty}g\nabla f^* dx\right) \\<br>&amp;&#x3D;\int_ {-\infty}^{\infty}i\hbar \nabla f^*  gdx \\<br>&amp;&#x3D;\int_ {-\infty}^{\infty}(-i\hbar \nabla f)^*  gdx \\<br>&amp;&#x3D;\langle \hat{p}f|g\rangle<br>\end{aligned}<br>$$<br>即动量算符是 Hermite 共轭的。</p>
+<h3 id="Hermite-共轭"><a href="#Hermite-共轭" class="headerlink" title="Hermite 共轭"></a>Hermite 共轭</h3><p>实际上，若对于任意 $h \in L^2$，都有：<br>$$<br>\langle h|\hat{Q}h\rangle&#x3D;\langle \hat{Q}h|h \rangle<br>$$<br>则算符 $\hat{Q}$ 对任意 $f,g \in L^2$ 都是 Hermite 共轭的。</p>
+<p>考虑构造 $h&#x3D;f+cg$，则：<br>$$<br>\begin{aligned}<br>\langle h|\hat{Q}h \rangle<br>&amp;&#x3D;\langle f+cg | \hat{Q}f+c\hat{Q}g\rangle \\<br>&amp;&#x3D;\langle f|\hat{Q}f \rangle+c^* \langle g|\hat{Q}f \rangle<br>+c\langle f|\hat{Q}g\rangle+c^* c\langle g|\hat{Q}g \rangle, \quad c^* c&#x3D;|c|^2 \\<br>&amp;&#x3D;\langle\hat{Q}h|h\rangle\\<br>&amp;&#x3D;\langle \hat{Q}f+c\hat{Q}g|f+cg\rangle \\<br>&amp;&#x3D;\langle \hat{Q}f|f\rangle+c^* \langle\hat{Q}g|f\rangle<br>+c\langle\hat{Q}f|g\rangle+c^* c\langle\hat{Q}g|g\rangle,\quad c^* c&#x3D;|c|^2 \\<br>&amp;&#x3D;\langle f|\hat{Q}f\rangle+c^* \langle\hat{Q}g|f\rangle<br>+c\langle\hat{Q}f|g\rangle+c^* c\langle g|\hat{Q}g\rangle<br>\end{aligned}<br>$$<br>分别取 $c&#x3D;1,i$，得：<br>$$<br>\begin{aligned}<br>&amp; \begin{cases}<br>\langle f|\hat{Q}g \rangle+\langle g|\hat{Q}f \rangle<br>&#x3D;\langle \hat{Q}f|g \rangle+\langle \hat{Q}g|f \rangle, \quad &amp; c&#x3D;1 \\<br>\langle f|\hat{Q}g \rangle-\langle g|\hat{Q}f \rangle<br>&#x3D;\langle \hat{Q}f|g \rangle-\langle \hat{Q}g|f \rangle, \quad &amp; c&#x3D;i \\<br>\end{cases} \\<br>\Rightarrow<br>&amp; \langle f|\hat{Q} g\rangle&#x3D;\langle\hat{Q}f|g\rangle<br>\end{aligned}<br>$$</p>
+<h3 id="算符"><a href="#算符" class="headerlink" title="算符"></a>算符</h3><p>算符 $\hat{Q}$ 的伴随算符是 $\hat{Q}^\dagger$，即：<br>$$<br>\langle f|\hat{Q}g\rangle&#x3D;\langle\hat{Q}^\dagger f|g \rangle<br>$$<br>Hermite 算符是自伴算符，即：<br>$$<br>\hat{Q}&#x3D;\hat{Q}^\dagger<br>$$<br>考虑算符乘积的伴随，即：<br>$$<br>\begin{aligned}<br>\langle f|\hat{Q}\hat{R} g \rangle<br>&amp;&#x3D;\langle \hat{Q}^\dagger f|\hat{R}g\rangle \\<br>&amp;&#x3D;\langle \hat{R}^\dagger \hat{Q}^\dagger f | g \rangle \\<br>&amp;&#x3D;\langle (\hat{Q}\hat{R})^\dagger f|g \rangle<br>\end{aligned}<br>$$<br>即：<br>$$<br>(\hat{Q}\hat{R})^\dagger&#x3D;\hat{R}^\dagger\hat{Q}^\dagger<br>$$<br>进一步的，若 $\hat{Q}\hat{R}$ 是 Hermition 的，则：<br>$$<br>\begin{aligned}<br>&amp; \hat{Q}\hat{R}&#x3D;\hat{R}^\dagger\hat{Q}^\dagger&#x3D;\hat{R}\hat{Q} \\<br>\Rightarrow<br>&amp; [\hat{Q},\hat{R}]&#x3D;0<br>\end{aligned}<br>$$<br>即 $\hat{Q},\hat{R}$ 是对易的。</p>
+<p>一些常见的伴随算符：<br>$$<br>\begin{aligned}<br>&amp; (f(x))^\dagger&#x3D;f^* (x) \\<br>&amp; \left(\frac{d}{dx}\right)^\dagger&#x3D;-\frac{d}{dx} \\<br>&amp; a_ {+}^\dagger&#x3D;a_ {-}<br>\end{aligned}<br>$$</p>
+<p>反厄密算符等于它的负的厄密共轭：<br>$$<br>\hat{Q}^\dagger&#x3D;-\hat{Q}<br>$$<br>（1）反厄密算符的期望值是虚数。<br>$$<br>\begin{aligned}<br>\langle Q \rangle<br>&amp;&#x3D;\langle\psi|\hat{Q}\psi\rangle \\<br>&amp;&#x3D;\langle\hat{Q}^\dagger\psi|\psi\rangle \\<br>&amp;&#x3D;-\langle\hat{Q}\psi|\psi\rangle \\<br>&amp;&#x3D;-(\langle\psi|\hat{Q}\psi\rangle)^*  \\<br>&amp;&#x3D;-(\langle Q \rangle)^*<br>\end{aligned}<br>$$<br>因此：<br>$$<br>\Re(\langle Q \rangle)&#x3D;\frac{1}{2}\Re(\langle Q \rangle+\langle Q \rangle^* )&#x3D;0<br>$$<br>所以 $\langle Q \rangle $ 是虚数。</p>
+<p>（2）两个厄密算符的对易子是反厄密的。<br>$$<br>\begin{aligned}<br>\left[\hat{P},\hat{Q}\right]^\dagger<br>&amp;&#x3D;(\hat{P}\hat{Q})^\dagger-(\hat{Q}\hat{P})^\dagger \\<br>&amp;&#x3D;\hat{Q}^\dagger\hat{P}^\dagger-\hat{P}^\dagger\hat{Q}^\dagger \\<br>&amp;&#x3D;\hat{Q}\hat{P}-\hat{P}\hat{Q} \\<br>&amp;&#x3D;-[\hat{P},\hat{Q}]<br>\end{aligned}<br>$$<br>因此厄米算符的对易子是虚数。</p>
+<p>（3）两个反厄密算符的对易子是反厄密的。<br>$$<br>\begin{aligned}<br>\left[\hat{P},\hat{Q}\right]^\dagger<br>&amp;&#x3D;(\hat{P}\hat{Q})^\dagger-(\hat{Q}\hat{P})^\dagger \\<br>&amp;&#x3D;\hat{Q}^\dagger\hat{P}^\dagger-\hat{P}^\dagger\hat{Q}^\dagger \\<br>&amp;&#x3D;(-\hat{Q})(-\hat{P})-(-\hat{P})(-\hat{Q}) \\<br>&amp;&#x3D;-[\hat{P},\hat{Q}]<br>\end{aligned}<br>$$<br>因此反厄米算符的对易子是虚数。</p>
 
     
   </div>
@@ -220,25 +224,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -456,6 +441,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>noip 模拟赛 杂题 | nekko</title>
+  <title>noip 模拟赛 杂题 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,16 +15,16 @@
     <meta name="keywords" content="noip,模拟赛," />
   
 
-  <meta name="description" content="1 给定 $n$，求 $$\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}\sum_{i&#x3D;0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1}$$ 保证 $n \le 10^9$  毒瘤出题人，怕是从文化课卷子上抄的题 首先需要知道，${i \choose k-j}{n-i-1 \choose j - 1}$ 的组合意义，即从大小为 $i$ 的集合">
+  <meta name="description" content="1 给定 $n$，求 $$\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}\sum_{i&#x3D;0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1}$$ 保证 $n \le 10^9$  毒瘤出题人，怕是从文化课卷子上抄的题 首先需要知道，${i \choose k-j}{n-i-1 \choose j - 1}$ 的组合意">
 <meta property="og:type" content="article">
 <meta property="og:title" content="noip 模拟赛 杂题">
 <meta property="og:url" content="https://nekko.moe/other/mis-pro/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="1 给定 $n$，求 $$\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}\sum_{i&#x3D;0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1}$$ 保证 $n \le 10^9$  毒瘤出题人，怕是从文化课卷子上抄的题 首先需要知道，${i \choose k-j}{n-i-1 \choose j - 1}$ 的组合意义，即从大小为 $i$ 的集合">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="1 给定 $n$，求 $$\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}\sum_{i&#x3D;0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1}$$ 保证 $n \le 10^9$  毒瘤出题人，怕是从文化课卷子上抄的题 首先需要知道，${i \choose k-j}{n-i-1 \choose j - 1}$ 的组合意">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-10-15T07:16:45.000Z">
+<meta property="article:published_time" content="2018-10-15T19:16:45.000Z">
 <meta property="article:modified_time" content="2020-08-03T08:28:16.000Z">
-<meta property="article:author" content="nekko">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="noip">
 <meta property="article:tag" content="模拟赛">
 <meta name="twitter:card" content="summary">
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -189,15 +193,15 @@
 
 <h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><blockquote>
 <p>给定 $n$，求</p>
-<p>$$<br>\sum_{k=1}^{n}k\sum_{j=1}^{k}\sum_{i=0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1}<br>$$</p>
+<p>$$<br>\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}\sum_{i&#x3D;0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1}<br>$$</p>
 <p>保证 $n \le 10^9$</p>
 </blockquote>
 <p><del>毒瘤出题人，怕是从文化课卷子上抄的题</del></p>
 <p>首先需要知道，${i \choose k-j}{n-i-1 \choose j - 1}$ 的组合意义，即从大小为 $i$ 的集合中挑出 $k-j$ 个元素的方案数，乘上从大小为 $n-i-1$ 的集合中挑出 $j-1$ 个元素的方案数</p>
-<p>然后对它求和，即 $\sum_{j=1}^{k}{i \choose k-j}{n-i-1 \choose j - 1}$，也就是 ${n-1 \choose k-1}$</p>
+<p>然后对它求和，即 $\sum_{j&#x3D;1}^{k}{i \choose k-j}{n-i-1 \choose j - 1}$，也就是 ${n-1 \choose k-1}$</p>
 <p>由于后者的每一种组合方法都会在前者中唯一对应，因此两者相等</p>
 <p>于是接着化简：</p>
-<p>$$<br>\begin{aligned}<br>&amp;\sum_{k=1}^{n}k\sum_{j=1}^{k}\sum_{i=0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{k=1}^{n}k\sum_{j=1}^{k}{i \choose k-j}{n-i-1 \choose j - 1} \\<br>=&amp;\sum_{i=0}^{n-1}\sum_{k=1}^{n}k {n-1 \choose k-1} \\<br>=&amp;n\sum_{k=0}^{n-1}(k+1) {n-1 \choose k} \\<br>=&amp;n\left(\left(\sum_{k=0}^{n-1}k {n-1 \choose k}\right)+\left(\sum_{k=0}^{n-1}{n-1 \choose k}\right)\right)\\<br>=&amp;n\left(\left(\sum_{k=0}^{n-1}\frac{(n-1)!k}{k!(n-1-k)!}\right)+2^{n-1}\right)\\<br>=&amp;n\left(\left(\sum_{k=0}^{n-1}\frac{(n-2)!(n-1)}{(k-1)!((n-2)-(k-1))!}\right)+2^{n-1}\right)\\<br>=&amp;n\left(\left((n-1)\sum_{k=0}^{n-1}{n-2 \choose k-1}\right)+2^{n-1}\right)\\<br>=&amp;n\left(\left((n-1)\sum_{k=0}^{n-2}{n-2 \choose k}\right)+2^{n-1}\right)\\<br>=&amp;n((n-1)2^{n-2}+2^{n-1}) \\<br>=&amp;n(n+1)2^{n-1}<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>&amp;\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}\sum_{i&#x3D;0}^{n-1}{i \choose k-j}{n-i-1 \choose j - 1} \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{n-1}\sum_{k&#x3D;1}^{n}k\sum_{j&#x3D;1}^{k}{i \choose k-j}{n-i-1 \choose j - 1} \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{n-1}\sum_{k&#x3D;1}^{n}k {n-1 \choose k-1} \\<br>&#x3D;&amp;n\sum_{k&#x3D;0}^{n-1}(k+1) {n-1 \choose k} \\<br>&#x3D;&amp;n\left(\left(\sum_{k&#x3D;0}^{n-1}k {n-1 \choose k}\right)+\left(\sum_{k&#x3D;0}^{n-1}{n-1 \choose k}\right)\right)\\<br>&#x3D;&amp;n\left(\left(\sum_{k&#x3D;0}^{n-1}\frac{(n-1)!k}{k!(n-1-k)!}\right)+2^{n-1}\right)\\<br>&#x3D;&amp;n\left(\left(\sum_{k&#x3D;0}^{n-1}\frac{(n-2)!(n-1)}{(k-1)!((n-2)-(k-1))!}\right)+2^{n-1}\right)\\<br>&#x3D;&amp;n\left(\left((n-1)\sum_{k&#x3D;0}^{n-1}{n-2 \choose k-1}\right)+2^{n-1}\right)\\<br>&#x3D;&amp;n\left(\left((n-1)\sum_{k&#x3D;0}^{n-2}{n-2 \choose k}\right)+2^{n-1}\right)\\<br>&#x3D;&amp;n((n-1)2^{n-2}+2^{n-1}) \\<br>&#x3D;&amp;n(n+1)2^{n-1}<br>\end{aligned}<br>$$</p>
 <h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><blockquote>
 <p>有 $m$ 个人在一个环形跑道上跑步，跑道可以看成 $n$ 个格子，格子按照顺时针从 $0$ 编号到 $n-1$</p>
 <p>一开始每个人都在第 $0$ 号格子，之后第$i$个人每次都会向前走 $a_i$ 步，如果他从第 $n-1$ 个格子处往下走一步，那么他会到达第 $0$ 个格子</p>
@@ -205,16 +209,16 @@
 <p>$1 \le n \le 10^9,1 \le m \le 50, 1 \le a_i \le n$</p>
 </blockquote>
 <p>首先如果一个格子 $x$ 会被走到，则有 $pa_i \equiv x \pmod {n}$</p>
-<p>也就是说 $pa_i - nq=x$ 存在整数解，即 $\gcd(a_i,n) \mid x$</p>
+<p>也就是说 $pa_i - nq&#x3D;x$ 存在整数解，即 $\gcd(a_i,n) \mid x$</p>
 <p>也就是说对于第 $i$ 个人，他会走到所有在 $[0,n)$ 中，是 $\gcd(a_i,n)$ 的倍数的格子</p>
 <p>同时可得，$i$ 和 $j$ 同时可以到达的格子都是 $\text{lcm}(\gcd(a_i,n),\gcd(a_j,n))$ 的倍数</p>
 <p>于是可以直接用容斥搞一搞</p>
-<p>设 $b_i=\gcd(a_i,n)$，且 $B={b_i \mid i \in [1,m] \cap \mathbb{Z} }$，定义 $\text{lcm}(\emptyset)=1$</p>
+<p>设 $b_i&#x3D;\gcd(a_i,n)$，且 $B&#x3D;{b_i \mid i \in [1,m] \cap \mathbb{Z} }$，定义 $\text{lcm}(\emptyset)&#x3D;1$</p>
 <p>则答案 $T$ 满足：</p>
-<p>$$<br>\begin{aligned}<br>T=\sum_{S \subseteq B} (-1)^{\mid S \mid} \frac{n}{\text{lcm}(S)}<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>T&#x3D;\sum_{S \subseteq B} (-1)^{\mid S \mid} \frac{n}{\text{lcm}(S)}<br>\end{aligned}<br>$$</p>
 <p>如果对所有的 $b_i$ 进行排序去重后，可以获得 $90$ 分的好成绩</p>
 <p>然而其实可以再优化</p>
-<p>发现 $\text{lcm}(S)$ 的种类数不会超过 $\sigma_0(n)$ ，因为 $b_i=\gcd(a_i,n)$，所以 $b_i \mid n$</p>
+<p>发现 $\text{lcm}(S)$ 的种类数不会超过 $\sigma_0(n)$ ，因为 $b_i&#x3D;\gcd(a_i,n)$，所以 $b_i \mid n$</p>
 <p>对于 $x \mid n,y \mid n$，有 $\text{lcm}(x,y) \mid n$，证明可以考虑 <strong>唯一分解定理</strong> 和 <strong>最小公倍数的定义</strong></p>
 <p>于是可以依次插入所有的 $b_i$，同时维护当前所有的 $b_i$ 构成的 $\text{lcm}$ 的集合，并依次更新</p>
 <p>又由于 $\sigma_0(n) \le \sqrt n$，因此时间复杂度为 $O(\sqrt n m\log(n))$</p>
@@ -234,7 +238,7 @@
 <p><del>看起来很棘手</del></p>
 <p>首先需要特判 $a,b$ 中至少一个是 $0$ 的情况</p>
 <p>考虑枚举放多少个价值为 $a$ 的物品，假设放了 $x$ 个，那么剩下必须放价值为 $b$ 的物品共 $\frac{k-ax}{b}$ 个</p>
-<p>那么答案就是 $\sum_{i=0}^{n} {n \choose x} {n \choose \frac{k-ax}{b}}$</p>
+<p>那么答案就是 $\sum_{i&#x3D;0}^{n} {n \choose x} {n \choose \frac{k-ax}{b}}$</p>
 <p>至于价值为 $a+b$ 的那些物品，在如上的计数中重合的部分就是那些了</p>
 <p>注意在累加的时候应判断是否合法</p>
 <h1 id="4"><a href="#4" class="headerlink" title="4"></a>4</h1><blockquote>
@@ -255,9 +259,9 @@
 <p>$n \le 20, m \le 10^5,a_{i,j} \le 10^5$</p>
 </blockquote>
 <p>由于值域不大，所以可以枚举最大公约数 $d$，设 $f(d)$ 表示最大公约数恰好为 $d$ 方案数</p>
-<p>那么答案就是 $\sum_{d=1}^{10^5}d \cdot f(d)$</p>
+<p>那么答案就是 $\sum_{d&#x3D;1}^{10^5}d \cdot f(d)$</p>
 <p>然而 $f(d)$ 不太好求，但如果要求最大公约数是 $d$ 的倍数的方案数的话还是很好做的，设这个是 $g(d)$</p>
-<p>然后有 $g(n)=\sum_{n \mid d}f(d)$，直接莫比乌斯反演成 $f(n)=\sum_{n \mid d}\mu(d)g(\frac{d}{n})$</p>
+<p>然后有 $g(n)&#x3D;\sum_{n \mid d}f(d)$，直接莫比乌斯反演成 $f(n)&#x3D;\sum_{n \mid d}\mu(d)g(\frac{d}{n})$</p>
 <p>然后就做完了……</p>
 <h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><blockquote>
 <p>你在一个数轴上走路，一开始你会随机获得 $n$ 张卡片，每张卡片上写着一个 $[1,m]$ 之间的整数，第 $i$ 张卡片上的数字是 $x_i$</p>
@@ -266,11 +270,11 @@
 <p>$1 \le n,m \le 10^{11}$</p>
 </blockquote>
 <p>首先，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%A3%B4%E8%9C%80%E5%AE%9A%E7%90%86/5186593">裴蜀定理</a>告诉我们，对于如下关于$x_i$的整数方程：</p>
-<p>$$<br>\sum_{i=1}^{n}a_ix_i=k<br>$$</p>
+<p>$$<br>\sum_{i&#x3D;1}^{n}a_ix_i&#x3D;k<br>$$</p>
 <p>有解的条件是$\gcd(a_1,a_2,a_3, \dots , a_n) \mid k$</p>
-<p>在这道题中，是求$\gcd(x_1,x_2,x_3, \dots , x_n) \mid 1$的方案数，即$\gcd(x_1,x_2,x_3, \dots , x_n)=1$的方案数</p>
+<p>在这道题中，是求$\gcd(x_1,x_2,x_3, \dots , x_n) \mid 1$的方案数，即$\gcd(x_1,x_2,x_3, \dots , x_n)&#x3D;1$的方案数</p>
 <p>于是推式子：</p>
-<p>$$<br>\begin{align}<br>&amp;\sum_{i_1=1}^{m}\sum_{i_2=1}^{m} \dots \sum_{i_n=1}^{m}[\gcd(i_1,i_2, \dots i_n)=1] \\ =&amp;\sum_{i_1=1}^{m}\sum_{i_2=1}^{m} \dots \sum_{i_n=1}^{m}\sum_{t \mid \gcd(i_1,i_2, \dots i_n)}\mu(t) \\<br>=&amp;\sum_{t=1}^{m}\mu(t)\sum_{i_1=1}^{m}\sum_{i_2=1}^{m} \dots \sum_{i_n=1}^{m} [t \mid i_1 \wedge t \mid i_2 \wedge \dots \wedge t \mid i_n]\\<br>=&amp;\sum_{t=1}^{m}\mu(t) \lfloor \frac{m}{t} \rfloor^n<br>\end{align}<br>$$</p>
+<p>$$<br>\begin{align}<br>&amp;\sum_{i_1&#x3D;1}^{m}\sum_{i_2&#x3D;1}^{m} \dots \sum_{i_n&#x3D;1}^{m}[\gcd(i_1,i_2, \dots i_n)&#x3D;1] \\ &#x3D;&amp;\sum_{i_1&#x3D;1}^{m}\sum_{i_2&#x3D;1}^{m} \dots \sum_{i_n&#x3D;1}^{m}\sum_{t \mid \gcd(i_1,i_2, \dots i_n)}\mu(t) \\<br>&#x3D;&amp;\sum_{t&#x3D;1}^{m}\mu(t)\sum_{i_1&#x3D;1}^{m}\sum_{i_2&#x3D;1}^{m} \dots \sum_{i_n&#x3D;1}^{m} [t \mid i_1 \wedge t \mid i_2 \wedge \dots \wedge t \mid i_n]\\<br>&#x3D;&amp;\sum_{t&#x3D;1}^{m}\mu(t) \lfloor \frac{m}{t} \rfloor^n<br>\end{align}<br>$$</p>
 <p>然后就是套路了，由于$\lfloor \frac{m}{T} \rfloor$的取值范围只有$\sqrt m$种，所以可以对其数论分块</p>
 <p>之后就要处理一段区间中的$\mu$之和，这个直接杜教筛就行了</p>
 <h1 id="7"><a href="#7" class="headerlink" title="7"></a>7</h1><blockquote>
@@ -280,26 +284,26 @@
 <p>$n,M,k \le 10^5$</p>
 </blockquote>
 <p>显然答案是</p>
-<p>$$<br>T(m)=\frac{\sum_{p \in \mathbb{P} } {n \choose p} {m \choose k-p} } { {n+m \choose k} }<br>$$</p>
+<p>$$<br>T(m)&#x3D;\frac{\sum_{p \in \mathbb{P} } {n \choose p} {m \choose k-p} } { {n+m \choose k} }<br>$$</p>
 <p>分母可以直接预处理出来，所以只需要关注上面那个式子怎么做，显然有：</p>
-<p>$$<br>\begin{aligned}<br>h(m)=&amp;\sum_{p \in \mathbb{P} } { n \choose p } { m \choose k-p} \\<br>=&amp;\sum_{i=0}^{m} {n \choose k - i}[k-i \in \mathbb P \wedge 2 \le k-i \le k] {m \choose i} \\<br>=&amp;m!\sum_{i=0}^{m} \frac{ {n \choose k - i}[k-i \in \mathbb P \wedge 2 \le k-i \le k]} {i!} \frac{1} {(m-i)!} \\<br>=&amp;m!\sum_{i=0}^{m}f(i)g(m-i)<br>\end{aligned}<br>$$</p>
-<p>于是可以先求出 $\hat h=f \times g$，之后就可以通过 $h(m)=m! \hat h(m)$ 来求出 $h$ 了</p>
+<p>$$<br>\begin{aligned}<br>h(m)&#x3D;&amp;\sum_{p \in \mathbb{P} } { n \choose p } { m \choose k-p} \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{m} {n \choose k - i}[k-i \in \mathbb P \wedge 2 \le k-i \le k] {m \choose i} \\<br>&#x3D;&amp;m!\sum_{i&#x3D;0}^{m} \frac{ {n \choose k - i}[k-i \in \mathbb P \wedge 2 \le k-i \le k]} {i!} \frac{1} {(m-i)!} \\<br>&#x3D;&amp;m!\sum_{i&#x3D;0}^{m}f(i)g(m-i)<br>\end{aligned}<br>$$</p>
+<p>于是可以先求出 $\hat h&#x3D;f \times g$，之后就可以通过 $h(m)&#x3D;m! \hat h(m)$ 来求出 $h$ 了</p>
 <p>于是就有</p>
-<p>$$<br>T(m)=\frac{h(m)} { {n+m \choose k} }<br>$$</p>
+<p>$$<br>T(m)&#x3D;\frac{h(m)} { {n+m \choose k} }<br>$$</p>
 <p><del>所以说为什么联赛模拟中会有快速数论变换啊</del></p>
 <h1 id="8"><a href="#8" class="headerlink" title="8"></a>8</h1><blockquote>
 <p>求 $(n-1)! \bmod n$ 的值，其中 $1 \le n \le 10^{18}$</p>
 </blockquote>
-<p>显然答案就是：<br>$$<br>(n-1)! \bmod n=<br>\begin{cases}<br>2 &amp; n=4 \\<br>n-1 &amp; n \in \mathbb{P} \\<br>    0 &amp; \text{otherwise}<br>\end{cases}<br>$$<br>于是问题就转化为了判断 $n$ 是否是素数</p>
+<p>显然答案就是：<br>$$<br>(n-1)! \bmod n&#x3D;<br>\begin{cases}<br>2 &amp; n&#x3D;4 \\<br>n-1 &amp; n \in \mathbb{P} \\<br>    0 &amp; \text{otherwise}<br>\end{cases}<br>$$<br>于是问题就转化为了判断 $n$ 是否是素数</p>
 <p><del>于是你可以用 <strong>米勒拉宾素数测试</strong> 来解决这道题了</del></p>
 <p>然而由于出题人懒得造数据，实际上只需要判断 $2^{n-1}\bmod n$ 是不是 $1$ 即可通过本题</p>
 <p><del>下面扯一扯证明</del></p>
 <p>由 <strong>威尔逊定理</strong> 可得，$(n-1)! \equiv n-1 \pmod n$ 成立当且仅当 $n$ 是素数</p>
 <p>考虑 $n$ 不是素数的情况</p>
-<p>若 $n=p^2$，且 $p \in \mathbb{P}$，若存在 $1 \le 2p &lt; n$，则 $(n-1)! \equiv 0 \pmod n$，即同余 $0$ 的充分条件是 $2 &lt; \frac{n}{p} = \sqrt n$，可以得知，该等式不成立当且仅当 $n=4$</p>
-<p>若 $n=pq$，且 $p \not= q$，则 $1 \le p &lt; q &lt; n$，于是 $(n-1) \equiv 0 \pmod n$</p>
+<p>若 $n&#x3D;p^2$，且 $p \in \mathbb{P}$，若存在 $1 \le 2p &lt; n$，则 $(n-1)! \equiv 0 \pmod n$，即同余 $0$ 的充分条件是 $2 &lt; \frac{n}{p} &#x3D; \sqrt n$，可以得知，该等式不成立当且仅当 $n&#x3D;4$</p>
+<p>若 $n&#x3D;pq$，且 $p \not&#x3D; q$，则 $1 \le p &lt; q &lt; n$，于是 $(n-1) \equiv 0 \pmod n$</p>
 <p>综上可得：</p>
-<p>$$<br>(n-1)! \bmod n=<br>\begin{cases}<br>2 &amp; n=4 \\<br>n-1 &amp; n \in \mathbb{P} \\<br>0 &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
+<p>$$<br>(n-1)! \bmod n&#x3D;<br>\begin{cases}<br>2 &amp; n&#x3D;4 \\<br>n-1 &amp; n \in \mathbb{P} \\<br>0 &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
 <h1 id="9"><a href="#9" class="headerlink" title="9"></a>9</h1><blockquote>
 <p>给定一棵树，以及一共 $m$ 种颜色，你需要把每个点都染上色</p>
 <p>有 $q$ 个约束，每个约束诸如限制从某个点到根这条路径上的颜色并中需要包含某个颜色</p>
@@ -329,12 +333,12 @@
 <li>然而还有另外一种暴力方法，即枚举矩形的上下边界，然后判断有多少个顶着上下边界的子矩形合法</li>
 </ol>
 <p>显然前两种没啥用，不妨看看第三种</p>
-<p>假设枚举上下边界为 $i,j$，由于要求子矩形是正方形，因此可以得知 $m=j-i+1$</p>
+<p>假设枚举上下边界为 $i,j$，由于要求子矩形是正方形，因此可以得知 $m&#x3D;j-i+1$</p>
 <p>由于每一行都有且仅有一个点，而且还要求子矩形里有 $m$ 个点，所以在这些行里的点都必须选上</p>
 <p>考虑到正方形的边长都是 $m$，且每一列有且仅有一个点，因此要求这些点必须相邻要挨着</p>
-<p>于是可以每读入 $(x,y)$，然后令 $a_x=y$</p>
-<p>之后相当于查询有多少个 $(i,j)$ 满足 $i \le j$ 且 $j-i=(\text{max}<em>{k=l}^{r}a_k)-(\text{min}</em>{k=l}^{r}a_k)$</p>
-<p>然后就是套路题了，考虑分治，假设现在要解决 $[l,r]$ 的答案，设 $mid=\lfloor\frac{l+r}{2}\rfloor$</p>
+<p>于是可以每读入 $(x,y)$，然后令 $a_x&#x3D;y$</p>
+<p>之后相当于查询有多少个 $(i,j)$ 满足 $i \le j$ 且 $j-i&#x3D;(\text{max}<em>{k&#x3D;l}^{r}a_k)-(\text{min}</em>{k&#x3D;l}^{r}a_k)$</p>
+<p>然后就是套路题了，考虑分治，假设现在要解决 $[l,r]$ 的答案，设 $mid&#x3D;\lfloor\frac{l+r}{2}\rfloor$</p>
 <p>对于 $[l,mid]$ 和 $[mid+1,r]$ 的答案，可以递归做下去，因此只需要考虑左端点在 $[l,mid]$ 且右端点在 $[mid+1,r]$ 的答案即可</p>
 <p>一共就四种情况：</p>
 <ol>
@@ -377,25 +381,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -613,6 +598,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

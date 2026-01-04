@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【UNR 2】黎明前的巧克力 | nekko</title>
+  <title>【UNR 2】黎明前的巧克力 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,15 +19,15 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="【UNR 2】黎明前的巧克力">
 <meta property="og:url" content="https://nekko.moe/uoj-solutions/uoj-310/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="题目描述给定 $n$ 个数字 ${a_n}$，求从中选出两个不相交的子集，使得它们不同时非空，且它们的异或和为 $0$ 求方案数，其中 $1 \le n \le 10^6, 0 \le a_i \le 10^6$ 题解这篇题解可能有一些错误，忽略了吧…… 相当于求有多少个非空子集使得异或和为 $0$，并将它们划分成两个集合的方案数 设 $f_{i,j}$ 表示考虑完了前 $i$ 个元素，异或和">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-04-28T06:12:04.000Z">
-<meta property="article:modified_time" content="2019-07-10T07:42:31.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="数学">
+<meta property="article:published_time" content="2019-04-28T18:12:04.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:32.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="fwt">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -140,7 +144,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-text">题解</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-text">题解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#begin-pmatrix-f-0-0-f-0-1-f-0-2-cdots-f-0-n-1-f-1-0-f-1-1-f-1-2-cdots-f-1-n-1-vdots-vdots-vdots-ddots-vdots-f-n-1-0-f-n-1-1-f-n-1-2-cdots-f-n-1-n-1-end-pmatrix-begin-pmatrix-a-0-a-1-vdots-a-n-1-end-pmatrix"><span class="toc-text">$$\begin{pmatrix}f _ {0,0} &amp; f _ {0,1} &amp; f _ {0,2} &amp; \cdots &amp; f _ {0,n-1} \\f _ {1,0} &amp; f _ {1,1} &amp; f _ {1,2} &amp; \cdots &amp; f _ {1,n-1} \\\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\f _ {n-1,0} &amp; f _ {n-1,1} &amp; f _ {n-1,2} &amp; \cdots &amp; f _ {n-1,n-1}\end{pmatrix}\begin{pmatrix}a _ {0} \\a _ {1} \\\vdots \\a _ {n-1} \\\end{pmatrix}</span></a></li></ol>
   </div>
 
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -193,52 +197,52 @@
 <h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p><del>这篇题解可能有一些错误，忽略了吧……</del></p>
 <p>相当于求有多少个非空子集使得异或和为 $0$，并将它们划分成两个集合的方案数</p>
 <p>设 $f_{i,j}$ 表示考虑完了前 $i$ 个元素，异或和为 $j$ 的划分方案数，则：</p>
-<p>$$<br>f_{i,j}=f_{i-1,j}+2f_{i-1,j \oplus a_i}<br>$$</p>
+<p>$$<br>f_{i,j}&#x3D;f_{i-1,j}+2f_{i-1,j \oplus a_i}<br>$$</p>
 <p>设：</p>
-<p>$$<br>\begin{cases}<br>b_{i,0}=1 \\<br>b_{i,a_i}=2<br>\end{cases}<br>$$</p>
-<p>特别的，如果 $a_i=0$，则只有 $b_{i,0}=3$</p>
+<p>$$<br>\begin{cases}<br>b_{i,0}&#x3D;1 \\<br>b_{i,a_i}&#x3D;2<br>\end{cases}<br>$$</p>
+<p>特别的，如果 $a_i&#x3D;0$，则只有 $b_{i,0}&#x3D;3$</p>
 <p>那么对所有的 $b_i$ 进行异或卷积就是答案了</p>
 <p>考虑优化，把所有的 $b_i$ 进行 $fwt$ 后再对应位置求乘积，然后再 $ifwt$ 回去就相当于进行了异或卷积</p>
 <p>然而这个复杂度还是十分爆炸，考虑异或卷积的本质</p>
 <p>考虑序列 $a,b$，现在要求它的异或卷积 $c$，满足：</p>
-<p>$$<br>c_{k}=\sum_{i \oplus j=k}a_ib_j<br>$$</p>
+<p>$$<br>c_{k}&#x3D;\sum_{i \oplus j&#x3D;k}a_ib_j<br>$$</p>
 <p>设某变换 $F: a \to a’$ 将序列 $a$ 映射到了序列 $a’$，使得：</p>
-<p>$$<br>\begin{cases}<br>F(a) + F(b) = F(a + b) \\<br>F(a) \cdot F(b)=F(a \times b)<br>\end{cases}<br>$$</p>
+<p>$$<br>\begin{cases}<br>F(a) + F(b) &#x3D; F(a + b) \\<br>F(a) \cdot F(b)&#x3D;F(a \times b)<br>\end{cases}<br>$$</p>
 <p>其中 $\times$ 表示卷积，且 $\cdot $ 表示点积</p>
 <p>那么相当于要构造矩阵 ${f_{n-1,n-1}}$，有：</p>
-<p>$$<br>a’ _ i=\sum _ {j=0}^{n-1}a _ jf _ {i,j}<br>$$</p>
+<p>$$<br>a’ _ i&#x3D;\sum _ {j&#x3D;0}^{n-1}a _ jf _ {i,j}<br>$$</p>
 <p>相当于这样的矩阵乘法：</p>
-<p>$$<br>\begin{pmatrix}<br>f _ {0,0} &amp; f _ {0,1} &amp; f _ {0,2} &amp; \cdots &amp; f _ {0,n-1} \\<br>f _ {1,0} &amp; f _ {1,1} &amp; f _ {1,2} &amp; \cdots &amp; f _ {1,n-1} \\<br>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>f _ {n-1,0} &amp; f _ {n-1,1} &amp; f _ {n-1,2} &amp; \cdots &amp; f _ {n-1,n-1}<br>\end{pmatrix}<br>\begin{pmatrix}<br>a _ {0} \\<br>a _ {1} \\<br>\vdots \\<br>a _ {n-1} \\<br>\end{pmatrix}<br>=<br>\begin{pmatrix}<br>a’ _ {0} \\<br>a’ _ {1} \\<br>\vdots \\<br>a’ _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
-<p>那么加法操作就满足了，设 $c=a+b$，则：</p>
-<p>$$<br>\begin{aligned}<br>c’<em>i<br>=&amp;\sum _ {j=0}^{n-1} c _ j f _ {i,j} \\<br>=&amp;\sum _ {j=0}^{n-1}\left( a _ j+b _ j \right)f _ {i,j} \\<br>=&amp;\left( \sum _ {j=0}^{n-1}a _ jf _ {i,j} \right) + \left( \sum</em>{j=0}^{n-1}b _ jf _ {i,j} \right) \\<br>=&amp;a _ i’+b _ i’<br>\end{aligned}<br>$$</p>
-<p>对于卷积，设 $c=a \times b$，则有：</p>
-<p>$$<br>\begin{aligned}<br>c_i’<br>=&amp;\sum_{j=0}^{n-1}c_jf_{i,j} \\<br>=&amp;\sum_{j=0}^{n-1}\sum_{k \oplus w=j}a_kb_wf_{i,j} \\<br>\end{aligned}<br>$$</p>
+<h1 id="begin-pmatrix-f-0-0-f-0-1-f-0-2-cdots-f-0-n-1-f-1-0-f-1-1-f-1-2-cdots-f-1-n-1-vdots-vdots-vdots-ddots-vdots-f-n-1-0-f-n-1-1-f-n-1-2-cdots-f-n-1-n-1-end-pmatrix-begin-pmatrix-a-0-a-1-vdots-a-n-1-end-pmatrix"><a href="#begin-pmatrix-f-0-0-f-0-1-f-0-2-cdots-f-0-n-1-f-1-0-f-1-1-f-1-2-cdots-f-1-n-1-vdots-vdots-vdots-ddots-vdots-f-n-1-0-f-n-1-1-f-n-1-2-cdots-f-n-1-n-1-end-pmatrix-begin-pmatrix-a-0-a-1-vdots-a-n-1-end-pmatrix" class="headerlink" title="$$\begin{pmatrix}f _ {0,0} &amp; f _ {0,1} &amp; f _ {0,2} &amp; \cdots &amp; f _ {0,n-1} \\f _ {1,0} &amp; f _ {1,1} &amp; f _ {1,2} &amp; \cdots &amp; f _ {1,n-1} \\\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\f _ {n-1,0} &amp; f _ {n-1,1} &amp; f _ {n-1,2} &amp; \cdots &amp; f _ {n-1,n-1}\end{pmatrix}\begin{pmatrix}a _ {0} \\a _ {1} \\\vdots \\a _ {n-1} \\\end{pmatrix}"></a>$$<br>\begin{pmatrix}<br>f _ {0,0} &amp; f _ {0,1} &amp; f _ {0,2} &amp; \cdots &amp; f _ {0,n-1} \\<br>f _ {1,0} &amp; f _ {1,1} &amp; f _ {1,2} &amp; \cdots &amp; f _ {1,n-1} \\<br>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>f _ {n-1,0} &amp; f _ {n-1,1} &amp; f _ {n-1,2} &amp; \cdots &amp; f _ {n-1,n-1}<br>\end{pmatrix}<br>\begin{pmatrix}<br>a _ {0} \\<br>a _ {1} \\<br>\vdots \\<br>a _ {n-1} \\<br>\end{pmatrix}</h1><p>\begin{pmatrix}<br>a’ _ {0} \\<br>a’ _ {1} \\<br>\vdots \\<br>a’ _ {n-1} \\<br>\end{pmatrix}<br>$$</p>
+<p>那么加法操作就满足了，设 $c&#x3D;a+b$，则：</p>
+<p>$$<br>\begin{aligned}<br>c’<em>i<br>&#x3D;&amp;\sum _ {j&#x3D;0}^{n-1} c _ j f _ {i,j} \\<br>&#x3D;&amp;\sum _ {j&#x3D;0}^{n-1}\left( a _ j+b _ j \right)f _ {i,j} \\<br>&#x3D;&amp;\left( \sum _ {j&#x3D;0}^{n-1}a _ jf _ {i,j} \right) + \left( \sum</em>{j&#x3D;0}^{n-1}b _ jf _ {i,j} \right) \\<br>&#x3D;&amp;a _ i’+b _ i’<br>\end{aligned}<br>$$</p>
+<p>对于卷积，设 $c&#x3D;a \times b$，则有：</p>
+<p>$$<br>\begin{aligned}<br>c_i’<br>&#x3D;&amp;\sum_{j&#x3D;0}^{n-1}c_jf_{i,j} \\<br>&#x3D;&amp;\sum_{j&#x3D;0}^{n-1}\sum_{k \oplus w&#x3D;j}a_kb_wf_{i,j} \\<br>\end{aligned}<br>$$</p>
 <p>同时有：</p>
-<p>$$<br>\begin{aligned}<br>c_i’<br>=&amp;a_i’ \cdot b_i’ \\<br>=&amp;\left( \sum_{j=0}^{n-1}a_jf_{i,j} \right) \cdot \left( \sum_{j=0}^{n-1}b_jf_{i,j} \right) \\<br>=&amp;\sum_{j=0}^{n-1} \sum_{k \oplus w=j} a_kb_wf_{i,k}f_{i,w}<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br>c_i’<br>&#x3D;&amp;a_i’ \cdot b_i’ \\<br>&#x3D;&amp;\left( \sum_{j&#x3D;0}^{n-1}a_jf_{i,j} \right) \cdot \left( \sum_{j&#x3D;0}^{n-1}b_jf_{i,j} \right) \\<br>&#x3D;&amp;\sum_{j&#x3D;0}^{n-1} \sum_{k \oplus w&#x3D;j} a_kb_wf_{i,k}f_{i,w}<br>\end{aligned}<br>$$</p>
 <p>那么 ${f_{n-1,n-1}}$ 需要满足：</p>
-<p>$$<br>f_{i,k}f_{i,w}=f_{i,k \oplus w}<br>$$</p>
+<p>$$<br>f_{i,k}f_{i,w}&#x3D;f_{i,k \oplus w}<br>$$</p>
 <p><del>好像叫做卷积定理</del></p>
-<p>由于某种原因，在满足交换律、结合律、循环律的 $k$ 进制卷积中，设权值 $i$ 的最小循环节为 $\tau_i$，即最小的非 $0$ 的 $j$，满足 $i^j=1$，设这个 $j$ 为 $\tau_i$</p>
+<p>由于某种原因，在满足交换律、结合律、循环律的 $k$ 进制卷积中，设权值 $i$ 的最小循环节为 $\tau_i$，即最小的非 $0$ 的 $j$，满足 $i^j&#x3D;1$，设这个 $j$ 为 $\tau_i$</p>
 <p>那么有：</p>
-<p>$$<br>f_{i,j}=\omega_{\tau_{i}}^{\lambda_{i,j}}<br>$$</p>
+<p>$$<br>f_{i,j}&#x3D;\omega_{\tau_{i}}^{\lambda_{i,j}}<br>$$</p>
 <p>于是只需要构造：</p>
-<p>$$<br>\lambda _ {k} + \lambda _ {w}=\lambda_{k \oplus w}<br>$$</p>
+<p>$$<br>\lambda _ {k} + \lambda _ {w}&#x3D;\lambda_{k \oplus w}<br>$$</p>
 <p><del>只会爆搜</del></p>
 <p>当然由于需要逆变换，也就是存在逆矩阵，那么需要保证 $f_0 \sim f_{n-1}$ 线性无关</p>
 <p>好像扯远了……对于异或卷积，有：</p>
-<p>$$<br>f_{i,j}=(-1)^{\text{popcount}(i \cap j)}<br>$$</p>
+<p>$$<br>f_{i,j}&#x3D;(-1)^{\text{popcount}(i \cap j)}<br>$$</p>
 <p>即：</p>
-<p>$$<br>a’ _ i=\sum_{j=0}^{n-1}a _ j(-1)^{\text{popcount}(i \cap j)}<br>$$</p>
-<p>若 $a_0=3$，则只有 $a_0$ 会产生贡献，即：</p>
-<p>$$<br>a_i’=a_0(-1)^{\text{popcount}(i \cap 0)}=3<br>$$</p>
-<p>若 $a_0=1,a_x=2$，则：</p>
-<p>$$<br>\begin{aligned}<br>a_i’<br>=&amp;a_0(-1)^{\text{popcount}(i \cap 0)}+a_x(-1)^{\text{popcount}(i \cap x)} \\<br>=&amp;1+2(-1)^{\text{popcount}(i \cap x)} \\<br>=&amp;3[2|\text{popcount}(i \cap x)]+(-1)[2 \not | \text{popcount}(i \cap x)]<br>\end{aligned}<br>$$</p>
+<p>$$<br>a’ _ i&#x3D;\sum_{j&#x3D;0}^{n-1}a _ j(-1)^{\text{popcount}(i \cap j)}<br>$$</p>
+<p>若 $a_0&#x3D;3$，则只有 $a_0$ 会产生贡献，即：</p>
+<p>$$<br>a_i’&#x3D;a_0(-1)^{\text{popcount}(i \cap 0)}&#x3D;3<br>$$</p>
+<p>若 $a_0&#x3D;1,a_x&#x3D;2$，则：</p>
+<p>$$<br>\begin{aligned}<br>a_i’<br>&#x3D;&amp;a_0(-1)^{\text{popcount}(i \cap 0)}+a_x(-1)^{\text{popcount}(i \cap x)} \\<br>&#x3D;&amp;1+2(-1)^{\text{popcount}(i \cap x)} \\<br>&#x3D;&amp;3[2|\text{popcount}(i \cap x)]+(-1)[2 \not | \text{popcount}(i \cap x)]<br>\end{aligned}<br>$$</p>
 <p>也就是说 $a_i’ \in \{-1,3\}$</p>
 <p>由于把所有的 $a$ 加起来进行 $fwt$ 等于分别进行 $fwt$ 后加起来，不妨采用前者</p>
 <p>那么假设 $a’_i$ 有 $x$ 个 $-1$，有 $n-x$ 个 $3$，则：</p>
-<p>$$<br>3(n-x)-x=a_i’<br>$$</p>
+<p>$$<br>3(n-x)-x&#x3D;a_i’<br>$$</p>
 <p>可以得到：</p>
-<p>$$<br>x=\frac{3n-a_i’}{4}<br>$$</p>
+<p>$$<br>x&#x3D;\frac{3n-a_i’}{4}<br>$$</p>
 <p>也就是在 $i$ 这一维，有 $x$ 个 $-1$ 和 $n-x$ 个 $3$</p>
 <p>那么对于这一位进行分别 $fwt$ 后再求乘积的结果就是 $(-1)^x3^{n-x}$</p>
 <p>于是就做完了</p>
@@ -267,25 +271,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -503,6 +488,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

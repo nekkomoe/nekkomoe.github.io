@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>决策单调性优化dp | nekko</title>
+  <title>决策单调性优化dp | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,16 +15,16 @@
     <meta name="keywords" content="algorithm,decision monotonicity," />
   
 
-  <meta name="description" content="决策单调性   还是考虑 $f[i,j]&#x3D;\min_{k &lt; i} { f[k,j - 1] + w[k+1,i] }$ 之前的循环顺序是：for(i&#x3D;1:n)&amp;#123;for(j&#x3D;1:k)&amp;#123;&amp;#125;&amp;#125; 也可以内外循环交换一下：for(j&#x3D;1:k)&amp;#123;for(i&#x3D;1:n)&amp;#123;&amp;#125;&amp;#125; 由四边形不等式可得：$p[i,k-1] \le p">
+  <meta name="description" content="决策单调性   还是考虑 $f[i,j]&#x3D;\min_{k &lt; i} { f[k,j - 1] + w[k+1,i] }$ 之前的循环顺序是：for(i&#x3D;1:n){for(j&#x3D;1:k){}} 也可以内外循环交换一下：for(j&#x3D;1:k){for(i&#x3D;1:n){}} 由四边形不等式可得：$p[i,k-1] \le p[i,k]$，即每一行的决策点是单调的 既然决策是单调的，那么在计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="决策单调性优化dp">
 <meta property="og:url" content="https://nekko.moe/moni-deci/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="决策单调性   还是考虑 $f[i,j]&#x3D;\min_{k &lt; i} { f[k,j - 1] + w[k+1,i] }$ 之前的循环顺序是：for(i&#x3D;1:n)&amp;#123;for(j&#x3D;1:k)&amp;#123;&amp;#125;&amp;#125; 也可以内外循环交换一下：for(j&#x3D;1:k)&amp;#123;for(i&#x3D;1:n)&amp;#123;&amp;#125;&amp;#125; 由四边形不等式可得：$p[i,k-1] \le p">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="决策单调性   还是考虑 $f[i,j]&#x3D;\min_{k &lt; i} { f[k,j - 1] + w[k+1,i] }$ 之前的循环顺序是：for(i&#x3D;1:n){for(j&#x3D;1:k){}} 也可以内外循环交换一下：for(j&#x3D;1:k){for(i&#x3D;1:n){}} 由四边形不等式可得：$p[i,k-1] \le p[i,k]$，即每一行的决策点是单调的 既然决策是单调的，那么在计算">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-08T03:48:37.000Z">
-<meta property="article:modified_time" content="2023-08-08T03:50:07.171Z">
-<meta property="article:author" content="nekko">
+<meta property="article:published_time" content="2023-08-08T15:48:37.000Z">
+<meta property="article:modified_time" content="2023-08-08T03:50:08.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="algorithm">
 <meta property="article:tag" content="decision monotonicity">
 <meta name="twitter:card" content="summary">
@@ -45,6 +45,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -56,7 +60,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -158,7 +162,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -188,53 +192,53 @@
       <h1 id="决策单调性"><a href="#决策单调性" class="headerlink" title="决策单调性"></a>决策单调性</h1><!-- footer: 决策单调性 -->
 
 <hr>
-<p>还是考虑 $f[i,j]=\min_{k &lt; i} { f[k,j - 1] + w[k+1,i] }$</p>
-<p>之前的循环顺序是：<code>for(i=1:n)&#123;for(j=1:k)&#123;&#125;&#125;</code></p>
-<p>也可以内外循环交换一下：<code>for(j=1:k)&#123;for(i=1:n)&#123;&#125;&#125;</code></p>
+<p>还是考虑 $f[i,j]&#x3D;\min_{k &lt; i} { f[k,j - 1] + w[k+1,i] }$</p>
+<p>之前的循环顺序是：<code>for(i=1:n){for(j=1:k){}}</code></p>
+<p>也可以内外循环交换一下：<code>for(j=1:k){for(i=1:n){}}</code></p>
 <p>由四边形不等式可得：$p[i,k-1] \le p[i,k]$，即每一行的决策点是单调的</p>
-<p>既然决策是单调的，那么在计算 $f[l] \sim f[r]$ 时，可以先计算 $f[(l+r)/2]$ ，这样 $[l,m-1],[m+1,r]$ 的决策点范围就会进一步缩小</p>
+<p>既然决策是单调的，那么在计算 $f[l] \sim f[r]$ 时，可以先计算 $f[(l+r)&#x2F;2]$ ，这样 $[l,m-1],[m+1,r]$ 的决策点范围就会进一步缩小</p>
 <p>于是总时间复杂度就降为了 $O(kn \log n)$</p>
 <hr>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> pl, <span class="keyword">int</span> pr)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(l &gt; r) <span class="keyword">return</span> ;</span><br><span class="line">  <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">int</span> pmid; f[mid][j] = inf;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> k = pl ; k &lt;= <span class="built_in">min</span>(pr, mid) ; ++ k) &#123;</span><br><span class="line">    <span class="keyword">auto</span> g = f[k][j - <span class="number">1</span>] + <span class="built_in">w</span>(k + <span class="number">1</span>, mid);</span><br><span class="line">    <span class="keyword">if</span>(g &lt;= f[mid][j]) &#123;</span><br><span class="line">      f[mid][j] = g;</span><br><span class="line">      pmid = k;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">dfs</span>(l, mid - <span class="number">1</span>, pl, pmid);</span><br><span class="line">  <span class="built_in">dfs</span>(mid + <span class="number">1</span>, r, pmid, pr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> pl, <span class="type">int</span> pr)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(l &gt; r) <span class="keyword">return</span> ;</span><br><span class="line">  <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">2</span>;</span><br><span class="line">  <span class="type">int</span> pmid; f[mid][j] = inf;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> k = pl ; k &lt;= <span class="built_in">min</span>(pr, mid) ; ++ k) &#123;</span><br><span class="line">    <span class="keyword">auto</span> g = f[k][j - <span class="number">1</span>] + <span class="built_in">w</span>(k + <span class="number">1</span>, mid);</span><br><span class="line">    <span class="keyword">if</span>(g &lt;= f[mid][j]) &#123;</span><br><span class="line">      f[mid][j] = g;</span><br><span class="line">      pmid = k;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">dfs</span>(l, mid - <span class="number">1</span>, pl, pmid);</span><br><span class="line">  <span class="built_in">dfs</span>(mid + <span class="number">1</span>, r, pmid, pr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>进而，可以扩展到解决 $f[i]=\min_{j &lt; i}{ f[j]+w[j+1,i] }$ 这一类问题</p>
+<p>进而，可以扩展到解决 $f[i]&#x3D;\min_{j &lt; i}{ f[j]+w[j+1,i] }$ 这一类问题</p>
 <p>分治算法的思想是固定待求值点，寻找决策区间，如果反过来考虑呢？</p>
 <p>对于每一个决策点，寻找以它为决策点的决策区间</p>
 <p>显然对于决策点 $x &lt; y$，有 $l_x \le r_x &lt; l_y \le r_y$</p>
-<p>那么可以开一个deque，一开始存入 <code>&#123; 1, n, 0 &#125;</code> 表示决策点 $0$ 对应决策区间 $[1,n]$</p>
+<p>那么可以开一个deque，一开始存入 <code>{ 1, n, 0 }</code> 表示决策点 $0$ 对应决策区间 $[1,n]$</p>
 <p>换句话说，我们只关心已经计算出来的 $f[i]$ 对未计算出来的所有 $j &gt; i$ 的影响</p>
 <hr>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">META</span> &#123;</span> <span class="keyword">int</span> l, r, p; &#125;; <span class="comment">// f[p] orders [l, r]</span></span><br><span class="line">deque&lt;META&gt; q;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">  <span class="keyword">while</span>(q.<span class="built_in">size</span>() &amp;&amp; q.<span class="built_in">front</span>().r &lt; i) q.<span class="built_in">pop_front</span>();</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">chk</span>(i, n) &lt;= <span class="built_in">chk</span>(q.<span class="built_in">back</span>().p, n)) &#123;</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>() &amp;&amp;</span><br><span class="line">          <span class="built_in">chk</span>(i, q.<span class="built_in">back</span>().l) &lt;= <span class="built_in">chk</span>(q.<span class="built_in">back</span>().p, q.<span class="built_in">back</span>().l))</span><br><span class="line">      q.<span class="built_in">pop_back</span>();</span><br><span class="line">    <span class="keyword">if</span>(q.<span class="built_in">empty</span>()) q.<span class="built_in">push_back</span>((META) &#123; i + <span class="number">1</span>, n, i &#125;);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">int</span> x = [&amp;] (<span class="keyword">int</span> od, <span class="keyword">int</span> nw, <span class="keyword">int</span> l, <span class="keyword">int</span> r) &#123;</span><br><span class="line">        <span class="keyword">int</span> res = l;</span><br><span class="line">        <span class="keyword">while</span>(l &lt;= r) &#123;</span><br><span class="line">          <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">if</span>(<span class="built_in">chk</span>(nw, mid) &lt;= <span class="built_in">chk</span>(od, mid)) &#123;</span><br><span class="line">            res = mid;</span><br><span class="line">            l = mid + <span class="number">1</span>;</span><br><span class="line">          &#125; <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125; (q.<span class="built_in">back</span>().p, nw, q.<span class="built_in">back</span>().l, q.<span class="built_in">back</span>().r);</span><br><span class="line">      q.<span class="built_in">back</span>().r = x - <span class="number">1</span>;</span><br><span class="line">      q.<span class="built_in">push_back</span>((META) &#123; x, n, i &#125;);&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">META</span> &#123; <span class="type">int</span> l, r, p; &#125;; <span class="comment">// f[p] orders [l, r]</span></span><br><span class="line">deque&lt;META&gt; q;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> ; i &lt;= n ; ++ i) &#123;</span><br><span class="line">  <span class="keyword">while</span>(q.<span class="built_in">size</span>() &amp;&amp; q.<span class="built_in">front</span>().r &lt; i) q.<span class="built_in">pop_front</span>();</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">chk</span>(i, n) &lt;= <span class="built_in">chk</span>(q.<span class="built_in">back</span>().p, n)) &#123;</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>() &amp;&amp;</span><br><span class="line">          <span class="built_in">chk</span>(i, q.<span class="built_in">back</span>().l) &lt;= <span class="built_in">chk</span>(q.<span class="built_in">back</span>().p, q.<span class="built_in">back</span>().l))</span><br><span class="line">      q.<span class="built_in">pop_back</span>();</span><br><span class="line">    <span class="keyword">if</span>(q.<span class="built_in">empty</span>()) q.<span class="built_in">push_back</span>((META) &#123; i + <span class="number">1</span>, n, i &#125;);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="type">int</span> x = [&amp;] (<span class="type">int</span> od, <span class="type">int</span> nw, <span class="type">int</span> l, <span class="type">int</span> r) &#123;</span><br><span class="line">        <span class="type">int</span> res = l;</span><br><span class="line">        <span class="keyword">while</span>(l &lt;= r) &#123;</span><br><span class="line">          <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">if</span>(<span class="built_in">chk</span>(nw, mid) &lt;= <span class="built_in">chk</span>(od, mid)) &#123;</span><br><span class="line">            res = mid;</span><br><span class="line">            l = mid + <span class="number">1</span>;</span><br><span class="line">          &#125; <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125; (q.<span class="built_in">back</span>().p, nw, q.<span class="built_in">back</span>().l, q.<span class="built_in">back</span>().r);</span><br><span class="line">      q.<span class="built_in">back</span>().r = x - <span class="number">1</span>;</span><br><span class="line">      q.<span class="built_in">push_back</span>((META) &#123; x, n, i &#125;);&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="HNOI2008-玩具装箱"><a href="#HNOI2008-玩具装箱" class="headerlink" title="[HNOI2008]玩具装箱"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3195">[HNOI2008]玩具装箱</a></h2><ul>
 <li>有 $n$ 个物品排成一排，第 $i$ 个物品有价值 $c_i$</li>
-<li>现在要求将物品序列分成若干段，每一段的代价是 $(r-l-L+\sum _ {i=l}^{r}c _ i)^2$</li>
+<li>现在要求将物品序列分成若干段，每一段的代价是 $(r-l-L+\sum _ {i&#x3D;l}^{r}c _ i)^2$</li>
 <li>求最小代价</li>
 <li>$1 \le n \le 5 \times 10^4$</li>
 </ul>
 <hr>
 <p>设 $f[i]$ 表示前 $i$ 个物品划分成若干段的最小代价</p>
-<p>$$<br>\begin{cases}<br>f[i]=\min _ {j \le i}{ f[j-1]+w[j,i]} \\<br>w[j,i]=(i-j-L+s[i]-s[j-1])^2<br>\end{cases}<br>$$</p>
+<p>$$<br>\begin{cases}<br>f[i]&#x3D;\min _ {j \le i}{ f[j-1]+w[j,i]} \\<br>w[j,i]&#x3D;(i-j-L+s[i]-s[j-1])^2<br>\end{cases}<br>$$</p>
 <p>四边形不等式：$w[i,j]+w[i+1,j+1] \le w[i+1,j]+w[i,j+1]$</p>
 <p><del>不证了，展开后反正满足四边形不等式</del></p>
 <p>于是决策是单调的，套用上面的分治或单调队列模板即可</p>
 <hr>
 <h2 id="「POI2011-R1」避雷针-Lightning-Conductor"><a href="#「POI2011-R1」避雷针-Lightning-Conductor" class="headerlink" title="「POI2011 R1」避雷针 Lightning Conductor"></a><a target="_blank" rel="noopener" href="https://loj.ac/p/2157">「POI2011 R1」避雷针 Lightning Conductor</a></h2><ul>
 <li>给定长度为 $n(\le 5 \times 10^5)$ 的序列 ${a_n}$</li>
-<li>求数组 $f$，满足 $f_{i}=\max_{j=1}^{n}{ a[i]-a[j]+\sqrt{|i-j|} }$</li>
+<li>求数组 $f$，满足 $f_{i}&#x3D;\max_{j&#x3D;1}^{n}{ a[i]-a[j]+\sqrt{|i-j|} }$</li>
 </ul>
 <hr>
 <p>只需要考虑 $j &lt; i$ 的情况（$j &gt; i$ 同理）</p>
-<p>$w[i,j] = \sqrt{j - i} + a[j] - a[i]$</p>
+<p>$w[i,j] &#x3D; \sqrt{j - i} + a[j] - a[i]$</p>
 <p>（反）四边形不等式：$w[i,j]+w[i+1,j+1] \ge w[i+1,j]+w[i,j+1]$</p>
-<p>$$<br>\begin{aligned}<br> &amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>=&amp;\sqrt{j-i-1}+\sqrt{j+1-i}-2\sqrt{j-i} \\<br>&amp;+a[j]-a[i+1]+a[j+1]-a[i]-a[j] \\<br>&amp;+a[i]-a[j+1]+a[i+1] \\<br>=&amp;\sqrt{j-i-1}+\sqrt{j+1-i}-2\sqrt{j-i} \\<br>=&amp;\sqrt{x-1}+\sqrt{x+1}-2\sqrt{x} \le 0<br>\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}<br> &amp;w[i+1,j]+w[i,j+1]-w[i,j]-w[i+1,j+1] \\<br>&#x3D;&amp;\sqrt{j-i-1}+\sqrt{j+1-i}-2\sqrt{j-i} \\<br>&amp;+a[j]-a[i+1]+a[j+1]-a[i]-a[j] \\<br>&amp;+a[i]-a[j+1]+a[i+1] \\<br>&#x3D;&amp;\sqrt{j-i-1}+\sqrt{j+1-i}-2\sqrt{j-i} \\<br>&#x3D;&amp;\sqrt{x-1}+\sqrt{x+1}-2\sqrt{x} \le 0<br>\end{aligned}<br>$$</p>
 <hr>
 <p>接着上面那个题 <a target="_blank" rel="noopener" href="https://www.codechef.com/problems/CHEFAOR">Chef and Bitwise OR Operation</a>，能不能再挖掘一下性质？</p>
 <h2 id="题单"><a href="#题单" class="headerlink" title="题单"></a>题单</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1912">[NOI2009] 诗人小G</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3724">[AHOI2017/HNOI2017]大佬</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3724">[AHOI2017&#x2F;HNOI2017]大佬</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1973">[NOI2011] NOI 嘉年华</a></li>
 </ul>
 
@@ -262,32 +266,13 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
     <a class="show pull-left" href="/wqs-bin/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="hide pull-right" href="/">
+    <a class="show pull-right" href="/petsc/petsc-00-install/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -498,6 +483,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

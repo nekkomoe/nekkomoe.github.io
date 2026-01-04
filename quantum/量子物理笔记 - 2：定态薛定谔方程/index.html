@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>量子物理笔记 - 2：定态薛定谔方程 | nekko</title>
+  <title>量子物理笔记 - 2：定态薛定谔方程 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="量子力学,原子物理,线性代数," />
   
 
-  <meta name="description" content="定态薛定谔方程假设势 $V$ 不依赖时间，并假设波函数 $\Psi$ 可分离变量：$$\Psi(x,t)&#x3D;\psi(x)\varphi(t)$$考虑薛定谔方程：$$i\hbar \dot{\Psi}&#x3D;-\frac{\hbar^2}{2m}\nabla^2\Psi+V\Psi$$展开得：$$\begin{aligned}&amp; i\hbar \psi \dot{\varphi}&#x3D;-\frac{h">
+  <meta name="description" content="定态薛定谔方程假设势 $V$ 不依赖时间，并假设波函数 $\Psi$ 可分离变量：$$\Psi(x,t)&#x3D;\psi(x)\varphi(t)$$考虑薛定谔方程：$$i\hbar \dot{\Psi}&#x3D;-\frac{\hbar^2}{2m}\nabla^2\Psi+V\Psi$$展开得：$$\begin{aligned}&amp; i\hbar \psi \dot{\varphi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="量子物理笔记 - 2：定态薛定谔方程">
 <meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%202%EF%BC%9A%E5%AE%9A%E6%80%81%E8%96%9B%E5%AE%9A%E8%B0%94%E6%96%B9%E7%A8%8B/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="定态薛定谔方程假设势 $V$ 不依赖时间，并假设波函数 $\Psi$ 可分离变量：$$\Psi(x,t)&#x3D;\psi(x)\varphi(t)$$考虑薛定谔方程：$$i\hbar \dot{\Psi}&#x3D;-\frac{\hbar^2}{2m}\nabla^2\Psi+V\Psi$$展开得：$$\begin{aligned}&amp; i\hbar \psi \dot{\varphi}&#x3D;-\frac{h">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="定态薛定谔方程假设势 $V$ 不依赖时间，并假设波函数 $\Psi$ 可分离变量：$$\Psi(x,t)&#x3D;\psi(x)\varphi(t)$$考虑薛定谔方程：$$i\hbar \dot{\Psi}&#x3D;-\frac{\hbar^2}{2m}\nabla^2\Psi+V\Psi$$展开得：$$\begin{aligned}&amp; i\hbar \psi \dot{\varphi">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-16T00:00:01.000Z">
-<meta property="article:modified_time" content="2023-01-16T06:43:22.665Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="量子力学">
+<meta property="article:published_time" content="2023-01-16T13:00:01.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:43:24.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="原子物理">
 <meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="量子力学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,15 +190,15 @@
 
   <div class="article-content">
     
-      <h2 id="定态薛定谔方程"><a href="#定态薛定谔方程" class="headerlink" title="定态薛定谔方程"></a>定态薛定谔方程</h2><p>假设势 $V$ 不依赖时间，并假设波函数 $\Psi$ 可分离变量：<br>$$<br>\Psi(x,t)=\psi(x)\varphi(t)<br>$$<br>考虑薛定谔方程：<br>$$<br>i\hbar \dot{\Psi}=-\frac{\hbar^2}{2m}\nabla^2\Psi+V\Psi<br>$$<br>展开得：<br>$$<br>\begin{aligned}<br>&amp; i\hbar \psi \dot{\varphi}=-\frac{h^2}{2m}\varphi\nabla^2\psi+V\psi\varphi \\<br>\Rightarrow<br>&amp; i\hbar \frac{\dot{\varphi}}{\varphi}=-\frac{h^2}{2m}\frac{\nabla^2 \psi}{\psi}+V=E<br>\end{aligned}<br>$$<br>解得忽略常数项的 $\varphi$ 为：<br>$$<br>\varphi(t)=e^{-iEt/\hbar}<br>$$<br>同时有定态薛定谔方程：<br>$$<br>-\frac{h^2}{2m}\nabla^2\psi+V\psi=E\psi<br>$$<br>定态波函数的概率密度为：<br>$$<br>|\Psi|^2=\psi^* e^{iEt/\hbar}\psi e^{-iEt/\hbar}=\psi^* \psi=|\psi|^2<br>$$<br>于是任意算子的期望只与 $\psi$ 有关，即：<br>$$<br>\langle Q \rangle=\int_{-\infty}^{\infty}\Psi^*  Q \Psi dx=\int_{-\infty}^{\infty}\psi^* Q\psi dx<br>$$<br>同时可以得到：<br>$$<br>\begin{aligned}<br>&amp; \langle x \rangle \equiv \int_{-\infty}^{\infty}x|\psi|^2dx \\<br>\Rightarrow<br>&amp; \langle p \rangle=m\frac{d\langle x \rangle}{dt}=0<br>\end{aligned}<br>$$<br>可以看到总能量也是守恒的，其中总能量由哈密顿量表示：<br>$$<br>\begin{aligned}<br>&amp; H(x,p)=\frac{p^2}{2m}+V(x) \\<br>\Rightarrow<br>&amp; \hat{H}=\frac{1}{2m}(-i\hbar)^2\nabla^2+V=-\frac{\hbar^2}{2m}\nabla^2+V<br>\end{aligned}<br>$$<br>得到定态薛定谔方程的算子形式：<br>$$<br>\hat{H}\psi=E\psi<br>$$<br>总能量的期望为：<br>$$<br>\langle H \rangle=\int_{-\infty}^{\infty}\psi^* \hat{H}\psi dx=\int_{-\infty}^{\infty}\psi^* E\psi dx=E<br>$$<br>同理，有：<br>$$<br>\langle H^n \rangle=E^n<br>$$<br>因此 $H$ 的标准差为：<br>$$<br>\sigma_H=\sqrt{\langle H^2 \rangle-\langle H \rangle^2}=\sqrt{E^2-E^2}=0<br>$$<br>因此定态粒子每次测量得到的能量都是确定值 $E$。</p>
-<p>考虑 $E$ 的性质，由定态薛定谔方程的性质可知：<br>$$<br>\begin{aligned}<br>&amp; 1=\int_{-\infty}^{\infty}\Psi^*  \Psi dx=\int_{-\infty}^{\infty}\psi^* \psi e^{-iEt/\hbar+iE^* t/\hbar} dx \\<br>\Rightarrow<br>&amp; -E+E^* =0 \\<br>\Rightarrow<br>&amp; \Im(E)=0 \\<br>\Rightarrow<br>&amp; E \in \mathbb{R}<br>\end{aligned}<br>$$<br>所以 $E$ 是实数，因此：<br>$$<br>\begin{aligned}<br>&amp; \hat{H}\psi=E\psi \\<br>&amp; \hat{H}\psi^* =E\psi^*<br>\end{aligned}<br>$$<br>因此实函数 $\psi^{(1)},\psi^{(2)}$ 都满足能量为 $E$ 的薛定谔方程：<br>$$<br>\begin{aligned}<br>&amp; \psi^{(1)}=\psi+\psi^*  \\<br>&amp; \psi^{(2)}=i(\psi-\psi^* )<br>\end{aligned}<br>$$<br>若 $V(x)$ 为偶函数，则：<br>$$<br>\begin{aligned}<br>&amp; \hat{H}\psi(x)=E\psi(x) \\<br>&amp; \hat{H}\psi(-x)=E\psi(-x)<br>\end{aligned}<br>$$<br>因此偶/奇函数 $\psi^{(3)},\psi^{(4)}$ 都满足能量为 $E$ 的薛定谔方程：<br>$$<br>\begin{aligned}<br>&amp; \psi^{(3)}(x)=\psi(x)+\psi(-x) \\<br>&amp; \psi^{(4)}(x)=\psi(x)-\psi(-x)<br>\end{aligned}<br>$$<br>定态薛定谔方程的解若是归一化的，则 $E \ge V_\min$，考虑到：<br>$$<br>\nabla^2\psi=\frac{2m}{\hbar^2}(V(x)-E)\psi<br>$$<br>若 $E&lt;V_\min$，则有：<br>$$<br>\begin{aligned}<br>&amp; \nabla^2\psi&gt;0, \quad &amp;\psi&gt;0 \\<br>&amp; \nabla^2\psi&lt;0, \quad &amp;\psi&lt;0<br>\end{aligned}<br>$$</p>
+      <h2 id="定态薛定谔方程"><a href="#定态薛定谔方程" class="headerlink" title="定态薛定谔方程"></a>定态薛定谔方程</h2><p>假设势 $V$ 不依赖时间，并假设波函数 $\Psi$ 可分离变量：<br>$$<br>\Psi(x,t)&#x3D;\psi(x)\varphi(t)<br>$$<br>考虑薛定谔方程：<br>$$<br>i\hbar \dot{\Psi}&#x3D;-\frac{\hbar^2}{2m}\nabla^2\Psi+V\Psi<br>$$<br>展开得：<br>$$<br>\begin{aligned}<br>&amp; i\hbar \psi \dot{\varphi}&#x3D;-\frac{h^2}{2m}\varphi\nabla^2\psi+V\psi\varphi \\<br>\Rightarrow<br>&amp; i\hbar \frac{\dot{\varphi}}{\varphi}&#x3D;-\frac{h^2}{2m}\frac{\nabla^2 \psi}{\psi}+V&#x3D;E<br>\end{aligned}<br>$$<br>解得忽略常数项的 $\varphi$ 为：<br>$$<br>\varphi(t)&#x3D;e^{-iEt&#x2F;\hbar}<br>$$<br>同时有定态薛定谔方程：<br>$$<br>-\frac{h^2}{2m}\nabla^2\psi+V\psi&#x3D;E\psi<br>$$<br>定态波函数的概率密度为：<br>$$<br>|\Psi|^2&#x3D;\psi^* e^{iEt&#x2F;\hbar}\psi e^{-iEt&#x2F;\hbar}&#x3D;\psi^* \psi&#x3D;|\psi|^2<br>$$<br>于是任意算子的期望只与 $\psi$ 有关，即：<br>$$<br>\langle Q \rangle&#x3D;\int_{-\infty}^{\infty}\Psi^*  Q \Psi dx&#x3D;\int_{-\infty}^{\infty}\psi^* Q\psi dx<br>$$<br>同时可以得到：<br>$$<br>\begin{aligned}<br>&amp; \langle x \rangle \equiv \int_{-\infty}^{\infty}x|\psi|^2dx \\<br>\Rightarrow<br>&amp; \langle p \rangle&#x3D;m\frac{d\langle x \rangle}{dt}&#x3D;0<br>\end{aligned}<br>$$<br>可以看到总能量也是守恒的，其中总能量由哈密顿量表示：<br>$$<br>\begin{aligned}<br>&amp; H(x,p)&#x3D;\frac{p^2}{2m}+V(x) \\<br>\Rightarrow<br>&amp; \hat{H}&#x3D;\frac{1}{2m}(-i\hbar)^2\nabla^2+V&#x3D;-\frac{\hbar^2}{2m}\nabla^2+V<br>\end{aligned}<br>$$<br>得到定态薛定谔方程的算子形式：<br>$$<br>\hat{H}\psi&#x3D;E\psi<br>$$<br>总能量的期望为：<br>$$<br>\langle H \rangle&#x3D;\int_{-\infty}^{\infty}\psi^* \hat{H}\psi dx&#x3D;\int_{-\infty}^{\infty}\psi^* E\psi dx&#x3D;E<br>$$<br>同理，有：<br>$$<br>\langle H^n \rangle&#x3D;E^n<br>$$<br>因此 $H$ 的标准差为：<br>$$<br>\sigma_H&#x3D;\sqrt{\langle H^2 \rangle-\langle H \rangle^2}&#x3D;\sqrt{E^2-E^2}&#x3D;0<br>$$<br>因此定态粒子每次测量得到的能量都是确定值 $E$。</p>
+<p>考虑 $E$ 的性质，由定态薛定谔方程的性质可知：<br>$$<br>\begin{aligned}<br>&amp; 1&#x3D;\int_{-\infty}^{\infty}\Psi^*  \Psi dx&#x3D;\int_{-\infty}^{\infty}\psi^* \psi e^{-iEt&#x2F;\hbar+iE^* t&#x2F;\hbar} dx \\<br>\Rightarrow<br>&amp; -E+E^* &#x3D;0 \\<br>\Rightarrow<br>&amp; \Im(E)&#x3D;0 \\<br>\Rightarrow<br>&amp; E \in \mathbb{R}<br>\end{aligned}<br>$$<br>所以 $E$ 是实数，因此：<br>$$<br>\begin{aligned}<br>&amp; \hat{H}\psi&#x3D;E\psi \\<br>&amp; \hat{H}\psi^* &#x3D;E\psi^*<br>\end{aligned}<br>$$<br>因此实函数 $\psi^{(1)},\psi^{(2)}$ 都满足能量为 $E$ 的薛定谔方程：<br>$$<br>\begin{aligned}<br>&amp; \psi^{(1)}&#x3D;\psi+\psi^*  \\<br>&amp; \psi^{(2)}&#x3D;i(\psi-\psi^* )<br>\end{aligned}<br>$$<br>若 $V(x)$ 为偶函数，则：<br>$$<br>\begin{aligned}<br>&amp; \hat{H}\psi(x)&#x3D;E\psi(x) \\<br>&amp; \hat{H}\psi(-x)&#x3D;E\psi(-x)<br>\end{aligned}<br>$$<br>因此偶&#x2F;奇函数 $\psi^{(3)},\psi^{(4)}$ 都满足能量为 $E$ 的薛定谔方程：<br>$$<br>\begin{aligned}<br>&amp; \psi^{(3)}(x)&#x3D;\psi(x)+\psi(-x) \\<br>&amp; \psi^{(4)}(x)&#x3D;\psi(x)-\psi(-x)<br>\end{aligned}<br>$$<br>定态薛定谔方程的解若是归一化的，则 $E \ge V_\min$，考虑到：<br>$$<br>\nabla^2\psi&#x3D;\frac{2m}{\hbar^2}(V(x)-E)\psi<br>$$<br>若 $E&lt;V_\min$，则有：<br>$$<br>\begin{aligned}<br>&amp; \nabla^2\psi&gt;0, \quad &amp;\psi&gt;0 \\<br>&amp; \nabla^2\psi&lt;0, \quad &amp;\psi&lt;0<br>\end{aligned}<br>$$</p>
 <p>即定态薛定谔方程的性质如下：</p>
 <ol>
 <li>存在归一化解：$E \in \mathbb{R}, E&gt;V_{\min}$</li>
 <li>定态波函数 $\psi$ 总可以取为实函数；</li>
 <li>若 $V(x)$ 是偶函数，则 $\psi(x)$ 总可以取为偶函数或奇函数。</li>
 </ol>
-<h2 id="含时薛定谔方程"><a href="#含时薛定谔方程" class="headerlink" title="含时薛定谔方程"></a>含时薛定谔方程</h2><p>以 ${\Psi_n}$ 为基底，得到 $\Psi$ 的一般表达式：<br>$$<br>\Psi(x,t)=\sum_{n=1}^{\infty}c_n\psi_n(x)e^{-iE_nt/\hbar}<br>$$<br>初值条件：<br>$$<br>\Psi(x,0)=\sum_{n=1}^{\infty}c_n\psi_n(x)<br>$$</p>
+<h2 id="含时薛定谔方程"><a href="#含时薛定谔方程" class="headerlink" title="含时薛定谔方程"></a>含时薛定谔方程</h2><p>以 ${\Psi_n}$ 为基底，得到 $\Psi$ 的一般表达式：<br>$$<br>\Psi(x,t)&#x3D;\sum_{n&#x3D;1}^{\infty}c_n\psi_n(x)e^{-iE_nt&#x2F;\hbar}<br>$$<br>初值条件：<br>$$<br>\Psi(x,0)&#x3D;\sum_{n&#x3D;1}^{\infty}c_n\psi_n(x)<br>$$</p>
 
     
   </div>
@@ -220,25 +224,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -456,6 +441,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

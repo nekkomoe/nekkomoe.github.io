@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>hexo:不是bug是feature | nekko</title>
+  <title>hexo:不是bug是feature | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,16 +15,16 @@
     <meta name="keywords" content="hexo," />
   
 
-  <meta name="description" content="在目前版本(笔者所用的),可能会出现切页按钮变成了 class&#x3D;&quot;icon-angle-right&quot;&gt;&lt;&#x2F;i&gt; 的样子 来翻翻文档:  paginator 插入分页链接&lt;%- paginator(options) %&gt;    参数 描述 默认值    base 基础网址 &#x2F;   format 网址格式 page&#x2F;%d&#x2F;   total 分页总数 1">
+  <meta name="description" content="在目前版本(笔者所用的),可能会出现切页按钮变成了 class&#x3D;&quot;icon-angle-right&quot;&gt;&lt;&#x2F;i&gt; 的样子 来翻翻文档:  paginator 插入分页链接&lt;%- paginator(options) %&gt;    参数 描述 默认值    base 基础网址 &#x2F;   format 网址格式 page&#x2F;%d&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo:不是bug是feature">
 <meta property="og:url" content="https://nekko.moe/hexo-fea-bg/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="在目前版本(笔者所用的),可能会出现切页按钮变成了 class&#x3D;&quot;icon-angle-right&quot;&gt;&lt;&#x2F;i&gt; 的样子 来翻翻文档:  paginator 插入分页链接&lt;%- paginator(options) %&gt;    参数 描述 默认值    base 基础网址 &#x2F;   format 网址格式 page&#x2F;%d&#x2F;   total 分页总数 1">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="在目前版本(笔者所用的),可能会出现切页按钮变成了 class&#x3D;&quot;icon-angle-right&quot;&gt;&lt;&#x2F;i&gt; 的样子 来翻翻文档:  paginator 插入分页链接&lt;%- paginator(options) %&gt;    参数 描述 默认值    base 基础网址 &#x2F;   format 网址格式 page&#x2F;%d&#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-02-24T10:00:00.000Z">
+<meta property="article:published_time" content="2021-02-24T23:00:00.000Z">
 <meta property="article:modified_time" content="2021-02-24T04:22:48.000Z">
-<meta property="article:author" content="nekko">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
 
@@ -44,6 +44,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -55,7 +59,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -152,7 +156,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -194,12 +198,12 @@
 <tbody><tr>
 <td>base</td>
 <td>基础网址</td>
-<td>/</td>
+<td>&#x2F;</td>
 </tr>
 <tr>
 <td>format</td>
 <td>网址格式</td>
-<td>page/%d/</td>
+<td>page&#x2F;%d&#x2F;</td>
 </tr>
 <tr>
 <td>total</td>
@@ -258,7 +262,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- paginator(&#123;</span><br><span class="line">   prev_text: prev_text,</span><br><span class="line">   next_text: next_text</span><br><span class="line"> &#125;) %&gt;</span><br></pre></td></tr></table></figure>
 
 <p>改为:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- paginator(&#123;</span><br><span class="line">   <span class="attr">prev_text</span>: prev_text,</span><br><span class="line">   <span class="attr">next_text</span>: next_text,</span><br><span class="line">   <span class="attr">escape</span>: <span class="literal">false</span></span><br><span class="line"> &#125;) %&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- <span class="title function_">paginator</span>(&#123;</span><br><span class="line">   <span class="attr">prev_text</span>: prev_text,</span><br><span class="line">   <span class="attr">next_text</span>: next_text,</span><br><span class="line">   <span class="attr">escape</span>: <span class="literal">false</span></span><br><span class="line"> &#125;) %&gt;</span><br></pre></td></tr></table></figure>
 
 
     
@@ -285,25 +289,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -521,6 +506,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

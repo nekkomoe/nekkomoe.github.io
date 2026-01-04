@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[06] petsc4py中的TS | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="TSTS（Time Stepper）是 PETSc 中用于求解时间依赖问题的接口，其不负责空间离散或线性&#x2F;非线性求解，而是管理时间推进的整体流程，即：时间区间，时间步长，时间离散格式，以及每一步中该调用哪些算子。 在TS.pyx源文件和petscts.pxi源文件中，可以看到更完整的函数列表。 时间显格式&#x2F;隐格式PETSc 支持的时间依赖问题，通常写成下面两类形式之一。 显式（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[06] petsc4py中的TS">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-06-TS/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="TSTS（Time Stepper）是 PETSc 中用于求解时间依赖问题的接口，其不负责空间离散或线性&#x2F;非线性求解，而是管理时间推进的整体流程，即：时间区间，时间步长，时间离散格式，以及每一步中该调用哪些算子。 在TS.pyx源文件和petscts.pxi源文件中，可以看到更完整的函数列表。 时间显格式&#x2F;隐格式PETSc 支持的时间依赖问题，通常写成下面两类形式之一。 显式（">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:06:00.000Z">
+<meta property="article:modified_time" content="2026-01-03T04:25:36.891Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TS"><span class="toc-text">TS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%98%BE%E6%A0%BC%E5%BC%8F-%E9%9A%90%E6%A0%BC%E5%BC%8F"><span class="toc-text">时间显格式&#x2F;隐格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E6%A0%BC%E5%BC%8F%E6%8E%A8%E8%BF%9B%EF%BC%9ARHSFunction"><span class="toc-text">显格式推进：RHSFunction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%90%E6%A0%BC%E5%BC%8F%E6%8E%A8%E8%BF%9B%EF%BC%9AIFunction"><span class="toc-text">隐格式推进：IFunction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TS%E6%B5%81%E7%A8%8B"><span class="toc-text">TS流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1D-Heat-equation"><span class="toc-text">1D Heat equation</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-06-TS" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[06] petsc4py中的TS</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="TS"><a href="#TS" class="headerlink" title="TS"></a>TS</h1><p>TS（Time Stepper）是 PETSc 中用于求解时间依赖问题的接口，其不负责空间离散或线性&#x2F;非线性求解，而是管理时间推进的整体流程，即：时间区间，时间步长，时间离散格式，以及每一步中该调用哪些算子。</p>
+<p>在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/TS.pyx">TS.pyx源文件</a>和<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscts.pxi">petscts.pxi源文件</a>中，可以看到更完整的函数列表。</p>
+<h2 id="时间显格式-隐格式"><a href="#时间显格式-隐格式" class="headerlink" title="时间显格式&#x2F;隐格式"></a>时间显格式&#x2F;隐格式</h2><p>PETSc 支持的时间依赖问题，通常写成下面两类形式之一。</p>
+<p>显式（或半显式）形式：<br>$$<br>\frac{d u}{d t} &#x3D; G(t, u)<br>$$<br>隐式形式：<br>$$<br>F(t, u, \dot u) &#x3D; 0<br>$$<br>在TS中，通过<code>RHSFunction, IFunction</code> 区分是哪种形式。</p>
+<h2 id="显格式推进：RHSFunction"><a href="#显格式推进：RHSFunction" class="headerlink" title="显格式推进：RHSFunction"></a>显格式推进：RHSFunction</h2><p>当问题可以写成 $\dot u &#x3D; G(t, u)$ 时，可以使用显式&#x2F;半隐式时间格式，在这种情况下，TS 只需要你提供一个函数，用于计算右端项 $G(t, u)$，其代码为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.setRHSFunction(rhs_function, F)</span><br></pre></td></tr></table></figure>
+
+<p>其中， <code>rhs_function(ts, t, U, F)</code> 包含了：</p>
+<ul>
+<li>输入：当前时间 <code>t</code>，当前解向量 <code>U</code></li>
+<li>输出：右端项 <code>F = G(t, U)</code></li>
+</ul>
+<p>在这种模式下，不需要 SNES 和 IJacobian，每个时间步中只是若干次向量更新和RHS计算。</p>
+<h2 id="隐格式推进：IFunction"><a href="#隐格式推进：IFunction" class="headerlink" title="隐格式推进：IFunction"></a>隐格式推进：IFunction</h2><p>当时间推进格式是隐式的，TS 在每一个时间步都会形成一个非线性方程，以 Backward Euler 为例：<br>$$<br>\frac{u^{n+1} - u^n}{\Delta t} - G(t^{n+1}, u^{n+1}) &#x3D; 0<br>$$<br>这符合隐格式的形式 $F(t, u, \dot u) &#x3D; 0$，而可以通过下面代码实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.setIFunction(ifunction, F)</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>ifunction(ts, t, U, Udot, F)</code> 计算了 $F &#x3D; F(t, U, \dot U)$。</p>
+<p>只要使用了隐式方法，TS 在内部就会调用 SNES，因此就需要 Jacobian，即需要计算<code>IJacobian</code>函数。</p>
+<p>对于隐格式 $F(t, u, \dot u) &#x3D; 0$，其Jacobian实际上是：<br>$$<br>J &#x3D; \frac{\partial F}{\partial u} + \alpha \frac{\partial F}{\partial \dot u}<br>$$<br>其中系数 $\alpha$ 由时间格式和步长给出，如 Backward Euler 中，有 $\alpha &#x3D; \frac{1}{\Delta t}$，代码实现为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.setIJacobian(ijacobian, J)</span><br></pre></td></tr></table></figure>
+
+<p>回调函数<code>ijacobian(ts, t, U, Udot, shift, J, P)</code>中的<code>shift</code>为上述$\alpha$。</p>
+<h2 id="TS流程"><a href="#TS流程" class="headerlink" title="TS流程"></a>TS流程</h2><p>从执行流程上看，一个隐式 TS 步如下：</p>
+<ol>
+<li>TS 选择时间步长 $\Delta t$</li>
+<li>TS 构造当前时间步的非线性问题</li>
+<li>TS 调用 <code>snes.solve()</code></li>
+<li>SNES 在每一步 Newton 迭代中：<ul>
+<li>调用 <code>IFunction</code></li>
+<li>调用 <code>IJacobian</code></li>
+<li>使用 KSP 解线性系统</li>
+</ul>
+</li>
+<li>TS 判断是否接受该时间步，必要时调整步长</li>
+</ol>
+<p>可以使用下面的参数列表进行设置内部求解器细节：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-snes_type newtonls</span><br><span class="line">-ksp_type gmres</span><br><span class="line">-pc_type ilu</span><br></pre></td></tr></table></figure>
+
+<p>TS 提供了一套与 KSP &#x2F; SNES 风格一致的监控机制，可以通过 <code>-ts_monitor</code> 打开，TS会在每一个时间步输出当前时间步的信息。和KSP与SNES类似，也可以通过<code>ts.setMonitor(monitor)</code>设置自定义的monitor，从而记录能量、误差或某个分量的时间演化。</p>
+<h2 id="1D-Heat-equation"><a href="#1D-Heat-equation" class="headerlink" title="1D Heat equation"></a>1D Heat equation</h2><p>考虑1D热传导问题：<br>$$<br>u_t &#x3D; \kappa u_{xx},\quad x\in[0,1]<br>$$<br>边界条件选择$u(0,t)&#x3D;0, u(1,t)&#x3D;0$，初值为 $u(x,0)&#x3D;\sin(\pi x)$，其解析解为：<br>$$<br>u(x,t)&#x3D;\exp(-\pi^2 t) \cdot \sin(\pi x)<br>$$</p>
+<p>用 TS 做隐格式时间推进，空间用二阶中心差分，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">comm  = PETSc.COMM_WORLD</span><br><span class="line">rank  = comm.getRank()</span><br><span class="line">opt   = PETSc.Options()</span><br><span class="line">kappa = opt.getReal(<span class="string">&quot;kappa&quot;</span>, <span class="number">1.0</span>)</span><br><span class="line">nx    = opt.getInt(<span class="string">&quot;nx&quot;</span>, <span class="number">100</span>)</span><br><span class="line">tmax  = opt.getReal(<span class="string">&quot;tmax&quot;</span>, <span class="number">1.0</span>)</span><br><span class="line">dt    = opt.getReal(<span class="string">&quot;dt&quot;</span>, <span class="number">1e-3</span>)</span><br><span class="line">hx    = <span class="number">1.0</span> / (nx - <span class="number">1</span>)</span><br><span class="line">save_interval = opt.getReal(<span class="string">&quot;save_interval&quot;</span>, <span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create 1D DMDA</span></span><br><span class="line">dm = PETSc.DMDA().create(</span><br><span class="line">    dim=<span class="number">1</span>,</span><br><span class="line">    sizes=(nx,),</span><br><span class="line">    dof=<span class="number">1</span>,</span><br><span class="line">    stencil_width=<span class="number">1</span>,</span><br><span class="line">    stencil_type=PETSc.DMDA.StencilType.STAR,</span><br><span class="line">    comm=comm,</span><br><span class="line">)</span><br><span class="line">dm.setUp()</span><br><span class="line"></span><br><span class="line"><span class="comment"># create vectors and matrix</span></span><br><span class="line">F = dm.createGlobalVec()</span><br><span class="line">J = dm.createMatrix()</span><br><span class="line">U = dm.createGlobalVec()</span><br><span class="line"><span class="keyword">with</span> U <span class="keyword">as</span> u0:</span><br><span class="line">    (xs, xe), = dm.getRanges()</span><br><span class="line">    u0[:] = np.sin(np.pi * hx * np.arange(xs, xe))  <span class="comment"># initial condition: u(x,0) = sin(pi x)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ifunction</span>(<span class="params">ts, t, Uin, Udot, Fout</span>):</span><br><span class="line">    <span class="comment"># compute F(t, U, Udot) = Udot - kappa * u_xx = 0</span></span><br><span class="line">    local_U = dm.getLocalVec()</span><br><span class="line">    dm.globalToLocal(Uin, local_U)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> dm.getVecArray(local_U) <span class="keyword">as</span> u, \</span><br><span class="line">         dm.getVecArray(Udot) <span class="keyword">as</span> udot, \</span><br><span class="line">         dm.getVecArray(Fout) <span class="keyword">as</span> f:</span><br><span class="line">        </span><br><span class="line">        (xs, xe), = dm.getRanges()</span><br><span class="line">        <span class="keyword">if</span> xs == <span class="number">0</span>:</span><br><span class="line">            f[<span class="number">0</span>] = u[<span class="number">0</span>] - <span class="number">0.0</span>        <span class="comment"># u(0, t) = 0</span></span><br><span class="line">            xs += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> xe == nx:</span><br><span class="line">            f[nx-<span class="number">1</span>] = u[nx-<span class="number">1</span>] - <span class="number">0.0</span>  <span class="comment"># u(1, t) = 0</span></span><br><span class="line">            xe -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> xs &lt; xe:</span><br><span class="line">            <span class="comment"># u_t = kappa * u_xx</span></span><br><span class="line">            uxx = (u[xs-<span class="number">1</span>:xe-<span class="number">1</span>] - <span class="number">2.0</span> * u[xs:xe] + u[xs+<span class="number">1</span>:xe+<span class="number">1</span>]) / (hx * hx)</span><br><span class="line">            f[xs:xe] = udot[xs:xe] - kappa * uxx</span><br><span class="line"></span><br><span class="line">    dm.restoreLocalVec(local_U)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ijacobian</span>(<span class="params">ts, t, Uin, Udot, shift, J, P</span>):</span><br><span class="line">    <span class="comment"># compute: J = dF/dU + shift * dF/dUdot</span></span><br><span class="line">    <span class="comment">#    F = Udot - kappa * u_xx</span></span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">    <span class="comment">#    F[i] = Udot[i] - kappa*(U[i-1]-2U[i]+U[i+1]) / (hx * hx)</span></span><br><span class="line">    <span class="comment"># =&gt; dF[i]/dU[i]   = 2*kappa / (hx * hx)</span></span><br><span class="line">    <span class="comment"># =&gt; dF[i]/dU[i+1] =  -kappa / (hx * hx)</span></span><br><span class="line">    <span class="comment"># =&gt; dF[i]/dU[i-1] =  -kappa / (hx * hx)</span></span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">    <span class="comment">#    dF[i]/dUdot[i] = 1</span></span><br><span class="line">    <span class="comment"># =&gt; J[i, i]   = dF[i]/dU[i] + shift * dF[i]/dUdot[i]</span></span><br><span class="line">    <span class="comment"># =&gt; J[i, i+1] = dF[i]/dU[i+1]</span></span><br><span class="line">    <span class="comment"># =&gt; J[i, i-1] = dF[i]/dU[i-1]</span></span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">    <span class="comment">#    Boundary conditions: F = U - g</span></span><br><span class="line">    <span class="comment"># =&gt; dF/dU = 1</span></span><br><span class="line">    </span><br><span class="line">    J.zeroEntries()</span><br><span class="line">    (xs, xe), = dm.getRanges()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(xs, xe):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">or</span> i == nx - <span class="number">1</span>:</span><br><span class="line">            <span class="comment"># d(U - g)/dU = 1</span></span><br><span class="line">            J.setValue(i, i, <span class="number">1.0</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            off = -kappa / (hx * hx)</span><br><span class="line">            diag = shift + <span class="number">2.0</span> * kappa / (hx * hx)</span><br><span class="line">            <span class="keyword">if</span> i - <span class="number">1</span> != <span class="number">0</span>: J.setValue(i, i - <span class="number">1</span>, off)      <span class="comment"># BC</span></span><br><span class="line">            J.setValue(i, i, diag)</span><br><span class="line">            <span class="keyword">if</span> i + <span class="number">1</span> != nx - <span class="number">1</span>: J.setValue(i, i + <span class="number">1</span>, off) <span class="comment"># BC</span></span><br><span class="line">    J.assemble() <span class="comment"># P=J, so `P.assemble()` is not needed</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">u_history = [] <span class="comment"># store solution history for output</span></span><br><span class="line">last_save = -np.inf</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ts_monitor</span>(<span class="params">ts, step, time, u</span>):    </span><br><span class="line">    <span class="keyword">global</span> u_history, last_save, rank</span><br><span class="line">    flag = time - last_save - save_interval</span><br><span class="line">    <span class="keyword">if</span> flag &gt;= -<span class="number">1e-8</span> <span class="keyword">or</span> step == -<span class="number">1</span>:</span><br><span class="line">        scatter, u_seq = PETSc.Scatter.toZero(u)</span><br><span class="line">        scatter.scatter(u, u_seq, addv=PETSc.InsertMode.INSERT, mode=PETSc.ScatterMode.FORWARD)</span><br><span class="line">        <span class="keyword">if</span> rank == <span class="number">0</span>:</span><br><span class="line">            u_arr = u_seq.getArray(readonly=<span class="literal">True</span>).copy()</span><br><span class="line">            u_history.append((time, u_arr))</span><br><span class="line">        last_save = time</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> step == -<span class="number">1</span> <span class="keyword">and</span> rank == <span class="number">0</span> <span class="keyword">and</span> u_history:</span><br><span class="line">        plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">        x_grid = np.linspace(<span class="number">0</span>, <span class="number">1</span>, nx)</span><br><span class="line">        <span class="keyword">for</span> (t_val, u_val) <span class="keyword">in</span> u_history:</span><br><span class="line">            plt.plot(x_grid, u_val, label=<span class="string">f&quot;t=<span class="subst">&#123;t_val:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line">        plt.xlabel(<span class="string">&quot;x&quot;</span>)</span><br><span class="line">        plt.ylabel(<span class="string">&quot;u&quot;</span>)</span><br><span class="line">        plt.legend()</span><br><span class="line">        plt.grid(<span class="literal">True</span>)</span><br><span class="line">        plt.savefig(<span class="string">&quot;heat.png&quot;</span>)</span><br><span class="line">        plt.close()</span><br><span class="line">        PETSc.Sys.Print(<span class="string">&quot;Result saved to &#x27;heat.png&#x27;&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create TS</span></span><br><span class="line">ts = PETSc.TS().create(comm=comm)</span><br><span class="line">ts.setDM(dm)</span><br><span class="line">ts.setType(ts.<span class="type">Type</span>.BEULER) <span class="comment"># Backward Euler</span></span><br><span class="line">ts.setProblemType(ts.ProblemType.NONLINEAR)</span><br><span class="line">ts.setMonitor(ts_monitor)</span><br><span class="line">ts.setIFunction(ifunction, F)</span><br><span class="line">ts.setIJacobian(ijacobian, J)</span><br><span class="line"></span><br><span class="line">ts.setTime(<span class="number">0.0</span>)</span><br><span class="line">ts.setTimeStep(dt)</span><br><span class="line">ts.setMaxTime(tmax)</span><br><span class="line">ts.setMaxSteps(<span class="number">1e9</span>)</span><br><span class="line"></span><br><span class="line">ts.setFromOptions()</span><br><span class="line">ts.solve(U)</span><br></pre></td></tr></table></figure>
+
+<p>运行方法为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mpirun -n 4 python test.py \</span><br><span class="line">  -nx 100 -kappa 0.1 \</span><br><span class="line">  -dt 0.1 -tmax 10.0 -save_interval 1.0 \</span><br><span class="line">  -ts_type beuler -ksp_type cg -pc_type jacobi</span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-05-SNES/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-07-DM/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

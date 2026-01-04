@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>一个模意义下的不等式 | nekko</title>
+  <title>一个模意义下的不等式 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="算法,数学,模," />
   
 
-  <meta name="description" content="$$\begin{aligned} &amp;[a \bmod b \le c]&#x3D; \left\lfloor \frac{a}{b} \right\rfloor - \left \lfloor \frac{a-c-1}{b} \right \rfloor \\end{aligned}$$ 设 $a&#x3D;kb+r$ $r &gt; c$首先有： $$\begin{aligned} &amp;r &amp;g">
+  <meta name="description" content="$$\begin{aligned} &amp;[a \bmod b \le c]&#x3D; \left\lfloor \frac{a}{b} \right\rfloor - \left \lfloor \frac{a-c-1}{b} \right \rfloor \\end{aligned}$$ 设 $a&#x3D;kb+r$ $r &gt; c$首先有： $$\begin{aligned}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个模意义下的不等式">
 <meta property="og:url" content="https://nekko.moe/a-mod-b-le-c/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="$$\begin{aligned} &amp;[a \bmod b \le c]&#x3D; \left\lfloor \frac{a}{b} \right\rfloor - \left \lfloor \frac{a-c-1}{b} \right \rfloor \\end{aligned}$$ 设 $a&#x3D;kb+r$ $r &gt; c$首先有： $$\begin{aligned} &amp;r &amp;g">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="$$\begin{aligned} &amp;[a \bmod b \le c]&#x3D; \left\lfloor \frac{a}{b} \right\rfloor - \left \lfloor \frac{a-c-1}{b} \right \rfloor \\end{aligned}$$ 设 $a&#x3D;kb+r$ $r &gt; c$首先有： $$\begin{aligned}">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-04-25T08:23:33.000Z">
-<meta property="article:modified_time" content="2019-07-10T07:42:49.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
+<meta property="article:published_time" content="2019-04-25T20:23:33.000Z">
+<meta property="article:modified_time" content="2019-07-10T07:42:50.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="模">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -140,7 +144,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#r-gt-c"><span class="toc-text">$r &gt; c$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#r-le-c"><span class="toc-text">$r \le c$</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#r-c"><span class="toc-text">$r &gt; c$</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#r-le-c"><span class="toc-text">$r \le c$</span></a></li></ol>
   </div>
 
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -188,16 +192,16 @@
     
       <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=4937707&height=66"></iframe>
 
-<p>$$<br>\begin{aligned}<br> &amp;[a \bmod b \le c]= \left\lfloor \frac{a}{b} \right\rfloor - \left \lfloor \frac{a-c-1}{b} \right \rfloor \<br>\end{aligned}<br>$$</p>
-<p>设 $a=kb+r$</p>
-<h1 id="r-gt-c"><a href="#r-gt-c" class="headerlink" title="$r &gt; c$"></a>$r &gt; c$</h1><p>首先有：</p>
+<p>$$<br>\begin{aligned}<br> &amp;[a \bmod b \le c]&#x3D; \left\lfloor \frac{a}{b} \right\rfloor - \left \lfloor \frac{a-c-1}{b} \right \rfloor \<br>\end{aligned}<br>$$</p>
+<p>设 $a&#x3D;kb+r$</p>
+<h1 id="r-c"><a href="#r-c" class="headerlink" title="$r &gt; c$"></a>$r &gt; c$</h1><p>首先有：</p>
 <p>$$<br>\begin{aligned}<br> &amp;r &gt; c \\<br>\Rightarrow &amp;b-1 \ge r-c \ge 1 \\<br>\Rightarrow &amp;b-2\ge r-c-1 \ge 0<br>\end{aligned}<br>$$</p>
 <p>则：</p>
-<p>$$<br>\lfloor \frac{kb+r}{b} \rfloor - \lfloor \frac{kb+r-c-1}{b} \rfloor<br>=\lfloor \frac{r}{b} \rfloor-\lfloor \frac{r-c-1}{b} \rfloor=0<br>$$</p>
+<p>$$<br>\lfloor \frac{kb+r}{b} \rfloor - \lfloor \frac{kb+r-c-1}{b} \rfloor<br>&#x3D;\lfloor \frac{r}{b} \rfloor-\lfloor \frac{r-c-1}{b} \rfloor&#x3D;0<br>$$</p>
 <h1 id="r-le-c"><a href="#r-le-c" class="headerlink" title="$r \le c$"></a>$r \le c$</h1><p>首先有：</p>
 <p>$$<br>\begin{aligned}<br>&amp;r \le c \\<br>\Rightarrow &amp;1-b\le r-c \le 0 \\<br>\Rightarrow &amp;-b \le r-c-1 \le -1<br>\end{aligned}<br>$$</p>
 <p>则有：</p>
-<p>$$<br>\lfloor \frac{kb+r}{b} \rfloor - \lfloor \frac{kb+r-c-1}{b} \rfloor<br>=\lfloor \frac{r}{b} \rfloor-\lfloor \frac{r-c-1}{b} \rfloor=1<br>$$</p>
+<p>$$<br>\lfloor \frac{kb+r}{b} \rfloor - \lfloor \frac{kb+r-c-1}{b} \rfloor<br>&#x3D;\lfloor \frac{r}{b} \rfloor-\lfloor \frac{r-c-1}{b} \rfloor&#x3D;1<br>$$</p>
 
     
   </div>
@@ -223,25 +227,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -459,6 +444,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

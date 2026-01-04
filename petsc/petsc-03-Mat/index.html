@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[03] petsc4py中的Mat | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="Mat一个 Mat 的使用，通常要经历以下阶段： 1234567createsetSizessetType &#x2F; setFromOptionspreallocatesetValuesassemblecompute &#x2F; reuse &#x2F; view &#x2F; destroy  矩阵Mat的创建是类似于Vec的： 1234567A &#x3D; PETSc.Mat().create()A.setSizes(n)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[03] petsc4py中的Mat">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-03-Mat/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="Mat一个 Mat 的使用，通常要经历以下阶段： 1234567createsetSizessetType &#x2F; setFromOptionspreallocatesetValuesassemblecompute &#x2F; reuse &#x2F; view &#x2F; destroy  矩阵Mat的创建是类似于Vec的： 1234567A &#x3D; PETSc.Mat().create()A.setSizes(n)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:03:00.000Z">
+<meta property="article:modified_time" content="2026-01-02T19:28:14.854Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mat"><span class="toc-text">Mat</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-03-Mat" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[03] petsc4py中的Mat</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Mat"><a href="#Mat" class="headerlink" title="Mat"></a>Mat</h1><p>一个 <code>Mat</code> 的使用，通常要经历以下阶段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create</span><br><span class="line">setSizes</span><br><span class="line">setType / setFromOptions</span><br><span class="line">preallocate</span><br><span class="line">setValues</span><br><span class="line">assemble</span><br><span class="line">compute / reuse / view / destroy</span><br></pre></td></tr></table></figure>
+
+<p>矩阵<code>Mat</code>的创建是类似于<code>Vec</code>的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A = PETSc.Mat().create()</span><br><span class="line">A.setSizes(n)                    <span class="comment"># create a matrix of size n*n</span></span><br><span class="line"><span class="comment"># A.setSizes((n, n))             # create a matrix of size n*n</span></span><br><span class="line"><span class="comment"># A.setSizes((n, m))             # create a matrix of size n*m</span></span><br><span class="line"><span class="comment"># A.setSizes(((nl, n), (ml, m))) # create a matrix of size n*m with local sizes nl*ml</span></span><br><span class="line">A.setFromOptions()</span><br><span class="line">A.setUp()</span><br></pre></td></tr></table></figure>
+
+<p>也可以在创建矩阵的时候，指定矩阵的存储格式，具体见<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/Mat.pyx">Mat.pyx文档</a>，主要的函数有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">createAIJ</span><br><span class="line">createBAIJ</span><br><span class="line">createSBAIJ</span><br><span class="line">createAIJCRL</span><br><span class="line">createAIJWithArrays</span><br><span class="line">createDense</span><br><span class="line">createDenseCUDA</span><br><span class="line">createDiagonal</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>在<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/Mat/MatType/">MatType文档</a>中，给出了详细的<code>-mat_type</code>类型。一般来说，使用<code>-mat_type aij</code>可以设置为稀疏矩阵(CSR)，用<code>-mat_type dense</code>可以设置为稠密矩阵。在CUDA上，则分别使用 <code>-mat_type aijcusparse </code>和<code>-mat_type densecuda</code>进行设置。</p>
+<p>需要注意的是，<code>Mat</code>的内存分配是按照<code>行</code>进行分配的，每个 rank 只拥有一段连续的全局行索引区间，可以通过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rstart, rend = A.getOwnershipRange()</span><br></pre></td></tr></table></figure>
+
+<p>来查询本 rank 负责的行 <code>[rstart, rend)</code>。</p>
+<p>对于稀疏矩阵来说，最好是通过预分配空间，来减少内存分配的时间，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = PETSc.Mat().createAIJ(</span><br><span class="line">    size=((n_local, n_global), (m_local, m_global)),</span><br><span class="line">    nnz=<span class="number">5</span>,</span><br><span class="line">    comm=comm)</span><br></pre></td></tr></table></figure>
+
+<p>表示每一行最多有 5 个非零元素(nnz)，当然这个指的是<code>d_nz=5, o_nz=5</code>。</p>
+<p>或者采用<code>nnz=(d_nz, o_nz)</code>来将对角块(Diagonal Block)、非对角块(Off-diagonal Block)处的非零元素数量进行分配，类似于：<br>$$<br>\begin{array}{c c}<br>\left[<br>\begin{array}{c|c c|c c}<br> &amp; \text{col 0} &amp; \text{col 1} &amp; \text{col 2} &amp; \text{col 3} \\<br>\hline<br>\text{proc 0, row 0} &amp; \boxed{A_{\mathrm{diag}}} &amp; \boxed{A_{\mathrm{diag}}} &amp; A_{\mathrm{off-diag}} &amp; A_{\mathrm{off-diag}} \\<br>\text{proc 0, row 1} &amp; \boxed{A_{\mathrm{diag}}} &amp; \boxed{A_{\mathrm{diag}}} &amp; A_{\mathrm{off-diag}} &amp; A_{\mathrm{off-diag}} \\<br>\hline<br>\text{proc 1, row 2} &amp; A_{\mathrm{off-diag}} &amp; A_{\mathrm{off-diag}} &amp; \boxed{A_{\mathrm{diag}}} &amp; \boxed{A_{\mathrm{diag}}} \\<br>\text{proc 1, row 3} &amp; A_{\mathrm{off-diag}} &amp; A_{\mathrm{off-diag}} &amp; \boxed{A_{\mathrm{diag}}} &amp; \boxed{A_{\mathrm{diag}}} \\<br>\end{array}<br>\right]<br>&amp;<br>\begin{array}{l}<br>\leftarrow \text{proc 0}\\[2.2em]<br>\leftarrow \text{proc 1}<br>\end{array}<br>\end{array}<br>$$<br>考虑一个$10 \times 10$的<code>Mat</code>对象，被分配到了四个处理器上，并且设置了<code>nnz=5</code>，那么平均分配的结果是：</p>
+<ul>
+<li><p><code>proc 0</code>占有3行，所以diag大小为$3 \times 3$，off-diag大小为$3 \times 7$</p>
+<ul>
+<li>总nnz数量为$3 \times (\min(3,5)+\min(7,5))&#x3D;24$</li>
+</ul>
+</li>
+<li><p><code>proc 1</code>占有3行，所以diag大小为$3 \times 3$，off-diag大小为$3 \times 7$</p>
+<ul>
+<li>总nnz数量为$3 \times (\min(3,5)+\min(7,5))&#x3D;24$</li>
+</ul>
+</li>
+<li><p><code>proc 2</code>占有2行，所以diag大小为$2 \times 2$，off-diag大小为$2 \times 8$</p>
+<ul>
+<li>总nnz数量为$2 \times (\min(2,5)+\min(8,5))&#x3D;14$</li>
+</ul>
+</li>
+<li><p><code>proc 3</code>占有2行，所以diag大小为$2 \times 2$，off-diag大小为$2 \times 8$</p>
+<ul>
+<li>总nnz数量为$2 \times (\min(2,5)+\min(8,5))&#x3D;14$</li>
+</ul>
+</li>
+</ul>
+<p>因此整体的<code>nnz</code>数量为$24+24+14+14&#x3D;76$，可以用下面代码进行验证：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A = PETSc.Mat().createAIJ(size=<span class="number">10</span>, nnz=<span class="number">5</span>, comm=comm)</span><br><span class="line">A.assemble()</span><br><span class="line">PETSc.Sys.Print(A.getInfo()[<span class="string">&quot;nz_allocated&quot;</span>])</span><br><span class="line"><span class="comment"># Run:    mpirun -np 4 python test.py</span></span><br><span class="line"><span class="comment"># Output: 76.0</span></span><br></pre></td></tr></table></figure>
+
+<p>区分 diag &#x2F; off-diag 是很有必要的，在SpMV中，列对应的向量元素是不是local(diag)的，决定了要不要通信。</p>
+<p>比如说，对于计算下面的这个矩阵乘法：<br>$$<br>\begin{pmatrix}<br>a_{11} &amp; a_{12} \quad (\text{proc 0}) \\<br>a_{21} &amp; a_{22} \quad (\text{proc 1})<br>\end{pmatrix}<br>\begin{pmatrix}<br>x_1 \quad(\text{proc 0}) \\<br>x_2 \quad(\text{proc 1})<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>\boxed{a_{11} x_1}\quad (\text{same proc})+\boxed{a_{12} x_2}\quad (\text{diff proc}) \\<br>\boxed{a_{21} x_1}\quad (\text{diff proc})+\boxed{a_{22} x_2}\quad (\text{same proc})<br>\end{pmatrix}<br>$$</p>
+<p>可以看到，在同一个处理器上的部分，可以快速计算，也就是$a_{11}x_{1}, a_{22}x_{2}$都是在处理器内部直接计算的，不需要与其他处理器进行通信。然而，在<code>proc 0</code>上计算$a_{12}\cdot x_{2}$，或者在 <code>proc 1</code>上计算$a_{21}\cdot x_{1}$，都需要从另一个处理器上获取对应的<code>Vec</code>的值，因此PETSc可以根据区分diag&#x2F;off-diag，来预分配需要通信获取的值：</p>
+<ol>
+<li>先根据 off-diag 的列索引，一次性通信所需的 $x_j$</li>
+<li>把这些远程 $x_j$ 放到一个连续的本地缓冲区 <code>x_off</code></li>
+<li>计算 <code>y_diag += A_diag * x_diag</code></li>
+<li>计算 <code>y_diag += A_off * x_off</code></li>
+</ol>
+<p>从而，可以获得 diag上的<code>Vec</code>的值。</p>
+<p>在<code>Mat</code>中进行赋值操作，是类似于<code>Vec</code>的，注意要使用<code>assemble()</code>来保证矩阵成功组装：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A.zeroEntries() <span class="comment"># clear any preallocated values</span></span><br><span class="line">A.setValue(i, j, value)</span><br><span class="line">A.setValues(rows, cols, values)</span><br><span class="line">A.assemble()    <span class="comment"># equal to assemblyBegin+assemblyEnd</span></span><br></pre></td></tr></table></figure>
+
+<p>或者通过<code>getOwnershipRange()</code>获取所在行，进行赋值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rstart, rend = A.getOwnershipRange()</span><br><span class="line">rows = np.arange(rstart, rend, dtype=np.int32)</span><br><span class="line">cols = np.array([<span class="number">1</span>, <span class="number">8</span>], dtype=np.int32)</span><br><span class="line">dats = np.ones((rend-rstart, cols.shape[<span class="number">0</span>]), dtype=<span class="built_in">float</span>)</span><br><span class="line">A.setValues(rows, cols, dats)</span><br><span class="line">A.assemble()</span><br></pre></td></tr></table></figure>
+
+<p>注意，更新完之后，有<code>A[rows[i], cols[j]] = dats[i, j]</code>。如果需要逻辑列的范围，可以用<code>A.getOwnershipRangeColumn()</code>获取，此时$[rstart, rend) \times [cstart, cend)$构成了diag部分的元素，其余的$[rstart, rend)$行构成了off-diag部分的元素。</p>
+<p>当然，也可以直接通过<code>A[i, j]</code>来进行矩阵的坐标访问，这个通过<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscmat.pxi#L1169"><code>mat_getitem</code></a>和<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscmat.pxi#L1183"><code>mat_setitem</code></a>实现。更一般的，如果有切片$r,c$，同时有一个数据集$B$，其大小为$n_r \times n_c$，则可以通过<code>A[r, c] = B</code>来对相应的元素进行赋值，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A[<span class="number">1</span>:<span class="number">3</span>, <span class="number">1</span>:<span class="number">3</span>] = np.ones((<span class="number">2</span>, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>这里我们再考虑<code>size=((n_local, n_global), (m_local, m_global))</code>这个语句的真实含义，其实是：</p>
+<ul>
+<li>矩阵的总大小为 <code>n_global*m_global</code></li>
+<li>矩阵分配到若干个处理器上，每个处理器管理连续的<code>n_local</code>行</li>
+<li>每个处理器的<code>diag</code>部分大小为<code>m_local</code></li>
+</ul>
+<p>实际上，可以通过下面的函数，创建与矩阵大小匹配的<code>Vec</code>对象，从而进行合理分配处理器的矩阵向量乘：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">createVecs</span><br><span class="line">createVecRight</span><br><span class="line">createVecLeft</span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-02-Vec/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-04-KSPandPC/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

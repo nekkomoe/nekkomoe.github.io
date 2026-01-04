@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>FD-数值色散 | nekko</title>
+  <title>FD-数值色散 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="FDM,dissipation,dispersion," />
   
 
-  <meta name="description" content="色散关系考虑如下两个方程：$$\begin{cases}    u_t&#x3D;u_{xx} \\    u_t&#x3D;u_{xxx}\end{cases}$$取试探解 $u&#x3D;e^{\sigma t+ikx}&#x3D;e^{i(\omega t+kx)}$，分别代入可得两个关系：$$\begin{cases}    \sigma_1&#x3D;(ik_1)^2&#x3D;-k_1^2 \\    \sigma_2&#x3D;(ik_2)^3&#x3D;-ik">
+  <meta name="description" content="色散关系考虑如下两个方程：$$\begin{cases}    u_t&#x3D;u_{xx} \\    u_t&#x3D;u_{xxx}\end{cases}$$取试探解 $u&#x3D;e^{\sigma t+ikx}&#x3D;e^{i(\omega t+kx)}$，分别代入可得两个关系：$$\begin{cases}    \sigma_1&#x3D;(ik_1)^2&#x3D;-k_1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FD-数值色散">
 <meta property="og:url" content="https://nekko.moe/FDM/FDdis/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="色散关系考虑如下两个方程：$$\begin{cases}    u_t&#x3D;u_{xx} \\    u_t&#x3D;u_{xxx}\end{cases}$$取试探解 $u&#x3D;e^{\sigma t+ikx}&#x3D;e^{i(\omega t+kx)}$，分别代入可得两个关系：$$\begin{cases}    \sigma_1&#x3D;(ik_1)^2&#x3D;-k_1^2 \\    \sigma_2&#x3D;(ik_2)^3&#x3D;-ik">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="色散关系考虑如下两个方程：$$\begin{cases}    u_t&#x3D;u_{xx} \\    u_t&#x3D;u_{xxx}\end{cases}$$取试探解 $u&#x3D;e^{\sigma t+ikx}&#x3D;e^{i(\omega t+kx)}$，分别代入可得两个关系：$$\begin{cases}    \sigma_1&#x3D;(ik_1)^2&#x3D;-k_1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-07T06:50:54.000Z">
-<meta property="article:modified_time" content="2023-08-07T08:17:28.149Z">
-<meta property="article:author" content="nekko">
+<meta property="article:published_time" content="2023-08-07T18:50:54.000Z">
+<meta property="article:modified_time" content="2023-08-07T08:17:30.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="FDM">
-<meta property="article:tag" content="dissipation">
 <meta property="article:tag" content="dispersion">
+<meta property="article:tag" content="dissipation">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,17 +190,17 @@
 
   <div class="article-content">
     
-      <h2 id="色散关系"><a href="#色散关系" class="headerlink" title="色散关系"></a>色散关系</h2><p>考虑如下两个方程：<br>$$<br>\begin{cases}<br>    u_t=u_{xx} \\<br>    u_t=u_{xxx}<br>\end{cases}<br>$$<br>取试探解 $u=e^{\sigma t+ikx}=e^{i(\omega t+kx)}$，分别代入可得两个关系：<br>$$<br>\begin{cases}<br>    \sigma_1=(ik_1)^2=-k_1^2 \\<br>    \sigma_2=(ik_2)^3=-ik_2^3<br>\end{cases}<br>$$<br>可以看到，$\sigma_1 \in \mathbb{R}, \sigma_2 \in \mathbb{C}$，前者为实数，后者为虚数，因此：<br>$$<br>\begin{cases}<br>    u_1=e^{-k_1^2 t}e^{ik_1x} \\<br>    u_2 = e^{i(-k_2^3t+k_2x)}<br>\end{cases}<br>$$<br>所以 $u_1$ 的振幅随时间衰减，$u_2$ 的相位随时间改变。<br>更一般的，偶数阶方程 $u_t=u_{2nx}$ 会表现为振幅随时间改变，可以看作行波扩散；<br>奇数阶方程 $u_t=u_{(2n+1)x}$ 会表现为相位随时间改变，可以看作行波色散。<br>这里的色散是指色散关系：<br>$$<br>\begin{cases}<br>    v_{phase} = \frac{\omega}{k}=\frac{\sigma}{ik} \\<br>    v_{group} = \dv{\omega}{k}=\frac{1}{i}\dv{(\sigma)}{k}<br>\end{cases}<br>$$</p>
-<p>对于奇数阶方程 $u_t=u_{(2n+1)x},n \ge 0$ 来说，有：<br>$$<br>\sigma=(ik)^{2n+1}=i(-1)^nk^{2n+1}<br>$$<br>所以：<br>$$<br>\begin{cases}<br>    v_{phase} = \frac{\sigma}{ik}=(-1)^nk^{2n} \\<br>    v_{group} = \dv{\omega}{k}<br>        = \frac{1}{i}\dv{(i(-1)^nk^{2n+1})}{k}<br>        =(-1)^{n}(2n+1)k^{2n}<br>\end{cases}<br>$$<br>当波包的群速度和相速度不相等时，即 $v_{phase} \ne v_{group}$ 时，会发生色散（不同行波的速度不同）。<br>特别的，当 $n=0$ 时，波动方程 $\pdv{u}{t}+a\pdv{u}{x}=0$ 是不会发生色散的。</p>
+      <h2 id="色散关系"><a href="#色散关系" class="headerlink" title="色散关系"></a>色散关系</h2><p>考虑如下两个方程：<br>$$<br>\begin{cases}<br>    u_t&#x3D;u_{xx} \\<br>    u_t&#x3D;u_{xxx}<br>\end{cases}<br>$$<br>取试探解 $u&#x3D;e^{\sigma t+ikx}&#x3D;e^{i(\omega t+kx)}$，分别代入可得两个关系：<br>$$<br>\begin{cases}<br>    \sigma_1&#x3D;(ik_1)^2&#x3D;-k_1^2 \\<br>    \sigma_2&#x3D;(ik_2)^3&#x3D;-ik_2^3<br>\end{cases}<br>$$<br>可以看到，$\sigma_1 \in \mathbb{R}, \sigma_2 \in \mathbb{C}$，前者为实数，后者为虚数，因此：<br>$$<br>\begin{cases}<br>    u_1&#x3D;e^{-k_1^2 t}e^{ik_1x} \\<br>    u_2 &#x3D; e^{i(-k_2^3t+k_2x)}<br>\end{cases}<br>$$<br>所以 $u_1$ 的振幅随时间衰减，$u_2$ 的相位随时间改变。<br>更一般的，偶数阶方程 $u_t&#x3D;u_{2nx}$ 会表现为振幅随时间改变，可以看作行波扩散；<br>奇数阶方程 $u_t&#x3D;u_{(2n+1)x}$ 会表现为相位随时间改变，可以看作行波色散。<br>这里的色散是指色散关系：<br>$$<br>\begin{cases}<br>    v_{phase} &#x3D; \frac{\omega}{k}&#x3D;\frac{\sigma}{ik} \\<br>    v_{group} &#x3D; \dv{\omega}{k}&#x3D;\frac{1}{i}\dv{(\sigma)}{k}<br>\end{cases}<br>$$</p>
+<p>对于奇数阶方程 $u_t&#x3D;u_{(2n+1)x},n \ge 0$ 来说，有：<br>$$<br>\sigma&#x3D;(ik)^{2n+1}&#x3D;i(-1)^nk^{2n+1}<br>$$<br>所以：<br>$$<br>\begin{cases}<br>    v_{phase} &#x3D; \frac{\sigma}{ik}&#x3D;(-1)^nk^{2n} \\<br>    v_{group} &#x3D; \dv{\omega}{k}<br>        &#x3D; \frac{1}{i}\dv{(i(-1)^nk^{2n+1})}{k}<br>        &#x3D;(-1)^{n}(2n+1)k^{2n}<br>\end{cases}<br>$$<br>当波包的群速度和相速度不相等时，即 $v_{phase} \ne v_{group}$ 时，会发生色散（不同行波的速度不同）。<br>特别的，当 $n&#x3D;0$ 时，波动方程 $\pdv{u}{t}+a\pdv{u}{x}&#x3D;0$ 是不会发生色散的。</p>
 <p>可以看到，数值耗散和数值色散是PDE的固有性质。<br>如果我们对一个PDE进行有限差分，那么由于截断误差的存在，方程右端会出现关于 $x$ 的导数，<br>而导数的阶数往往会同时存在偶数阶和奇数阶（甚至是一个无穷级数）。<br>因此，数值解必然会存在数值耗散和数值色散的问题，<br>这是截断误差所引发的。</p>
-<h2 id="扩散方程"><a href="#扩散方程" class="headerlink" title="扩散方程"></a>扩散方程</h2><p>考虑扩散方程：<br>$$<br>u_{t}=au_{xx}, a&gt;0<br>$$<br>一般而言，我们要求扩散系数 $a&gt;0$，<br>一方面这是符合物理意义（物质从浓度高的地方向浓度低的地方进行扩散，即符合统计意义下的物质的无规则运动）的，<br>另一方面如果 $a&lt;0$ 会导致PDE的不稳定。<br>考虑一个波 $e^{\sigma t+ikx}$，代入方程得到：<br>$$<br>\sigma = -ak^2<br>$$<br>如果 $\sigma&gt;0$，会导致振幅随时间不断增大，最终导致系统不稳定。<br>从物理意义上来看，如果扩散系数 $a&gt;0$，说明物质沿着浓度梯度从高浓度向低浓度扩散，这抑制了物质的不断积累，<br>一个区域内的物质浓度越高，那么它向周围扩散的趋势越大，最终减少了该域的物质；<br>但反过来，如果扩散系数 $a&lt;0$，说明物质会从浓度低的区域向浓度高的区域进行汇聚，<br>这导致的结果是整个系统由多个 $\delta$ 函数组成，最终形成若干聚点。</p>
-<h2 id="波动方程"><a href="#波动方程" class="headerlink" title="波动方程"></a>波动方程</h2><p>考虑波动方程：<br>$$<br>u_t+au_{x}=0,a&gt;0<br>$$<br>对于空间项，有如下几种离散方法：<br>$$<br>\begin{aligned}<br>    &amp; \pdv{u}{x}\cong \frac{\Delta}{h}u, \quad \Delta=E-1 \\<br>    &amp; \pdv{u}{x}\cong \frac{\nabla}{h}u, \quad \nabla=1-E^{-1} \\<br>    &amp; \pdv{u}{x}\cong \frac{\Delta_0}{2h}u, \quad \Delta_0=E^{1}-E^{-1}<br>\end{aligned}<br>$$<br>可以看到：<br>$$<br>\begin{aligned}<br>    \Delta=&amp;E-1=e^{hD}-1=hD+h^2D^2/2+O(h^3) \\<br>    \nabla =&amp; 1-E^{-1}=1-e^{-hD}=hD-h^2D^2/2+O(h^2) \\<br>    \Delta_0=&amp;E^{1}-E^{-1}<br>          =e^{hD}-e^{-hD} \\<br>          =&amp;\qty(1+hD/1+h^2D^2/2+h^3D^3/6+O(h^4)) \\<br>    &amp; \quad    -\qty(1-hD/1+h^2D^2/2-h^3D^3/6+O(h^4)) \\<br>    =&amp;2hD+h^3D^3/3+O(h^4)<br>\end{aligned}<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>    &amp; \frac{\Delta}{h}u = \dv{u}{x}+\frac{h}{2}\dv[2]{u}{x}+O(h^2) \\<br>    &amp; \frac{\nabla}{h}u = \dv{u}{x}-\frac{h }{2}\dv[2]{u}{x}+O(h^2) \\<br>    &amp; \frac{\Delta_0}{2h}u = \dv{u}{x}+\frac{h^2}{6}\dv[3]{u}{x}+O(h^3)<br>\end{aligned}<br>$$<br>对于时间项，一般的离散方法为：<br>$$<br>\frac{\Delta_t}{\tau}u=\frac{E_\tau-1}{\tau}u<br>$$<br>注意到 $u_t=-au_x, D_t=-aD_x$，所以：<br>$$<br>\begin{aligned}<br>    &amp; E_\tau-1=e^{\tau D_t}-1=\tau D_t + \tau^2D_t^2/2 +\tau^3D_t^3/6 + O(\tau^4) \\<br>    \Rightarrow<br>    &amp; \frac{E_\tau-1}{\tau}<br>        =D_t+\frac{\tau a^2}{2}D_x^2-\frac{\tau^2 a^3}{6}D_x^3+O(\tau^3)<br>\end{aligned}<br>$$<br>所以：<br>$$<br>u_t+au_{x}<br>=<br>\underbrace{\qty(\frac{E_\tau-1}{\tau}+a\widetilde{\partial_x})}_{\text{Finite Difference, =0}}<br>-\begin{cases}<br>    \qty(\frac{\tau a^2}{2} \pm \frac{ah}{2})D_x^2 - \frac{\tau^2a^3}{6}D_x^3+O(\tau^3,h^2),<br>     \quad&amp; \Delta,\nabla\\<br>    \frac{\tau a^2}{2} D_x^2 + \frac{ah^2-\tau^2 a^3}{6}D_x^3+O(\tau^3,h^3), \quad&amp; \Delta_0<br>\end{cases}<br>$$<br>定义网格比 $\lambda=\frac{a\tau}{h}$。<br>对于中心差分格式，总有扩散系数：<br>$$<br>-\frac{\tau a^2}{2} &lt; 0<br>$$<br>因此中心差分格式是无条件不稳定的。<br>对于迎风格式，扩散系数为：<br>$$<br>-\frac{\tau a^2}{2} \mp \frac{ah}{2}<br>=\frac{ah}{2}\qty(-\lambda \mp 1)<br>$$<br>令扩散系数大于 $0$，则：</p>
+<h2 id="扩散方程"><a href="#扩散方程" class="headerlink" title="扩散方程"></a>扩散方程</h2><p>考虑扩散方程：<br>$$<br>u_{t}&#x3D;au_{xx}, a&gt;0<br>$$<br>一般而言，我们要求扩散系数 $a&gt;0$，<br>一方面这是符合物理意义（物质从浓度高的地方向浓度低的地方进行扩散，即符合统计意义下的物质的无规则运动）的，<br>另一方面如果 $a&lt;0$ 会导致PDE的不稳定。<br>考虑一个波 $e^{\sigma t+ikx}$，代入方程得到：<br>$$<br>\sigma &#x3D; -ak^2<br>$$<br>如果 $\sigma&gt;0$，会导致振幅随时间不断增大，最终导致系统不稳定。<br>从物理意义上来看，如果扩散系数 $a&gt;0$，说明物质沿着浓度梯度从高浓度向低浓度扩散，这抑制了物质的不断积累，<br>一个区域内的物质浓度越高，那么它向周围扩散的趋势越大，最终减少了该域的物质；<br>但反过来，如果扩散系数 $a&lt;0$，说明物质会从浓度低的区域向浓度高的区域进行汇聚，<br>这导致的结果是整个系统由多个 $\delta$ 函数组成，最终形成若干聚点。</p>
+<h2 id="波动方程"><a href="#波动方程" class="headerlink" title="波动方程"></a>波动方程</h2><p>考虑波动方程：<br>$$<br>u_t+au_{x}&#x3D;0,a&gt;0<br>$$<br>对于空间项，有如下几种离散方法：<br>$$<br>\begin{aligned}<br>    &amp; \pdv{u}{x}\cong \frac{\Delta}{h}u, \quad \Delta&#x3D;E-1 \\<br>    &amp; \pdv{u}{x}\cong \frac{\nabla}{h}u, \quad \nabla&#x3D;1-E^{-1} \\<br>    &amp; \pdv{u}{x}\cong \frac{\Delta_0}{2h}u, \quad \Delta_0&#x3D;E^{1}-E^{-1}<br>\end{aligned}<br>$$<br>可以看到：<br>$$<br>\begin{aligned}<br>    \Delta&#x3D;&amp;E-1&#x3D;e^{hD}-1&#x3D;hD+h^2D^2&#x2F;2+O(h^3) \\<br>    \nabla &#x3D;&amp; 1-E^{-1}&#x3D;1-e^{-hD}&#x3D;hD-h^2D^2&#x2F;2+O(h^2) \\<br>    \Delta_0&#x3D;&amp;E^{1}-E^{-1}<br>          &#x3D;e^{hD}-e^{-hD} \\<br>          &#x3D;&amp;\qty(1+hD&#x2F;1+h^2D^2&#x2F;2+h^3D^3&#x2F;6+O(h^4)) \\<br>    &amp; \quad    -\qty(1-hD&#x2F;1+h^2D^2&#x2F;2-h^3D^3&#x2F;6+O(h^4)) \\<br>    &#x3D;&amp;2hD+h^3D^3&#x2F;3+O(h^4)<br>\end{aligned}<br>$$<br>所以：<br>$$<br>\begin{aligned}<br>    &amp; \frac{\Delta}{h}u &#x3D; \dv{u}{x}+\frac{h}{2}\dv[2]{u}{x}+O(h^2) \\<br>    &amp; \frac{\nabla}{h}u &#x3D; \dv{u}{x}-\frac{h }{2}\dv[2]{u}{x}+O(h^2) \\<br>    &amp; \frac{\Delta_0}{2h}u &#x3D; \dv{u}{x}+\frac{h^2}{6}\dv[3]{u}{x}+O(h^3)<br>\end{aligned}<br>$$<br>对于时间项，一般的离散方法为：<br>$$<br>\frac{\Delta_t}{\tau}u&#x3D;\frac{E_\tau-1}{\tau}u<br>$$<br>注意到 $u_t&#x3D;-au_x, D_t&#x3D;-aD_x$，所以：<br>$$<br>\begin{aligned}<br>    &amp; E_\tau-1&#x3D;e^{\tau D_t}-1&#x3D;\tau D_t + \tau^2D_t^2&#x2F;2 +\tau^3D_t^3&#x2F;6 + O(\tau^4) \\<br>    \Rightarrow<br>    &amp; \frac{E_\tau-1}{\tau}<br>        &#x3D;D_t+\frac{\tau a^2}{2}D_x^2-\frac{\tau^2 a^3}{6}D_x^3+O(\tau^3)<br>\end{aligned}<br>$$<br>所以：<br>$$<br>u_t+au_{x}<br>&#x3D;<br>\underbrace{\qty(\frac{E_\tau-1}{\tau}+a\widetilde{\partial_x})}_{\text{Finite Difference, &#x3D;0}}<br>-\begin{cases}<br>    \qty(\frac{\tau a^2}{2} \pm \frac{ah}{2})D_x^2 - \frac{\tau^2a^3}{6}D_x^3+O(\tau^3,h^2),<br>     \quad&amp; \Delta,\nabla\\<br>    \frac{\tau a^2}{2} D_x^2 + \frac{ah^2-\tau^2 a^3}{6}D_x^3+O(\tau^3,h^3), \quad&amp; \Delta_0<br>\end{cases}<br>$$<br>定义网格比 $\lambda&#x3D;\frac{a\tau}{h}$。<br>对于中心差分格式，总有扩散系数：<br>$$<br>-\frac{\tau a^2}{2} &lt; 0<br>$$<br>因此中心差分格式是无条件不稳定的。<br>对于迎风格式，扩散系数为：<br>$$<br>-\frac{\tau a^2}{2} \mp \frac{ah}{2}<br>&#x3D;\frac{ah}{2}\qty(-\lambda \mp 1)<br>$$<br>令扩散系数大于 $0$，则：</p>
 <ul>
 <li>$a&gt;0(\lambda&gt;0)$，则使用 $\nabla$，要求 $\lambda&lt;1$；</li>
 <li>若 $a&lt;0(\lambda&lt;0)$，则使用 $\Delta$，要求 $-\lambda&lt;1$。</li>
 </ul>
-<p>实际上，$D_t,D_x$ 的近似中，后面还有更多的余项：<br>$$<br>\begin{aligned}<br>    &amp; \frac{E_\tau-1}{\tau}<br>        =D_t+\sum_{n=1}^{\infty} \frac{\tau^{n-1}a^n}{n!}D_x^n \\<br>    &amp; \frac{E-1}{h}=D_x+\sum_{n=1}^{\infty} \frac{h^{n-1}}{n!}D_x^n<br>\end{aligned}<br>$$<br>对于偶数项，要求系数小于 $0$，即：<br>$$<br>\begin{aligned}<br>    &amp; ah^{n-1} + \tau^{n-1} a^n &lt; 0 \\<br>    \Rightarrow<br>    &amp; a\qty(1+\qty(\frac{a\tau}{h})^{n-1}) &lt; 0<br>\end{aligned}<br>$$<br>显然必有 $a&lt;0,-\lambda&lt;1$。</p>
-<p>考虑使用二阶迎风格式，对波动方程分析：<br>$$<br>u_t+vu_x=0<br>$$<br>为了得到二阶迎风格式，考虑到 $E=e^{hD}=1+\Delta$，需要将 $D_t$ 展开两次：<br>$$<br>\begin{aligned}<br>    hD<br>    &amp;=\ln(1+\Delta) \\<br>    &amp;=\Delta-\frac{\Delta^2}{2} \\<br>    &amp;=E-1-\frac{(E-1)^2}{2} \\<br>    &amp;=\frac{2E-2-E^2-1+2E}{2} \\<br>    &amp;=\frac{4E-E^2-3}{2} \\<br>\end{aligned}<br>$$<br>所以 $D_x=\frac{4E_h-E_h^2-3}{2h}$。<br>考虑波动方程中，有 $D_t=-vD_x$，对时间项使用显格式，有：<br>$$<br>\begin{aligned}<br>    \frac{E_{\tau}-1}{\tau}<br>    &amp;=\frac{e^{\tau D_t}-1}{\tau} \\<br>    &amp;=D_t+\sum_{n=2}^{\infty}\frac{\tau^{n-1}}{n!}D_t^{n} \\<br>    &amp;=D_t+\sum_{n=2}^{\infty}\frac{\tau^{n-1}(-v)^{n}}{n!}D_x^{n} \\<br>    &amp;=D_t+\frac{\tau v^2}{2}D_x^2+\sum_{n=3}^{\infty}\frac{\tau^{n-1}(-v)^{n}}{n!}D_x^{n} \\<br>\end{aligned}<br>$$<br>对于空间项，差分格式对应的截断误差为：<br>$$<br>\begin{aligned}<br>    \frac{4E_h-E_h^2-3}{2h}<br>    &amp;=\frac{4e^{hD_x}-e^{2hD_x}-3}{2h} \\<br>    &amp;=\frac{1}{2h}\qty(\sum_{n=0}^{\infty}\frac{(4-2^n)h^n}{n!}D_x^n-3) \\<br>    &amp;=\frac{1}{2h}\qty(2hD+\sum_{n=3}^{\infty}\frac{(4-2^n)h^n}{n!}D_x^n) \\<br>    &amp;=D_x+\sum_{n=3}^{\infty} \frac{2(1-2^{n-2})h^{n-1}}{n!}D_x^n<br>\end{aligned}<br>$$<br>可以看到，该差分格式存在扩散系数为 $-\frac{\tau v^2}{2}$ 的二阶扩散项，<br>这是一个反常扩散，因此该格式是不稳定的。<br>可以看到，空间项的二阶精度导致了系统的不稳定，<br>即空间项的截断误差不存在 $D_x^2$ 与时间项的截断误差产生的 $D_x^2$ 的系数进行整合。<br>考虑时间项进行二阶差分：<br>$$<br>\begin{aligned}<br>    D_t<br>    &amp;=\frac{1}{\tau}\ln(\frac{1}{1-\nabla}) \\<br>    &amp;=\frac{-1}{\tau}\ln(1-\nabla) \\<br>    &amp;=\frac{-1}{\tau}\qty(-\nabla-\frac{\nabla^2}{2}) \\<br>    &amp;=\frac{2-2E^{-1}+\qty(1-E^{-1})^2}{2\tau} \\<br>    &amp;=\frac{E^{-2}+3-4E^{-1}}{2\tau}<br>\end{aligned}<br>$$<br>截断误差为：<br>$$<br>\begin{aligned}<br>    \frac{E_\tau^{-2}+3-4E_\tau^{-1}}{2\tau}<br>    &amp;=\frac{1}{2\tau}\qty(e^{-2\tau D_t}+3-4e^{-\tau D_t}) \\<br>    &amp;=D_t+\frac{1}{2\tau}\qty(\sum_{n=2}^{\infty} \frac{(-2\tau)^n-4(-\tau)^n}{n!}D_t^n) \\<br>    &amp;=D_t+\sum_{n=2}^{\infty}\frac{\tau^{n-1}\qty(-(-2)^{n-1}-2(-1)^n)}{n!}(-v)^nD_x^n \\<br>    &amp;=D_t+\sum_{n=2}^{\infty}\frac{2v^n\tau^{n-1}\qty(2^{n-2}-1)}{n!}D_x^n \\<br>    &amp;=D_t+\sum_{n=3}^{\infty}\frac{2v^n\tau^{n-1}\qty(2^{n-2}-1)}{n!}D_x^n \\<br>\end{aligned}<br>$$<br>考虑扩散主项的系数，其为：<br>$$<br>\begin{aligned}<br>    \sigma<br>    &amp;=-\frac{6v^4\tau^3}{24}-v\frac{2(1-4)h^3}{24} \\<br>    &amp;=\frac{vh^3-v^4\tau^3}{4} \\<br>    &amp;=\frac{vh^3}{4}\qty(1-\qty(\frac{v\tau}{h})^3)<br>\end{aligned}<br>$$<br>但需要注意的是，我们使用 $\nabla_\tau$ 做前向差分后，由于对流项的时间偏移为 $E^0$，<br>所以这种差分格式为隐格式。<br>我们考虑采用 $E^{-1},E^{0},E^{1}$ 来构造格式，这样可以得到二阶精度显格式的构造。<br>可以采用时间项的中心差分：<br>$$<br>\frac{\Delta_{0,\tau}}{\tau}=\frac{E_\tau^{1}-E_\tau^{-1}}{2\tau}<br>$$<br>则有：<br>$$<br>\begin{aligned}<br>    \frac{\frac{E_\tau-1}{\tau}+\frac{1-E_\tau^{-1}}{\tau}}{2}<br>    &amp;=\frac{E_\tau-E_\tau^{-1}}{2\tau} \\<br>    &amp;=\frac{e^{\tau D_\tau}-e^{-\tau D_\tau}}{2\tau} \\<br>    &amp;=D_\tau+\frac{\sum_{n=2}^{\infty}\frac{\tau^n(1-(-1)^n)}{n!}D_\tau^n}{2\tau} \\<br>    &amp;=D_\tau+\frac{\sum_{n=3}^{\infty}\frac{\tau^n(1-(-1)^n)}{n!}D_\tau^n}{2\tau} \\<br>    &amp;=D_\tau+\sum_{n=3}^{\infty}\frac{\tau^{n-1}(1-(-1)^n)}{2n!}D_\tau^n<br>\end{aligned}<br>$$<br>可以看到，中心差分不具有扩散项，所以中心差分格式往往不具有稳定性。<br>考虑如下双重中心差分格式：<br>$$<br>\begin{aligned}<br>    \frac{E_\tau-1+E_\tau^{-1}-E_\tau^{-2}}{2\tau}<br>    &amp;=\frac{1}{2\tau}\sum_{n=1}^{\infty} \frac{\tau^n+(-\tau)^{n}-(-2\tau)^{n}}{n!}D_t^n \\<br>    &amp;=\frac{1}{2\tau}\sum_{n=1}^{\infty} \frac{\tau^n\qty(1+(-1)^{n}-(-2)^{n})}{n!}(-vD_x)^n \\<br>    &amp;=D_t+\frac{-v^2\tau}{2}D_x^2+\frac{1}{2\tau}\sum_{n=3}^{\infty} \frac{(-\tau v)^n\qty(1+(-1)^{n}-(-2)^{n})}{n!}D_t^n<br>\end{aligned}<br>$$</p>
+<p>实际上，$D_t,D_x$ 的近似中，后面还有更多的余项：<br>$$<br>\begin{aligned}<br>    &amp; \frac{E_\tau-1}{\tau}<br>        &#x3D;D_t+\sum_{n&#x3D;1}^{\infty} \frac{\tau^{n-1}a^n}{n!}D_x^n \\<br>    &amp; \frac{E-1}{h}&#x3D;D_x+\sum_{n&#x3D;1}^{\infty} \frac{h^{n-1}}{n!}D_x^n<br>\end{aligned}<br>$$<br>对于偶数项，要求系数小于 $0$，即：<br>$$<br>\begin{aligned}<br>    &amp; ah^{n-1} + \tau^{n-1} a^n &lt; 0 \\<br>    \Rightarrow<br>    &amp; a\qty(1+\qty(\frac{a\tau}{h})^{n-1}) &lt; 0<br>\end{aligned}<br>$$<br>显然必有 $a&lt;0,-\lambda&lt;1$。</p>
+<p>考虑使用二阶迎风格式，对波动方程分析：<br>$$<br>u_t+vu_x&#x3D;0<br>$$<br>为了得到二阶迎风格式，考虑到 $E&#x3D;e^{hD}&#x3D;1+\Delta$，需要将 $D_t$ 展开两次：<br>$$<br>\begin{aligned}<br>    hD<br>    &amp;&#x3D;\ln(1+\Delta) \\<br>    &amp;&#x3D;\Delta-\frac{\Delta^2}{2} \\<br>    &amp;&#x3D;E-1-\frac{(E-1)^2}{2} \\<br>    &amp;&#x3D;\frac{2E-2-E^2-1+2E}{2} \\<br>    &amp;&#x3D;\frac{4E-E^2-3}{2} \\<br>\end{aligned}<br>$$<br>所以 $D_x&#x3D;\frac{4E_h-E_h^2-3}{2h}$。<br>考虑波动方程中，有 $D_t&#x3D;-vD_x$，对时间项使用显格式，有：<br>$$<br>\begin{aligned}<br>    \frac{E_{\tau}-1}{\tau}<br>    &amp;&#x3D;\frac{e^{\tau D_t}-1}{\tau} \\<br>    &amp;&#x3D;D_t+\sum_{n&#x3D;2}^{\infty}\frac{\tau^{n-1}}{n!}D_t^{n} \\<br>    &amp;&#x3D;D_t+\sum_{n&#x3D;2}^{\infty}\frac{\tau^{n-1}(-v)^{n}}{n!}D_x^{n} \\<br>    &amp;&#x3D;D_t+\frac{\tau v^2}{2}D_x^2+\sum_{n&#x3D;3}^{\infty}\frac{\tau^{n-1}(-v)^{n}}{n!}D_x^{n} \\<br>\end{aligned}<br>$$<br>对于空间项，差分格式对应的截断误差为：<br>$$<br>\begin{aligned}<br>    \frac{4E_h-E_h^2-3}{2h}<br>    &amp;&#x3D;\frac{4e^{hD_x}-e^{2hD_x}-3}{2h} \\<br>    &amp;&#x3D;\frac{1}{2h}\qty(\sum_{n&#x3D;0}^{\infty}\frac{(4-2^n)h^n}{n!}D_x^n-3) \\<br>    &amp;&#x3D;\frac{1}{2h}\qty(2hD+\sum_{n&#x3D;3}^{\infty}\frac{(4-2^n)h^n}{n!}D_x^n) \\<br>    &amp;&#x3D;D_x+\sum_{n&#x3D;3}^{\infty} \frac{2(1-2^{n-2})h^{n-1}}{n!}D_x^n<br>\end{aligned}<br>$$<br>可以看到，该差分格式存在扩散系数为 $-\frac{\tau v^2}{2}$ 的二阶扩散项，<br>这是一个反常扩散，因此该格式是不稳定的。<br>可以看到，空间项的二阶精度导致了系统的不稳定，<br>即空间项的截断误差不存在 $D_x^2$ 与时间项的截断误差产生的 $D_x^2$ 的系数进行整合。<br>考虑时间项进行二阶差分：<br>$$<br>\begin{aligned}<br>    D_t<br>    &amp;&#x3D;\frac{1}{\tau}\ln(\frac{1}{1-\nabla}) \\<br>    &amp;&#x3D;\frac{-1}{\tau}\ln(1-\nabla) \\<br>    &amp;&#x3D;\frac{-1}{\tau}\qty(-\nabla-\frac{\nabla^2}{2}) \\<br>    &amp;&#x3D;\frac{2-2E^{-1}+\qty(1-E^{-1})^2}{2\tau} \\<br>    &amp;&#x3D;\frac{E^{-2}+3-4E^{-1}}{2\tau}<br>\end{aligned}<br>$$<br>截断误差为：<br>$$<br>\begin{aligned}<br>    \frac{E_\tau^{-2}+3-4E_\tau^{-1}}{2\tau}<br>    &amp;&#x3D;\frac{1}{2\tau}\qty(e^{-2\tau D_t}+3-4e^{-\tau D_t}) \\<br>    &amp;&#x3D;D_t+\frac{1}{2\tau}\qty(\sum_{n&#x3D;2}^{\infty} \frac{(-2\tau)^n-4(-\tau)^n}{n!}D_t^n) \\<br>    &amp;&#x3D;D_t+\sum_{n&#x3D;2}^{\infty}\frac{\tau^{n-1}\qty(-(-2)^{n-1}-2(-1)^n)}{n!}(-v)^nD_x^n \\<br>    &amp;&#x3D;D_t+\sum_{n&#x3D;2}^{\infty}\frac{2v^n\tau^{n-1}\qty(2^{n-2}-1)}{n!}D_x^n \\<br>    &amp;&#x3D;D_t+\sum_{n&#x3D;3}^{\infty}\frac{2v^n\tau^{n-1}\qty(2^{n-2}-1)}{n!}D_x^n \\<br>\end{aligned}<br>$$<br>考虑扩散主项的系数，其为：<br>$$<br>\begin{aligned}<br>    \sigma<br>    &amp;&#x3D;-\frac{6v^4\tau^3}{24}-v\frac{2(1-4)h^3}{24} \\<br>    &amp;&#x3D;\frac{vh^3-v^4\tau^3}{4} \\<br>    &amp;&#x3D;\frac{vh^3}{4}\qty(1-\qty(\frac{v\tau}{h})^3)<br>\end{aligned}<br>$$<br>但需要注意的是，我们使用 $\nabla_\tau$ 做前向差分后，由于对流项的时间偏移为 $E^0$，<br>所以这种差分格式为隐格式。<br>我们考虑采用 $E^{-1},E^{0},E^{1}$ 来构造格式，这样可以得到二阶精度显格式的构造。<br>可以采用时间项的中心差分：<br>$$<br>\frac{\Delta_{0,\tau}}{\tau}&#x3D;\frac{E_\tau^{1}-E_\tau^{-1}}{2\tau}<br>$$<br>则有：<br>$$<br>\begin{aligned}<br>    \frac{\frac{E_\tau-1}{\tau}+\frac{1-E_\tau^{-1}}{\tau}}{2}<br>    &amp;&#x3D;\frac{E_\tau-E_\tau^{-1}}{2\tau} \\<br>    &amp;&#x3D;\frac{e^{\tau D_\tau}-e^{-\tau D_\tau}}{2\tau} \\<br>    &amp;&#x3D;D_\tau+\frac{\sum_{n&#x3D;2}^{\infty}\frac{\tau^n(1-(-1)^n)}{n!}D_\tau^n}{2\tau} \\<br>    &amp;&#x3D;D_\tau+\frac{\sum_{n&#x3D;3}^{\infty}\frac{\tau^n(1-(-1)^n)}{n!}D_\tau^n}{2\tau} \\<br>    &amp;&#x3D;D_\tau+\sum_{n&#x3D;3}^{\infty}\frac{\tau^{n-1}(1-(-1)^n)}{2n!}D_\tau^n<br>\end{aligned}<br>$$<br>可以看到，中心差分不具有扩散项，所以中心差分格式往往不具有稳定性。<br>考虑如下双重中心差分格式：<br>$$<br>\begin{aligned}<br>    \frac{E_\tau-1+E_\tau^{-1}-E_\tau^{-2}}{2\tau}<br>    &amp;&#x3D;\frac{1}{2\tau}\sum_{n&#x3D;1}^{\infty} \frac{\tau^n+(-\tau)^{n}-(-2\tau)^{n}}{n!}D_t^n \\<br>    &amp;&#x3D;\frac{1}{2\tau}\sum_{n&#x3D;1}^{\infty} \frac{\tau^n\qty(1+(-1)^{n}-(-2)^{n})}{n!}(-vD_x)^n \\<br>    &amp;&#x3D;D_t+\frac{-v^2\tau}{2}D_x^2+\frac{1}{2\tau}\sum_{n&#x3D;3}^{\infty} \frac{(-\tau v)^n\qty(1+(-1)^{n}-(-2)^{n})}{n!}D_t^n<br>\end{aligned}<br>$$</p>
 
     
   </div>
@@ -222,25 +226,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -458,6 +443,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

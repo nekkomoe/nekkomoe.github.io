@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>量子物理笔记 - 7：δ 函数势 | nekko</title>
+  <title>量子物理笔记 - 7：δ 函数势 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,19 +15,19 @@
     <meta name="keywords" content="量子力学,原子物理,线性代数," />
   
 
-  <meta name="description" content="δ 函数狄拉克 $\delta$ 函数：$$\begin{aligned}&amp; \delta(x)&#x3D;\begin{cases}0, \quad &amp; x \ne 0 \\\infty, \quad &amp; x&#x3D;0\end{cases} \\&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1\end{aligned}$$$\delta$ 函数势为：$">
+  <meta name="description" content="δ 函数狄拉克 $\delta$ 函数：$$\begin{aligned}&amp; \delta(x)&#x3D;\begin{cases}0, \quad &amp; x \ne 0 \\\infty, \quad &amp; x&#x3D;0\end{cases} \\&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1\end{aligned}$$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="量子物理笔记 - 7：δ 函数势">
 <meta property="og:url" content="https://nekko.moe/quantum/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86%E7%AC%94%E8%AE%B0%20-%207%EF%BC%9A%CE%B4%E5%87%BD%E6%95%B0%E5%8A%BF/index.html">
-<meta property="og:site_name" content="nekko">
-<meta property="og:description" content="δ 函数狄拉克 $\delta$ 函数：$$\begin{aligned}&amp; \delta(x)&#x3D;\begin{cases}0, \quad &amp; x \ne 0 \\\infty, \quad &amp; x&#x3D;0\end{cases} \\&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1\end{aligned}$$$\delta$ 函数势为：$">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="δ 函数狄拉克 $\delta$ 函数：$$\begin{aligned}&amp; \delta(x)&#x3D;\begin{cases}0, \quad &amp; x \ne 0 \\\infty, \quad &amp; x&#x3D;0\end{cases} \\&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1\end{aligned}$$">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-16T00:00:07.000Z">
-<meta property="article:modified_time" content="2023-01-16T06:37:28.524Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="量子力学">
+<meta property="article:published_time" content="2023-01-16T13:00:07.000Z">
+<meta property="article:modified_time" content="2023-01-16T06:37:30.000Z">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="原子物理">
 <meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="量子力学">
 <meta name="twitter:card" content="summary">
 
   
@@ -46,6 +46,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -57,7 +61,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -159,7 +163,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -186,9 +190,9 @@
 
   <div class="article-content">
     
-      <h2 id="δ-函数"><a href="#δ-函数" class="headerlink" title="δ 函数"></a>δ 函数</h2><p>狄拉克 $\delta$ 函数：<br>$$<br>\begin{aligned}<br>&amp; \delta(x)=<br>\begin{cases}<br>0, \quad &amp; x \ne 0 \\<br>\infty, \quad &amp; x=0<br>\end{cases} \\<br>&amp;\int_{-\infty}^{\infty}\delta(x) dx=1<br>\end{aligned}<br>$$<br>$\delta$ 函数势为：<br>$$<br>V(x)=-\alpha\delta(x), \quad \alpha&gt;0<br>$$<br>$\delta$ 函数势阱的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2 \psi-\alpha\delta(x)\psi=E\psi<br>$$</p>
-<h2 id="束缚态"><a href="#束缚态" class="headerlink" title="束缚态"></a>束缚态</h2><p>当 $E&lt;0$ 时，粒子处于束缚态，即：<br>$$<br>\nabla^2\psi=\kappa^2\psi, \quad x\ne 0,\kappa=\frac{\sqrt{-2m E}}{\hbar}<br>$$<br>通解为：<br>$$<br>\psi(x)=<br>\begin{cases}<br>Ae^{-\kappa x}+Be^{\kappa x}, \quad &amp;x&lt;0 \\<br>Ce^{-\kappa x}+De^{\kappa x}, \quad &amp;x&gt;0<br>\end{cases}<br>$$<br>由 $\psi$ 的连续性以及收敛条件，得：<br>$$<br>\psi(x)=<br>\begin{cases}<br>Be^{\kappa x}, \quad &amp;x\le 0 \\<br>Be^{-\kappa x}, \quad &amp;x\ge 0<br>\end{cases}<br>$$<br>对定态薛定谔方程在区间 $[-\varepsilon,\varepsilon]$ 上求积分：<br>$$<br>-\frac{\hbar ^2}{2m}\int_{-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int_{-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>=E\int_{-\varepsilon}^{\varepsilon}\psi dx<br>$$<br>对于前半部分，有：<br>$$<br>-\frac{\hbar ^2}{2m}\int _ {-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int _ {-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>=-\frac{\hbar^2}{2m}\nabla \psi| _ {-\varepsilon}^{\varepsilon}-\alpha\psi(0)<br>$$<br>取极限 $\varepsilon \to 0^+$，得：<br>$$<br>\begin{aligned}<br>&amp; \nabla \psi(\varepsilon)-\nabla\psi(-\varepsilon)=-\frac{2m\alpha}{\hbar^2}\psi(0) \\<br>\Rightarrow<br>&amp; -2B\kappa=-\frac{2m\alpha}{\hbar^2}\psi(0)=-\frac{2m\alpha}{\hbar^2}B \\<br>\Rightarrow<br>&amp; \kappa=\frac{m\alpha}{\hbar^2}=\frac{\sqrt{-2mE}}{\hbar} \\<br>\Rightarrow<br>&amp; E=-\frac{m\alpha^2}{2\hbar^2}<br>\end{aligned}<br>$$<br>对 $\psi$ 归一化得：<br>$$<br>\begin{aligned}<br>1<br>&amp;=\int _ {-\infty}^{0}\psi^* \psi dx+\int _ {0}^{\infty}\psi^* \psi dx \\<br>&amp;=\int _ {-\infty}^{0}|B|^2e^{2\kappa x}dx+\int _ {0}^{\infty}|B|^2e^{-2\kappa x}dx \\<br>&amp;=2|B|^2\int _ {0}^{\infty}e^{-2\kappa x}dx \\<br>&amp;=2|B|^2 \frac{1}{-2\kappa}e^{-2\kappa x}| _ {0}^{\infty} \\<br>&amp;=-\frac{|B|^2}{\kappa}(0-1) \\<br>&amp;=\frac{|B|^2}{\kappa}<br>\end{aligned}<br>$$<br>即：<br>$$<br>B=\sqrt{\kappa}=\frac{\sqrt{m\alpha}}{\hbar}<br>$$<br>即强度为 $\alpha$ 的 $\delta$ 函数势阱，其束缚态为：<br>$$<br>\begin{aligned}<br>&amp; \psi(x)=\frac{\sqrt{m\alpha}}{\hbar}e^{-m\alpha|x|/\hbar^2} \\<br>&amp; E=-\frac{m\alpha^2}{2\hbar^2}<br>\end{aligned}<br>$$</p>
-<h2 id="散射态"><a href="#散射态" class="headerlink" title="散射态"></a>散射态</h2><p>当 $E&gt;0$ 时，粒子处于束缚态，即：<br>$$<br>\nabla^2\psi=-k^2\psi, \quad x\ne 0,k=\frac{\sqrt{2m E}}{\hbar}<br>$$<br>通解为：<br>$$<br>\psi(x)=<br>\begin{cases}<br>Ae^{ikx}+Be^{-ikx}, \quad &amp;x&lt;0 \\<br>Ce^{ikx}+De^{-ikx}, \quad &amp;x&gt;0<br>\end{cases}<br>$$<br>由 $\psi$ 在 $x=0$ 处连续，得：<br>$$<br>A+B=C+D<br>$$<br>对定态薛定谔方程在区间 $[-\varepsilon,\varepsilon]$ 上求积分：<br>$$<br>-\frac{\hbar ^2}{2m}\int _ {-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int _ {-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>=E\int_{-\varepsilon}^{\varepsilon}\psi dx<br>$$<br>即：<br>$$<br>\begin{aligned}<br>&amp; -\frac{ik\hbar^2}{2m}\left((C-D)-(A-B) \right)=\alpha\psi(0)=\alpha(A+B) \\<br>\Rightarrow<br>&amp; ik(C-D-A+B)=-\frac{2m\alpha}{\hbar^2}(A+B) \\<br>\Rightarrow<br>&amp; C-D=A(1+2i\beta)-B(1-2i\beta), \quad \beta=\frac{m\alpha}{\hbar^2k}<br>\end{aligned}<br>$$<br>其中 $A,C$ 代表右行波的振幅，$B,D$ 代表左行波的振幅，即：</p>
+      <h2 id="δ-函数"><a href="#δ-函数" class="headerlink" title="δ 函数"></a>δ 函数</h2><p>狄拉克 $\delta$ 函数：<br>$$<br>\begin{aligned}<br>&amp; \delta(x)&#x3D;<br>\begin{cases}<br>0, \quad &amp; x \ne 0 \\<br>\infty, \quad &amp; x&#x3D;0<br>\end{cases} \\<br>&amp;\int_{-\infty}^{\infty}\delta(x) dx&#x3D;1<br>\end{aligned}<br>$$<br>$\delta$ 函数势为：<br>$$<br>V(x)&#x3D;-\alpha\delta(x), \quad \alpha&gt;0<br>$$<br>$\delta$ 函数势阱的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2 \psi-\alpha\delta(x)\psi&#x3D;E\psi<br>$$</p>
+<h2 id="束缚态"><a href="#束缚态" class="headerlink" title="束缚态"></a>束缚态</h2><p>当 $E&lt;0$ 时，粒子处于束缚态，即：<br>$$<br>\nabla^2\psi&#x3D;\kappa^2\psi, \quad x\ne 0,\kappa&#x3D;\frac{\sqrt{-2m E}}{\hbar}<br>$$<br>通解为：<br>$$<br>\psi(x)&#x3D;<br>\begin{cases}<br>Ae^{-\kappa x}+Be^{\kappa x}, \quad &amp;x&lt;0 \\<br>Ce^{-\kappa x}+De^{\kappa x}, \quad &amp;x&gt;0<br>\end{cases}<br>$$<br>由 $\psi$ 的连续性以及收敛条件，得：<br>$$<br>\psi(x)&#x3D;<br>\begin{cases}<br>Be^{\kappa x}, \quad &amp;x\le 0 \\<br>Be^{-\kappa x}, \quad &amp;x\ge 0<br>\end{cases}<br>$$<br>对定态薛定谔方程在区间 $[-\varepsilon,\varepsilon]$ 上求积分：<br>$$<br>-\frac{\hbar ^2}{2m}\int_{-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int_{-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>&#x3D;E\int_{-\varepsilon}^{\varepsilon}\psi dx<br>$$<br>对于前半部分，有：<br>$$<br>-\frac{\hbar ^2}{2m}\int _ {-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int _ {-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>&#x3D;-\frac{\hbar^2}{2m}\nabla \psi| _ {-\varepsilon}^{\varepsilon}-\alpha\psi(0)<br>$$<br>取极限 $\varepsilon \to 0^+$，得：<br>$$<br>\begin{aligned}<br>&amp; \nabla \psi(\varepsilon)-\nabla\psi(-\varepsilon)&#x3D;-\frac{2m\alpha}{\hbar^2}\psi(0) \\<br>\Rightarrow<br>&amp; -2B\kappa&#x3D;-\frac{2m\alpha}{\hbar^2}\psi(0)&#x3D;-\frac{2m\alpha}{\hbar^2}B \\<br>\Rightarrow<br>&amp; \kappa&#x3D;\frac{m\alpha}{\hbar^2}&#x3D;\frac{\sqrt{-2mE}}{\hbar} \\<br>\Rightarrow<br>&amp; E&#x3D;-\frac{m\alpha^2}{2\hbar^2}<br>\end{aligned}<br>$$<br>对 $\psi$ 归一化得：<br>$$<br>\begin{aligned}<br>1<br>&amp;&#x3D;\int _ {-\infty}^{0}\psi^* \psi dx+\int _ {0}^{\infty}\psi^* \psi dx \\<br>&amp;&#x3D;\int _ {-\infty}^{0}|B|^2e^{2\kappa x}dx+\int _ {0}^{\infty}|B|^2e^{-2\kappa x}dx \\<br>&amp;&#x3D;2|B|^2\int _ {0}^{\infty}e^{-2\kappa x}dx \\<br>&amp;&#x3D;2|B|^2 \frac{1}{-2\kappa}e^{-2\kappa x}| _ {0}^{\infty} \\<br>&amp;&#x3D;-\frac{|B|^2}{\kappa}(0-1) \\<br>&amp;&#x3D;\frac{|B|^2}{\kappa}<br>\end{aligned}<br>$$<br>即：<br>$$<br>B&#x3D;\sqrt{\kappa}&#x3D;\frac{\sqrt{m\alpha}}{\hbar}<br>$$<br>即强度为 $\alpha$ 的 $\delta$ 函数势阱，其束缚态为：<br>$$<br>\begin{aligned}<br>&amp; \psi(x)&#x3D;\frac{\sqrt{m\alpha}}{\hbar}e^{-m\alpha|x|&#x2F;\hbar^2} \\<br>&amp; E&#x3D;-\frac{m\alpha^2}{2\hbar^2}<br>\end{aligned}<br>$$</p>
+<h2 id="散射态"><a href="#散射态" class="headerlink" title="散射态"></a>散射态</h2><p>当 $E&gt;0$ 时，粒子处于束缚态，即：<br>$$<br>\nabla^2\psi&#x3D;-k^2\psi, \quad x\ne 0,k&#x3D;\frac{\sqrt{2m E}}{\hbar}<br>$$<br>通解为：<br>$$<br>\psi(x)&#x3D;<br>\begin{cases}<br>Ae^{ikx}+Be^{-ikx}, \quad &amp;x&lt;0 \\<br>Ce^{ikx}+De^{-ikx}, \quad &amp;x&gt;0<br>\end{cases}<br>$$<br>由 $\psi$ 在 $x&#x3D;0$ 处连续，得：<br>$$<br>A+B&#x3D;C+D<br>$$<br>对定态薛定谔方程在区间 $[-\varepsilon,\varepsilon]$ 上求积分：<br>$$<br>-\frac{\hbar ^2}{2m}\int _ {-\varepsilon}^{\varepsilon}\nabla^2\psi dx-\alpha \int _ {-\varepsilon}^{\varepsilon}\delta(x)\psi dx<br>&#x3D;E\int_{-\varepsilon}^{\varepsilon}\psi dx<br>$$<br>即：<br>$$<br>\begin{aligned}<br>&amp; -\frac{ik\hbar^2}{2m}\left((C-D)-(A-B) \right)&#x3D;\alpha\psi(0)&#x3D;\alpha(A+B) \\<br>\Rightarrow<br>&amp; ik(C-D-A+B)&#x3D;-\frac{2m\alpha}{\hbar^2}(A+B) \\<br>\Rightarrow<br>&amp; C-D&#x3D;A(1+2i\beta)-B(1-2i\beta), \quad \beta&#x3D;\frac{m\alpha}{\hbar^2k}<br>\end{aligned}<br>$$<br>其中 $A,C$ 代表右行波的振幅，$B,D$ 代表左行波的振幅，即：</p>
 <ol>
 <li>$A$ 代表粒子从左侧入射；</li>
 <li>$B$ 代表粒子从左侧离开；</li>
@@ -200,19 +204,19 @@
 <li>$A$ 表示入射波振幅；</li>
 <li>$B$ 表示反射波振幅；</li>
 <li>$C$ 表示折射波振幅；</li>
-<li>$D=0$ 表示右侧无粒子入射。</li>
+<li>$D&#x3D;0$ 表示右侧无粒子入射。</li>
 </ol>
-<p>于是有：<br>$$<br>\begin{aligned}<br>&amp; B=\frac{i\beta}{1-i\beta}A \\<br>&amp; C=\frac{1}{1-i\beta}A<br>\end{aligned}<br>$$<br>反射系数（反射回去的粒子占比）为：<br>$$<br>R=\frac{|B|^2}{|A|^2}=\frac{\beta^2}{1+\beta^2}=\frac{1}{1+\frac{2\hbar^2E}{m\alpha^2}}<br>$$<br>透射系数为：<br>$$<br>T=\frac{|C|^2}{|A|^2}=\frac{1}{1+\beta^2}=\frac{1}{1+\frac{m\alpha^2}{2\hbar^2E}}<br>$$<br>可以看到：<br>$$<br>R+T=1<br>$$<br>同时可以发现：</p>
+<p>于是有：<br>$$<br>\begin{aligned}<br>&amp; B&#x3D;\frac{i\beta}{1-i\beta}A \\<br>&amp; C&#x3D;\frac{1}{1-i\beta}A<br>\end{aligned}<br>$$<br>反射系数（反射回去的粒子占比）为：<br>$$<br>R&#x3D;\frac{|B|^2}{|A|^2}&#x3D;\frac{\beta^2}{1+\beta^2}&#x3D;\frac{1}{1+\frac{2\hbar^2E}{m\alpha^2}}<br>$$<br>透射系数为：<br>$$<br>T&#x3D;\frac{|C|^2}{|A|^2}&#x3D;\frac{1}{1+\beta^2}&#x3D;\frac{1}{1+\frac{m\alpha^2}{2\hbar^2E}}<br>$$<br>可以看到：<br>$$<br>R+T&#x3D;1<br>$$<br>同时可以发现：</p>
 <ol>
 <li>能量越低，粒子被反射回去的概率越高；</li>
 <li>能量越高，粒子透射过去的概率越高。</li>
 </ol>
-<h2 id="δ-函数势垒"><a href="#δ-函数势垒" class="headerlink" title="δ 函数势垒"></a>δ 函数势垒</h2><p>$\delta$ 函数势垒的势为：<br>$$<br>V(x)=\alpha\delta(x), \quad \alpha&gt;0<br>$$<br>$\delta$ 函数势阱的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2 \psi+\alpha\delta(x)\psi=E\psi<br>$$<br>此时粒子不存在束缚态，只存在散射态。</p>
-<p>由于透射系数：<br>$$<br>T=\frac{1}{1+\frac{m\alpha^2}{2\hbar^2 E}} &gt; 0<br>$$<br>因此粒子有可能会穿越无限高的势垒，即发生量子隧穿效应；同样的，即使 $E&gt;V_{\max}$，粒子也有概率会被反射回去。</p>
-<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="2-27"><a href="#2-27" class="headerlink" title="2.27"></a>2.27</h3><p>考虑双 $\delta$ 函数势：<br>$$<br>V(x)=-\alpha(\delta(x+a)+\delta(x-a)), \quad a,\alpha&gt;0<br>$$</p>
+<h2 id="δ-函数势垒"><a href="#δ-函数势垒" class="headerlink" title="δ 函数势垒"></a>δ 函数势垒</h2><p>$\delta$ 函数势垒的势为：<br>$$<br>V(x)&#x3D;\alpha\delta(x), \quad \alpha&gt;0<br>$$<br>$\delta$ 函数势阱的定态薛定谔方程为：<br>$$<br>-\frac{\hbar^2}{2m}\nabla^2 \psi+\alpha\delta(x)\psi&#x3D;E\psi<br>$$<br>此时粒子不存在束缚态，只存在散射态。</p>
+<p>由于透射系数：<br>$$<br>T&#x3D;\frac{1}{1+\frac{m\alpha^2}{2\hbar^2 E}} &gt; 0<br>$$<br>因此粒子有可能会穿越无限高的势垒，即发生量子隧穿效应；同样的，即使 $E&gt;V_{\max}$，粒子也有概率会被反射回去。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="2-27"><a href="#2-27" class="headerlink" title="2.27"></a>2.27</h3><p>考虑双 $\delta$ 函数势：<br>$$<br>V(x)&#x3D;-\alpha(\delta(x+a)+\delta(x-a)), \quad a,\alpha&gt;0<br>$$</p>
 <ol>
 <li>求存在多少束缚态；</li>
-<li>当 $\alpha=\hbar^2/(ma)$ 和 $\alpha=\hbar^2/(4ma)$ 时，求出允许的能级；</li>
+<li>当 $\alpha&#x3D;\hbar^2&#x2F;(ma)$ 和 $\alpha&#x3D;\hbar^2&#x2F;(4ma)$ 时，求出允许的能级；</li>
 <li>求出透射系数。</li>
 </ol>
 
@@ -240,25 +244,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -476,6 +461,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[02] petsc4py中的Vec | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="Vec第四章 Vec：创建、分布、装配、与 numpy 互操作（getArray 系列）；常见坑（装配、local&#x2F;global）。 在PETSc中，创建Vec对象往往需要以下几个步骤： 1234x &#x3D; PETSc.Vec().create(comm&#x3D;comm)x.setSizes(100)x.setFromOptions()x.assemble()  其中：  create()负责在对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[02] petsc4py中的Vec">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-02-Vec/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="Vec第四章 Vec：创建、分布、装配、与 numpy 互操作（getArray 系列）；常见坑（装配、local&#x2F;global）。 在PETSc中，创建Vec对象往往需要以下几个步骤： 1234x &#x3D; PETSc.Vec().create(comm&#x3D;comm)x.setSizes(100)x.setFromOptions()x.assemble()  其中：  create()负责在对">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:02:00.000Z">
+<meta property="article:modified_time" content="2026-01-04T06:22:50.251Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Vec"><span class="toc-text">Vec</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-02-Vec" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[02] petsc4py中的Vec</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Vec"><a href="#Vec" class="headerlink" title="Vec"></a>Vec</h1><p>第四章 Vec：创建、分布、装配、与 numpy 互操作（getArray 系列）；常见坑（装配、local&#x2F;global）。</p>
+<p>在PETSc中，创建Vec对象往往需要以下几个步骤：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = PETSc.Vec().create(comm=comm)</span><br><span class="line">x.setSizes(<span class="number">100</span>)</span><br><span class="line">x.setFromOptions()</span><br><span class="line">x.assemble()</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>create()</code>负责在对应的communicator上创建Vec对象，或者通过<code>createSeq, createMPI</code>来指定创建方式</li>
+<li><code>setSizes()</code> 定义的是<strong>逻辑大小</strong>，并行情况下 PETSc 会根据 communicator 自动决定每个 rank 的本地大小</li>
+<li><code>setFromOptions()</code> 让 <code>Vec</code> 的相关配置(如VecType)可以由命令行控制</li>
+<li><code>assemble()</code> 是必要的结束步骤，在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/Vec.pyx">Vec.pyx文件</a>中，是通过进行<code>assemblyBegin, assemblyEnd</code>实现的，目的是在所有处理器上完成Vec对象的组装；注意，如果在命令行指定了<code>-vec_view</code>，那么需要调用<code>assemble()</code>后，才会执行<code>view()</code>方法。</li>
+</ul>
+<p>一般来说，还需要通过<code>x.setUp()</code>来完成创建，但是如果使用了<code>setFromOptions()</code>，或者进行了<code>set()</code>，又或者使用了<code>assemble()</code>，那么PETSc将会自动进行<code>setUp()</code>部分。</p>
+<p>对于<code>-vec_type</code>的设置，在PETSc的<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/Vec/VecType/">VecType文档</a>中，可以查询到不同的类型和含义：</p>
+<table>
+<thead>
+<tr>
+<th>VecType</th>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>VECSEQ</code></td>
+<td>seq</td>
+<td>基本的**顺序（单 MPI 进程）**向量（CPU）</td>
+</tr>
+<tr>
+<td><code>VECMPI</code></td>
+<td>mpi</td>
+<td>基本的**并行（多 MPI 进程分布式）**向量（CPU）</td>
+</tr>
+<tr>
+<td><code>VECSTANDARD</code></td>
+<td>standard</td>
+<td>seq on one process and mpi on multiple</td>
+</tr>
+<tr>
+<td><code>VECSHARED</code></td>
+<td>shared</td>
+<td>共享内存并行向量（历史上只在特定平台真正是“shared”，很多情况下等同 <code>VECMPI</code>）。目前 <code>VecCreateShared()</code> 仅在 SGI 上可用；否则，此例程与 VecCreateMPI () 相同。</td>
+</tr>
+<tr>
+<td><code>VECSEQVIENNACL</code></td>
+<td>seqviennacl</td>
+<td>顺序向量，使用 ViennaCL（OpenCL）后端</td>
+</tr>
+<tr>
+<td><code>VECMPIVIENNACL</code></td>
+<td>mpiviennacl</td>
+<td>并行向量，使用 ViennaCL（OpenCL）后端</td>
+</tr>
+<tr>
+<td><code>VECVIENNACL</code></td>
+<td>viennacl</td>
+<td>seqviennacl on one process and mpiviennacl on multiple</td>
+</tr>
+<tr>
+<td><code>VECSEQCUDA</code></td>
+<td>seqcuda</td>
+<td>顺序向量，使用 CUDA 后端</td>
+</tr>
+<tr>
+<td><code>VECMPICUDA</code></td>
+<td>mpicuda</td>
+<td>并行向量，使用 CUDA 后端</td>
+</tr>
+<tr>
+<td><code>VECCUDA</code></td>
+<td>cuda</td>
+<td>seqcuda on one process and mpicuda on multiple</td>
+</tr>
+<tr>
+<td><code>VECSEQHIP</code></td>
+<td>seqhip</td>
+<td>顺序向量，使用 HIP 后端</td>
+</tr>
+<tr>
+<td><code>VECMPIHIP</code></td>
+<td>mpihip</td>
+<td>并行向量，使用 HIP 后端</td>
+</tr>
+<tr>
+<td><code>VECHIP</code></td>
+<td>hip</td>
+<td>seqhip on one process and mpihip on multiple</td>
+</tr>
+<tr>
+<td><code>VECNEST</code></td>
+<td>nest</td>
+<td>由多个子向量“拼起来”的嵌套向量，每个子向量独立存储</td>
+</tr>
+<tr>
+<td><code>VECSEQKOKKOS</code></td>
+<td>seqkokkos</td>
+<td>顺序向量，使用 Kokkos 后端</td>
+</tr>
+<tr>
+<td><code>VECMPIKOKKOS</code></td>
+<td>mpikokkos</td>
+<td>并行向量，使用 Kokkos 后端</td>
+</tr>
+<tr>
+<td><code>VECKOKKOS</code></td>
+<td>kokkos</td>
+<td>seqkokkos on one process and mpikokkos on multiple</td>
+</tr>
+</tbody></table>
+<p>其中，<code>standard, viennacl, cuda, hip, kokkos</code>会根据处理器的数量，来自动选择串行版本或并行版本。</p>
+<p>在<a target="_blank" rel="noopener" href="https://petsc.org/release/overview/vector_table/#doc-vector">另一个文档</a>中，可以看到具体的外部包实现：</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Vector Types</th>
+<th>External Packages</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dense array</td>
+<td><code>VECSTANDARD</code></td>
+<td>BLAS</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>VECCUDA</code></td>
+<td>NVIDIA’s cuBLAS</td>
+<td>NVIDIA GPUs</td>
+</tr>
+<tr>
+<td></td>
+<td><code>VECHIP</code></td>
+<td>AMD’s RocBLAS</td>
+<td>AMD GPUs</td>
+</tr>
+<tr>
+<td></td>
+<td><code>VECKOKKOS</code></td>
+<td>Kokkos</td>
+<td>GPUs, CPUs, OpenMP</td>
+</tr>
+<tr>
+<td>Nested</td>
+<td><code>VECNEST</code></td>
+<td></td>
+<td>Provides efficient access to inner vectors</td>
+</tr>
+</tbody></table>
+<p>这些计算后端的区别在于：</p>
+<ul>
+<li><strong>CUDA</strong><ul>
+<li>NVIDIA 的专有 GPU 编程体系</li>
+<li>PETSc 的 CUDA Vec 和 Mat 直接基于 CUDA runtime</li>
+</ul>
+</li>
+<li><strong>HIP</strong><ul>
+<li>AMD 的 GPU 编程体系</li>
+<li>PETSc 的 HIP Vec 和 Mat 对应 AMD GPU。</li>
+</ul>
+</li>
+<li><strong>ViennaCL</strong><ul>
+<li>基于 OpenCL 的线性代数库</li>
+<li>理论上可以跑在很多设备上，但在实践中，可能生态和性能都不如 CUDA&#x2F;HIP&#x2F;Kokkos</li>
+</ul>
+</li>
+<li><strong>Kokkos</strong><ul>
+<li>这是一个<strong>抽象层</strong>，不是某一家 GPU 的底层 API</li>
+<li>Kokkos 可以在下面接 CUDA、HIP、OpenMP、Threads 等后端。</li>
+</ul>
+</li>
+</ul>
+<p>在多处理器上，并行 <code>Vec</code> 中的每个 rank 只拥有一段连续的全局索引区间。可以通过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lo, hi = x.getOwnershipRange()</span><br></pre></td></tr></table></figure>
+
+<p>来查询当前 rank 负责的全局索引范围 <code>[lo, hi)</code>。</p>
+<p>还可以通过下面的函数，来获得不同程度的分配大小信息：</p>
+<ul>
+<li><code>getLocalSize() -&gt; (nl)</code>：返回当前处理器上的长度</li>
+<li><code>getSize() -&gt; (ng)</code>：返回总长度</li>
+<li><code>getSizes() -&gt; (nl, ng)</code>：返回当前处理器上的长度、以及总长度</li>
+</ul>
+<p>在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/Vec.pyx">Vec.pyx文件</a>中，实现了<code>__enter__, __exit__</code>这两个成员函数，因此可以通过<code>with vec as vec_arr:</code>来将PETSc中的向量对象转化为可以直接访问和修改的内存表示。更具体的实现函数在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/petscvec.pxi">petscvec.pxi文件</a>中实现。</p>
+<p>如果要在全局环境下，设置<code>Vec</code>的具体数值，可以使用下面的函数：</p>
+<ul>
+<li><code>x.set(value)</code>：将<code>Vec</code>的所有位置设置为同一个值<code>value</code>，这个不需要<code>assemble()</code>，直接调用就可以完成初始值设置</li>
+<li><code>x.setValue(index:int, value:Scalar, addv:InsertModeSpec = None)</code></li>
+<li><code>x.setValues(indices: Sequence[int], values: Sequence[Scalar], addv:InsertModeSpec = None)</code></li>
+</ul>
+<p>以及对应的<code>getValue, getValues</code>方法。注意，使用<code>setValue, setValues</code>之后，需要立刻进行<code>assemble()</code>组装<code>Vec</code>，否则操作可能会被缓存，导致没有正确修改数组内容。 在官方源代码中如此指出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Notes</span><br><span class="line">-----</span><br><span class="line">The values may be cached so `assemblyBegin` and `assemblyEnd`</span><br><span class="line">must be called after all calls of this method are completed.</span><br><span class="line"></span><br><span class="line">Multiple calls to `setValue` cannot be made with different values</span><br><span class="line">for ``addv`` without intermediate calls to `assemblyBegin` and</span><br><span class="line">`assemblyEnd`.</span><br></pre></td></tr></table></figure>
+
+<p>另一方面，如果只是进行位置上的赋值操作，那么如下直接进行就可以：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x.setValue(<span class="number">9</span>, <span class="number">100.0</span>, addv=PETSc.InsertMode.INSERT_VALUES)</span><br><span class="line">x.assemble()</span><br></pre></td></tr></table></figure>
+
+<p>但是，如果要进行累加操作，那么只能在单个处理器上进行，否则会被执行多遍：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> rank == <span class="number">0</span>:</span><br><span class="line">    x.setValue(<span class="number">8</span>, <span class="number">100.0</span>, addv=PETSc.InsertMode.ADD_VALUES)</span><br><span class="line">x.assemble()</span><br></pre></td></tr></table></figure>
+
+<p>因此，最好避免全局性的修改，而是进行<code>with ... as ...:</code>的局部修改。</p>
+<p>如果需要创建含有ghost boundary的<code>Vec</code>，可以考虑<code>createGhost, ghostUpdate, localForm</code>等一系列函数，不过后续我们会发现，可以使用DA系列更好的管理ghost，因此我们不必在这里深入研究这些函数。</p>
+<p>对于<code>VECNEST</code>，可以当成一个<code>Vec</code>的包装器，用法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># assume u, p are Vec objects</span></span><br><span class="line">field = PETSc.Vec().createNest([u, p], comm=comm)</span><br><span class="line">u_sub, p_sub = field.getNestSubVecs()</span><br><span class="line"><span class="keyword">with</span> u_sub <span class="keyword">as</span> u_loc: ...</span><br><span class="line"><span class="keyword">with</span> p_sub <span class="keyword">as</span> p_loc: ...</span><br></pre></td></tr></table></figure>
+
+<p>如果不想依赖DA等网格管理器，比如自己实现分块矩阵求解：<br>$$<br>\begin{pmatrix}<br>A &amp; B^T \\<br>B &amp; -C<br>\end{pmatrix}<br>\begin{pmatrix}<br>u \\ p<br>\end{pmatrix}<br>&#x3D;\begin{pmatrix}<br>f \\ g<br>\end{pmatrix}<br>$$<br>那么可以用<code>Vec().createNest</code>来创建<code>u, p</code>和<code>f, g</code>，然后通过<code>Mat().createNest</code>来创建左侧的完整矩阵：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X = PETSc.Vec().createNest([u, p], comm=comm); X.assemble()</span><br><span class="line">F = PETSc.Vec().createNest([f, g], comm=comm); F.assemble()</span><br><span class="line">M = PETSc.Mat().createNest([[A, Bt], [B, minusC]], comm=comm); M.assemble()</span><br><span class="line"><span class="comment"># solve M*X=F with KSP</span></span><br></pre></td></tr></table></figure>
+
+<p>对于<code>createNest</code>部分的测试代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">&quot;PETSC_OPTIONS&quot;</span>] = <span class="string">&quot; &quot;</span>.join([</span><br><span class="line">    <span class="string">&quot;-ksp_type gmres&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-ksp_rtol 1e-10&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-ksp_monitor&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-pc_type fieldsplit&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-pc_fieldsplit_type schur&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-pc_fieldsplit_schur_fact_type full&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-fieldsplit_u_ksp_type preonly&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-fieldsplit_u_pc_type jacobi&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-fieldsplit_p_ksp_type preonly&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-fieldsplit_p_pc_type jacobi&quot;</span>,</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line">comm = PETSc.COMM_WORLD</span><br><span class="line">rank = comm.getRank()</span><br><span class="line">opt = PETSc.Options()</span><br><span class="line"></span><br><span class="line">Nu, Np = <span class="number">8</span>, <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># create u, p</span></span><br><span class="line">u = PETSc.Vec().create(comm=comm)</span><br><span class="line">u.setSizes(Nu)</span><br><span class="line">u.setFromOptions()</span><br><span class="line">lu = u.getLocalSize()</span><br><span class="line"></span><br><span class="line">p = PETSc.Vec().create(comm=comm)</span><br><span class="line">p.setSizes(Np)</span><br><span class="line">p.setFromOptions()</span><br><span class="line">lp = p.getLocalSize()</span><br><span class="line"></span><br><span class="line"><span class="comment"># create f, g</span></span><br><span class="line">f = u.duplicate()</span><br><span class="line">g = p.duplicate()</span><br><span class="line">f.<span class="built_in">set</span>(<span class="number">1.0</span>)</span><br><span class="line">g.<span class="built_in">set</span>(<span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create nested vectors</span></span><br><span class="line">X = PETSc.Vec().createNest([u, p], comm=comm)</span><br><span class="line">F = PETSc.Vec().createNest([f, g], comm=comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create block matrix</span></span><br><span class="line">A = PETSc.Mat().createAIJ(size=((lu, Nu), (lu, Nu)), comm=comm)</span><br><span class="line">A.setUp()</span><br><span class="line">diag_u = u.duplicate()</span><br><span class="line">diag_u.<span class="built_in">set</span>(<span class="number">1.0</span>)</span><br><span class="line">A.setDiagonal(diag_u)</span><br><span class="line">A.assemble()</span><br><span class="line"></span><br><span class="line">C = PETSc.Mat().createAIJ(size=((lp, Np), (lp, Np)), comm=comm)</span><br><span class="line">C.setUp()</span><br><span class="line">diag_p = p.duplicate()</span><br><span class="line">diag_p.<span class="built_in">set</span>(<span class="number">1.0</span>)</span><br><span class="line">C.setDiagonal(diag_p)</span><br><span class="line">C.assemble()</span><br><span class="line">minusC = C.duplicate(copy=<span class="literal">True</span>)</span><br><span class="line">minusC.scale(-<span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line">B = PETSc.Mat().createAIJ(size=((lp, Np), (lu, Nu)), comm=comm)</span><br><span class="line">B.assemble() <span class="comment"># 0.0</span></span><br><span class="line">Bt = B.transpose()</span><br><span class="line"></span><br><span class="line"><span class="comment"># create nested matrix</span></span><br><span class="line">M_nest = PETSc.Mat().createNest([[A, Bt], [B, minusC]], comm=comm)</span><br><span class="line">M_nest.assemble()</span><br><span class="line">M = M_nest.convert(<span class="string">&quot;aij&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create KSP solver</span></span><br><span class="line">ksp = PETSc.KSP().create(comm=comm)</span><br><span class="line">ksp.setOperators(M)</span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize PC as fieldsplit</span></span><br><span class="line">pc = ksp.getPC()</span><br><span class="line">pc.setType(<span class="string">&quot;fieldsplit&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create index sets for fieldsplit</span></span><br><span class="line">u_is = PETSc.IS().createStride(Nu, first=<span class="number">0</span>, step=<span class="number">1</span>, comm=comm)</span><br><span class="line">p_is = PETSc.IS().createStride(Np, first=Nu, step=<span class="number">1</span>, comm=comm)</span><br><span class="line">pc.setFieldSplitIS((<span class="string">&quot;u&quot;</span>, u_is), (<span class="string">&quot;p&quot;</span>, p_is))</span><br><span class="line"></span><br><span class="line"><span class="comment"># use Schur complement for pressure block</span></span><br><span class="line">pc.setFieldSplitType(PETSc.PC.CompositeType.SCHUR)</span><br><span class="line">pc.setFieldSplitSchurFactType(PETSc.PC.SchurFactType.FULL)</span><br><span class="line"></span><br><span class="line"><span class="comment"># solve the system</span></span><br><span class="line">ksp.setFromOptions()</span><br><span class="line">ksp.solve(F, X)</span><br><span class="line"></span><br><span class="line">u_sol, p_sol = X.getNestSubVecs()</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Converged reason: <span class="subst">&#123;ksp.getConvergedReason()&#125;</span>&quot;</span>)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Iterations: <span class="subst">&#123;ksp.getIterationNumber()&#125;</span>&quot;</span>)</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;[rank <span class="subst">&#123;rank&#125;</span>] |u|=<span class="subst">&#123;u_sol.norm():<span class="number">.2</span>e&#125;</span>, |p|=<span class="subst">&#123;p_sol.norm():<span class="number">.2</span>e&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 4 python test.py</span><br><span class="line"><span class="comment">#   0 KSP Residual norm 3.464101615138e+00</span></span><br><span class="line"><span class="comment">#   1 KSP Residual norm 1.914854215513e+00</span></span><br><span class="line"><span class="comment">#   2 KSP Residual norm 1.058630546810e-15</span></span><br><span class="line"><span class="comment"># Converged reason: 2</span></span><br><span class="line"><span class="comment"># Iterations: 2</span></span><br><span class="line"><span class="comment"># [rank 0] |u|=2.83e+00, |p|=2.00e+00</span></span><br><span class="line"><span class="comment"># [rank 1] |u|=2.83e+00, |p|=2.00e+00</span></span><br><span class="line"><span class="comment"># [rank 2] |u|=2.83e+00, |p|=2.00e+00</span></span><br><span class="line"><span class="comment"># [rank 3] |u|=2.83e+00, |p|=2.00e+00</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>下面代码展示了关于<code>Vec</code>的大部分<strong>常用</strong>的使用方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">comm = PETSc.COMM_WORLD</span><br><span class="line">rank, size = comm.getRank(), comm.getSize()</span><br><span class="line"></span><br><span class="line">x = PETSc.Vec().create(comm=comm)</span><br><span class="line">x.setSizes(<span class="number">10</span>)</span><br><span class="line">x.setFromOptions()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> x <span class="keyword">as</span> local_x:</span><br><span class="line">    lo, hi = x.getOwnershipRange()</span><br><span class="line">    local_x[:] = np.arange(lo, hi)</span><br><span class="line">x.assemble() <span class="comment"># if -vec_view is given, assemble() is required.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> rank == <span class="number">0</span>:</span><br><span class="line">    x.setValue(<span class="number">8</span>, <span class="number">100.0</span>, addv=PETSc.InsertMode.ADD_VALUES)</span><br><span class="line">x.assemble()</span><br><span class="line"></span><br><span class="line">x.setValue(<span class="number">9</span>, <span class="number">100.0</span>, addv=PETSc.InsertMode.INSERT_VALUES)</span><br><span class="line">x.assemble()</span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Full ownership ranges: <span class="subst">&#123;x.getOwnershipRanges()&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Array ranges:&quot;</span>)</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;  [<span class="subst">&#123;rank&#125;</span>/<span class="subst">&#123;size&#125;</span>]: ownership ranges: <span class="subst">&#123;x.getOwnershipRange()&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br><span class="line"></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Array values:&quot;</span>)</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;  [<span class="subst">&#123;rank&#125;</span>/<span class="subst">&#123;size&#125;</span>]: <span class="subst">&#123;x.getArray(readonly=<span class="literal">True</span>)&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># x0 is SEQ on rank=0, empty on others</span></span><br><span class="line">scatter, x0 = PETSc.Scatter.toZero(x)</span><br><span class="line">scatter.scatter(x, x0,</span><br><span class="line">    addv=PETSc.InsertMode.INSERT,</span><br><span class="line">    mode=PETSc.ScatterMode.FORWARD)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Gatherd array: <span class="subst">&#123;x0.getArray(readonly=<span class="literal">True</span>)&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print sizes: (local_size, global_size)</span></span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;Array sizes(local_size, global_size):&quot;</span>)</span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;  [<span class="subst">&#123;rank&#125;</span>/<span class="subst">&#123;size&#125;</span>]: x0:<span class="subst">&#123;x0.getSizes()&#125;</span>; x:<span class="subst">&#123;x.getSizes()&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># remember to destroy objects if not needed anymore</span></span><br><span class="line">scatter.destroy()</span><br><span class="line">x0.destroy()</span><br><span class="line">x.destroy()</span><br></pre></td></tr></table></figure>
+
+<p>最终得到输出结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mpirun -np 4 python test.py</span><br><span class="line"><span class="comment"># Full ownership ranges: [ 0  3  6  8 10]</span></span><br><span class="line"><span class="comment"># Array ranges:</span></span><br><span class="line"><span class="comment">#   [0/4]: ownership ranges: (0, 3)</span></span><br><span class="line"><span class="comment">#   [1/4]: ownership ranges: (3, 6)</span></span><br><span class="line"><span class="comment">#   [2/4]: ownership ranges: (6, 8)</span></span><br><span class="line"><span class="comment">#   [3/4]: ownership ranges: (8, 10)</span></span><br><span class="line"><span class="comment"># Array values:</span></span><br><span class="line"><span class="comment">#   [0/4]: [0. 1. 2.]</span></span><br><span class="line"><span class="comment">#   [1/4]: [3. 4. 5.]</span></span><br><span class="line"><span class="comment">#   [2/4]: [6. 7.]</span></span><br><span class="line"><span class="comment">#   [3/4]: [108. 100.]</span></span><br><span class="line"><span class="comment"># Gatherd array: [  0.   1.   2.   3.   4.   5.   6.   7. 108. 100.]</span></span><br><span class="line"><span class="comment"># Array sizes(local_size, global_size):</span></span><br><span class="line"><span class="comment">#   [0/4]: x0:(10, 10); x:(3, 10)</span></span><br><span class="line"><span class="comment">#   [1/4]: x0:(0, 0); x:(3, 10)</span></span><br><span class="line"><span class="comment">#   [2/4]: x0:(0, 0); x:(2, 10)</span></span><br><span class="line"><span class="comment">#   [3/4]: x0:(0, 0); x:(2, 10)</span></span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-01-basics/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-03-Mat/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

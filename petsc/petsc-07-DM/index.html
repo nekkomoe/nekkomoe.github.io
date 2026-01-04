@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PETSc[07] petsc4py中的DM | Zhuoyu Chen</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="C++,petsc,Python," />
+  
+
+  <meta name="description" content="Data Management (DM) DM*：先 DMDA（结构网格最快入门），再补 DMPlex（非结构&#x2F;FEM，放进阶）；DM 管数据布局与组装回调。  在PETSc的DM文档中指出，DM 对象用于管理 PETSc 中的代数结构（ Vec 和 Mat ）与基于偏微分方程（或其他）的模拟中的网格数据结构之间的通信，更具体的网格管理由：结构化网格的 DMDA 、交错网格的 DMSTA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PETSc[07] petsc4py中的DM">
+<meta property="og:url" content="https://nekko.moe/petsc/petsc-07-DM/index.html">
+<meta property="og:site_name" content="Zhuoyu Chen">
+<meta property="og:description" content="Data Management (DM) DM*：先 DMDA（结构网格最快入门），再补 DMPlex（非结构&#x2F;FEM，放进阶）；DM 管数据布局与组装回调。  在PETSc的DM文档中指出，DM 对象用于管理 PETSc 中的代数结构（ Vec 和 Mat ）与基于偏微分方程（或其他）的模拟中的网格数据结构之间的通信，更具体的网格管理由：结构化网格的 DMDA 、交错网格的 DMSTA">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T19:07:00.000Z">
+<meta property="article:modified_time" content="2026-01-04T05:02:20.251Z">
+<meta property="article:author" content="Zhuoyu Chen">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="petsc">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Data-Management-DM"><span class="toc-text">Data Management (DM)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DM"><span class="toc-text">DM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMDA"><span class="toc-text">DMDA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DMBoundaryType"><span class="toc-text">DMBoundaryType</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DMDAStencilType"><span class="toc-text">DMDAStencilType</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Corners-GhostCorners"><span class="toc-text">Corners&#x2F;GhostCorners</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getVecArray"><span class="toc-text">getVecArray</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMPlex"><span class="toc-text">DMPlex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Poisson-equation"><span class="toc-text">Poisson equation</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-petsc/petsc-07-DM" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PETSc[07] petsc4py中的DM</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2026.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Zhuoyu Chen</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/petsc/">petsc</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Data-Management-DM"><a href="#Data-Management-DM" class="headerlink" title="Data Management (DM)"></a>Data Management (DM)</h1><blockquote>
+<p>DM*：先 DMDA（结构网格最快入门），再补 DMPlex（非结构&#x2F;FEM，放进阶）；DM 管数据布局与组装回调。</p>
+</blockquote>
+<p>在PETSc的<a target="_blank" rel="noopener" href="https://petsc.org/main/manualpages/DM">DM文档</a>中指出，DM 对象用于管理 PETSc 中的代数结构（ Vec 和 Mat ）与基于偏微分方程（或其他）的模拟中的网格数据结构之间的通信，更具体的网格管理由：结构化网格的 DMDA 、交错网格的 DMSTAG 、非结构化网格的 DMPLEX 组成。</p>
+<h2 id="DM"><a href="#DM" class="headerlink" title="DM"></a>DM</h2><p>DM作为最基本的PETSc代数结构管理器，可以通过下面的代码进行初始化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dm = PETSc.DM().create(comm=comm)</span><br><span class="line">dm.setType(<span class="string">&quot;da&quot;</span>)</span><br><span class="line">dm.setFromOptions()</span><br><span class="line">dm.setUp()</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>setType</code>设置了DM的类型，在<a target="_blank" rel="noopener" href="https://petsc.org/main/manualpages/DM/DMType/">DMType文档</a>里可以看到完整的类型列表。</p>
+<p>在创建好的DM对象基础上，可以由其管理<code>Vec</code>向量和<code>Mat</code>矩阵的创建，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vg = dm.createGlobalVec()</span><br><span class="line">vl = dm.createLocalVec()</span><br><span class="line">A  = dm.createMat()</span><br></pre></td></tr></table></figure>
+
+<p>这里的<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/DM/DMCreateGlobalVector/"><code>GlobalVector</code></a>和<code>LocalVector</code>的区别在于，全局向量是一个并行向量，它不包含 MPI 进程间共享的重复值，也就是说，它没有ghost元素；可以通过<code>globalToLocal</code>和<code>localToGlobal</code>来实现ghost元素的转换。</p>
+<p>如果需要短期的使用一个向量，比如在函数中使用，那么可以通过<code>getGlobalVec</code>方法来获取，并且在使用完成后通过<code>restoreGlobalVec</code>返回此向量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tmp = dm.getGlobalVec(name=<span class="string">&quot;tmp&quot;</span>)    <span class="comment"># or use `getLocalVec`</span></span><br><span class="line">...</span><br><span class="line">dm.restoreGlobalVec(tmp, name=<span class="string">&quot;tmp&quot;</span>) <span class="comment"># or use `restoreLocalVec`</span></span><br></pre></td></tr></table></figure>
+
+<p>当离散算子有邻域耦合（有限差分 stencil、有限体积面通量、有限元单元邻接）时，并行边界处的数据交换可以通过DM完成：</p>
+<ul>
+<li><code>DM.globalToLocal(vg, vl, addv=...)</code>：把全局向量更新到带 ghost 的本地向量</li>
+<li><code>DM.localToGlobal(vl, vg, addv=...)</code>：把本地（含 ghost）贡献累加&#x2F;写回全局向量</li>
+<li><code>DM.localToLocal(vl, vlg, addv=...)</code>：本地向量之间的邻域交换（不经过 global）</li>
+</ul>
+<p>总之，在<code>*ToLocal</code>的时候，都会将local的ghost元素进行通信交换。一般来说，只会进行global和local之间的转换：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vl = dm.createLocalVec()</span><br><span class="line">dm.globalToLocal(vg, vl, addv=PETSc.InsertMode.INSERT_VALUES)</span><br><span class="line"><span class="comment"># do stencil computing</span></span><br><span class="line">dm.localToGlobal(vl, vg, addv=PETSc.InsertMode.INSERT_VALUES)</span><br></pre></td></tr></table></figure>
+
+<p>比如下面这段代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py</span><br><span class="line">petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">comm = PETSc.COMM_WORLD</span><br><span class="line">rank = comm.getRank()</span><br><span class="line"></span><br><span class="line">dm = PETSc.DMDA().create(</span><br><span class="line">    dim=<span class="number">1</span>, sizes=(<span class="number">8</span>,), dof=<span class="number">1</span>,</span><br><span class="line">    stencil_width=<span class="number">1</span>, comm=comm)</span><br><span class="line">dm.setUp()</span><br><span class="line">vl = dm.createLocalVec()</span><br><span class="line"></span><br><span class="line">(xs,), (xm,) = dm.getCorners()</span><br><span class="line">(gxs,), (gxm,) = dm.getGhostCorners()</span><br><span class="line">xe, gxe = xs + xm, gxs + gxm</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> vl <span class="keyword">as</span> arr:</span><br><span class="line">    arr[:] = -<span class="number">1.0</span></span><br><span class="line">    arr[xs-gxs:xe-gxs] = rank * <span class="number">10</span> + np.arange(xs, xe)</span><br><span class="line"></span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;[<span class="subst">&#123;rank&#125;</span>]: <span class="subst">&#123;vl.getArray()&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br><span class="line"></span><br><span class="line">dm.localToLocal(vl, vl, addv=PETSc.InsertMode.INSERT_VALUES)</span><br><span class="line"></span><br><span class="line">PETSc.Sys.syncPrint(<span class="string">f&quot;[<span class="subst">&#123;rank&#125;</span>]: <span class="subst">&#123;vl.getArray()&#125;</span>&quot;</span>, comm=comm)</span><br><span class="line">PETSc.Sys.syncFlush(comm=comm)</span><br></pre></td></tr></table></figure>
+
+<p>其输出结果为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mpirun -n 2 python test.py</span><br><span class="line"><span class="comment"># [0]: [ 0.  1.  2.  3. -1.]</span></span><br><span class="line"><span class="comment"># [1]: [-1. 14. 15. 16. 17.]</span></span><br><span class="line"><span class="comment"># [0]: [ 0.  1.  2.  3. 14.]</span></span><br><span class="line"> <span class="comment">#[1]: [ 3. 14. 15. 16. 17.]</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>localToLocal</code>这个函数，成功将ghost元素进行了交换，并填充到了目标向量中。</p>
+<p>最后，DM 直接提供了把回调函数绑上去的接口：</p>
+<ul>
+<li><code>dm.setSNESFunction(function, args=None, kargs=None)</code>：对应 <code>DMSNESSetFunction</code></li>
+<li><code>dm.setSNESJacobian(jacobian, args=None, kargs=None)</code>：对应 <code>DMSNESSetJacobian</code></li>
+<li><code>dm.setKSPComputeOperators(operators, args=None, kargs=None)</code>：用于 KSP 的算子装配回调</li>
+</ul>
+<h2 id="DMDA"><a href="#DMDA" class="headerlink" title="DMDA"></a>DMDA</h2><p>DMDA 面向<strong>规则笛卡尔网格</strong>的问题（1D&#x2F;2D&#x2F;3D 规则划分），它把网格点按规则的 $(i,j,k)$ 方式编号和分块，内置了常用的 stencil（STAR&#x2F;BOX）和 ghost 点通信；并且DMDA会用这些信息来创建合适布局的向量&#x2F;矩阵，包括通信与常见的稀疏结构。</p>
+<p>在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/DMDA.pyx#L1168">DMDA.pyx源文件</a>中，可以看到<code>DA</code>和<code>DMDA</code>是相同的，这主要是为了兼容旧版本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># backward compatibility alias</span></span><br><span class="line">DA = DMDA</span><br></pre></td></tr></table></figure>
+
+<p>常用的接口基本集中在：</p>
+<ul>
+<li><code>da.create(dim, dof, sizes, proc_sizes, boundary_type, stencil_type, stencil_width, ownership_ranges, setup=True)</code><ul>
+<li><code>dim</code>: 维度数量(1, 2, 3)</li>
+<li><code>dof</code>: 自由度数量</li>
+<li><code>sizes</code>: 每个维度的节点数量</li>
+<li><code>proc_sizes</code>: 每个维度使用的处理器数量</li>
+<li><code>boundary_type</code>: 边界类型，参见<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/DM/DMBoundaryType/">DMBoundaryType文档</a></li>
+<li><code>stencil_type</code>: ghost模板的填充类型，参见<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/DMDA/DMDAStencilType/">DMDAStencilType文档</a></li>
+<li><code>stencil_width</code>: ghost区域的宽度</li>
+<li><code>setup</code>: 是否在完成初始创建后，调用<code>setUp()</code>函数，默认是进行调用</li>
+<li><code>ownership_ranges</code>: 每个处理器上包含的的x,y,z方向的元素数量，其长度等于 <code>proc_sizes</code>，并且在各方向上求和等于 <code>sizes</code></li>
+<li><code>comm</code>: MPI communicator, 默认值为 <code>PETSc.Sys.getDefaultComm</code></li>
+</ul>
+</li>
+<li><code>da.getCorners()</code> &#x2F; <code>DMDA.getGhostCorners()</code><ul>
+<li>本 rank 拥有区域与 ghost 区域</li>
+</ul>
+</li>
+<li><code>da.getVecArray(vec, readonly=False)</code><ul>
+<li>把 Vec 暴露成 N 维数组视图，支持 <code>with</code></li>
+</ul>
+</li>
+<li><code>da.setUniformCoordinates(xmin,xmax, ymin,ymax, ...)</code><ul>
+<li>设置坐标，方便 view&#x2F;VTK 输出</li>
+</ul>
+</li>
+<li><code>da.getAO()</code><ul>
+<li><strong>自然序</strong>与<strong>PETSc内部序</strong>的映射，做矩阵装配时常见</li>
+</ul>
+</li>
+</ul>
+<h3 id="DMBoundaryType"><a href="#DMBoundaryType" class="headerlink" title="DMBoundaryType"></a>DMBoundaryType</h3><p>在DMDA的<code>create</code>方法中，可以传入一个<code>boundary_type</code>的参数，用来定义<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/DM/DMBoundaryType/">DMBoundaryType文档</a>中给出的不同类型的边界条件，类型如下：</p>
+<table>
+<thead>
+<tr>
+<th>DMBoundaryType</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DM_BOUNDARY_NONE</code></td>
+<td>无ghost节点，是默认情况（只有通过<code>stencil</code>实现的处理器之间的ghost）</td>
+</tr>
+<tr>
+<td><code>DM_BOUNDARY_GHOSTED</code></td>
+<td>存在但未填充的ghost节点，用户可以向其中赋值，然后应用使用这些ghost位置的stencil</td>
+</tr>
+<tr>
+<td><code>DM_BOUNDARY_MIRROR</code></td>
+<td>ghost节点的值与第一个网格点的值相同（the same as the value 1 grid point in），也就是说，真实网格中的第0个网格点起到镜像作用，用于定义ghost节点的值，<strong>尚未在3D网格中实现</strong></td>
+</tr>
+<tr>
+<td><code>DM_BOUNDARY_PERIODIC</code></td>
+<td>由域（domain）的相对边缘（opposite edge）填充的ghost节点，实现周期边界</td>
+</tr>
+<tr>
+<td><code>DM_BOUNDARY_TWIST</code></td>
+<td>类似于周期性，只是像莫比乌斯带（Mobius strip）一样反向粘合</td>
+</tr>
+</tbody></table>
+<p>注意，这是<strong>物理</strong>域边界的信息。它与处理器之间的边界无关，并且该宽度始终由模板宽度（<code>stencil_width</code>）决定。</p>
+<p>下面的结果演示中，总长度为8，使用4个处理器分组，并把boundary设置为-1，以及内部点设置为处理器的rank大小，而处理器之间的ghost会根据<code>*ToLocal</code>函数进行填充。下面的结果显示，对于<code>rank=1,2</code>这两个内部处理器，其左右两侧的ghost节点是分别由<code>rank=0,3</code>传递过来的，因此主要问题是关注<code>rank=0</code>的左侧ghost节点以及<code>rank=3</code>的右侧ghost节点。</p>
+<p>对于Dirichlet边界条件，可以采用<code>PETSc.DM.BoundaryType.NONE</code>实现。可以看到，<code>rank=0</code>没有左侧ghost节点，而<code>rank=3</code>没有右侧ghost节点，可以进行Dirichlet边界条件的填充。其结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[NONE (Dirichlet) ] Rank 0 | GRange=[ 0: 3] | Array: [   0, 0, 1]</span><br><span class="line">[NONE (Dirichlet) ] Rank 1 | GRange=[ 1: 5] | Array: [0, 1, 1, 2]</span><br><span class="line">[NONE (Dirichlet) ] Rank 2 | GRange=[ 3: 7] | Array: [1, 2, 2, 3]</span><br><span class="line">[NONE (Dirichlet) ] Rank 3 | GRange=[ 5: 8] | Array: [2, 3, 3   ]</span><br></pre></td></tr></table></figure>
+
+<p>对于Neumann边界条件，可以采用<code>PETSc.DM.BoundaryType.GHOSTED</code>实现。左右两侧的边界点都存在，并且在 <code>*ToLocal</code>函数时不会被填充，需要用户自己指定。其结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[GHOSTED (Neumann)] Rank 0 | GRange=[-1: 3] | Array: [-1, 0, 0,  1]</span><br><span class="line">[GHOSTED (Neumann)] Rank 1 | GRange=[ 1: 5] | Array: [ 0, 1, 1,  2]</span><br><span class="line">[GHOSTED (Neumann)] Rank 2 | GRange=[ 3: 7] | Array: [ 1, 2, 2,  3]</span><br><span class="line">[GHOSTED (Neumann)] Rank 3 | GRange=[ 5: 9] | Array: [ 2, 3, 3, -1]</span><br></pre></td></tr></table></figure>
+
+<p>对于特殊的Neumann边界条件，即法向梯度为0, 可以用<code>PETSc.DM.BoundaryType.MIRROR</code>实现，它会把左右的边界点复制一遍到ghost节点处：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[MIRROR] Rank 0 | GRange=[-1: 3] | Array: [0, 0, 0, 1]</span><br><span class="line">[MIRROR] Rank 1 | GRange=[ 1: 5] | Array: [0, 1, 1, 2]</span><br><span class="line">[MIRROR] Rank 2 | GRange=[ 3: 7] | Array: [1, 2, 2, 3]</span><br><span class="line">[MIRROR] Rank 3 | GRange=[ 5: 9] | Array: [2, 3, 3, 3]</span><br></pre></td></tr></table></figure>
+
+<p>对于Period边界条件，可以采用<code>PETSc.DM.BoundaryType.PERIODIC</code>实现。左右两侧的ghost节点，通过<code>*ToLocal</code>函数，把实际的内点赋值过来，实现了周期边界条件。其结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[PERIODIC] Rank 0 | GRange=[-1: 3] | Array: [3, 0, 0, 1]</span><br><span class="line">[PERIODIC] Rank 1 | GRange=[ 1: 5] | Array: [0, 1, 1, 2]</span><br><span class="line">[PERIODIC] Rank 2 | GRange=[ 3: 7] | Array: [1, 2, 2, 3]</span><br><span class="line">[PERIODIC] Rank 3 | GRange=[ 5: 9] | Array: [2, 3, 3, 0]</span><br></pre></td></tr></table></figure>
+
+<h3 id="DMDAStencilType"><a href="#DMDAStencilType" class="headerlink" title="DMDAStencilType"></a>DMDAStencilType</h3><p>在<a target="_blank" rel="noopener" href="https://petsc.org/release/manualpages/DMDA/DMDAStencilType/">DMDAStencilType文档</a>中，给出了DMDA中的<code>stencil_type</code>的取值情况，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>DMDAStencilType</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DMDA_STENCIL_STAR</code></td>
+<td>只沿着坐标方向进行延伸；<br />即在逻辑网格坐标中，只有 $(i,j,k),(i+s,j,k),(i,j+s,k),(i,j,k+s)$ 位于模板内，但例如$(i+s,j+s,k)$不包含在内</td>
+</tr>
+<tr>
+<td><code>DMDA_STENCIL_BOX</code></td>
+<td>除了坐标方向的延伸，还沿着四个方向角方向进行延伸；<br />即在逻辑网格坐标系中，$(i,j,k), (i+s,j+r,k+t)$ 中的任何一个都可以位于模板内</td>
+</tr>
+</tbody></table>
+<h3 id="Corners-GhostCorners"><a href="#Corners-GhostCorners" class="headerlink" title="Corners&#x2F;GhostCorners"></a>Corners&#x2F;GhostCorners</h3><p><code>getCorners()</code> 返回本 rank 拥有的那块子域的全局索引与尺寸（不含 ghost），而<code>getGhostCorners()</code> 返回带 ghost 的子域范围（含邻居数据）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># owned region: i in [xs, xs+xm), j in [ys, ys+ym)</span></span><br><span class="line">(xs, ys),   (xm, ym)   = da.getCorners()</span><br><span class="line"><span class="comment"># ghost region: i in [gxs, gxs+gxm), j in [gys, gys+gym)</span></span><br><span class="line">(gxs, gys), (gxm, gym) = da.getGhostCorners()</span><br></pre></td></tr></table></figure>
+
+<h3 id="getVecArray"><a href="#getVecArray" class="headerlink" title="getVecArray"></a>getVecArray</h3><p><code>getVecArray(vec, readonly=&lt;true|false&gt;)</code> 返回的是一个数组视图对象，它内部会根据 <code>Vec</code> 的 local size 判断这是 global vector（不含 ghost）还是 local vector（含 ghost），然后给出相应形状。它还实现了 <code>__enter__/__exit__</code>，所以可以使用<code>with ... as</code>语法糖进行调用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vec = da.createLocalVec()</span><br><span class="line"><span class="keyword">with</span> da.getVecArray(vec, readonly=<span class="literal">True</span>) <span class="keyword">as</span> va:</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment"># va: (x, y, z, dof)</span></span><br><span class="line">  <span class="comment"># `va.array` is `numpy.ndarray` object</span></span><br></pre></td></tr></table></figure>
+
+<p>注意，使用DMDA的vector array, 和<code>Vec</code>对象有一些不同，其中：</p>
+<ul>
+<li>轴顺序是 <strong>x 在前</strong>：也就是说二维时用 <code>a[i, j]</code>，不是 <code>a[j, i]</code>。这和它的自然编号（x 最快，其次 y）一致</li>
+<li>使用全局索引访问本地数组：DMDA的vector会用本 rank 的起点 <code>(xs,ys,...)</code> 做偏移调整，所以在 owned 区域内，可以直接写 <code>a[i, j]</code>（这里的 <code>i,j</code> 是全局网格索引），不需要手动减去 <code>xs,ys</code></li>
+</ul>
+<h2 id="DMPlex"><a href="#DMPlex" class="headerlink" title="DMPlex"></a>DMPlex</h2><p><code>DMPlex</code> 面向<strong>非结构网格&#x2F;一般网格</strong>（三角形、四面体、混合单元等），它用一种通用的拓扑表示来描述网格，表达单元、面、边、点之间的连接关系，然后再把自由度如何放到这些网格点上的问题，交给 <code>PetscSection</code> 等机制管理。因此，DMPlex适合有限元、非结构网格有限体积等做法。在<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/DMPlex.pyx"><code>DMPlex.pyx</code>文档</a>中，给出了常用函数：</p>
+<ul>
+<li>生成网格：<code>createBoxMesh(...)</code></li>
+<li>读拓扑范围：<code>getChart()</code>、<code>getDepth()</code>、<code>getDepthStratum(d)</code>、<code>getHeightStratum(h)</code></li>
+<li>网格处理：<code>symmetrize()</code>、<code>interpolate()</code>、<code>distribute()</code></li>
+<li>视图与 options：<code>setFromOptions()</code>、<code>view()</code></li>
+</ul>
+<p><code>DMPlex</code>把网格看成一个 DAG（点(point)有 cone，即向下连的点，比如 cell 的顶点&#x2F;边&#x2F;面；也有 support，即向上被谁引用），从而方便网格的管理。</p>
+<div style="max-width: 300px; margin: 16px auto;">
+  <img
+    src="https://youke3.picui.cn/s1/2026/01/04/695989118f9ee.png"
+    alt="DMPlex: Physical Mesh & DAG Topology"
+    style="
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    "
+  />
+</div>
+
+
+
+<p>DMPlex的<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/DMPlex.pyx#L90">createBoxMesh函数</a>，其函数签名为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">createBoxMesh(<span class="variable language_">self</span>,</span><br><span class="line">  faces: <span class="type">Sequence</span>[<span class="built_in">int</span>],</span><br><span class="line">  lower: <span class="type">Sequence</span>[<span class="built_in">float</span>] | <span class="literal">None</span> = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">  upper: <span class="type">Sequence</span>[<span class="built_in">float</span>] | <span class="literal">None</span> = (<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">  simplex: <span class="built_in">bool</span> | <span class="literal">None</span> = <span class="literal">True</span>,</span><br><span class="line">  periodic: <span class="type">Sequence</span> | <span class="built_in">str</span> | <span class="built_in">int</span> | <span class="built_in">bool</span> | <span class="literal">None</span> = <span class="literal">False</span>,</span><br><span class="line">  interpolate: <span class="built_in">bool</span> | <span class="literal">None</span> = <span class="literal">True</span>,</span><br><span class="line">  localizationHeight: <span class="built_in">int</span> | <span class="literal">None</span> = <span class="number">0</span>,</span><br><span class="line">  sparseLocalize: <span class="built_in">bool</span> | <span class="literal">None</span> = <span class="literal">True</span>,</span><br><span class="line">  comm: Comm | <span class="literal">None</span> = <span class="literal">None</span>) -&gt; Self</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>faces</code>：每个空间维度上的面（cells）数量；如果为 <code>None</code>，则使用默认值</li>
+<li><code>lower</code>：计算区域的左下角坐标</li>
+<li><code>upper</code>：计算区域的右上角坐标</li>
+<li><code>simplex</code>：是否使用单纯形单元：<ul>
+<li><code>True</code> 表示使用单纯形（simplices, 1D 为线段，2D 为三角形，3D 为四面体）</li>
+<li><code>False</code> 表示使用张量积单元（tensor cells, 2D 为四边形，3D 为六面体）</li>
+</ul>
+</li>
+<li><code>periodic</code>：X、Y、Z 方向上的边界类型；如果为 <code>None</code>，则等价于 <code>DM.BoundaryType.NONE</code>（非周期边界）</li>
+<li><code>interpolate</code>：是否创建中间维度的网格实体，例如边(edges)、面(faces)。</li>
+<li><code>localizationHeight</code>：是否在单元(cells)之外，对边(edges)、面(faces)也进行局部化处理；该参数只在周期网格中有意义。</li>
+<li><code>sparseLocalize</code>：是否只对靠近周期边界的单元进行坐标局部化；该参数只在周期网格中有意义。</li>
+<li><code>comm</code>: MPI communicator, 默认值为 <code>PETSc.Sys.getDefaultComm</code></li>
+</ul>
+<p>如果要更深入的使用PETSc的FEM功能，可以参考<a target="_blank" rel="noopener" href="https://gitlab.com/petsc/petsc/-/blob/release/src/binding/petsc4py/src/petsc4py/PETSc/FE.pyx">FE.pyx源文件</a>中的内容。</p>
+<h2 id="Poisson-equation"><a href="#Poisson-equation" class="headerlink" title="Poisson equation"></a>Poisson equation</h2><p>下面考虑在一个2D正方形$[0,1]\times [0,1]$上求解泊松方程：<br>$$<br>-\nabla^2 u&#x3D;f<br>$$<br>边界条件设置为$u|_{\partial \Omega}&#x3D;0$，构造了人造解 $u(x,y)&#x3D;\sin(\pi x)\cdot \sin(\pi y)$，满足：</p>
+<p>$$<br>f(x,y)&#x3D;2\pi^2 \cdot \sin(\pi x) \cdot \sin(\pi y)<br>$$<br>考虑弱形式：<br>$$<br>\begin{align}<br> &amp; -\nabla^{2}u&#x3D;f \\<br>\implies &amp; -\int w\cdot \nabla^{2}u , d\Omega&#x3D;\int w\cdot f , d\Omega \\<br>\implies &amp; \int \nabla w\cdot \nabla u , d\Omega -\int <em>{\partial\Omega} \nabla u\cdot n , dS&#x3D;\int w\cdot f , d\Omega \\<br>\implies &amp; \int  \nabla w\cdot \nabla u , d\Omega&#x3D;\int w \cdot f , d\Omega<br>\end{align}<br>$$<br>选择Q1基函数展开，得到：<br>$$<br>\begin{cases}<br>KU&#x3D;F \\<br>K</em>{ij}&#x3D;\int \nabla N_{i} \cdot \nabla N_{j} d\Omega \\<br>F_{i}&#x3D;\int N_{i} \cdot f d\Omega<br>\end{cases}<br>$$<br>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys, petsc4py; petsc4py.init(sys.argv)</span><br><span class="line"><span class="keyword">from</span> petsc4py <span class="keyword">import</span> PETSc; <span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># setup</span></span><br><span class="line">opt   = PETSc.Options()</span><br><span class="line">n     = opt.getInt(<span class="string">&quot;nx&quot;</span>, <span class="number">50</span>)</span><br><span class="line">u_ex  = <span class="keyword">lambda</span> x: np.sin(np.pi*x[<span class="number">0</span>]) * np.sin(np.pi*x[<span class="number">1</span>])</span><br><span class="line">f_rhs = <span class="keyword">lambda</span> x: <span class="number">2</span> * np.pi**<span class="number">2</span> * u_ex(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># DMPlex (Q1 elements)</span></span><br><span class="line">dm = PETSc.DMPlex().createBoxMesh(faces=(n, n), simplex=<span class="literal">False</span>)</span><br><span class="line">dm.setField(<span class="number">0</span>, PETSc.FE().createLagrange(</span><br><span class="line">    dim=<span class="number">2</span>,             <span class="comment"># 2D</span></span><br><span class="line">    nc=<span class="number">1</span>,              <span class="comment"># scalar field</span></span><br><span class="line">    isSimplex=<span class="literal">False</span>,   <span class="comment"># tensor cells</span></span><br><span class="line">    k=<span class="number">1</span>,               <span class="comment"># Q1</span></span><br><span class="line">    qorder=<span class="number">1</span>,          <span class="comment"># quadrature order</span></span><br><span class="line">))</span><br><span class="line">dm.createDS()          <span class="comment"># create discrete systems</span></span><br><span class="line">dm.distribute()</span><br><span class="line">dm.setUp()</span><br><span class="line"></span><br><span class="line"><span class="comment"># basis functions</span></span><br><span class="line">fe, _ = dm.getField(<span class="number">0</span>)</span><br><span class="line">points, weights = fe.getQuadrature().getData()</span><br><span class="line">points = points.reshape(-<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">V_inv = np.linalg.inv([[<span class="number">1</span>, x, y, x*y] <span class="keyword">for</span> x,y <span class="keyword">in</span> [[-<span class="number">1</span>,-<span class="number">1</span>],[<span class="number">1</span>,-<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>],[-<span class="number">1</span>,<span class="number">1</span>]]])</span><br><span class="line">basis = [(np.array([<span class="number">1</span>,p[<span class="number">0</span>],p[<span class="number">1</span>],p[<span class="number">0</span>]*p[<span class="number">1</span>]]) @ V_inv,</span><br><span class="line">          np.array([[<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, p[<span class="number">1</span>]],</span><br><span class="line">                    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, p[<span class="number">0</span>]]]) @ V_inv)</span><br><span class="line">         <span class="keyword">for</span> p <span class="keyword">in</span> points]</span><br><span class="line"></span><br><span class="line"><span class="comment"># assemble</span></span><br><span class="line">A     = dm.createMatrix()</span><br><span class="line">b     = dm.createGlobalVec()</span><br><span class="line">uex   = b.duplicate()</span><br><span class="line">u     = b.duplicate()</span><br><span class="line">bl    = dm.createLocalVec()</span><br><span class="line">ul    = dm.createLocalVec()</span><br><span class="line">c_sec = dm.getCoordinateSection()</span><br><span class="line">c_loc = dm.getCoordinatesLocal()</span><br><span class="line">ADD   = PETSc.InsertMode.ADD_VALUES</span><br><span class="line">INS   = PETSc.InsertMode.INSERT_VALUES</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> <span class="built_in">range</span>(*dm.getHeightStratum(<span class="number">0</span>)):</span><br><span class="line">    v = dm.getVecClosure(c_sec, c_loc, c).reshape(-<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    Ke = np.zeros((<span class="number">4</span>, <span class="number">4</span>))</span><br><span class="line">    Fe = np.zeros(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">for</span> q, (N, dNr) <span class="keyword">in</span> <span class="built_in">enumerate</span>(basis):</span><br><span class="line">        J   = dNr @ v</span><br><span class="line">        det = <span class="built_in">abs</span>(np.linalg.det(J)) * weights[q]</span><br><span class="line">        dNp = np.linalg.inv(J).T @ dNr</span><br><span class="line">        Ke += (dNp.T @ dNp) * det</span><br><span class="line">        Fe += N * f_rhs(N @ v) * det</span><br><span class="line">    dm.setMatClosure(<span class="literal">None</span>, <span class="literal">None</span>, A, c, Ke.flatten(), addv=ADD)</span><br><span class="line">    dm.setVecClosure(<span class="literal">None</span>, bl, c, Fe, addv=ADD)</span><br><span class="line">    dm.setVecClosure(<span class="literal">None</span>, ul, c, [u_ex(p) <span class="keyword">for</span> p <span class="keyword">in</span> v], addv=INS)</span><br><span class="line"></span><br><span class="line">dm.localToGlobal(bl, b, addv=ADD)</span><br><span class="line">dm.localToGlobal(ul, uex, addv=INS)</span><br><span class="line">A.assemble()</span><br><span class="line">b.assemble()</span><br><span class="line"></span><br><span class="line"><span class="comment"># boundary conditions</span></span><br><span class="line">dm.markBoundaryFaces(<span class="string">&#x27;marker&#x27;</span>, <span class="number">1</span>)</span><br><span class="line">dm.labelComplete(dm.getLabel(<span class="string">&#x27;marker&#x27;</span>))</span><br><span class="line">lbl = dm.getLabel(<span class="string">&#x27;marker&#x27;</span>)</span><br><span class="line">bc = [dm.getPointGlobal(v)[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(*dm.getDepthStratum(<span class="number">0</span>)) </span><br><span class="line">        <span class="keyword">if</span> lbl.getValue(v)==<span class="number">1</span> <span class="keyword">and</span> dm.getPointGlobal(v)[<span class="number">0</span>]&gt;=<span class="number">0</span>]</span><br><span class="line">A.zeroRowsColumns(PETSc.IS().createGeneral(bc), diag=<span class="number">1.0</span>, b=b, x=uex)</span><br><span class="line"></span><br><span class="line"><span class="comment"># solve</span></span><br><span class="line">ksp = PETSc.KSP().create()</span><br><span class="line">ksp.setOperators(A)</span><br><span class="line">ksp.setFromOptions()</span><br><span class="line">ksp.solve(b, u)</span><br><span class="line"></span><br><span class="line"><span class="comment"># error analysis</span></span><br><span class="line">err = (u-uex).norm(PETSc.NormType.NORM_INFINITY)</span><br><span class="line">PETSc.Sys.Print(<span class="string">f&quot;|u-uex|_inf = <span class="subst">&#123;err:<span class="number">.2</span>e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+    
+  </div>
+
+   
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var mermaid_config = {
+                startOnLoad: true,
+                theme: 'default',
+                flowchart:{
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }                
+            }
+            mermaid.initialize(mermaid_config);
+        });
+    </script>   <!-- 修改 结束位置 --> 
+  
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/petsc/petsc-06-TS/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/petsc/petsc-08-GPU/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<!--
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="async"></script>
+-->
+
+<!--
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+-->
+
+<script>
+    // MathJax.Hub.Config({
+    // "HTML-CSS": { 
+    //     preferredFont: "TeX", 
+    //     availableFonts: ["STIX","TeX"], 
+    //     linebreaks: { automatic:true }, 
+    //     EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    // },
+    // tex2jax: { 
+    //     inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+    //     processEscapes: true, 
+    //     ignoreClass: "tex2jax_ignore|dno",
+    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    // },
+    // TeX: {  
+    //     equationNumbers: { autoNumber: "AMS" },
+    //     noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+    //     Macros: { href: "{}" },
+    //     packages: {'[+]': ['physics']},
+    //     physics: {
+    //       italicdiff: false,
+    //       arrowdel: false
+    //     }
+    // },
+    // loader: {load: ['[tex]/physics']},
+    // messageStyle: "none"
+    // }); 
+
+
+    window.MathJax = {
+        loader: {load: ['[tex]/physics']},
+        tex: {
+            packages: {'[+]': ['physics']},
+            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        },
+    };
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script>
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
+
+</body>
+</html>

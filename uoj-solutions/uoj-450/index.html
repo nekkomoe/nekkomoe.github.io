@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【集训队作业2018】复读机 | nekko</title>
+  <title>【集训队作业2018】复读机 | Zhuoyu Chen</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -19,17 +19,17 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="【集训队作业2018】复读机">
 <meta property="og:url" content="https://nekko.moe/uoj-solutions/uoj-450/index.html">
-<meta property="og:site_name" content="nekko">
+<meta property="og:site_name" content="Zhuoyu Chen">
 <meta property="og:description" content="题目描述群里有 $k$ 个不同的复读机 为了庆祝平安夜的到来，在接下来的 $n$ 秒内，它们每秒钟都会选出一位优秀的复读机进行复读 非常滑稽的是，一个复读机只有总共复读了 $d$ 的倍数次才会感到快乐 问有多少种不同的安排方式使得所有的复读机都感到快乐 其中 $1 \le n \le 10^9, 1 \le k \le 500000, 1 \le d \le 3$，答案模 $19491001$">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-04-28T13:32:57.000Z">
+<meta property="article:published_time" content="2019-04-29T01:32:57.000Z">
 <meta property="article:modified_time" content="2019-07-10T07:42:30.000Z">
-<meta property="article:author" content="nekko">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="数学">
+<meta property="article:author" content="Zhuoyu Chen">
 <meta property="article:tag" content="单位根">
 <meta property="article:tag" content="单位根反演">
 <meta property="article:tag" content="复数">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
   
@@ -48,6 +48,10 @@
   
 
   
+<link rel="stylesheet" href="/css/copy-code.css">
+
+
+  
 
   
 
@@ -59,7 +63,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
 
@@ -161,7 +165,7 @@
       
         <span class="article-author">
           <i class="icon-user"></i>
-          <span>nekko</span>
+          <span>Zhuoyu Chen</span>
         </span>
       
 
@@ -196,12 +200,12 @@
 <p>问有多少种不同的安排方式使得所有的复读机都感到快乐</p>
 <p>其中 $1 \le n \le 10^9, 1 \le k \le 500000, 1 \le d \le 3$，答案模 $19491001$</p>
 <h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p><del>说到 19491001，我就想起了 19 学竞赛，49 入国军</del></p>
-<p>若 $d=1$，则答案就是：</p>
+<p>若 $d&#x3D;1$，则答案就是：</p>
 <p>$$<br>k^n<br>$$</p>
-<p>若 $d=2$，则答案就是：</p>
-<p>$$<br>\begin{aligned}<br> &amp;\left( \sum_{i \ge 0} [2|i] \frac{x^i}{i!} \right)^k[x^n]n! \\<br>=&amp;\left( \frac{e^x+e^{-x}}{2} \right)^k[x^n]n! \\<br>=&amp;\sum_{i=0}^{k} {k \choose i} \frac{1}{2^k} e^{xi-x(k-i)}[x^n]n! \\<br>=&amp;\sum_{i=0}^{k} {k \choose i} \frac{1}{2^k} e^{x(2i-k)}[x^n]n! \\<br>=&amp;\sum_{i=0}^{k} {k \choose i} \frac{(2i-k)^{n}}{2^k}<br>\end{aligned}<br>$$</p>
-<p>若 $d=3$，则答案就是：</p>
-<p>$$<br>\begin{aligned}<br> &amp;\left( \sum_{i \ge 0} [3|i] \frac{x^i}{i!} \right)^k[x^n]n! \\<br>=&amp;\left( \frac{1}{3}\sum_{i \ge 0} \frac{x^i}{i!} \sum_{j=0}^{2}\omega_3^{ij} \right)^k[x^n]n! \\<br>=&amp;\left( \frac{1}{3}\sum_{i \ge 0} \frac{x^i+(x\omega_3)^i+(x\omega_3^2)^i}{i!} \right)^k[x^n]n! \\<br>=&amp;\left(\frac{e^x+e^{\omega_3x}+e^{\omega_3^2x}}{3}\right)^k [x^n]n! \\<br>=&amp;\frac{1}{3^k}\sum_{i+j \le k} {k \choose i} {k-i \choose j} e^{xi+x\omega_3j+x\omega_3^2(k-i-j)} [x^n]n! \\<br>=&amp;\frac{1}{3^k}\sum_{i+j \le k} {k \choose i} {k-i \choose j} (i+\omega_3j+\omega_3^2(k-i-j))^n \\<br>\end{aligned}<br>$$</p>
+<p>若 $d&#x3D;2$，则答案就是：</p>
+<p>$$<br>\begin{aligned}<br> &amp;\left( \sum_{i \ge 0} [2|i] \frac{x^i}{i!} \right)^k[x^n]n! \\<br>&#x3D;&amp;\left( \frac{e^x+e^{-x}}{2} \right)^k[x^n]n! \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{k} {k \choose i} \frac{1}{2^k} e^{xi-x(k-i)}[x^n]n! \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{k} {k \choose i} \frac{1}{2^k} e^{x(2i-k)}[x^n]n! \\<br>&#x3D;&amp;\sum_{i&#x3D;0}^{k} {k \choose i} \frac{(2i-k)^{n}}{2^k}<br>\end{aligned}<br>$$</p>
+<p>若 $d&#x3D;3$，则答案就是：</p>
+<p>$$<br>\begin{aligned}<br> &amp;\left( \sum_{i \ge 0} [3|i] \frac{x^i}{i!} \right)^k[x^n]n! \\<br>&#x3D;&amp;\left( \frac{1}{3}\sum_{i \ge 0} \frac{x^i}{i!} \sum_{j&#x3D;0}^{2}\omega_3^{ij} \right)^k[x^n]n! \\<br>&#x3D;&amp;\left( \frac{1}{3}\sum_{i \ge 0} \frac{x^i+(x\omega_3)^i+(x\omega_3^2)^i}{i!} \right)^k[x^n]n! \\<br>&#x3D;&amp;\left(\frac{e^x+e^{\omega_3x}+e^{\omega_3^2x}}{3}\right)^k [x^n]n! \\<br>&#x3D;&amp;\frac{1}{3^k}\sum_{i+j \le k} {k \choose i} {k-i \choose j} e^{xi+x\omega_3j+x\omega_3^2(k-i-j)} [x^n]n! \\<br>&#x3D;&amp;\frac{1}{3^k}\sum_{i+j \le k} {k \choose i} {k-i \choose j} (i+\omega_3j+\omega_3^2(k-i-j))^n \\<br>\end{aligned}<br>$$</p>
 
     
   </div>
@@ -227,25 +231,6 @@
 
 
    
-  <div class="text-center donation">
-    <div class="inner-donation">
-      <span class="btn-donation">支持一下</span>
-      <div class="donation-body">
-        <div class="tip text-center">扫一扫，支持nekko</div>
-        <ul>
-        
-          <li class="item">
-            
-              <span>微信扫一扫</span>
-            
-            <img src="/images/qr-wechat.png" alt="">
-          </li>
-        
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
    
   <div class="box-prev-next clearfix">
@@ -463,6 +448,8 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="/js/copy-code.js"></script>
+<script src="/js/copy-tex.js"></script>
 
 </body>
 </html>
